@@ -33,6 +33,28 @@ artifacts:
       implementation details belong in design.md.
 
       This is the foundation - specs, design, and tasks all build on this.
+
+      ## Ladder Decision (Ponytail)
+
+      Before proposing any implementation, climb the ladder. Stop at the first rung that holds:
+
+      1. YAGNI — does this need to exist at all?
+      2. Reuse — already in this codebase?
+      3. Stdlib — standard library covers it?
+      4. Native — platform feature exists?
+      5. Dependency — installed package does it?
+      6. One-liner — single expression?
+      7. Minimum — smallest correct implementation
+
+      Add a Ladder Decision table to the proposal:
+
+      | Considered | Verdict |
+      |-----------|---------|
+      | YAGNI - skip entirely? | yes/no, why |
+      | Existing code reuse? | yes/no, where |
+      | Stdlib? | yes/no, what |
+      | Native platform? | yes/no, what |
+      | New dependency? | yes/no, which, why necessary |
     requires: []
 
   - id: specs
@@ -158,6 +180,18 @@ artifacts:
       if a section would only restate them, point to them instead.
 
       Good design docs explain the "why" behind technical decisions.
+
+      ## Ladder Trace (Ponytail)
+
+      For each component in the design, document which ladder rung was chosen:
+
+      | Component | Rung | Decision |
+      |-----------|------|----------|
+      | {{component}} | {{1-7}} | {{why this rung}} |
+
+      Rungs:
+      1. YAGNI (skip)  2. Reuse  3. Stdlib  4. Native
+      5. Dependency  6. One-liner  7. Minimum
     requires:
       - proposal
 
@@ -196,6 +230,45 @@ artifacts:
 
       Reference specs for what needs to be built, design for how to build it.
       Each task should be verifiable - you know when it's done.
+
+      ## Unified Task Format
+
+      Each task MUST include:
+
+      - **Spec scenario**: Which spec scenario this task implements
+      - **Ladder rung**: Which rung (1-7) applies to this task's implementation
+      - **Test first**: The failing test to write BEFORE implementation (TDD)
+      - **Verify**: RTK-wrapped verification command (e.g., `rtk jest`, `rtk cargo test`)
+
+      Example:
+      ```
+      - [ ] 1.1 Add theme context provider
+        - **Spec scenario**: User toggles dark mode
+        - **Ladder rung**: 4 (native — React Context API)
+        - **Test first**: `test('toggles theme', () => { ... })`
+        - **Verify**: `rtk jest ThemeContext.test.tsx`
+      ```
+
+      ## TDD Cycle (Superpowers)
+
+      For each task, follow RED-GREEN-REFACTOR:
+      1. Write failing test (RED)
+      2. Observe failure
+      3. Write minimal code (GREEN) — apply ladder rung
+      4. Observe pass
+      5. Refactor if needed (still minimal)
+      6. Commit with task reference
+
+      ## RTK Wrapping (RTK)
+
+      All shell commands during implementation MUST be wrapped with `rtk`:
+      - `git status` → `rtk git status`
+      - `npm test` → `rtk jest` / `rtk vitest`
+      - `cargo test` → `rtk cargo test`
+      - `ls` → `rtk ls`
+      - `grep` → `rtk grep`
+
+      On command failure, read RTK tee log at `~/.local/share/rtk/tee/`.
     requires:
       - specs
       - design

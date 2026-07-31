@@ -17,3 +17,9 @@
 ## Risks / Trade-offs
 
 <!-- Known risks and trade-offs -->
+
+## Ladder Trace
+
+| Component | Rung | Decision |
+|-----------|------|----------|
+| | | |

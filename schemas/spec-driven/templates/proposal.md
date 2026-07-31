@@ -25,3 +25,13 @@
 ## Impact
 
 <!-- Affected code, APIs, dependencies, systems -->
+
+## Ladder Decision
+
+| Considered | Verdict |
+|-----------|---------|
+| YAGNI - skip entirely? | |
+| Existing code reuse? | |
+| Stdlib? | |
+| Native platform? | |
+| New dependency? | |
