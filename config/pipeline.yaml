@@ -1,0 +1,87 @@
+# Unified Pipeline Definition
+# Describes how the four systems interlock.
+
+pipeline:
+  name: openspec-unified
+  version: "1.0.0"
+
+  phases:
+    - id: spec
+      name: "Spec Gate"
+      system: openspec
+      entry: "/opsx:explore OR /opsx:propose"
+      exit_condition: "specs approved by human"
+      artifacts:
+        - proposal.md
+        - specs/*.md
+        - design.md
+        - tasks.md
+      blocks: [plan, execute, review]
+
+    - id: plan
+      name: "Planning"
+      system: superpowers
+      entry: "spec approved"
+      skill: writing-plans
+      exit_condition: "tasks decomposed, human confirms"
+      constraints:
+        max_task_minutes: 5
+        require_file_paths: true
+        require_verification_step: true
+      blocks: [execute]
+
+    - id: execute
+      name: "Execution"
+      systems: [superpowers, ponytail]
+      entry: "plan confirmed"
+      skills:
+        - subagent-driven-development
+        - test-driven-development
+        - quality-ladder
+      tdd_cycle:
+        - write_failing_test
+        - observe_failure
+        - write_minimal_code
+        - observe_pass
+        - commit
+      ladder:
+        - yagni
+        - reuse
+        - stdlib
+        - native
+        - dependency
+        - one_liner
+        - minimum
+      blocks: [review]
+
+    - id: feedback
+      name: "Compressed Feedback"
+      system: rtk
+      active_during: [execute, review]
+      mode: transparent
+      commands_rewritten:
+        git: "rtk git {subcommand}"
+        cargo: "rtk cargo {subcommand}"
+        npm_test: "rtk jest OR rtk vitest"
+        pytest: "rtk pytest"
+        ls: "rtk ls"
+        grep: "rtk grep"
+      on_failure: "read tee log at ~/.local/share/rtk/tee/"
+
+    - id: review
+      name: "Review + Archive"
+      systems: [superpowers, openspec]
+      entry: "all tasks complete"
+      steps:
+        - code_review_against_spec
+        - code_quality_review
+        - verification_before_completion
+        - archive_change
+        - sync_specs
+      exit_condition: "specs updated, branch merged"
+
+  gates:
+    no_code_without_spec: true
+    no_commit_without_test: true
+    no_merge_without_review: true
+    no_raw_output_without_rtk: true

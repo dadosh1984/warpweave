@@ -1,0 +1,23 @@
+# Standard profile: small team, normal projects
+profile: standard
+
+openspec:
+  require_approval: true
+  auto_archive: true
+
+superpowers:
+  tdd_mode: strict
+  subagent_review: true
+  task_max_minutes: 5
+
+ponytail:
+  mode: full
+
+rtk:
+  ultra_compact: false
+
+pipeline:
+  gate_spec: true
+  gate_plan: true
+  gate_tdd: true
+  gate_review: true

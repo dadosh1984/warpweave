@@ -1,0 +1,23 @@
+# Minimal profile: solo developer, small projects
+profile: minimal
+
+openspec:
+  require_approval: false  # self-approve
+  auto_archive: true
+
+superpowers:
+  tdd_mode: relaxed
+  subagent_review: false
+  task_max_minutes: 10
+
+ponytail:
+  mode: ultra
+
+rtk:
+  ultra_compact: true
+
+pipeline:
+  gate_spec: true
+  gate_plan: false   # skip formal planning
+  gate_tdd: true
+  gate_review: false # self-review

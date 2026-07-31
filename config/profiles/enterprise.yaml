@@ -1,0 +1,29 @@
+# Enterprise profile: large teams, cross-repo
+profile: enterprise
+
+openspec:
+  require_approval: true
+  auto_archive: false
+  stores: true  # cross-repo spec stores
+
+superpowers:
+  tdd_mode: strict
+  subagent_review: true
+  task_max_minutes: 3
+  parallel_agents: true
+  max_concurrent: 5
+
+ponytail:
+  mode: full
+  yagni_strict: true
+
+rtk:
+  ultra_compact: false
+  tee_mode: always
+
+pipeline:
+  gate_spec: true
+  gate_plan: true
+  gate_tdd: true
+  gate_review: true
+  require_two_reviewers: true

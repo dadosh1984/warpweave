@@ -1,0 +1,51 @@
+# OpenSpec Unified — Single configuration source
+# All four systems read from this file.
+
+[openspec]
+# Spec-driven development layer
+schema = "spec-driven"
+profile = "standard"
+auto_archive = true
+spec_format = "markdown"
+require_approval = true
+
+[superpowers]
+# Methodology layer
+tdd_mode = "strict"           # strict | relaxed | off
+subagent_review = true
+task_max_minutes = 5
+plan_granularity = "file-level"
+worktree_isolation = true
+
+[ponytail]
+# Minimalism layer
+mode = "full"                 # lite | full | ultra | off
+marker_prefix = "ponytail:"
+allow_native_html = true
+prefer_stdlib = true
+yagni_strict = true
+
+[rtk]
+# Feedback compression layer
+auto_rewrite = true
+ultra_compact = false
+tee_mode = "failures"         # failures | always | never
+exclude_commands = ["curl", "playwright"]
+
+[rtk.hooks]
+# Commands that get auto-rewritten
+git = true
+cargo = true
+npm = true
+pytest = true
+docker = true
+kubectl = true
+
+[pipeline]
+# Unified pipeline control
+phases = ["spec", "plan", "execute", "feedback", "review"]
+gate_spec = true              # Block execution without spec
+gate_plan = true              # Block execution without plan
+gate_tdd = true               # Block commit without test
+gate_review = true            # Block merge without review
+max_concurrent_tasks = 3
