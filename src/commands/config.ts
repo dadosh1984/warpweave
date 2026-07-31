@@ -20,8 +20,9 @@ import {
   validateConfig,
   DEFAULT_CONFIG,
 } from '../core/config-schema.js';
-import { CORE_WORKFLOWS, ALL_WORKFLOWS, getProfileWorkflows } from '../core/profiles.js';
+import { CORE_WORKFLOWS, ALL_WORKFLOWS, getProfileWorkflows, UNIFIED_PROFILE_PRESETS } from '../core/profiles.js';
 import { OPENSPEC_DIR_NAME } from '../core/config.js';
+import { loadUnifiedConfig, formatUnifiedConfigSummary } from '../core/unified-config.js';
 import { hasProjectConfigDrift } from '../core/profile-sync-drift.js';
 import { UpdateCommand } from '../core/update.js';
 import { asErrorMessage, isPromptCancellationError } from './shared-output.js';
@@ -265,6 +266,15 @@ export function registerConfigCommand(program: Command): void {
         } else {
           console.log(`  workflows: (none)`);
         }
+
+        // Unified sections: surfaced from the project's .unified/config/unified.toml
+        const unifiedConfig = loadUnifiedConfig(process.cwd());
+        if (unifiedConfig) {
+          console.log(`\nUnified config (.unified/config/unified.toml):`);
+          for (const line of formatUnifiedConfigSummary(unifiedConfig)) {
+            console.log(line);
+          }
+        }
       }
     });
 
@@ -470,15 +480,30 @@ export function registerConfigCommand(program: Command): void {
         return;
       }
 
+      // Unified profile shortcuts: `openspec config profile standard`, etc.
+      const unifiedPreset = UNIFIED_PROFILE_PRESETS.find((entry) => entry.id === preset);
+      if (unifiedPreset) {
+        const config = getGlobalConfig();
+        config.profile = 'custom';
+        config.workflows = [...unifiedPreset.workflows];
+        // Preserve delivery setting
+        saveGlobalConfig(config);
+        console.log(`Unified profile "${unifiedPreset.id}" applied: ${unifiedPreset.description}`);
+        printConfigProfileApplyGuidance();
+        return;
+      }
+
       if (preset) {
-        console.error(`Error: Unknown profile preset "${preset}". Available presets: core`);
+        const presets = ['core', ...UNIFIED_PROFILE_PRESETS.map((entry) => entry.id)];
+        console.error(`Error: Unknown profile preset "${preset}". Available presets: ${presets.join(', ')}`);
         process.exitCode = 1;
         return;
       }
 
       // Non-interactive check
       if (!process.stdout.isTTY) {
-        console.error('Interactive mode required. Use `openspec config profile core` or set config via environment/flags.');
+        const presets = ['core', ...UNIFIED_PROFILE_PRESETS.map((entry) => entry.id)];
+        console.error(`Interactive mode required. Use \`openspec config profile <preset>\` (${presets.join(', ')}) or set config via environment/flags.`);
         process.exitCode = 1;
         return;
       }

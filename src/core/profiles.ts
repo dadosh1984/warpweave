@@ -44,6 +44,30 @@ export type WorkflowId = (typeof ALL_WORKFLOWS)[number];
 export type CoreWorkflowId = (typeof CORE_WORKFLOWS)[number];
 
 /**
+ * Unified pipeline profiles, mirroring `config/profiles/*.yaml`.
+ * Each maps a preset id to the workflow set it installs and a short description.
+ */
+export const UNIFIED_PROFILE_PRESETS = [
+  {
+    id: 'minimal',
+    description: 'Solo developer: relaxed TDD, ultra minimalism, core gates only',
+    workflows: [...CORE_WORKFLOWS, 'ladder-audit', 'guardrails', 'debt-ledger', 'benchmark'],
+  },
+  {
+    id: 'standard',
+    description: 'Small team: strict TDD, subagent review, all four gates',
+    workflows: [...ALL_WORKFLOWS],
+  },
+  {
+    id: 'enterprise',
+    description: 'Large team: strictest gates, parallel agents, two reviewers',
+    workflows: [...ALL_WORKFLOWS],
+  },
+] as const;
+
+export type UnifiedProfilePreset = (typeof UNIFIED_PROFILE_PRESETS)[number]['id'];
+
+/**
  * Resolves which workflows should be active for a given profile configuration.
  *
  * - 'core' profile always returns CORE_WORKFLOWS
