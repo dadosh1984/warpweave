@@ -29,6 +29,8 @@ export const ALL_WORKFLOWS = [
   'bulk-archive',
   'verify',
   'onboard',
+  'ladder-audit',
+  'guardrails',
 ] as const;
 
 export type WorkflowId = (typeof ALL_WORKFLOWS)[number];

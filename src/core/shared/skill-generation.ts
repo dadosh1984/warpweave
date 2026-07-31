@@ -17,6 +17,8 @@ import {
   getVerifyChangeSkillTemplate,
   getOnboardSkillTemplate,
   getOpsxProposeSkillTemplate,
+  getLadderAuditSkillTemplate,
+  getGuardrailsSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -29,6 +31,8 @@ import {
   getOpsxVerifyCommandTemplate,
   getOpsxOnboardCommandTemplate,
   getOpsxProposeCommandTemplate,
+  getOpsxLadderAuditCommandTemplate,
+  getOpsxGuardrailsCommandTemplate,
   type SkillTemplate,
 } from '../templates/skill-templates.js';
 import type { CommandContent } from '../command-generation/index.js';
@@ -70,6 +74,8 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getVerifyChangeSkillTemplate(), dirName: 'openspec-verify-change', workflowId: 'verify' },
     { template: getOnboardSkillTemplate(), dirName: 'openspec-onboard', workflowId: 'onboard' },
     { template: getOpsxProposeSkillTemplate(), dirName: 'openspec-propose', workflowId: 'propose' },
+    { template: getLadderAuditSkillTemplate(), dirName: 'openspec-ladder-audit', workflowId: 'ladder-audit' },
+    { template: getGuardrailsSkillTemplate(), dirName: 'openspec-guardrails', workflowId: 'guardrails' },
   ];
 
   if (!workflowFilter) return all;
@@ -97,6 +103,8 @@ export function getCommandTemplates(workflowFilter?: readonly string[]): Command
     { template: getOpsxVerifyCommandTemplate(), id: 'verify' },
     { template: getOpsxOnboardCommandTemplate(), id: 'onboard' },
     { template: getOpsxProposeCommandTemplate(), id: 'propose' },
+    { template: getOpsxLadderAuditCommandTemplate(), id: 'ladder-audit' },
+    { template: getOpsxGuardrailsCommandTemplate(), id: 'guardrails' },
   ];
 
   if (!workflowFilter) return all;

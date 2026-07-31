@@ -25,6 +25,10 @@ import {
   getOpsxProposeSkillTemplate,
   getOpsxUpdateCommandTemplate,
   getOpsxVerifyCommandTemplate,
+  getLadderAuditSkillTemplate,
+  getOpsxLadderAuditCommandTemplate,
+  getGuardrailsSkillTemplate,
+  getOpsxGuardrailsCommandTemplate,
   getSyncSpecsSkillTemplate,
   getUpdateChangeSkillTemplate,
   getVerifyChangeSkillTemplate,
@@ -62,6 +66,10 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getFeedbackSkillTemplate: 'd7d83c5f7fc2b92fe8f4588a5bf2d9cb315e4c73ec19bcd5ef28270906319a0d',
   getUpdateChangeSkillTemplate: 'da1f76a91ba606df6aa895431c79e64ca91580fa952807230e653bddeb2a3c15',
   getOpsxUpdateCommandTemplate: 'afbf85f79177a0125bbc2028ed50e23f59ea96c2b6ef4153ed9bce6465c6414e',
+  getLadderAuditSkillTemplate: 'eb0e85c20f9306e4485d390c7044349059f31d2f272f30e14221baaa724116af',
+  getOpsxLadderAuditCommandTemplate: 'fa6bb74bacbf95f1e01912f1875404b670983d507b1e6bdeebaebcd9330ae92f',
+  getGuardrailsSkillTemplate: '55d81adc9664e73421d0f16e4caa7cc700d775f0bdd54533b7a019c8fc5e7148',
+  getOpsxGuardrailsCommandTemplate: '1838be75592a336e02cc7032b6627d42408c5d53a4fab4eb1005d052d95fa1a8',
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
@@ -77,6 +85,8 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'openspec-onboard': '6eb124af3a9f35efe601ff373406fad93447a1375e0bb4e27a35b0c3fd476851',
   'openspec-propose': 'cfc589e103450c9521d899e2dbc6913697a50e82d62df4d80b850a83446c167f',
   'openspec-update-change': '1e61edfcd229b5b3e7ea957a5606712805cae19709304b26448fe111657a7255',
+  'openspec-ladder-audit': 'ee0a24d188337c52ee701bfa40c7b7303d5f21cdd5bb7dc08462b679e9cbc874',
+  'openspec-guardrails': '00178aa53df65b3dbe4bcdb4ee767b492b241ce02d0f482beec49d15ede9e906',
 };
 
 // Intentionally excludes getFeedbackSkillTemplate: this list only models templates
@@ -94,6 +104,8 @@ const GENERATED_SKILL_FACTORIES: Array<[string, () => SkillTemplate]> = [
   ['openspec-onboard', getOnboardSkillTemplate],
   ['openspec-propose', getOpsxProposeSkillTemplate],
   ['openspec-update-change', getUpdateChangeSkillTemplate],
+  ['openspec-ladder-audit', getLadderAuditSkillTemplate],
+  ['openspec-guardrails', getGuardrailsSkillTemplate],
 ];
 
 function stableStringify(value: unknown): string {
@@ -144,6 +156,10 @@ describe('skill templates split parity', () => {
       getFeedbackSkillTemplate,
       getUpdateChangeSkillTemplate,
       getOpsxUpdateCommandTemplate,
+      getLadderAuditSkillTemplate,
+      getOpsxLadderAuditCommandTemplate,
+      getGuardrailsSkillTemplate,
+      getOpsxGuardrailsCommandTemplate,
     };
 
     const actualHashes = Object.fromEntries(

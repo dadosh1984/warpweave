@@ -64,6 +64,8 @@ const COMMAND_TO_SKILL_NAME: Record<string, string> = {
   'verify': 'openspec-verify-change',
   'onboard': 'openspec-onboard',
   'propose': 'openspec-propose',
+  'ladder-audit': 'openspec-ladder-audit',
+  'guardrails': 'openspec-guardrails',
 };
 
 /**
