@@ -120,7 +120,7 @@ Select a profile with the `UNIFIED_PROFILE` environment variable (see `.env.exam
 ## Installation
 
 ```bash
-npm install -g @fission-ai/openspec-unified@latest
+npm install -g @dadosh1984/openspec-unified@latest
 brew install rtk
 cd your-project
 openspec init

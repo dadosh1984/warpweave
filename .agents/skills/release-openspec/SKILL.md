@@ -112,7 +112,7 @@ Do this only for `missing-tracking`.
 2. Read `.changeset/README.md` immediately before authoring.
 3. Only when no suitable PR exists, create a short `changeset-<scope>` branch from current `origin/main`. Use a temporary worktree so the operator's checkout remains untouched.
 4. Prefer one changeset per coherent release unit. A single catch-up changeset may summarize several small items selected for the same release.
-5. Use the exact package name `"@fission-ai/openspec"`, the highest required semantic bump, only relevant headings, and user-focused descriptions.
+5. Use the exact package name `"@dadosh1984/openspec-unified"`, the highest required semantic bump, only relevant headings, and user-focused descriptions.
 6. Validate before pushing:
 
    ```bash
@@ -143,7 +143,7 @@ After the Version Packages PR merges:
 
 1. Find the release workflow run for the merge commit and wait for completion.
 2. Verify all three artifacts independently:
-   - `npm view @fission-ai/openspec@<version> version`
+   - `npm view @dadosh1984/openspec-unified@<version> version`
    - remote tag `v<version>` points at the expected commit;
    - `gh release view v<version>` exists and is not a prerelease.
 3. If only some artifacts exist, report partial state and resume verification before retrying any publish action. Never republish a version already on npm.

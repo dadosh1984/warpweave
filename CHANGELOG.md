@@ -1,4 +1,4 @@
-# @fission-ai/openspec-unified
+# @dadosh1984/openspec-unified
 
 ## 1.8.0
 
