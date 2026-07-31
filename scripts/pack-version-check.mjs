@@ -21,12 +21,18 @@ function log(msg) {
 }
 
 function run(cmd, args, opts = {}) {
-  return execFileSync(cmd, args, { encoding: 'utf-8', stdio: ['ignore', 'pipe', 'pipe'], ...opts });
+  const { useShell = false, ...rest } = opts;
+  return execFileSync(cmd, args, {
+    encoding: 'utf-8',
+    stdio: ['ignore', 'pipe', 'pipe'],
+    ...rest,
+    shell: process.platform === 'win32' && useShell,
+  });
 }
 
 function npmPack() {
   try {
-    const jsonOut = run('npm', ['pack', '--json', '--silent']);
+    const jsonOut = run('npm', ['pack', '--json', '--silent'], { useShell: true });
     const arr = JSON.parse(jsonOut);
     if (Array.isArray(arr) && arr.length > 0) {
       const last = arr[arr.length - 1];
@@ -34,12 +40,12 @@ function npmPack() {
       if (file) return String(file).trim();
     }
     // Unexpected JSON shape or empty array; fallback to plain output
-    const out = run('npm', ['pack', '--silent']).trim();
+    const out = run('npm', ['pack', '--silent'], { useShell: true }).trim();
     const lines = out.split(/\r?\n/);
     return lines[lines.length - 1].trim();
   } catch (e) {
     // Fallback for environments not supporting --json
-    const out = run('npm', ['pack', '--silent']).trim();
+    const out = run('npm', ['pack', '--silent'], { useShell: true }).trim();
     const lines = out.split(/\r?\n/);
     return lines[lines.length - 1].trim();
   }
@@ -77,10 +83,10 @@ function main() {
     };
 
     // Install the tarball
-    run('npm', ['install', tgzPath, '--silent', '--no-audit', '--no-fund'], { cwd: work, env });
+    run('npm', ['install', tgzPath, '--silent', '--no-audit', '--no-fund'], { cwd: work, env, useShell: true });
 
     // Run the installed CLI via Node to avoid bin resolution/platform issues
-    const binRel = path.join('node_modules', '@fission-ai', 'openspec', 'bin', 'spectrix.js');
+    const binRel = path.join('node_modules', '@dadosh1984', 'spectrix', 'bin', 'spectrix.js');
     const actual = run(process.execPath, [binRel, '--version'], { cwd: work }).trim();
 
     if (actual !== expected) {

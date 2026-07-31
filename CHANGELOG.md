@@ -1,5 +1,11 @@
 # @dadosh1984/spectrix
 
+## 1.9.0
+
+### Minor Changes
+
+- Rename the CLI command from `openspec` to `spectrix`. The package installs a `spectrix` binary; help, error messages, completions (bash/fish/zsh/powershell), and generated skills now use the Spectrix name. Data format unchanged: projects keep their `openspec/` directory, `OPENSPEC_*` env vars, and `.openspec.yaml` change metadata.
+
 ## 1.8.0
 
 ### Minor Changes
