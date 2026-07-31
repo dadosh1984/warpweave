@@ -8,9 +8,9 @@ import {
 
 describe('skill-generation', () => {
   describe('getSkillTemplates', () => {
-    it('should return all 17 skill templates', () => {
+    it('should return all 21 skill templates', () => {
       const templates = getSkillTemplates();
-      expect(templates).toHaveLength(17);
+      expect(templates).toHaveLength(21);
     });
 
     it('should have unique directory names', () => {
@@ -41,6 +41,10 @@ describe('skill-generation', () => {
       expect(dirNames).toContain('openspec-debt-ledger');
       expect(dirNames).toContain('openspec-token-budget');
       expect(dirNames).toContain('openspec-benchmark');
+      expect(dirNames).toContain('openspec-dependency-check');
+      expect(dirNames).toContain('openspec-parallel-execute');
+      expect(dirNames).toContain('openspec-learn');
+      expect(dirNames).toContain('openspec-init-unified');
     });
 
     it('should have valid template structure', () => {
@@ -94,9 +98,9 @@ describe('skill-generation', () => {
   });
 
   describe('getCommandTemplates', () => {
-    it('should return all 17 command templates', () => {
+    it('should return all 21 command templates', () => {
       const templates = getCommandTemplates();
-      expect(templates).toHaveLength(17);
+      expect(templates).toHaveLength(21);
     });
 
     it('should have unique IDs', () => {
@@ -127,6 +131,10 @@ describe('skill-generation', () => {
       expect(ids).toContain('debt-ledger');
       expect(ids).toContain('token-budget');
       expect(ids).toContain('benchmark');
+      expect(ids).toContain('dependency-check');
+      expect(ids).toContain('parallel-execute');
+      expect(ids).toContain('learn');
+      expect(ids).toContain('init-unified');
     });
 
     it('should filter by workflow IDs when provided', () => {
@@ -154,9 +162,9 @@ describe('skill-generation', () => {
   });
 
   describe('getCommandContents', () => {
-    it('should return all 17 command contents', () => {
+    it('should return all 21 command contents', () => {
       const contents = getCommandContents();
-      expect(contents).toHaveLength(17);
+      expect(contents).toHaveLength(21);
     });
 
     it('should have valid content structure', () => {

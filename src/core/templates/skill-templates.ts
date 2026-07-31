@@ -21,6 +21,10 @@ export { getGuardrailsSkillTemplate, getOpsxGuardrailsCommandTemplate } from './
 export { getDebtLedgerSkillTemplate, getOpsxDebtLedgerCommandTemplate } from './workflows/debt-ledger.js';
 export { getTokenBudgetSkillTemplate, getOpsxTokenBudgetCommandTemplate } from './workflows/token-budget.js';
 export { getBenchmarkSkillTemplate, getOpsxBenchmarkCommandTemplate } from './workflows/benchmark.js';
+export { getDependencyCheckSkillTemplate, getOpsxDependencyCheckCommandTemplate } from './workflows/dependency-check.js';
+export { getParallelExecuteSkillTemplate, getOpsxParallelExecuteCommandTemplate } from './workflows/parallel-execute.js';
+export { getLearnSkillTemplate, getOpsxLearnCommandTemplate } from './workflows/learn.js';
+export { getInitUnifiedSkillTemplate, getOpsxInitUnifiedCommandTemplate } from './workflows/init-unified.js';
 export { getOnboardSkillTemplate, getOpsxOnboardCommandTemplate } from './workflows/onboard.js';
 export { getOpsxProposeSkillTemplate, getOpsxProposeCommandTemplate } from './workflows/propose.js';
 export { getFeedbackSkillTemplate } from './workflows/feedback.js';

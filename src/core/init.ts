@@ -94,6 +94,10 @@ const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
   'debt-ledger': 'openspec-debt-ledger',
   'token-budget': 'openspec-token-budget',
   'benchmark': 'openspec-benchmark',
+  'dependency-check': 'openspec-dependency-check',
+  'parallel-execute': 'openspec-parallel-execute',
+  'learn': 'openspec-learn',
+  'init-unified': 'openspec-init-unified',
 };
 
 // -----------------------------------------------------------------------------

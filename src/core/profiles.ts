@@ -34,6 +34,10 @@ export const ALL_WORKFLOWS = [
   'debt-ledger',
   'token-budget',
   'benchmark',
+  'dependency-check',
+  'parallel-execute',
+  'learn',
+  'init-unified',
 ] as const;
 
 export type WorkflowId = (typeof ALL_WORKFLOWS)[number];

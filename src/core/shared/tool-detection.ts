@@ -33,6 +33,10 @@ export const SKILL_NAMES = [
   'openspec-debt-ledger',
   'openspec-token-budget',
   'openspec-benchmark',
+  'openspec-dependency-check',
+  'openspec-parallel-execute',
+  'openspec-learn',
+  'openspec-init-unified',
 ] as const;
 
 export type SkillName = (typeof SKILL_NAMES)[number];
@@ -58,6 +62,10 @@ export const COMMAND_IDS = [
   'debt-ledger',
   'token-budget',
   'benchmark',
+  'dependency-check',
+  'parallel-execute',
+  'learn',
+  'init-unified',
 ] as const;
 
 export type CommandId = (typeof COMMAND_IDS)[number];

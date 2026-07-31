@@ -35,6 +35,14 @@ import {
   getOpsxTokenBudgetCommandTemplate,
   getBenchmarkSkillTemplate,
   getOpsxBenchmarkCommandTemplate,
+  getDependencyCheckSkillTemplate,
+  getOpsxDependencyCheckCommandTemplate,
+  getParallelExecuteSkillTemplate,
+  getOpsxParallelExecuteCommandTemplate,
+  getLearnSkillTemplate,
+  getOpsxLearnCommandTemplate,
+  getInitUnifiedSkillTemplate,
+  getOpsxInitUnifiedCommandTemplate,
   getSyncSpecsSkillTemplate,
   getUpdateChangeSkillTemplate,
   getVerifyChangeSkillTemplate,
@@ -82,6 +90,14 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getOpsxTokenBudgetCommandTemplate: '095f7c5cbb4d77ae8ba02ed885e7f726e8b19f32ea53a6cc7e7290d5c433efde',
   getBenchmarkSkillTemplate: '674701ffd73d023628243c8c2a82e8f28206e2fef1d1204b7f9bd9792b8f4f3d',
   getOpsxBenchmarkCommandTemplate: '4a5513530206ab0b683b9fb53edbd92687cc8a873f960c1ad551e32b3492bb03',
+  getDependencyCheckSkillTemplate: 'ded26d19b5dd83fd5b9624a92dc1adda7a0b2914a9a7092fd6a47b7a05511b92',
+  getOpsxDependencyCheckCommandTemplate: 'c77ba959cba1e4e2f9eb14185186e43669cd164bd74d5346c06b68ea62d7c121',
+  getParallelExecuteSkillTemplate: 'f3dbaec0c5f1571dbb2ea87e30f3f1043cfa20302fae77989aadf08fb7933ec9',
+  getOpsxParallelExecuteCommandTemplate: 'b683a0fbcf75ab96a98c714aa329d653f5329215cc73d38f7848efa1749998ce',
+  getLearnSkillTemplate: '2971a7a17c164faf52e912b05405a0fa702be02fb7c3aa616c9dacc0f9d685c1',
+  getOpsxLearnCommandTemplate: 'e3543fd7a775fd3a8185c80b3e7386931e22f852785d1191ba369007e747c7cc',
+  getInitUnifiedSkillTemplate: '273349f39a6257e06d268ec85175382a5c74072218b2d1103f98ac4a7b942400',
+  getOpsxInitUnifiedCommandTemplate: 'f8c4fe2327c84ce8e3ca7a1c764a05eb1829a8eb10729ac7be6cb709b8d5dd4d',
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
@@ -102,6 +118,10 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'openspec-debt-ledger': '8e296dffc0141ae423474d6af9eed7a61aa5449e3f7d368dd51d9267036b3d6c',
   'openspec-token-budget': 'e1b346df8d0613fa865dde3ae2a806f3878af0bfe686fff02860f7297e1bd3a9',
   'openspec-benchmark': '140488eb17862704f14538299f0d4fb0c82668105451af4ab5715e71e6d5ed08',
+  'openspec-dependency-check': '6c8ee23cb1c556ab6f474eb2d29723b592402fbc0ae33de1bb0ae999e0083db0',
+  'openspec-parallel-execute': 'e656dfebc7410792f6ae86e36780229a5b6ca47d5502a9d22b4be33b2538fcd9',
+  'openspec-learn': '3bfb663a643e2ec12d8402ba3e34586c0d082544288e4623a0a0e35496e1ae1e',
+  'openspec-init-unified': 'ddaf6cc3c9d7112324c3343bc72d266b1756f3e595c9493c9d930cfbd7f02b01',
 };
 
 // Intentionally excludes getFeedbackSkillTemplate: this list only models templates
@@ -124,6 +144,10 @@ const GENERATED_SKILL_FACTORIES: Array<[string, () => SkillTemplate]> = [
   ['openspec-debt-ledger', getDebtLedgerSkillTemplate],
   ['openspec-token-budget', getTokenBudgetSkillTemplate],
   ['openspec-benchmark', getBenchmarkSkillTemplate],
+  ['openspec-dependency-check', getDependencyCheckSkillTemplate],
+  ['openspec-parallel-execute', getParallelExecuteSkillTemplate],
+  ['openspec-learn', getLearnSkillTemplate],
+  ['openspec-init-unified', getInitUnifiedSkillTemplate],
 ];
 
 function stableStringify(value: unknown): string {
@@ -184,6 +208,14 @@ describe('skill templates split parity', () => {
       getOpsxTokenBudgetCommandTemplate,
       getBenchmarkSkillTemplate,
       getOpsxBenchmarkCommandTemplate,
+      getDependencyCheckSkillTemplate,
+      getOpsxDependencyCheckCommandTemplate,
+      getParallelExecuteSkillTemplate,
+      getOpsxParallelExecuteCommandTemplate,
+      getLearnSkillTemplate,
+      getOpsxLearnCommandTemplate,
+      getInitUnifiedSkillTemplate,
+      getOpsxInitUnifiedCommandTemplate,
     };
 
     const actualHashes = Object.fromEntries(

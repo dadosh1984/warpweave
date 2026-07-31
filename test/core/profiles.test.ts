@@ -24,8 +24,8 @@ describe('profiles', () => {
   });
 
   describe('ALL_WORKFLOWS', () => {
-    it('should contain all 17 workflows', () => {
-      expect(ALL_WORKFLOWS).toHaveLength(17);
+    it('should contain all 21 workflows', () => {
+      expect(ALL_WORKFLOWS).toHaveLength(21);
     });
 
     it('should contain expected workflow IDs', () => {
@@ -33,6 +33,7 @@ describe('profiles', () => {
         'propose', 'explore', 'new', 'continue', 'apply', 'update',
         'ff', 'sync', 'archive', 'bulk-archive', 'verify', 'onboard',
         'ladder-audit', 'guardrails', 'debt-ledger', 'token-budget', 'benchmark',
+        'dependency-check', 'parallel-execute', 'learn', 'init-unified',
       ];
       expect([...ALL_WORKFLOWS]).toEqual(expected);
     });

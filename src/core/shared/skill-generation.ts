@@ -22,6 +22,10 @@ import {
   getDebtLedgerSkillTemplate,
   getTokenBudgetSkillTemplate,
   getBenchmarkSkillTemplate,
+  getDependencyCheckSkillTemplate,
+  getParallelExecuteSkillTemplate,
+  getLearnSkillTemplate,
+  getInitUnifiedSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -39,6 +43,10 @@ import {
   getOpsxDebtLedgerCommandTemplate,
   getOpsxTokenBudgetCommandTemplate,
   getOpsxBenchmarkCommandTemplate,
+  getOpsxDependencyCheckCommandTemplate,
+  getOpsxParallelExecuteCommandTemplate,
+  getOpsxLearnCommandTemplate,
+  getOpsxInitUnifiedCommandTemplate,
   type SkillTemplate,
 } from '../templates/skill-templates.js';
 import type { CommandContent } from '../command-generation/index.js';
@@ -85,6 +93,10 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getDebtLedgerSkillTemplate(), dirName: 'openspec-debt-ledger', workflowId: 'debt-ledger' },
     { template: getTokenBudgetSkillTemplate(), dirName: 'openspec-token-budget', workflowId: 'token-budget' },
     { template: getBenchmarkSkillTemplate(), dirName: 'openspec-benchmark', workflowId: 'benchmark' },
+    { template: getDependencyCheckSkillTemplate(), dirName: 'openspec-dependency-check', workflowId: 'dependency-check' },
+    { template: getParallelExecuteSkillTemplate(), dirName: 'openspec-parallel-execute', workflowId: 'parallel-execute' },
+    { template: getLearnSkillTemplate(), dirName: 'openspec-learn', workflowId: 'learn' },
+    { template: getInitUnifiedSkillTemplate(), dirName: 'openspec-init-unified', workflowId: 'init-unified' },
   ];
 
   if (!workflowFilter) return all;
@@ -117,6 +129,10 @@ export function getCommandTemplates(workflowFilter?: readonly string[]): Command
     { template: getOpsxDebtLedgerCommandTemplate(), id: 'debt-ledger' },
     { template: getOpsxTokenBudgetCommandTemplate(), id: 'token-budget' },
     { template: getOpsxBenchmarkCommandTemplate(), id: 'benchmark' },
+    { template: getOpsxDependencyCheckCommandTemplate(), id: 'dependency-check' },
+    { template: getOpsxParallelExecuteCommandTemplate(), id: 'parallel-execute' },
+    { template: getOpsxLearnCommandTemplate(), id: 'learn' },
+    { template: getOpsxInitUnifiedCommandTemplate(), id: 'init-unified' },
   ];
 
   if (!workflowFilter) return all;
