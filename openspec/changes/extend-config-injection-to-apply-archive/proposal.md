@@ -29,15 +29,15 @@ This change does not redesign archive execution or the semantic spec-merge algor
 
 - `operation-guidance`: define the `operations.<operation>.guidance` config model, resilient validation, advisory semantics, and runtime delivery for apply and archive
 - `cli-archive-instructions`: provide current archive operation inputs in structured JSON and readable text form
-- `opsx-apply-skill`: consume current apply context and guidance without changing the built-in apply workflow
-- `opsx-bulk-archive-skill`: fetch current archive inputs for a selected batch and apply relevant artifact rules during each spec sync
+- `otrix-apply-skill`: consume current apply context and guidance without changing the built-in apply workflow
+- `otrix-bulk-archive-skill`: fetch current archive inputs for a selected batch and apply relevant artifact rules during each spec sync
 
 ### Modified Capabilities
 
 - `config-loading`: parse operation guidance independently from existing project-config fields
 - `context-injection`: expose the latest project context to apply and archive runtime surfaces in addition to artifact instructions
 - `cli-artifact-workflow`: include current context and apply operation guidance in schema-aware apply instruction output
-- `opsx-archive-skill`: fetch and apply current archive context and guidance, and carry artifact rules into archive-driven spec sync, while preserving the existing archive flow
+- `otrix-archive-skill`: fetch and apply current archive context and guidance, and carry artifact rules into archive-driven spec sync, while preserving the existing archive flow
 - `specs-sync-skill`: apply current `specs` artifact rules during standalone sync, while reusing an archive-supplied specs-rule snapshot when invoked inline
 
 ## Impact

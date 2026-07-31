@@ -2,7 +2,7 @@
 
 ### Requirement: Carry artifact rules into standalone spec sync
 
-The `/opsx:sync` skill SHALL use the selected change's concrete `specs` artifact outputs as its delta-spec input and SHALL apply current `specs` artifact rules before writing a main spec.
+The `/otrix:sync` skill SHALL use the selected change's concrete `specs` artifact outputs as its delta-spec input and SHALL apply current `specs` artifact rules before writing a main spec.
 
 #### Scenario: Discover delta specs from status
 

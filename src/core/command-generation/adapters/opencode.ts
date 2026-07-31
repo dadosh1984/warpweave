@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * OpenCode adapter for command generation.
- * File path: .opencode/commands/opsx-<id>.md
+ * File path: .opencode/commands/otrix-<id>.md
  * Frontmatter: description
  */
 export const opencodeAdapter: ToolCommandAdapter = {
   toolId: 'opencode',
 
   getFilePath(commandId: string): string {
-    return path.join('.opencode', 'commands', `opsx-${commandId}.md`);
+    return path.join('.opencode', 'commands', `otrix-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

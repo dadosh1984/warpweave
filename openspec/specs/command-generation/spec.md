@@ -35,25 +35,25 @@ The system SHALL define a `ToolCommandAdapter` interface for per-tool formatting
 
 - **WHEN** formatting a command for Claude Code
 - **THEN** the adapter SHALL output YAML frontmatter with `name`, `description`, `category`, `tags` fields
-- **AND** file path SHALL follow pattern `.claude/commands/opsx/<id>.md`
+- **AND** file path SHALL follow pattern `.claude/commands/otrix/<id>.md`
 
 #### Scenario: Cursor adapter formatting
 
 - **WHEN** formatting a command for Cursor
-- **THEN** the adapter SHALL output YAML frontmatter with `name` as `/opsx-<id>`, `id`, `category`, `description` fields
-- **AND** file path SHALL follow pattern `.cursor/commands/opsx-<id>.md`
+- **THEN** the adapter SHALL output YAML frontmatter with `name` as `/otrix-<id>`, `id`, `category`, `description` fields
+- **AND** file path SHALL follow pattern `.cursor/commands/otrix-<id>.md`
 
 #### Scenario: Windsurf adapter formatting
 
 - **WHEN** formatting a command for Windsurf
 - **THEN** the adapter SHALL output YAML frontmatter with `name`, `description`, `category`, `tags` fields
-- **AND** file path SHALL follow pattern `.windsurf/workflows/opsx-<id>.md`
+- **AND** file path SHALL follow pattern `.windsurf/workflows/otrix-<id>.md`
 
 #### Scenario: Trae adapter formatting
 
 - **WHEN** formatting a command for Trae
 - **THEN** the adapter SHALL output YAML frontmatter with `name` and `description` fields
-- **AND** file path SHALL follow pattern `.trae/commands/opsx-<id>.md`
+- **AND** file path SHALL follow pattern `.trae/commands/otrix-<id>.md`
 
 ### Requirement: Command generator function
 
@@ -68,22 +68,22 @@ The system SHALL provide a `generateCommand` function that combines content with
 
 #### Scenario: Command references match the name the tool registers
 
-- **WHEN** the adapter's file path names the command by filename (`opsx-<id>`)
-- **THEN** `generateCommand` SHALL rewrite `/opsx:<id>` references in the body to `/opsx-<id>` before formatting
-- **WHEN** the adapter's file path does not name the command by filename (for example it namespaces the command under an `opsx/` directory)
-- **THEN** the body's `/opsx:<id>` references SHALL be left unchanged
+- **WHEN** the adapter's file path names the command by filename (`otrix-<id>`)
+- **THEN** `generateCommand` SHALL rewrite `/otrix:<id>` references in the body to `/otrix-<id>` before formatting
+- **WHEN** the adapter's file path does not name the command by filename (for example it namespaces the command under an `otrix/` directory)
+- **THEN** the body's `/otrix:<id>` references SHALL be left unchanged
 
 #### Scenario: Command references use the tool's own invocation prefix
 
-- **WHEN** an adapter declares an `invocationPrefix` because its files are not invoked with a slash (Amazon Q loads `.amazonq/prompts/opsx-<id>.md` into a prompt library invoked with `@`)
-- **THEN** `generateCommand` SHALL rewrite `/opsx:<id>` references in the body to `<prefix>opsx-<id>` — for Amazon Q, `@opsx-<id>` — replacing the leading slash rather than adding to it
+- **WHEN** an adapter declares an `invocationPrefix` because its files are not invoked with a slash (Amazon Q loads `.amazonq/prompts/otrix-<id>.md` into a prompt library invoked with `@`)
+- **THEN** `generateCommand` SHALL rewrite `/otrix:<id>` references in the body to `<prefix>otrix-<id>` — for Amazon Q, `@otrix-<id>` — replacing the leading slash rather than adding to it
 - **AND** generated skills and the `init`/`update` "Getting started" hint SHALL use the same form
 - **WHEN** an adapter declares no `invocationPrefix`
 - **THEN** the prefix SHALL default to `/`
 
 #### Scenario: Generate multiple commands
 
-- **WHEN** generating all opsx commands for a tool
+- **WHEN** generating all otrix commands for a tool
 - **THEN** the system SHALL iterate over command contents and generate each using the tool's adapter
 
 ### Requirement: CommandAdapterRegistry
@@ -114,4 +114,4 @@ The body content of commands SHALL be shared across all tools.
 
 - **WHEN** generating the 'explore' command for Claude and Cursor
 - **THEN** both SHALL use the same `body` content
-- **AND** only the frontmatter, the file path, and the spelling of `/opsx:*` command references SHALL differ
+- **AND** only the frontmatter, the file path, and the spelling of `/otrix:*` command references SHALL differ

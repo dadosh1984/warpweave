@@ -1169,9 +1169,9 @@ operations:
       expect(stat.isFile()).toBe(true);
 
       // Verify commands were created with Cursor format
-      const commandFile = path.join(tempDir, '.cursor', 'commands', 'opsx-explore.md');
+      const commandFile = path.join(tempDir, '.cursor', 'commands', 'otrix-explore.md');
       const content = await fs.readFile(commandFile, 'utf-8');
-      expect(content).toContain('name: "/opsx-explore"');
+      expect(content).toContain('name: "/otrix-explore"');
     });
 
     it('creates skills for the retired windsurf id, under Devin Desktop', async () => {

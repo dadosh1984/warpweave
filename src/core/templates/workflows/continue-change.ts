@@ -34,7 +34,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Mark the most recently modified change as "(Recommended)" since it's likely what the user wants to continue.
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:continue <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:continue <other>\`).
 
 2. **Check current status**
    \`\`\`bash
@@ -125,7 +125,7 @@ If the \`instruction\` field directs you to use a specific skill or command to c
 
 export function getOpsxContinueCommandTemplate(): CommandTemplate {
   return {
-    name: 'OPSX: Continue',
+    name: 'OTRIX: Continue',
     description: 'Continue working on a change - create the next artifact (Experimental)',
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
@@ -133,7 +133,7 @@ export function getOpsxContinueCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a change name after \`/opsx:continue\` (e.g., \`/opsx:continue add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
+**Input**: Optionally specify a change name after \`/otrix:continue\` (e.g., \`/otrix:continue add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
 
@@ -152,7 +152,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Mark the most recently modified change as "(Recommended)" since it's likely what the user wants to continue.
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:continue <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:continue <other>\`).
 
 2. **Check current status**
    \`\`\`bash
@@ -171,7 +171,7 @@ ${STORE_SELECTION_GUIDANCE}
    **If all artifacts are complete (\`isComplete: true\`)**:
    - Congratulate the user
    - Show final status including the schema used
-   - Suggest: "All artifacts created! You can now implement this change with \`/opsx:apply\` or archive it with \`/opsx:archive\`."
+   - Suggest: "All artifacts created! You can now implement this change with \`/otrix:apply\` or archive it with \`/otrix:archive\`."
    - STOP
 
    ---
@@ -217,7 +217,7 @@ After each invocation, show:
 - Schema workflow being used
 - Current progress (N/M complete)
 - What artifacts are now unlocked
-- Prompt: "Run \`/opsx:continue\` to create the next artifact"
+- Prompt: "Run \`/otrix:continue\` to create the next artifact"
 
 **Artifact Creation Guidelines**
 

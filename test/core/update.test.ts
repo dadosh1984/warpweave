@@ -210,10 +210,10 @@ Old instructions content
       expect(migratedSkill).toContain('name: openspec-explore');
       expect(migratedSkill).not.toContain('Old instructions content');
       // Kimi Code has no command adapter, so the refreshed skill must use
-      // its documented /skill:<name> invocations, never /opsx:* commands
+      // its documented /skill:<name> invocations, never /otrix:* commands
       // that were not generated
-      expect(migratedSkill).not.toContain('/opsx:');
-      expect(migratedSkill).not.toContain('/opsx-');
+      expect(migratedSkill).not.toContain('/otrix:');
+      expect(migratedSkill).not.toContain('/otrix-');
       expect(migratedSkill).toContain('/skill:openspec-');
 
       // Legacy managed skill is gone; user files stay where they were
@@ -313,12 +313,12 @@ Old instructions content
   describe('command updates', () => {
     it('heals stale colon references for a filename-invoked tool (cursor)', async () => {
       // The headline upgrade path for #1307: a project generated before the
-      // fix carries /opsx: references that Cursor's palette never registers.
+      // fix carries /otrix: references that Cursor's palette never registers.
       // `spectrix update` must rewrite both the command bodies and the skills.
       const initCommand = new InitCommand({ tools: 'cursor', force: true });
       await initCommand.execute(testDir);
 
-      const commandFile = path.join(testDir, '.cursor', 'commands', 'opsx-apply.md');
+      const commandFile = path.join(testDir, '.cursor', 'commands', 'otrix-apply.md');
       const skillFile = path.join(
         testDir,
         '.cursor',
@@ -327,23 +327,23 @@ Old instructions content
         'SKILL.md'
       );
       for (const file of [commandFile, skillFile]) {
-        const stale = (await fs.readFile(file, 'utf-8')).replace(/\/opsx-/g, '/opsx:');
+        const stale = (await fs.readFile(file, 'utf-8')).replace(/\/otrix-/g, '/otrix:');
         await fs.writeFile(file, stale);
       }
-      expect(await fs.readFile(commandFile, 'utf-8')).toContain('/opsx:apply');
-      expect(await fs.readFile(skillFile, 'utf-8')).toContain('/opsx:apply');
+      expect(await fs.readFile(commandFile, 'utf-8')).toContain('/otrix:apply');
+      expect(await fs.readFile(skillFile, 'utf-8')).toContain('/otrix:apply');
 
       await new UpdateCommand({ force: true }).execute(testDir);
 
       const command = await fs.readFile(commandFile, 'utf-8');
-      expect(command).toContain('/opsx-archive');
-      expect(command).not.toContain('/opsx:');
+      expect(command).toContain('/otrix-archive');
+      expect(command).not.toContain('/otrix:');
 
       const skill = await fs.readFile(skillFile, 'utf-8');
       // Positive assertion too: a skill that simply dropped every reference
       // would satisfy the negative one.
-      expect(skill).toContain('/opsx-apply');
-      expect(skill).not.toContain('/opsx:');
+      expect(skill).toContain('/otrix-apply');
+      expect(skill).not.toContain('/otrix:');
     });
 
     it('keeps namespaced references for claude while hyphenating qwen in one run', async () => {
@@ -353,42 +353,42 @@ Old instructions content
       await new UpdateCommand({ force: true }).execute(testDir);
 
       const claudeCommand = await fs.readFile(
-        path.join(testDir, '.claude', 'commands', 'opsx', 'apply.md'),
+        path.join(testDir, '.claude', 'commands', 'otrix', 'apply.md'),
         'utf-8'
       );
-      expect(claudeCommand).toContain('/opsx:archive');
-      expect(claudeCommand).not.toContain('/opsx-archive');
+      expect(claudeCommand).toContain('/otrix:archive');
+      expect(claudeCommand).not.toContain('/otrix-archive');
 
       const qwenCommand = await fs.readFile(
-        path.join(testDir, '.qwen', 'commands', 'opsx-apply.md'),
+        path.join(testDir, '.qwen', 'commands', 'otrix-apply.md'),
         'utf-8'
       );
-      expect(qwenCommand).toContain('/opsx-archive');
-      expect(qwenCommand).not.toContain('/opsx:');
+      expect(qwenCommand).toContain('/otrix-archive');
+      expect(qwenCommand).not.toContain('/otrix:');
 
       const qwenSkill = await fs.readFile(
         path.join(testDir, '.qwen', 'skills', 'openspec-apply-change', 'SKILL.md'),
         'utf-8'
       );
-      expect(qwenSkill).toContain('/opsx-apply');
-      expect(qwenSkill).not.toContain('/opsx:');
+      expect(qwenSkill).toContain('/otrix-apply');
+      expect(qwenSkill).not.toContain('/otrix:');
 
       const claudeSkill = await fs.readFile(
         path.join(testDir, '.claude', 'skills', 'openspec-apply-change', 'SKILL.md'),
         'utf-8'
       );
-      expect(claudeSkill).toContain('/opsx:apply');
-      expect(claudeSkill).not.toContain('/opsx-');
+      expect(claudeSkill).toContain('/otrix:apply');
+      expect(claudeSkill).not.toContain('/otrix-');
     });
 
     it('heals stale slash references for a prompt-library tool (amazon-q)', async () => {
       // Amazon Q registers no slash command at all: .amazonq/prompts files are
       // its prompt library, invoked with @. A project generated before this fix
-      // carries /opsx: references that Amazon Q answers to under no spelling.
+      // carries /otrix: references that Amazon Q answers to under no spelling.
       const initCommand = new InitCommand({ tools: 'amazon-q', force: true });
       await initCommand.execute(testDir);
 
-      const promptFile = path.join(testDir, '.amazonq', 'prompts', 'opsx-apply.md');
+      const promptFile = path.join(testDir, '.amazonq', 'prompts', 'otrix-apply.md');
       const skillFile = path.join(
         testDir,
         '.amazonq',
@@ -397,10 +397,10 @@ Old instructions content
         'SKILL.md'
       );
       for (const file of [promptFile, skillFile]) {
-        const stale = (await fs.readFile(file, 'utf-8')).replace(/@opsx-/g, '/opsx:');
+        const stale = (await fs.readFile(file, 'utf-8')).replace(/@otrix-/g, '/otrix:');
         await fs.writeFile(file, stale);
       }
-      expect(await fs.readFile(promptFile, 'utf-8')).toContain('/opsx:apply');
+      expect(await fs.readFile(promptFile, 'utf-8')).toContain('/otrix:apply');
 
       await new UpdateCommand({ force: true }).execute(testDir);
 
@@ -408,15 +408,15 @@ Old instructions content
         const refreshed = await fs.readFile(file, 'utf-8');
         // Positive assertion too: dropping every reference would satisfy the
         // negative ones. And no stray slash may survive the rewrite.
-        expect(refreshed).toContain('@opsx-apply');
-        expect(refreshed).not.toContain('/opsx:');
-        expect(refreshed).not.toContain('/opsx-');
+        expect(refreshed).toContain('@otrix-apply');
+        expect(refreshed).not.toContain('/otrix:');
+        expect(refreshed).not.toContain('/otrix-');
       }
       // The prompt body cross-references other prompts; those move too.
-      expect(await fs.readFile(promptFile, 'utf-8')).toContain('@opsx-archive');
+      expect(await fs.readFile(promptFile, 'utf-8')).toContain('@otrix-archive');
     });
 
-    it('should update opsx commands for configured Claude tool', async () => {
+    it('should update otrix commands for configured Claude tool', async () => {
       // Set up a configured Claude tool
       const skillsDir = path.join(testDir, '.claude', 'skills');
       await fs.mkdir(path.join(skillsDir, 'openspec-explore'), {
@@ -429,8 +429,8 @@ Old instructions content
 
       await updateCommand.execute(testDir);
 
-      // Check opsx command files were created
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      // Check otrix command files were created
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       const exploreCmd = path.join(commandsDir, 'explore.md');
       const exists = await FileSystemUtils.fileExists(exploreCmd);
       expect(exists).toBe(true);
@@ -454,8 +454,8 @@ Old instructions content
 
       await updateCommand.execute(testDir);
 
-      // Commands regenerated under .zcode/commands/opsx
-      const exploreCmd = path.join(testDir, '.zcode', 'commands', 'opsx', 'explore.md');
+      // Commands regenerated under .zcode/commands/otrix
+      const exploreCmd = path.join(testDir, '.zcode', 'commands', 'otrix', 'explore.md');
       expect(await FileSystemUtils.fileExists(exploreCmd)).toBe(true);
 
       const cmdContent = await fs.readFile(exploreCmd, 'utf-8');
@@ -476,7 +476,7 @@ Old instructions content
       await expect(fs.access(path.join(testDir, '.agents'))).rejects.toThrow();
     });
 
-    it('should update core profile opsx commands when tool is configured', async () => {
+    it('should update core profile otrix commands when tool is configured', async () => {
       // Set up a configured tool
       const skillsDir = path.join(testDir, '.claude', 'skills');
       await fs.mkdir(path.join(skillsDir, 'openspec-explore'), {
@@ -491,7 +491,7 @@ Old instructions content
 
       // Verify core profile commands were created (propose, explore, apply, update, sync, archive)
       const coreCommandIds = ['explore', 'apply', 'update', 'sync', 'archive', 'propose'];
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       for (const cmdId of coreCommandIds) {
         const cmdFile = path.join(commandsDir, `${cmdId}.md`);
         const exists = await FileSystemUtils.fileExists(cmdFile);
@@ -518,27 +518,27 @@ Old instructions content
 
       await updateCommand.execute(testDir);
 
-      // Workflows are invoked by filename, so their bodies use `/opsx-*`.
-      const workflow = path.join(testDir, '.devin', 'workflows', 'opsx-apply.md');
+      // Workflows are invoked by filename, so their bodies use `/otrix-*`.
+      const workflow = path.join(testDir, '.devin', 'workflows', 'otrix-apply.md');
       expect(await FileSystemUtils.fileExists(workflow)).toBe(true);
 
       const workflowContent = await fs.readFile(workflow, 'utf-8');
       expect(workflowContent).toMatch(/^---\nname: "/);
-      expect(workflowContent).toContain('/opsx-');
-      expect(workflowContent).not.toContain('/opsx:');
+      expect(workflowContent).toContain('/otrix-');
+      expect(workflowContent).not.toContain('/otrix:');
 
       // Skills are refreshed too, and point at skills — the Devin Local agent
       // has no workflows to point at.
       const skillContent = await fs.readFile(skillFile, 'utf-8');
       expect(skillContent).not.toContain('old content');
       expect(skillContent).toContain('/openspec-apply-change');
-      expect(skillContent).not.toContain('/opsx:');
-      expect(skillContent).not.toContain('/opsx-');
+      expect(skillContent).not.toContain('/otrix:');
+      expect(skillContent).not.toContain('/otrix-');
     });
 
     it('should update command files when tool is configured via commands-only delivery without skills', async () => {
       setMockConfig({ featureFlags: {}, profile: 'core', delivery: 'commands' });
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       await fs.mkdir(commandsDir, { recursive: true });
       const coreCommandIds = ['explore', 'apply', 'update', 'sync', 'archive', 'propose'];
       for (const cmdId of coreCommandIds) {
@@ -616,12 +616,12 @@ Old instructions content
 
       await updateCommand.execute(testDir);
 
-      // Check Qwen command format (Markdown) - Qwen uses flat path structure: opsx-<id>.md
+      // Check Qwen command format (Markdown) - Qwen uses flat path structure: otrix-<id>.md
       const qwenCmd = path.join(
         testDir,
         '.qwen',
         'commands',
-        'opsx-explore.md'
+        'otrix-explore.md'
       );
       const exists = await FileSystemUtils.fileExists(qwenCmd);
       expect(exists).toBe(true);
@@ -640,7 +640,7 @@ Old instructions content
 
       const legacyWorkflows = path.join(testDir, '.windsurf', 'workflows');
       await fs.mkdir(legacyWorkflows, { recursive: true });
-      await fs.writeFile(path.join(legacyWorkflows, 'opsx-explore.md'), 'old workflow content');
+      await fs.writeFile(path.join(legacyWorkflows, 'otrix-explore.md'), 'old workflow content');
 
       // User-owned content that must survive untouched
       const userSkillDir = path.join(testDir, '.windsurf', 'skills', 'my-custom-skill');
@@ -658,7 +658,7 @@ Old instructions content
       );
       expect(migratedSkill).not.toContain('old skill content');
       const migratedWorkflow = await fs.readFile(
-        path.join(testDir, '.devin', 'workflows', 'opsx-explore.md'),
+        path.join(testDir, '.devin', 'workflows', 'otrix-explore.md'),
         'utf-8'
       );
       expect(migratedWorkflow).not.toContain('old workflow content');
@@ -667,7 +667,7 @@ Old instructions content
       // The Spectrix-managed originals are gone; the user's files are not
       await expect(fs.access(legacySkillDir)).rejects.toThrow();
       await expect(
-        fs.access(path.join(legacyWorkflows, 'opsx-explore.md'))
+        fs.access(path.join(legacyWorkflows, 'otrix-explore.md'))
       ).rejects.toThrow();
       expect(await fs.readFile(path.join(userSkillDir, 'SKILL.md'), 'utf-8')).toBe('user skill');
       expect(
@@ -719,14 +719,14 @@ Old instructions content
       await fs.writeFile(path.join(devinSkill, 'SKILL.md'), 'current');
       const devinWorkflows = path.join(testDir, '.devin', 'workflows');
       await fs.mkdir(devinWorkflows, { recursive: true });
-      await fs.writeFile(path.join(devinWorkflows, 'opsx-explore.md'), 'current');
+      await fs.writeFile(path.join(devinWorkflows, 'otrix-explore.md'), 'current');
 
       const legacySkill = path.join(testDir, '.windsurf', 'skills', 'openspec-explore');
       await fs.mkdir(legacySkill, { recursive: true });
       await fs.writeFile(path.join(legacySkill, 'SKILL.md'), 'mine');
       const legacyWorkflows = path.join(testDir, '.windsurf', 'workflows');
       await fs.mkdir(legacyWorkflows, { recursive: true });
-      await fs.writeFile(path.join(legacyWorkflows, 'opsx-explore.md'), 'mine');
+      await fs.writeFile(path.join(legacyWorkflows, 'otrix-explore.md'), 'mine');
 
       const consoleSpy = vi.spyOn(console, 'log');
       await updateCommand.execute(testDir);
@@ -743,7 +743,7 @@ Old instructions content
       expect(logCalls.some((entry) => entry.includes('Migrated 0'))).toBe(false);
       // ...and nothing was touched
       expect(await fs.readFile(path.join(legacySkill, 'SKILL.md'), 'utf-8')).toBe('mine');
-      expect(await fs.readFile(path.join(legacyWorkflows, 'opsx-explore.md'), 'utf-8')).toBe('mine');
+      expect(await fs.readFile(path.join(legacyWorkflows, 'otrix-explore.md'), 'utf-8')).toBe('mine');
     });
 
     it('should keep a legacy SKILL.md the user edited, matching how command files are treated', async () => {
@@ -755,21 +755,21 @@ Old instructions content
       await fs.writeFile(path.join(devinSkill, 'SKILL.md'), 'current');
       const devinWorkflows = path.join(testDir, '.devin', 'workflows');
       await fs.mkdir(devinWorkflows, { recursive: true });
-      await fs.writeFile(path.join(devinWorkflows, 'opsx-explore.md'), 'current');
+      await fs.writeFile(path.join(devinWorkflows, 'otrix-explore.md'), 'current');
 
       const legacySkill = path.join(testDir, '.windsurf', 'skills', 'openspec-explore');
       await fs.mkdir(legacySkill, { recursive: true });
       await fs.writeFile(path.join(legacySkill, 'SKILL.md'), 'my edited skill');
       const legacyWorkflows = path.join(testDir, '.windsurf', 'workflows');
       await fs.mkdir(legacyWorkflows, { recursive: true });
-      await fs.writeFile(path.join(legacyWorkflows, 'opsx-explore.md'), 'my edited command');
+      await fs.writeFile(path.join(legacyWorkflows, 'otrix-explore.md'), 'my edited command');
 
       await updateCommand.execute(testDir);
 
       expect(await fs.readFile(path.join(legacySkill, 'SKILL.md'), 'utf-8')).toBe(
         'my edited skill'
       );
-      expect(await fs.readFile(path.join(legacyWorkflows, 'opsx-explore.md'), 'utf-8')).toBe(
+      expect(await fs.readFile(path.join(legacyWorkflows, 'otrix-explore.md'), 'utf-8')).toBe(
         'my edited command'
       );
     });
@@ -823,22 +823,22 @@ Old instructions content
     it('should keep a legacy command file the user edited, and drop an identical one', async () => {
       const devinWorkflows = path.join(testDir, '.devin', 'workflows');
       await fs.mkdir(devinWorkflows, { recursive: true });
-      await fs.writeFile(path.join(devinWorkflows, 'opsx-explore.md'), 'generated');
-      await fs.writeFile(path.join(devinWorkflows, 'opsx-apply.md'), 'generated');
+      await fs.writeFile(path.join(devinWorkflows, 'otrix-explore.md'), 'generated');
+      await fs.writeFile(path.join(devinWorkflows, 'otrix-apply.md'), 'generated');
 
       const legacyWorkflows = path.join(testDir, '.windsurf', 'workflows');
       await fs.mkdir(legacyWorkflows, { recursive: true });
       // Edited by the user — deleting it would throw the edit away
-      await fs.writeFile(path.join(legacyWorkflows, 'opsx-explore.md'), 'my edits');
+      await fs.writeFile(path.join(legacyWorkflows, 'otrix-explore.md'), 'my edits');
       // Byte-identical — nothing is lost by dropping it
-      await fs.writeFile(path.join(legacyWorkflows, 'opsx-apply.md'), 'generated');
+      await fs.writeFile(path.join(legacyWorkflows, 'otrix-apply.md'), 'generated');
 
       await updateCommand.execute(testDir);
 
-      expect(await fs.readFile(path.join(legacyWorkflows, 'opsx-explore.md'), 'utf-8')).toBe(
+      expect(await fs.readFile(path.join(legacyWorkflows, 'otrix-explore.md'), 'utf-8')).toBe(
         'my edits'
       );
-      await expect(fs.access(path.join(legacyWorkflows, 'opsx-apply.md'))).rejects.toThrow();
+      await expect(fs.access(path.join(legacyWorkflows, 'otrix-apply.md'))).rejects.toThrow();
     });
 
     it('should leave a migrated project alone on the next run', async () => {
@@ -1405,7 +1405,7 @@ ${OPENSPEC_MARKERS.end}
       consoleSpy.mockRestore();
     });
 
-    it('should remove managed global Codex opsx prompts with --force and preserve unmanaged prompts', async () => {
+    it('should remove managed global Codex otrix prompts with --force and preserve unmanaged prompts', async () => {
       setMockConfig({
         featureFlags: {},
         profile: 'core',
@@ -1422,7 +1422,7 @@ ${OPENSPEC_MARKERS.end}
       );
 
       const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-      const managedPrompt = path.join(promptDir, 'opsx-explore.md');
+      const managedPrompt = path.join(promptDir, 'otrix-explore.md');
       const legacyPrompt = path.join(promptDir, 'openspec-proposal.md');
       const unmanagedPrompt = path.join(promptDir, 'personal-notes.md');
       await fs.mkdir(promptDir, { recursive: true });
@@ -1464,7 +1464,7 @@ ${OPENSPEC_MARKERS.end}
       });
 
       const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-      const managedPrompt = path.join(promptDir, 'opsx-explore.md');
+      const managedPrompt = path.join(promptDir, 'otrix-explore.md');
       await fs.mkdir(promptDir, { recursive: true });
       await fs.writeFile(managedPrompt, 'legacy explore prompt');
 
@@ -1492,13 +1492,13 @@ ${OPENSPEC_MARKERS.end}
 
       // Legacy managed Codex prompt with codex not yet configured: the
       // upgrade newly configures codex, whose onboarding menu must not
-      // advertise /opsx:* commands (codex has no slash surface).
-      // The prompt is opsx-new.md so the inferred workflow ('new') is one the
+      // advertise /otrix:* commands (codex has no slash surface).
+      // The prompt is otrix-new.md so the inferred workflow ('new') is one the
       // onboarding menu actually lists — the menu is now filtered to the
       // workflows the upgrade installed.
       const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
       await fs.mkdir(promptDir, { recursive: true });
-      await fs.writeFile(path.join(promptDir, 'opsx-new.md'), 'legacy new prompt');
+      await fs.writeFile(path.join(promptDir, 'otrix-new.md'), 'legacy new prompt');
 
       const consoleSpy = vi.spyOn(console, 'log');
       const forceUpdateCommand = new UpdateCommand({ force: true });
@@ -1511,9 +1511,9 @@ ${OPENSPEC_MARKERS.end}
       const menuLines = logCalls.filter((entry) => entry.includes('Scaffold a change'));
       expect(menuLines).toHaveLength(1);
       expect(menuLines[0]).toContain('$openspec-new-change');
-      expect(logCalls.some((entry) => entry.includes('/opsx:new'))).toBe(false);
-      expect(logCalls.some((entry) => entry.includes('/opsx:continue'))).toBe(false);
-      expect(logCalls.some((entry) => entry.includes('/opsx:apply'))).toBe(false);
+      expect(logCalls.some((entry) => entry.includes('/otrix:new'))).toBe(false);
+      expect(logCalls.some((entry) => entry.includes('/otrix:continue'))).toBe(false);
+      expect(logCalls.some((entry) => entry.includes('/otrix:apply'))).toBe(false);
       // Only the inferred workflow is advertised, not the rest of the profile
       expect(logCalls.some((entry) => entry.includes('Next artifact'))).toBe(false);
       expect(logCalls.some((entry) => entry.includes('Implement tasks'))).toBe(false);
@@ -1526,9 +1526,9 @@ ${OPENSPEC_MARKERS.end}
         delivery: 'both',
       });
 
-      // A pre-opsx Cursor project: legacy .cursor/commands/openspec-*.md files
+      // A pre-otrix Cursor project: legacy .cursor/commands/openspec-*.md files
       // make the upgrade newly configure cursor, whose menu must name the
-      // commands its palette registers (/opsx-propose), not /opsx:propose.
+      // commands its palette registers (/otrix-propose), not /otrix:propose.
       const legacyDir = path.join(testDir, '.cursor', 'commands');
       await fs.mkdir(legacyDir, { recursive: true });
       await fs.writeFile(path.join(legacyDir, 'openspec-proposal.md'), 'legacy proposal command');
@@ -1540,8 +1540,8 @@ ${OPENSPEC_MARKERS.end}
 
       const menuLines = logCalls.filter((entry) => entry.includes('Start a change'));
       expect(menuLines).toHaveLength(1);
-      expect(menuLines[0]).toContain('/opsx-propose');
-      expect(logCalls.some((entry) => entry.includes('/opsx:propose'))).toBe(false);
+      expect(menuLines[0]).toContain('/otrix-propose');
+      expect(logCalls.some((entry) => entry.includes('/otrix:propose'))).toBe(false);
     });
 
     it('should preserve legacy Codex prompts when a configured Codex tool lacks the replacement workflow', async () => {
@@ -1556,7 +1556,7 @@ ${OPENSPEC_MARKERS.end}
       await fs.writeFile(path.join(skillsDir, 'openspec-explore', 'SKILL.md'), 'old');
 
       const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-      const managedPrompt = path.join(promptDir, 'opsx-onboard.md');
+      const managedPrompt = path.join(promptDir, 'otrix-onboard.md');
       await fs.mkdir(promptDir, { recursive: true });
       await fs.writeFile(managedPrompt, 'legacy onboard prompt');
 
@@ -1581,7 +1581,7 @@ ${OPENSPEC_MARKERS.end}
       await fs.writeFile(path.join(skillsDir, 'openspec-explore', 'SKILL.md'), 'old');
 
       const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-      const managedPrompt = path.join(promptDir, 'opsx-update.md');
+      const managedPrompt = path.join(promptDir, 'otrix-update.md');
       await fs.mkdir(promptDir, { recursive: true });
       await fs.writeFile(managedPrompt, 'prompt generated by Spectrix v1.6.0');
 
@@ -1832,13 +1832,13 @@ More user content after markers.
         expect.stringContaining('Getting started')
       );
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('/opsx:propose')
+        expect.stringContaining('/otrix:propose')
       );
       const gettingStartedCalls = consoleSpy.mock.calls
         .map((call) => call.map((arg) => String(arg)).join(' '))
         .join('\n');
-      expect(gettingStartedCalls).not.toContain('/opsx:new');
-      expect(gettingStartedCalls).not.toContain('/opsx:continue');
+      expect(gettingStartedCalls).not.toContain('/otrix:new');
+      expect(gettingStartedCalls).not.toContain('/otrix:continue');
 
       // Skills should be created
       const skillFile = path.join(testDir, '.claude', 'skills', 'openspec-explore', 'SKILL.md');
@@ -1999,9 +1999,9 @@ More user content after markers.
       const output = consoleSpy.mock.calls
         .map((call) => call.map((arg) => String(arg)).join(' '))
         .join('\n');
-      expect(output).toContain('/opsx:new');
-      expect(output).toContain('/opsx:continue');
-      expect(output).not.toContain('/opsx:propose');
+      expect(output).toContain('/otrix:new');
+      expect(output).toContain('/otrix:continue');
+      expect(output).not.toContain('/otrix:propose');
 
       consoleSpy.mockRestore();
     });
@@ -2075,8 +2075,8 @@ More user content after markers.
       const forceUpdateCommand = new UpdateCommand({ force: true });
       await forceUpdateCommand.execute(testDir);
 
-      // New opsx commands should be created
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      // New otrix commands should be created
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       const exploreCmd = path.join(commandsDir, 'explore.md');
       const exists = await FileSystemUtils.fileExists(exploreCmd);
       expect(exists).toBe(true);
@@ -2107,7 +2107,7 @@ More user content after markers.
         path.join(skillsDir, 'openspec-propose', 'SKILL.md')
       )).toBe(false);
 
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       expect(await FileSystemUtils.fileExists(
         path.join(commandsDir, 'explore.md')
       )).toBe(true);
@@ -2180,7 +2180,7 @@ More user content after markers.
         path.join(testDir, '.claude', 'skills', 'openspec-sync-specs', 'SKILL.md')
       )).toBe(false);
       expect(await FileSystemUtils.fileExists(
-        path.join(testDir, '.claude', 'commands', 'opsx', 'sync.md')
+        path.join(testDir, '.claude', 'commands', 'otrix', 'sync.md')
       )).toBe(false);
 
       consoleSpy.mockRestore();
@@ -2258,7 +2258,7 @@ More user content after markers.
       )).toBe(true);
 
       // Commands should NOT be created
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       expect(await FileSystemUtils.fileExists(
         path.join(commandsDir, 'explore.md')
       )).toBe(false);
@@ -2268,18 +2268,18 @@ More user content after markers.
         path.join(skillsDir, 'openspec-explore', 'SKILL.md'),
         'utf-8'
       );
-      expect(skillContent).not.toContain('/opsx:');
-      expect(skillContent).not.toContain('/opsx-');
+      expect(skillContent).not.toContain('/otrix:');
+      expect(skillContent).not.toContain('/otrix-');
       expect(skillContent).toContain('/openspec-');
 
       // update-change references several other workflows; a command missing
-      // from the reference map would leave a raw /opsx: reference behind
+      // from the reference map would leave a raw /otrix: reference behind
       const updateSkillContent = await fs.readFile(
         path.join(skillsDir, 'openspec-update-change', 'SKILL.md'),
         'utf-8'
       );
-      expect(updateSkillContent).not.toContain('/opsx:');
-      expect(updateSkillContent).not.toContain('/opsx-');
+      expect(updateSkillContent).not.toContain('/otrix:');
+      expect(updateSkillContent).not.toContain('/otrix-');
       expect(updateSkillContent).toContain('/openspec-');
     });
 
@@ -2297,7 +2297,7 @@ More user content after markers.
       await updateCommand.execute(testDir);
 
       // Commands should be created
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       expect(await FileSystemUtils.fileExists(
         path.join(commandsDir, 'explore.md')
       )).toBe(true);
@@ -2354,7 +2354,7 @@ More user content after markers.
         const skillContent = await fs.readFile(skillFile, 'utf-8');
         expect(skillContent).toContain('name: openspec-explore');
 
-        const promptFile = path.join(process.env.CODEX_HOME!, 'prompts', 'opsx-explore.md');
+        const promptFile = path.join(process.env.CODEX_HOME!, 'prompts', 'otrix-explore.md');
         expect(await FileSystemUtils.fileExists(promptFile)).toBe(false);
       }
     );
@@ -2396,7 +2396,7 @@ More user content after markers.
       await fs.writeFile(path.join(skillsDir, 'openspec-explore', 'SKILL.md'), 'old');
 
       const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-      const managedPrompt = path.join(promptDir, 'opsx-explore.md');
+      const managedPrompt = path.join(promptDir, 'otrix-explore.md');
       await fs.mkdir(promptDir, { recursive: true });
       await fs.writeFile(managedPrompt, 'legacy explore prompt');
 
@@ -2466,7 +2466,7 @@ content
 `
       );
 
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       await fs.mkdir(commandsDir, { recursive: true });
       await fs.writeFile(path.join(commandsDir, 'explore.md'), 'old command');
 
@@ -2485,7 +2485,7 @@ content
         delivery: 'commands',
       });
 
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       await fs.mkdir(commandsDir, { recursive: true });
       await fs.writeFile(path.join(commandsDir, 'explore.md'), 'existing command');
 
@@ -2526,7 +2526,7 @@ content
       // Add a non-core workflow
       await fs.mkdir(path.join(skillsDir, 'openspec-new-change'), { recursive: true });
       await fs.writeFile(path.join(skillsDir, 'openspec-new-change', 'SKILL.md'), 'old');
-      const extraCommandFile = path.join(testDir, '.claude', 'commands', 'opsx', 'new.md');
+      const extraCommandFile = path.join(testDir, '.claude', 'commands', 'otrix', 'new.md');
       await fs.mkdir(path.dirname(extraCommandFile), { recursive: true });
       await fs.writeFile(extraCommandFile, 'old');
 
@@ -2683,7 +2683,7 @@ content
     });
 
     it('should detect installed workflows from managed command files', async () => {
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       await fs.mkdir(commandsDir, { recursive: true });
       await fs.writeFile(path.join(commandsDir, 'explore.md'), 'content');
 

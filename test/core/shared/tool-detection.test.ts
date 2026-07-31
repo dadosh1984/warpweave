@@ -291,12 +291,12 @@ Content here
     });
 
     // Command paths vary in shape across adapters: a nested directory with a
-    // per-tool extension (gemini writes TOML), a flat opsx-* file, and — for
+    // per-tool extension (gemini writes TOML), a flat otrix-* file, and — for
     // cline — a directory that is not the tool's skillsDir at all.
     it.each([
-      ['gemini', path.join('.gemini', 'commands', 'opsx', 'explore.toml')],
-      ['cursor', path.join('.cursor', 'commands', 'opsx-explore.md')],
-      ['cline', path.join('.clinerules', 'workflows', 'opsx-explore.md')],
+      ['gemini', path.join('.gemini', 'commands', 'otrix', 'explore.toml')],
+      ['cursor', path.join('.cursor', 'commands', 'otrix-explore.md')],
+      ['cline', path.join('.clinerules', 'workflows', 'otrix-explore.md')],
     ])('should fingerprint commands-only %s installs', async (toolId, explorePath) => {
       const { InitCommand } = await import('../../../src/core/init.js');
       const { saveGlobalConfig } = await import('../../../src/core/global-config.js');
@@ -365,7 +365,7 @@ Content here
 
       // A Windows clone with core.autocrlf re-materializes committed command
       // files with CRLF endings; that is a checkout artifact, not content drift.
-      const commandsDir = path.join(testDir, '.claude', 'commands', 'opsx');
+      const commandsDir = path.join(testDir, '.claude', 'commands', 'otrix');
       for (const entry of await fs.readdir(commandsDir)) {
         const file = path.join(commandsDir, entry);
         const content = await fs.readFile(file, 'utf-8');
@@ -390,7 +390,7 @@ Content here
       await initCommand.execute(testDir);
 
       // A workflow that is no longer selected still has a command file on disk
-      const strayFile = path.join(testDir, '.claude', 'commands', 'opsx', 'verify.md');
+      const strayFile = path.join(testDir, '.claude', 'commands', 'otrix', 'verify.md');
       await fs.writeFile(strayFile, 'stray command from a previous profile');
 
       const { version } = await import('../../../package.json');
@@ -435,7 +435,7 @@ Content here
       await initCommand.execute(testDir);
 
       // Modify one command file
-      const cmdFile = path.join(testDir, '.claude', 'commands', 'opsx', 'explore.md');
+      const cmdFile = path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md');
       await fs.writeFile(cmdFile, 'outdated content');
 
       const { version } = await import('../../../package.json');

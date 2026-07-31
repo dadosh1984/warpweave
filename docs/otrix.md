@@ -1,10 +1,10 @@
-# OPSX Workflow
+# OTRIX Workflow
 
 > Feedback welcome on [Discord](https://discord.gg/YctCnvvshC).
 
 ## What Is It?
 
-OPSX is now the standard workflow for Spectrix.
+OTRIX is now the standard workflow for Spectrix.
 
 It's a **fluid, iterative workflow** for Spectrix changes. No more rigid phases — just actions you can take anytime.
 
@@ -17,7 +17,7 @@ The legacy Spectrix workflow works, but it's **locked down**:
 - **Fixed structure** — same workflow for everyone, no customization
 - **Black box** — when AI output is bad, you can't tweak the prompts
 
-**OPSX opens it up.** Now anyone can:
+**OTRIX opens it up.** Now anyone can:
 
 1. **Experiment with instructions** — edit a template, see if the AI does better
 2. **Test granularly** — validate each artifact's instructions independently
@@ -25,7 +25,7 @@ The legacy Spectrix workflow works, but it's **locked down**:
 4. **Iterate quickly** — change a template, test immediately, no rebuild
 
 ```
-Legacy workflow:                      OPSX:
+Legacy workflow:                      OTRIX:
 ┌────────────────────────┐           ┌────────────────────────┐
 │  Hardcoded in package  │           │  schema.yaml           │◄── You edit this
 │  (can't change)        │           │  templates/*.md        │◄── Or this
@@ -41,14 +41,14 @@ Legacy workflow:                      OPSX:
 - **Power users** — tweak prompts to get better AI outputs for your codebase
 - **Spectrix contributors** — experiment with new approaches without releases
 
-We're all still learning what works best. OPSX lets us learn together.
+We're all still learning what works best. OTRIX lets us learn together.
 
 ## The User Experience
 
 **The problem with linear workflows:**
 You're "in planning phase", then "in implementation phase", then "done". But real work doesn't work that way. You implement something, realize your design was wrong, need to update specs, continue implementing. Linear phases fight against how work actually happens.
 
-**OPSX approach:**
+**OTRIX approach:**
 - **Actions, not phases** — create, implement, update, archive — do any of them anytime
 - **Dependencies are enablers** — they show what's possible, not what's required next
 
@@ -157,67 +157,67 @@ rules:
 
 | Command | What it does |
 |---------|--------------|
-| `/opsx:propose` | Create a change and generate planning artifacts in one step (default quick path) |
-| `/opsx:explore` | Think through ideas, investigate problems, clarify requirements |
-| `/opsx:new` | Start a new change scaffold (expanded workflow) |
-| `/opsx:continue` | Create the next artifact (expanded workflow) |
-| `/opsx:ff` | Fast-forward planning artifacts (expanded workflow) |
-| `/opsx:apply` | Implement tasks, updating artifacts as needed |
-| `/opsx:update` | Revise a change's planning artifacts and keep them coherent |
-| `/opsx:verify` | Validate implementation against artifacts (expanded workflow) |
-| `/opsx:sync` | Sync delta specs to main (default workflow, optional) |
-| `/opsx:archive` | Archive when done |
-| `/opsx:bulk-archive` | Archive multiple completed changes (expanded workflow) |
-| `/opsx:onboard` | Guided walkthrough of an end-to-end change (expanded workflow) |
+| `/otrix:propose` | Create a change and generate planning artifacts in one step (default quick path) |
+| `/otrix:explore` | Think through ideas, investigate problems, clarify requirements |
+| `/otrix:new` | Start a new change scaffold (expanded workflow) |
+| `/otrix:continue` | Create the next artifact (expanded workflow) |
+| `/otrix:ff` | Fast-forward planning artifacts (expanded workflow) |
+| `/otrix:apply` | Implement tasks, updating artifacts as needed |
+| `/otrix:update` | Revise a change's planning artifacts and keep them coherent |
+| `/otrix:verify` | Validate implementation against artifacts (expanded workflow) |
+| `/otrix:sync` | Sync delta specs to main (default workflow, optional) |
+| `/otrix:archive` | Archive when done |
+| `/otrix:bulk-archive` | Archive multiple completed changes (expanded workflow) |
+| `/otrix:onboard` | Guided walkthrough of an end-to-end change (expanded workflow) |
 
 ## Usage
 
 ### Explore an idea
 ```
-/opsx:explore
+/otrix:explore
 ```
-Think through ideas, investigate problems, compare options. No structure required - just a thinking partner. When insights crystallize, transition to `/opsx:propose` (default) or `/opsx:new`/`/opsx:ff` (expanded).
+Think through ideas, investigate problems, compare options. No structure required - just a thinking partner. When insights crystallize, transition to `/otrix:propose` (default) or `/otrix:new`/`/otrix:ff` (expanded).
 
 ### Start a new change
 ```
-/opsx:propose
+/otrix:propose
 ```
 Creates the change and generates planning artifacts needed before implementation.
 
 If you've enabled expanded workflows, you can instead use:
 
 ```text
-/opsx:new        # scaffold only
-/opsx:continue   # create one artifact at a time
-/opsx:ff         # create all planning artifacts at once
+/otrix:new        # scaffold only
+/otrix:continue   # create one artifact at a time
+/otrix:ff         # create all planning artifacts at once
 ```
 
 ### Create artifacts
 ```
-/opsx:continue
+/otrix:continue
 ```
 Shows what's ready to create based on dependencies, then creates one artifact. Use repeatedly to build up your change incrementally.
 
 ```
-/opsx:ff add-dark-mode
+/otrix:ff add-dark-mode
 ```
 Creates all planning artifacts at once. Use when you have a clear picture of what you're building.
 
 ### Implement (the fluid part)
 ```
-/opsx:apply
+/otrix:apply
 ```
-Works through tasks, checking them off as you go. If you're juggling multiple changes, you can run `/opsx:apply <name>`; otherwise it should infer from the conversation and prompt you to choose if it can't tell.
+Works through tasks, checking them off as you go. If you're juggling multiple changes, you can run `/otrix:apply <name>`; otherwise it should infer from the conversation and prompt you to choose if it can't tell.
 
 ### Updating a change
 ```
-/opsx:update add-dark-mode - we're storing the theme in a cookie now
+/otrix:update add-dark-mode - we're storing the theme in a cookie now
 ```
-Revises the change's existing planning artifacts and keeps them coherent - in any direction (a design edit may ripple back to the proposal). Planning artifacts only: it never edits code, and it never creates missing artifacts (that's `/opsx:continue`). Every edit is confirmed with you first. If the change was already implemented, it recommends `/opsx:apply` so the code catches up with the revised plan. If your revision changes the change's *intent*, start fresh instead - see [When to Update vs. Start Fresh](#when-to-update-vs-start-fresh).
+Revises the change's existing planning artifacts and keeps them coherent - in any direction (a design edit may ripple back to the proposal). Planning artifacts only: it never edits code, and it never creates missing artifacts (that's `/otrix:continue`). Every edit is confirmed with you first. If the change was already implemented, it recommends `/otrix:apply` so the code catches up with the revised plan. If your revision changes the change's *intent*, start fresh instead - see [When to Update vs. Start Fresh](#when-to-update-vs-start-fresh).
 
 ### Finish up
 ```
-/opsx:archive   # Move to archive when done (prompts to sync specs if needed)
+/otrix:archive   # Move to archive when done (prompts to sync specs if needed)
 ```
 
 ## When to Update vs. Start Fresh
@@ -308,18 +308,18 @@ Think of it like git branches:
 
 ## What's Different?
 
-| | Legacy (`/openspec:proposal`) | OPSX (`/opsx:*`) |
+| | Legacy (`/openspec:proposal`) | OTRIX (`/otrix:*`) |
 |---|---|---|
 | **Structure** | One big proposal document | Discrete artifacts with dependencies |
 | **Workflow** | Linear phases: plan → implement → archive | Fluid actions — do anything anytime |
 | **Iteration** | Awkward to go back | Update artifacts as you learn |
 | **Customization** | Fixed structure | Schema-driven (define your own artifacts) |
 
-**The key insight:** work isn't linear. OPSX stops pretending it is.
+**The key insight:** work isn't linear. OTRIX stops pretending it is.
 
 ## Architecture Deep Dive
 
-This section explains how OPSX works under the hood and how it compares to the legacy workflow.
+This section explains how OTRIX works under the hood and how it compares to the legacy workflow.
 Examples in this section use the expanded command set (`new`, `continue`, etc.); default `core` users can map the same flow to `propose → apply → sync → archive`.
 
 ### Philosophy: Phases vs Actions
@@ -346,7 +346,7 @@ Examples in this section use the expanded command set (`new`, `continue`, etc.);
 
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                            OPSX WORKFLOW                                     │
+│                            OTRIX WORKFLOW                                     │
 │                      (Fluid Actions, Iterative)                             │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
@@ -389,11 +389,11 @@ Examples in this section use the expanded command set (`new`, `continue`, etc.);
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**OPSX** uses external schemas and a dependency graph engine:
+**OTRIX** uses external schemas and a dependency graph engine:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         OPSX COMPONENTS                                      │
+│                         OTRIX COMPONENTS                                      │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │   Schema Definitions (YAML)                                                 │
@@ -488,10 +488,10 @@ Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, no
   Agent creates ALL artifacts in one go
 ```
 
-**OPSX** — agent queries for rich context:
+**OTRIX** — agent queries for rich context:
 
 ```
-  User: "/opsx:continue"
+  User: "/otrix:continue"
            │
            ▼
   ┌──────────────────────────────────────────────────────────────────────────┐
@@ -546,10 +546,10 @@ Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, no
        └── Creates ALL artifacts at once
 ```
 
-**OPSX** — natural iteration:
+**OTRIX** — natural iteration:
 
 ```
-  /opsx:new ───► /opsx:continue ───► /opsx:apply ───► /opsx:archive
+  /otrix:new ───► /otrix:continue ───► /otrix:apply ───► /otrix:archive
       │                │                  │
       │                │                  ├── "The design is wrong"
       │                │                  │
@@ -558,7 +558,7 @@ Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, no
       │                │            and continue!
       │                │                  │
       │                │                  ▼
-      │                │         /opsx:apply picks up
+      │                │         /otrix:apply picks up
       │                │         where you left off
       │                │
       │                └── Creates ONE artifact, shows what's unlocked
@@ -620,7 +620,7 @@ artifacts:
 
 ### Summary
 
-| Aspect | Legacy | OPSX |
+| Aspect | Legacy | OTRIX |
 |--------|----------|------|
 | **Templates** | Hardcoded TypeScript | External YAML + Markdown |
 | **Dependencies** | None (all at once) | DAG with topological sort |
@@ -654,9 +654,9 @@ spectrix schema validate my-workflow
 
 ## Tips
 
-- Use `/opsx:explore` to think through an idea before committing to a change
-- `/opsx:ff` when you know what you want, `/opsx:continue` when exploring
-- During `/opsx:apply`, if something's wrong — fix the artifact, then continue
+- Use `/otrix:explore` to think through an idea before committing to a change
+- `/otrix:ff` when you know what you want, `/otrix:continue` when exploring
+- During `/otrix:apply`, if something's wrong — fix the artifact, then continue
 - Tasks track progress via checkboxes in `tasks.md`
 - Check status anytime: `spectrix status --change "name"`
 

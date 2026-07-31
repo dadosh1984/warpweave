@@ -1,5 +1,11 @@
 # @dadosh1984/spectrix
 
+## 1.10.0
+
+### Minor Changes
+
+- Rename the slash-command namespace from `opsx` to `otrix` (`/otrix:propose`, `/otrix:apply`, ...). Generated command files move from `.claude/commands/opsx/` to `.claude/commands/otrix/` (and equivalents for other tools); command display names become `OTRIX: *`. Existing `opsx/` command directories are left untouched.
+
 ## 1.9.0
 
 ### Minor Changes

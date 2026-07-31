@@ -1,18 +1,18 @@
-# OPSX Archive Skill Spec
+# OTRIX Archive Skill Spec
 
 ## Purpose
 
-Define the expected behavior for the `/opsx:archive` skill, including readiness checks, spec sync prompting, archive execution, and user-facing output.
+Define the expected behavior for the `/otrix:archive` skill, including readiness checks, spec sync prompting, archive execution, and user-facing output.
 
 ## Requirements
 
-### Requirement: OPSX Archive Skill
+### Requirement: OTRIX Archive Skill
 
-The system SHALL provide an `/opsx:archive` skill that archives completed changes in the experimental workflow.
+The system SHALL provide an `/otrix:archive` skill that archives completed changes in the experimental workflow.
 
 #### Scenario: Archive a change with all artifacts complete
 
-- **WHEN** agent executes `/opsx:archive` with a change name
+- **WHEN** agent executes `/otrix:archive` with a change name
 - **AND** all artifacts in the schema are complete
 - **AND** all tasks are complete
 - **THEN** the agent moves the change to `openspec/changes/archive/<target-name>/`
@@ -20,7 +20,7 @@ The system SHALL provide an `/opsx:archive` skill that archives completed change
 
 #### Scenario: Change selection prompt
 
-- **WHEN** agent executes `/opsx:archive` without specifying a change
+- **WHEN** agent executes `/otrix:archive` without specifying a change
 - **THEN** the agent infers the change from conversation context, or auto-selects it when only one active change exists
 - **AND** when ambiguous, prompts user to select from available changes, showing only active changes (excludes archive/)
 - **AND** announces which change was selected and how to override
@@ -76,7 +76,7 @@ The skill SHALL prompt to sync delta specs before archiving if specs exist.
 - **AND** `specs/` directory exists in the change with spec files
 - **THEN** prompt user: "This change has delta specs. Would you like to sync them to main specs before archiving?"
 - **AND** if user cancels, stop without archiving
-- **AND** if user confirms, execute `/opsx:sync` logic inline and wait for it to complete
+- **AND** if user confirms, execute `/otrix:sync` logic inline and wait for it to complete
 - **AND** verify every capability that has a delta spec, not only those the sync reports it touched: ADDED requirements present, MODIFIED requirements carrying the changes named in the delta, REMOVED requirements absent, RENAMED requirements present under the new name and absent under the old one
 - **AND** stop without archiving if the sync fails or any capability does not verify
 - **AND** archive only after verification passes, or when the user explicitly chose to archive without syncing or to archive already-synced specs
@@ -113,7 +113,7 @@ The skill SHALL provide clear feedback about the archive operation.
 
 - **WHEN** archive completes after syncing specs
 - **THEN** display summary:
-  - Specs synced (from `/opsx:sync` output)
+  - Specs synced (from `/otrix:sync` output)
   - Change archived to location
   - Schema that was used
 

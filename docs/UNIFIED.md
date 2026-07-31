@@ -144,12 +144,12 @@ The unified workflow uses the standard Spectrix commands:
 
 | Command | Purpose |
 |---------|---------|
-| `/opsx:explore` | Thinking partner before you commit to a plan |
-| `/opsx:propose` | Create a change: proposal, specs, design, tasks |
-| `/opsx:apply` | Implement tasks with TDD and ladder rungs |
-| `/opsx:archive` | Archive the change, sync specs |
+| `/otrix:explore` | Thinking partner before you commit to a plan |
+| `/otrix:propose` | Create a change: proposal, specs, design, tasks |
+| `/otrix:apply` | Implement tasks with TDD and ladder rungs |
+| `/otrix:archive` | Archive the change, sync specs |
 
-Your tool may spell `/opsx:propose` as `/opsx-propose`, `@opsx-propose`, or `$openspec-propose` — `spectrix init` prints the right form for the tools you picked.
+Your tool may spell `/otrix:propose` as `/otrix-propose`, `@otrix-propose`, or `$openspec-propose` — `spectrix init` prints the right form for the tools you picked.
 
 ## FAQ
 

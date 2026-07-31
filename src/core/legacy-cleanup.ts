@@ -43,9 +43,9 @@ export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPatter
 
   // File-based: individual openspec-*.md files in a commands/workflows/prompts folder
   'cursor': { type: 'files', pattern: '.cursor/commands/openspec-*.md' },
-  // Keyed by the tool id these map back to, so the pre-opsx Windsurf files
+  // Keyed by the tool id these map back to, so the pre-otrix Windsurf files
   // belong to `devin` — the id Windsurf became. Only `.windsurf/` is listed:
-  // `.devin/` postdates the opsx rename and never held `openspec-*` files.
+  // `.devin/` postdates the otrix rename and never held `openspec-*` files.
   'devin': { type: 'files', pattern: '.windsurf/workflows/openspec-*.md' },
   'kilocode': { type: 'files', pattern: '.kilocode/workflows/openspec-*.md' },
   'kiro': { type: 'files', pattern: '.kiro/prompts/openspec-*.prompt.md' },
@@ -55,12 +55,12 @@ export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPatter
   'roocode': { type: 'files', pattern: '.roo/commands/openspec-*.md' },
   'auggie': { type: 'files', pattern: '.augment/commands/openspec-*.md' },
   'factory': { type: 'files', pattern: '.factory/commands/openspec-*.md' },
-  'opencode': { type: 'files', pattern: ['.opencode/command/opsx-*.md', '.opencode/command/openspec-*.md'] },
+  'opencode': { type: 'files', pattern: ['.opencode/command/otrix-*.md', '.opencode/command/openspec-*.md'] },
   'continue': { type: 'files', pattern: '.continue/prompts/openspec-*.prompt' },
   'antigravity': { type: 'files', pattern: '.agent/workflows/openspec-*.md' },
   'iflow': { type: 'files', pattern: '.iflow/commands/openspec-*.md' },
-  'junie': { type: 'files', pattern: ['.junie/commands/opsx-*.md', '.junie/commands/openspec-*.md'] },
-  'qwen': { type: 'files', pattern: ['.qwen/commands/opsx-*.toml', '.qwen/commands/openspec-*.toml'] },
+  'junie': { type: 'files', pattern: ['.junie/commands/otrix-*.md', '.junie/commands/openspec-*.md'] },
+  'qwen': { type: 'files', pattern: ['.qwen/commands/otrix-*.toml', '.qwen/commands/openspec-*.toml'] },
   'codex': { type: 'files', pattern: '.codex/prompts/openspec-*.md' },
 };
 
@@ -69,18 +69,18 @@ export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPatter
  * they represented before Codex moved to skills-only delivery.
  */
 const LEGACY_GLOBAL_CODEX_WORKFLOWS: Record<string, readonly WorkflowId[]> = {
-  'opsx-propose.md': ['propose'],
-  'opsx-explore.md': ['explore'],
-  'opsx-new.md': ['new'],
-  'opsx-continue.md': ['continue'],
-  'opsx-apply.md': ['apply'],
-  'opsx-update.md': ['update'],
-  'opsx-ff.md': ['ff'],
-  'opsx-sync.md': ['sync'],
-  'opsx-archive.md': ['archive'],
-  'opsx-bulk-archive.md': ['bulk-archive'],
-  'opsx-verify.md': ['verify'],
-  'opsx-onboard.md': ['onboard'],
+  'otrix-propose.md': ['propose'],
+  'otrix-explore.md': ['explore'],
+  'otrix-new.md': ['new'],
+  'otrix-continue.md': ['continue'],
+  'otrix-apply.md': ['apply'],
+  'otrix-update.md': ['update'],
+  'otrix-ff.md': ['ff'],
+  'otrix-sync.md': ['sync'],
+  'otrix-archive.md': ['archive'],
+  'otrix-bulk-archive.md': ['bulk-archive'],
+  'otrix-verify.md': ['verify'],
+  'otrix-onboard.md': ['onboard'],
 };
 
 /**

@@ -30,7 +30,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    When prompting, show changes that have delta specs (under \`specs/\` directory).
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:sync <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:sync <other>\`).
 
 2. **Resolve change context**
 
@@ -236,7 +236,7 @@ Main specs are now updated. The change remains active - archive when implementat
 
 export function getOpsxSyncCommandTemplate(): CommandTemplate {
   return {
-    name: 'OPSX: Sync',
+    name: 'OTRIX: Sync',
     description: 'Sync delta specs from a change to main specs',
     category: 'Workflow',
     tags: ['workflow', 'specs', 'experimental'],
@@ -246,7 +246,7 @@ This is an **agent-driven** operation - you will read delta specs and directly e
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a change name after \`/opsx:sync\` (e.g., \`/opsx:sync add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
+**Input**: Optionally specify a change name after \`/otrix:sync\` (e.g., \`/otrix:sync add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
 
@@ -259,7 +259,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    When prompting, show changes that have delta specs (under \`specs/\` directory).
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:sync <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:sync <other>\`).
 
 2. **Resolve change context**
 

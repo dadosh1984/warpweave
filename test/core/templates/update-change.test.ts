@@ -24,10 +24,10 @@ describe('update-change templates', () => {
     expect(skill.compatibility).toBe('Requires spectrix CLI.');
     expect(skill.metadata).toEqual({ author: 'spectrix', version: '1.0' });
 
-    expect(command.name).toBe('OPSX: Update');
+    expect(command.name).toBe('OTRIX: Update');
     expect(command.category).toBe('Workflow');
     expect(command.tags).toEqual(['workflow', 'artifacts', 'experimental']);
-    expect(command.content).toContain('/opsx:update add-auth');
+    expect(command.content).toContain('/otrix:update add-auth');
 
     for (const [label, body] of bodies) {
       expect(body, label).toContain(STORE_SELECTION_GUIDANCE);
@@ -49,11 +49,11 @@ describe('update-change templates', () => {
     }
   });
 
-  it('edits planning artifacts only, hands code off to /opsx:apply, never advances the frontier (3.3)', () => {
+  it('edits planning artifacts only, hands code off to /otrix:apply, never advances the frontier (3.3)', () => {
     for (const [label, body] of bodies) {
       expect(body, label).toContain('Never edit code');
       expect(body, label).toContain('NEVER edit implementation code');
-      expect(body, label).toContain('stop and point to `/opsx:apply`');
+      expect(body, label).toContain('stop and point to `/otrix:apply`');
       expect(body, label).toContain('Do not advance the build frontier');
       expect(body, label).toContain('Do NOT create artifacts that don\'t exist yet');
     }
@@ -70,18 +70,18 @@ describe('update-change templates', () => {
   it('ends with next-step guidance and never acts on it (3.5)', () => {
     for (const [label, body] of bodies) {
       expect(body, label).toContain('guidance only - NEVER act on it');
-      expect(body, label).toContain('suggest `/opsx:continue`');
-      expect(body, label).toContain('suggest `/opsx:apply`');
-      expect(body, label).toContain('suggest `/opsx:archive`');
+      expect(body, label).toContain('suggest `/otrix:continue`');
+      expect(body, label).toContain('suggest `/otrix:apply`');
+      expect(body, label).toContain('suggest `/otrix:archive`');
       expect(body, label).toContain('the code may no longer match the revised plan');
     }
   });
 
-  it('confirms every edit and redirects intent changes to /opsx:new', () => {
+  it('confirms every edit and redirects intent changes to /otrix:new', () => {
     for (const [label, body] of bodies) {
       expect(body, label).toContain('Write only after the user confirms');
       expect(body, label).toContain('If the user rejects a revision, do not write it');
-      expect(body, label).toContain('recommend starting fresh with `/opsx:new`');
+      expect(body, label).toContain('recommend starting fresh with `/otrix:new`');
       expect(body, label).toContain('Update vs. Start Fresh');
     }
   });

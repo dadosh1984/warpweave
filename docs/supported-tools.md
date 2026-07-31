@@ -7,7 +7,7 @@ Spectrix works with many AI coding assistants. When you run `spectrix init`, Spe
 For each selected tool, Spectrix can install:
 
 1. **Skills** (if delivery includes skills): `.../skills/openspec-*/SKILL.md`
-2. **Commands** (if delivery includes commands): tool-specific `opsx-*` command files
+2. **Commands** (if delivery includes commands): tool-specific `otrix-*` command files
 
 Codex is skills-only: Spectrix installs `.codex/skills/openspec-*/SKILL.md` for Codex even when delivery is set to `commands`, and it does not generate Codex custom prompt files.
 
@@ -23,33 +23,33 @@ You can enable expanded workflows (`new`, `continue`, `ff`, `verify`, `bulk-arch
 
 ## How To Invoke
 
-These docs use `/opsx:propose` as the canonical name, but each tool spells it the
+These docs use `/otrix:propose` as the canonical name, but each tool spells it the
 way it loads the file Spectrix wrote. Find your tool's command path in the
 [Tool Directory Reference](#tool-directory-reference) below, then match its shape here.
 
 | Command file Spectrix writes | You type | Tools |
 |------------------------------|----------|-------|
-| `.../commands/opsx/<id>.*` — an `opsx/` folder namespaces it | `/opsx:<id>` | Claude Code, CodeBuddy, Crush, Gemini CLI, Lingma, Qoder, ZCode |
-| `.../opsx-<id>.*` — the filename is the command | `/opsx-<id>` | Every other tool with generated command files, except Amazon Q and Devin |
-| `.devin/workflows/opsx-<id>.md` — read by only one of Devin's two agents | `/opsx-<id>` on Devin Desktop, `/openspec-<skill>` on Devin Local | Devin Desktop\*\*\*\* |
-| `.amazonq/prompts/opsx-<id>.md` — a prompt, not a command | `@opsx-<id>` | Amazon Q Developer |
+| `.../commands/otrix/<id>.*` — an `otrix/` folder namespaces it | `/otrix:<id>` | Claude Code, CodeBuddy, Crush, Gemini CLI, Lingma, Qoder, ZCode |
+| `.../otrix-<id>.*` — the filename is the command | `/otrix-<id>` | Every other tool with generated command files, except Amazon Q and Devin |
+| `.devin/workflows/otrix-<id>.md` — read by only one of Devin's two agents | `/otrix-<id>` on Devin Desktop, `/openspec-<skill>` on Devin Local | Devin Desktop\*\*\*\* |
+| `.amazonq/prompts/otrix-<id>.md` — a prompt, not a command | `@otrix-<id>` | Amazon Q Developer |
 | none — skills only | `/openspec-<skill>` | CodeArts, ForgeCode, Hermes, Mistral Vibe, shared `.agents` |
 | none — Kimi Code | `/skill:openspec-<skill>` | Kimi Code |
 | none — Codex CLI | `$openspec-<skill>` | Codex ([`/openspec-<skill>` is not recognized](https://github.com/openai/codex/issues/11817)) |
 
-So `/opsx:propose` is `/opsx-propose` in Cursor, `@opsx-propose` in Amazon Q, and
+So `/otrix:propose` is `/otrix-propose` in Cursor, `@otrix-propose` in Amazon Q, and
 `$openspec-propose` in Codex.
 
 Two things vary independently, which is why the rows do not collapse:
 
 - **The name.** Rows 1–2 differ only in how the file names the command, and the
-  `opsx-<id>` / `opsx:<id>` stem is the same for every tool with generated
+  `otrix-<id>` / `otrix:<id>` stem is the same for every tool with generated
   command files.
 - **The wrapper.** Amazon Q loads its files into a prompt library invoked with
   `@`. Skills-only tools generate no command files at all, so their last three
   rows use *skill* names — listed under
   [Generated Skill Names](#generated-skill-names) — which do not map one-to-one
-  onto command ids (`/opsx:apply` is the `openspec-apply-change` skill).
+  onto command ids (`/otrix:apply` is the `openspec-apply-change` skill).
 
 The command path patterns above are extension-neutral (`.*`) on purpose: the
 extension is the tool's (`.toml` for Gemini CLI, `.prompt` for Continue,
@@ -64,47 +64,47 @@ to read the hint.
 
 | Tool (ID) | Skills path pattern | Command path pattern |
 |-----------|---------------------|----------------------|
-| Amazon Q Developer (`amazon-q`) | `.amazonq/skills/openspec-*/SKILL.md` | `.amazonq/prompts/opsx-<id>.md` |
-| Antigravity (`antigravity`) | `.agent/skills/openspec-*/SKILL.md` | `.agent/workflows/opsx-<id>.md` |
-| Auggie (`auggie`) | `.augment/skills/openspec-*/SKILL.md` | `.augment/commands/opsx-<id>.md` |
-| IBM Bob Shell (`bob`) | `.bob/skills/openspec-*/SKILL.md` | `.bob/commands/opsx-<id>.md` |
-| Claude Code (`claude`) | `.claude/skills/openspec-*/SKILL.md` | `.claude/commands/opsx/<id>.md` |
-| Cline (`cline`) | `.cline/skills/openspec-*/SKILL.md` | `.clinerules/workflows/opsx-<id>.md` |
+| Amazon Q Developer (`amazon-q`) | `.amazonq/skills/openspec-*/SKILL.md` | `.amazonq/prompts/otrix-<id>.md` |
+| Antigravity (`antigravity`) | `.agent/skills/openspec-*/SKILL.md` | `.agent/workflows/otrix-<id>.md` |
+| Auggie (`auggie`) | `.augment/skills/openspec-*/SKILL.md` | `.augment/commands/otrix-<id>.md` |
+| IBM Bob Shell (`bob`) | `.bob/skills/openspec-*/SKILL.md` | `.bob/commands/otrix-<id>.md` |
+| Claude Code (`claude`) | `.claude/skills/openspec-*/SKILL.md` | `.claude/commands/otrix/<id>.md` |
+| Cline (`cline`) | `.cline/skills/openspec-*/SKILL.md` | `.clinerules/workflows/otrix-<id>.md` |
 | CodeArts (`codeartsagent`) | `.codeartsdoer/skills/openspec-*/SKILL.md` | Not generated (no command adapter; use skill-based `/openspec-*` invocations) |
-| CodeBuddy (`codebuddy`) | `.codebuddy/skills/openspec-*/SKILL.md` | `.codebuddy/commands/opsx/<id>.md` |
+| CodeBuddy (`codebuddy`) | `.codebuddy/skills/openspec-*/SKILL.md` | `.codebuddy/commands/otrix/<id>.md` |
 | Codex (`codex`) | `.codex/skills/openspec-*/SKILL.md` | Not generated (skills-only; use `.codex/skills/openspec-*`) |
-| Devin Desktop, formerly Windsurf (`devin`) | `.devin/skills/openspec-*/SKILL.md` | `.devin/workflows/opsx-<id>.md`\*\*\*\* |
+| Devin Desktop, formerly Windsurf (`devin`) | `.devin/skills/openspec-*/SKILL.md` | `.devin/workflows/otrix-<id>.md`\*\*\*\* |
 | ForgeCode (`forgecode`) | `.forge/skills/openspec-*/SKILL.md` | Not generated (no command adapter; use skill-based `/openspec-*` invocations) |
-| Continue (`continue`) | `.continue/skills/openspec-*/SKILL.md` | `.continue/prompts/opsx-<id>.prompt` |
-| CoStrict (`costrict`) | `.cospec/skills/openspec-*/SKILL.md` | `.cospec/openspec/commands/opsx-<id>.md` |
-| Crush (`crush`) | `.crush/skills/openspec-*/SKILL.md` | `.crush/commands/opsx/<id>.md` |
-| Cursor (`cursor`) | `.cursor/skills/openspec-*/SKILL.md` | `.cursor/commands/opsx-<id>.md` |
-| Factory Droid (`factory`) | `.factory/skills/openspec-*/SKILL.md` | `.factory/commands/opsx-<id>.md` |
-| Gemini CLI (`gemini`) | `.gemini/skills/openspec-*/SKILL.md` | `.gemini/commands/opsx/<id>.toml` |
-| GitHub Copilot (`github-copilot`) | `.github/skills/openspec-*/SKILL.md` | `.github/prompts/opsx-<id>.prompt.md`\*\* |
+| Continue (`continue`) | `.continue/skills/openspec-*/SKILL.md` | `.continue/prompts/otrix-<id>.prompt` |
+| CoStrict (`costrict`) | `.cospec/skills/openspec-*/SKILL.md` | `.cospec/openspec/commands/otrix-<id>.md` |
+| Crush (`crush`) | `.crush/skills/openspec-*/SKILL.md` | `.crush/commands/otrix/<id>.md` |
+| Cursor (`cursor`) | `.cursor/skills/openspec-*/SKILL.md` | `.cursor/commands/otrix-<id>.md` |
+| Factory Droid (`factory`) | `.factory/skills/openspec-*/SKILL.md` | `.factory/commands/otrix-<id>.md` |
+| Gemini CLI (`gemini`) | `.gemini/skills/openspec-*/SKILL.md` | `.gemini/commands/otrix/<id>.toml` |
+| GitHub Copilot (`github-copilot`) | `.github/skills/openspec-*/SKILL.md` | `.github/prompts/otrix-<id>.prompt.md`\*\* |
 | Hermes Agent (`hermes`) | `.hermes/skills/openspec-*/SKILL.md`\*\*\* | Not generated (no command adapter; use skill-based `/openspec-*` invocations) |
-| iFlow (`iflow`) | `.iflow/skills/openspec-*/SKILL.md` | `.iflow/commands/opsx-<id>.md` |
-| Junie (`junie`) | `.junie/skills/openspec-*/SKILL.md` | `.junie/commands/opsx-<id>.md` |
-| Kilo Code (`kilocode`) | `.kilocode/skills/openspec-*/SKILL.md` | `.kilocode/workflows/opsx-<id>.md` |
+| iFlow (`iflow`) | `.iflow/skills/openspec-*/SKILL.md` | `.iflow/commands/otrix-<id>.md` |
+| Junie (`junie`) | `.junie/skills/openspec-*/SKILL.md` | `.junie/commands/otrix-<id>.md` |
+| Kilo Code (`kilocode`) | `.kilocode/skills/openspec-*/SKILL.md` | `.kilocode/workflows/otrix-<id>.md` |
 | Kimi Code (`kimi`) | `.kimi-code/skills/openspec-*/SKILL.md` | Not generated (no command adapter; use skill-based `/skill:openspec-*` invocations) |
-| Kiro (`kiro`) | `.kiro/skills/openspec-*/SKILL.md` | `.kiro/prompts/opsx-<id>.prompt.md` |
-| Lingma (`lingma`) | `.lingma/skills/openspec-*/SKILL.md` | `.lingma/commands/opsx/<id>.md` |
+| Kiro (`kiro`) | `.kiro/skills/openspec-*/SKILL.md` | `.kiro/prompts/otrix-<id>.prompt.md` |
+| Lingma (`lingma`) | `.lingma/skills/openspec-*/SKILL.md` | `.lingma/commands/otrix/<id>.md` |
 | Mistral Vibe (`vibe`) | `.vibe/skills/openspec-*/SKILL.md` | Not generated (no command adapter; use skill-based `/openspec-*` invocations) |
-| Oh My Pi (`oh-my-pi`) | `.omp/skills/openspec-*/SKILL.md` | `.omp/commands/opsx-<id>.md` |
-| OpenCode (`opencode`) | `.opencode/skills/openspec-*/SKILL.md` | `.opencode/commands/opsx-<id>.md` |
-| Pi (`pi`) | `.pi/skills/openspec-*/SKILL.md` | `.pi/prompts/opsx-<id>.md` |
-| Qoder (`qoder`) | `.qoder/skills/openspec-*/SKILL.md` | `.qoder/commands/opsx/<id>.md` |
-| Qwen Code (`qwen`) | `.qwen/skills/openspec-*/SKILL.md` | `.qwen/commands/opsx-<id>.md` |
-| [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) (`roocode`) | `.roo/skills/openspec-*/SKILL.md` | `.roo/commands/opsx-<id>.md` |
-| Trae (`trae`) | `.trae/skills/openspec-*/SKILL.md` | `.trae/commands/opsx-<id>.md` |
-| ZCode (`zcode`) | `.zcode/skills/openspec-*/SKILL.md` | `.zcode/commands/opsx/<id>.md` |
+| Oh My Pi (`oh-my-pi`) | `.omp/skills/openspec-*/SKILL.md` | `.omp/commands/otrix-<id>.md` |
+| OpenCode (`opencode`) | `.opencode/skills/openspec-*/SKILL.md` | `.opencode/commands/otrix-<id>.md` |
+| Pi (`pi`) | `.pi/skills/openspec-*/SKILL.md` | `.pi/prompts/otrix-<id>.md` |
+| Qoder (`qoder`) | `.qoder/skills/openspec-*/SKILL.md` | `.qoder/commands/otrix/<id>.md` |
+| Qwen Code (`qwen`) | `.qwen/skills/openspec-*/SKILL.md` | `.qwen/commands/otrix-<id>.md` |
+| [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) (`roocode`) | `.roo/skills/openspec-*/SKILL.md` | `.roo/commands/otrix-<id>.md` |
+| Trae (`trae`) | `.trae/skills/openspec-*/SKILL.md` | `.trae/commands/otrix-<id>.md` |
+| ZCode (`zcode`) | `.zcode/skills/openspec-*/SKILL.md` | `.zcode/commands/otrix/<id>.md` |
 | Shared `.agents` skills (`agents`) | `.agents/skills/openspec-*/SKILL.md` | Not generated (no command adapter; use skill-based `/openspec-*` invocations) |
 
 \*\* GitHub Copilot prompt files are recognized as custom slash commands in IDE extensions (VS Code, JetBrains, Visual Studio). Copilot CLI does not currently consume `.github/prompts/*.prompt.md` directly.
 
 \*\*\* Hermes loads skills from `~/.hermes/skills/` by default. To use project-local Spectrix skills, add the project `.hermes/skills/` directory to `skills.external_dirs` in `~/.hermes/config.yaml`; Hermes then exposes skills with user-facing slash invocations such as `/openspec-propose`.
 
-\*\*\*\* Windsurf was [rebranded to Devin Desktop](https://docs.devin.ai/desktop/devin-desktop-faq) on June 2, 2026, and its config directory moved: `.devin/` is the preferred read + write location, `.windsurf/` a legacy read-only fallback. Spectrix follows the rename — the tool id is `devin`, and `--tools windsurf` still resolves to it so existing setup scripts keep working. A project still holding Spectrix files in `.windsurf/` is offered the move on the next `spectrix update`; declining leaves them in place, and files you wrote yourself are never touched. Workflows are invoked by filename, so `.devin/workflows/opsx-apply.md` is `/opsx-apply`. The [Devin Local agent does not support workflows](https://docs.devin.ai/desktop/devin-local) — only skills, and it does not read `.windsurf/` at all — so whenever Spectrix writes Devin skills it keeps their bodies, and the getting-started hint, on `/openspec-*` skill invocations, which work on both agents. Under commands-only delivery no skills are written and both fall back to `/opsx-*`.
+\*\*\*\* Windsurf was [rebranded to Devin Desktop](https://docs.devin.ai/desktop/devin-desktop-faq) on June 2, 2026, and its config directory moved: `.devin/` is the preferred read + write location, `.windsurf/` a legacy read-only fallback. Spectrix follows the rename — the tool id is `devin`, and `--tools windsurf` still resolves to it so existing setup scripts keep working. A project still holding Spectrix files in `.windsurf/` is offered the move on the next `spectrix update`; declining leaves them in place, and files you wrote yourself are never touched. Workflows are invoked by filename, so `.devin/workflows/otrix-apply.md` is `/otrix-apply`. The [Devin Local agent does not support workflows](https://docs.devin.ai/desktop/devin-local) — only skills, and it does not read `.windsurf/` at all — so whenever Spectrix writes Devin skills it keeps their bodies, and the getting-started hint, on `/openspec-*` skill invocations, which work on both agents. Under commands-only delivery no skills are written and both fall back to `/otrix-*`.
 
 ### When to pick the shared `.agents` target
 
@@ -125,7 +125,7 @@ directory belongs to Antigravity.
 
 Two things to know:
 
-- **Skills only.** No command adapter exists, so no `opsx-*` command files are
+- **Skills only.** No command adapter exists, so no `otrix-*` command files are
   written; with a commands-inclusive delivery mode `spectrix init` lists `agents`
   among the tools it reports under `Commands skipped for: … (no adapter)`.
   Invoke the workflows by skill name —

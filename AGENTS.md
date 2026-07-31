@@ -7,7 +7,7 @@ Every action passes through all four layers. Never skip a layer.
 
 Before writing ANY code:
 1. Check if an approved spec exists in `openspec/changes/<name>/specs/`
-2. If no spec: run `/opsx:propose` first. No exceptions.
+2. If no spec: run `/otrix:propose` first. No exceptions.
 3. Specs are plain Markdown with GIVEN/WHEN/THEN scenarios.
 4. The human approves specs before implementation begins.
 

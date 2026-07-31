@@ -19,7 +19,7 @@ I'll create a change with the artifacts your schema defines. With the default sp
 - design.md (how)
 - tasks.md (implementation steps)
 
-When ready to implement, run /opsx:apply
+When ready to implement, run /otrix:apply
 
 ---
 
@@ -103,7 +103,7 @@ After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions, plus any conditional artifact you skipped and why
 - What's ready: "All artifacts needed for implementation are ready."
-- Prompt: "Run \`/opsx:apply\` or ask me to implement to start working on the tasks."
+- Prompt: "Run \`/otrix:apply\` or ask me to implement to start working on the tasks."
 
 **Artifact Creation Guidelines**
 
@@ -143,7 +143,7 @@ Fill the Ladder Decision table in the proposal template with concrete answers.`,
 
 export function getOpsxProposeCommandTemplate(): CommandTemplate {
   return {
-    name: 'OPSX: Propose',
+    name: 'OTRIX: Propose',
     description: 'Propose a new change - create it and generate all artifacts in one step',
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
@@ -155,13 +155,13 @@ I'll create a change with the artifacts your schema defines. With the default sp
 - design.md (how)
 - tasks.md (implementation steps)
 
-When ready to implement, run /opsx:apply
+When ready to implement, run /otrix:apply
 
 ---
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: The argument after \`/opsx:propose\` is the change name (kebab-case), OR a description of what the user wants to build.
+**Input**: The argument after \`/otrix:propose\` is the change name (kebab-case), OR a description of what the user wants to build.
 
 **Steps**
 
@@ -239,7 +239,7 @@ After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions, plus any conditional artifact you skipped and why
 - What's ready: "All artifacts needed for implementation are ready."
-- Prompt: "Run \`/opsx:apply\` to start implementing."
+- Prompt: "Run \`/otrix:apply\` to start implementing."
 
 **Artifact Creation Guidelines**
 

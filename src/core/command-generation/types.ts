@@ -35,14 +35,14 @@ export interface ToolCommandAdapter {
   /**
    * Returns the file path for a command.
    * @param commandId - The command identifier (e.g., 'explore')
-   * @returns Path from project root (e.g., '.claude/commands/opsx/explore.md').
+   * @returns Path from project root (e.g., '.claude/commands/otrix/explore.md').
    *          May be absolute for tools with global-scoped command files.
    */
   getFilePath(commandId: string): string;
   /**
    * What the user types before the command name, when it is not the default
    * `/`. Amazon Q loads these files into its prompt library, which is invoked
-   * with `@` (`@opsx-propose`), so its adapter sets '@'. The name itself is
+   * with `@` (`@otrix-propose`), so its adapter sets '@'. The name itself is
    * still derived from getFilePath — see invocation.ts.
    */
   invocationPrefix?: string;

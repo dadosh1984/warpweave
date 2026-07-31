@@ -87,7 +87,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxInitUnifiedCommandTemplate(): CommandTemplate {
   return {
-    name: 'OPSX: Init Unified',
+    name: 'OTRIX: Init Unified',
     description: 'Set up the full unified environment in one flow',
     category: 'Setup',
     tags: ['setup', 'init', 'install', 'rtk', 'superpowers', 'ponytail'],
@@ -95,7 +95,7 @@ export function getOpsxInitUnifiedCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: A target directory after \`/opsx:init-unified\` (defaults to the current project root). If a project is already initialized, confirm before re-running.
+**Input**: A target directory after \`/otrix:init-unified\` (defaults to the current project root). If a project is already initialized, confirm before re-running.
 
 **Steps**
 

@@ -55,64 +55,64 @@ import {
 import { STORE_SELECTION_GUIDANCE } from '../../../src/core/templates/workflows/store-selection.js';
 
 const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
-  getExploreSkillTemplate: 'd1aa50ec6d105fed3e6cf9e96db945bb50cca750dcb39ec02b5dcdb8316ea9a9',
+  getExploreSkillTemplate: '1907b8c9aba7107d80f16707ba9665188ffdded5702746656382a1d1a5d8674e',
   getNewChangeSkillTemplate: '2769787a16c59f69374aac1ff11f201db9f16382a5b651aff16a1ea7cbfffbe2',
-  getContinueChangeSkillTemplate: '1c4666b2b0e824e983e9ad1dbe724476668126c1840ebe93db656bed3d56dd59',
-  getApplyChangeSkillTemplate: 'bcb7812011f03f814be3a96a4130a76992f39b0e275011742548dd0e13f1227e',
-  getFfChangeSkillTemplate: '7ef57961a0476a349b910dd9c005afc830c61a2940a72190c4675998b0d08418',
-  getSyncSpecsSkillTemplate: '0e4715287ed6c786eef6f351720c3cfcf1db13eb286dd93bf1fd1dabe839f16f',
-  getOnboardSkillTemplate: '42984be8fab65e06046f6bc78e274602f2c6e8ee5cbb90e333fbc8ee78a629bb',
-  getOpsxExploreCommandTemplate: 'a7e864b35992623d1007cdf4a07ddb29a2236e255ee81c2595b76b0c428b32e4',
-  getOpsxNewCommandTemplate: 'bd46f8f9865890a37c4bd9a34890a863a17b3615e9eb376e9b29699d11573320',
-  getOpsxContinueCommandTemplate: 'c8febe106c6d5d15049a0fb31cf0c1ea7c7f106be9a8f73fb50258378f4c7a8a',
-  getOpsxApplyCommandTemplate: '29411b517e9a5639311492e9583c52be2a14e31b60dea37191d0d9caf3251275',
-  getOpsxFfCommandTemplate: '0a60bc71e7284ff4710e73bd620e48e74f286aab3258c279357d777e71f52eb1',
-  getArchiveChangeSkillTemplate: '3cb2543771963abb8ded6cc9fa37e59db0e297cdef701cb66bf5251bebbb3731',
+  getContinueChangeSkillTemplate: 'c6896ee38dac55a53ea2834e0a351380284cbe4107e27e88e874f3b13224cf1f',
+  getApplyChangeSkillTemplate: '2f9d19a191abc0dfa0e4a836c532d422306658825d3531acf6a31abf59a21cd7',
+  getFfChangeSkillTemplate: 'f0981a1bbd6d41803f1dbb1ae317f0ca5ced086b7a0c1534a31dd7845d1c6c0b',
+  getSyncSpecsSkillTemplate: '0c5d2a381238716fff9501a2887b85cf3c5eae4171489ff3096d4c37e65010ff',
+  getOnboardSkillTemplate: '339800aa4727754228cb89de6bd6a532e9215c3a9d7b5ef2255c81c7d11205e0',
+  getOpsxExploreCommandTemplate: 'a704bfca0bc6d3b5d82d420464d279ad5f87a3061544dafd0098e8e91e32c9d2',
+  getOpsxNewCommandTemplate: 'f7fed3b2cba703437202a7064cfa92e1c95d16bc2e34f7b33c7f0fca67440339',
+  getOpsxContinueCommandTemplate: '30963fc0a5a12ade43b8ed553ca12bc5eff96dd23ab83aebbe7d8d58c2a08259',
+  getOpsxApplyCommandTemplate: '98dcec4e16d3ada1c8eb1eab93f1cc898fc587cb51a42084e20b7e317b56728d',
+  getOpsxFfCommandTemplate: 'caa153ead72ec90616ae3db80151cf8902d1d291dafefc296144ea949fa9233b',
+  getArchiveChangeSkillTemplate: '6b1dec5c13cad5bb9fb80fe06e4b8b4c9b959e1ceb03e3b0a39827d5d9acbe50',
   getBulkArchiveChangeSkillTemplate: '272e29a3a1b3263899b3d7ed74b113c0f3337e400f98334b6489533d1f31d609',
-  getOpsxSyncCommandTemplate: '481309a910c9727b1473ed4b67a45bb7b8bba757665b5bff195421c4dda20c31',
-  getVerifyChangeSkillTemplate: '1e4e369813391442d107526fc6863d0b7a8e7bfa6ac87c65df2e0842f3e27372',
-  getOpsxArchiveCommandTemplate: 'fe2d69b9004d3f347f081e64e57b4f908067817657799887c33f9f918a80f74d',
-  getOpsxOnboardCommandTemplate: 'db61f9842db8c7a0bf75e24206fa396e1ef6791eebfe0b0c4adb46e94e20398d',
-  getOpsxBulkArchiveCommandTemplate: '35ca5dde70ee9516456e96de5e7b54138edad01771131e2ec43865402015eb45',
-  getOpsxVerifyCommandTemplate: '7351f94eff6c60d0aa4b92563d1a00a71a913a8b08e7f3f38856e51e9776a6b1',
-  getOpsxProposeSkillTemplate: 'dd4207a23d6fb88aa9cb2311c4da40a11a29df507e7fdc2ab66ef96155c96e40',
-  getOpsxProposeCommandTemplate: '24b12deac75e528d118adc8fd089d1fe210c301e35e1a03627003bcf493e6f9d',
+  getOpsxSyncCommandTemplate: '4d3393b5d0209462dae1dd9e2852f35fa5304a8dc9865fae814de45b91a43515',
+  getVerifyChangeSkillTemplate: '37d322e10e642832e6ac6934811f72ebd2e8b127d5166c35f5cb306678ae046c',
+  getOpsxArchiveCommandTemplate: '041b1c3788088851276ba7608edcaf71dbc6a893ebc985fa9573013776322fb1',
+  getOpsxOnboardCommandTemplate: 'bbd33c79ea3ecf8fec6bfeecea40dbed409cf1702b276ebde2c27950c16c1b98',
+  getOpsxBulkArchiveCommandTemplate: 'a1893c8b53e2508027f71d3a84f9136933c04214943e00cffeeb1a472dc33ce3',
+  getOpsxVerifyCommandTemplate: 'a0fa66ba40a86ea7f053097f3670ddad74b016a45da4b497c72824989a2cf62c',
+  getOpsxProposeSkillTemplate: '9a501d3a8a09e24c8805042c4763a25d69370b9e80015e5a9386db5292b62c55',
+  getOpsxProposeCommandTemplate: 'e0cb7359d37012ccedc218158513cb5a2565f3028d6928c653999d4418bed977',
   getFeedbackSkillTemplate: '85a7e2dbd4e46964863f9639ad1317ba1eccf76c8ac3c6eb9b9c5ed792db4f3e',
-  getUpdateChangeSkillTemplate: '44d1fa14495e8aec432de25328d1fd522c13de25d29fce33fec2e77f477914e0',
-  getOpsxUpdateCommandTemplate: '27a354e8e0b082d8fcb0180b9fc92974904a90201283eb35ebb736151d63f021',
+  getUpdateChangeSkillTemplate: 'd1874fd4ddb4ea760f4a768e1e3d0f1c1b4359cfbbb4ae244e2b4a63bbc06429',
+  getOpsxUpdateCommandTemplate: 'd4f9ba055963f7410c41754a4d252bbe313da059e4fc9741dc1ef08d24778029',
   getLadderAuditSkillTemplate: 'd46978a12990ea772f1eed188ec1d97b8e9fdb252dc8eb89daa42407723b8279',
-  getOpsxLadderAuditCommandTemplate: 'dad6b50100de79c852c1b8bf2735a9830a2f5f43bb82aaf39590f170e7b3413e',
+  getOpsxLadderAuditCommandTemplate: '23fac7c57aad3dec3bc400879b857042d8c2a5a134a5bb67661a1dc49a022ac5',
   getGuardrailsSkillTemplate: '555075c6a1492fd2ba6cf04b24cc87f6437ae87b27698f115ba7206c00a89c72',
-  getOpsxGuardrailsCommandTemplate: 'dd27155831654b4d713a4f1fe51f948f1e61d99fe1a916388074eacd4a5511d7',
+  getOpsxGuardrailsCommandTemplate: '014f976ae51dece4b62b30bff9fab1b18c19aac6f9f76e8a58844bf45457a246',
   getDebtLedgerSkillTemplate: '02845a7a0719bf14e5279dec8e2f034476ea98e9732869d98310ab57ccefd64c',
-  getOpsxDebtLedgerCommandTemplate: 'ce7aceb24efda1fe2a4ab6ec98cafa1cca4725ea24d0f903b47aa58071b98e66',
+  getOpsxDebtLedgerCommandTemplate: '4a3ee4e8c7f220409ff47f6717f840296058cb22509815a713bf4314163c05e4',
   getTokenBudgetSkillTemplate: 'e7cf84306467cfc27804130f120ba6ddb40b5708ff3a99a4363536be2d29b0fb',
-  getOpsxTokenBudgetCommandTemplate: '65723ec7232f852aace1e7abaf7279beeb0a2c32189cafcd4152ef5b5013d6f0',
+  getOpsxTokenBudgetCommandTemplate: 'dc14744dc84054fffa5613842c20aa82717d1c85f32a9c8e17dac23f0e6eeb27',
   getBenchmarkSkillTemplate: '0a48a2a0a210b7ce745b7b4e35683fb2ea27b66b1f4aaf57415e088778eb3e42',
-  getOpsxBenchmarkCommandTemplate: '69037e4ae29f40d820879e0d864bc7456f5321d28091b801743303a18b939d0c',
+  getOpsxBenchmarkCommandTemplate: 'bcfc73cb1b35d5932441b4d6f6031acf1701f73d7df1984c0b64476954d321e0',
   getDependencyCheckSkillTemplate: '3feabd43295eeb88101c8114689b951b1fd669c1ebcf6ae2885dab4ac014ff61',
-  getOpsxDependencyCheckCommandTemplate: 'c3c4c455338e8e656c5dc508ff154d9edf07135a7f0b9582964b7c76591dd06f',
+  getOpsxDependencyCheckCommandTemplate: 'dee042b1c78312bd6929a6d2ded187bd76fce7fb50199c948fe8579ecfbf943c',
   getParallelExecuteSkillTemplate: 'd54afc0b643467b3eca19f0e78adeee34ff0ce4f280608d414fc54f89a2d95b7',
-  getOpsxParallelExecuteCommandTemplate: '2c6d484e159eb908b9af932e6c99872fa565ccf5690821c0a3d3db58ba54a59e',
+  getOpsxParallelExecuteCommandTemplate: '306e56fab45cf441b0f14a9b3937ad99a4eb1fddaa3f2c290074281de86e3676',
   getLearnSkillTemplate: '9d0cbcb6c243e2ee6d307c0266745487b25367ecca9e278dc8dfd7f7b6bd5d0f',
-  getOpsxLearnCommandTemplate: '1ef39aceb7bdab4b4ce2bb0d42435f52cac1facbda9b576313105f09a8d55739',
+  getOpsxLearnCommandTemplate: '7d54fffc038fb79cc7f6c4524897acbc64533ab67ea9dd3f85e734bc8ff75303',
   getInitUnifiedSkillTemplate: '66732407f85a2c22afc50c2832a71e174fe074e9e47101a384d7176d23bf3582',
-  getOpsxInitUnifiedCommandTemplate: 'c57c2ecdcbbe46cb434f5a1e41220cc46bc51cdc095c2830603824370478677a',
+  getOpsxInitUnifiedCommandTemplate: 'c12bf908f254751aa579f09ab76e7189bae6e87b9508f63359ecf1919fafebb1',
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
-  'openspec-explore': '63eaa466f7aa3ee215edb3bff11cc188bcd7c92c334a324e96473340de8dfb87',
+  'openspec-explore': '0950b191a7e5a8fa104a4fa2db4f8ec98d60497a6270aedec5e7435163e5379e',
   'openspec-new-change': '503ea0aad3920609db9f01e157d53881e0d3b71ca23e003eabf6d777b60a1309',
-  'openspec-continue-change': '6988b8019716674c18a2f48f0aef6a6ed089ea7bc9a8c3e3b3e3a0f3ca906654',
-  'openspec-apply-change': '61ce31bb6370d78549b37f7b8a30412ddb46d56acb29168ee1ba81704eb48de8',
-  'openspec-ff-change': '208b009bb0240eef3022f15a32658c651e3a8311ed04f68cba5fc89352482733',
-  'openspec-sync-specs': 'f611602a6b10d72573875058ffa4958f60a2772907e18a68a8fd14791af63b75',
-  'openspec-archive-change': '2aa9043469f2e587af997e4f1a3491ec11f1992d1a8a7527b8d5b894a1ede3e0',
+  'openspec-continue-change': '1779ae73ebc431c2bea84b2329712b6178b126a07976926bbfac2a352c8e8819',
+  'openspec-apply-change': '55f485fd107763a7ca3d88a9716fa267c54ce5d97b53694d5bb6cc82905d7acf',
+  'openspec-ff-change': '652b32e43b47cec514c75c9ae4956364deeb2f8befe3f28bcd8c32b37a28ff77',
+  'openspec-sync-specs': 'adf4b389d137d139f57c076bf38875ac0839d4717432f63ed9d95925e1372d8e',
+  'openspec-archive-change': 'ec9da760c9f31e3de76d0f53de191cbdf11ca3f5adf1b87c477956503dad5e10',
   'openspec-bulk-archive-change': '5298badbc508c31c2faa8a6d12a11f09e4eff0e22dee1e0cba5fce7a40cd15e3',
-  'openspec-verify-change': '8fdbc8c1b0b46ccc4d0b2817d6a09d64c0534f4f14b91162b3a70f38c7d632d3',
-  'openspec-onboard': '76963656e4737f884dc3e8af180f91e85d56cf9b9d1d7befa3a242eec9566bc2',
-  'openspec-propose': 'b098bebc88b1085cc0cf242ec2515e06a1000f2642e864ad5dfa31dad336f8f6',
-  'openspec-update-change': '17049f7f366f5e5c4d1aaaf82ee1ad9300fbee46cac2a28e401c3923830bc5d4',
+  'openspec-verify-change': '6a9b96b919fa75d2fd77950d70c93003b5e62e5b1915702e93d6ccbb3c857513',
+  'openspec-onboard': 'cc6ed64ec59577c03d8b25bba3203feb7bd99392ea406cd02a6e8d0a51741490',
+  'openspec-propose': 'cda91c20c0f32307a7424ea5f63f4ac232794dddbd9a278f316db38a22a7c230',
+  'openspec-update-change': '2399b087f68ddfcfcb9c256558290ce2cb115cdbcf033f8320fc32d31004630b',
   'openspec-ladder-audit': '83d44dc2b92e9c9b3ad7ffa25f59d552aaa009f6c78d309fbec2b6799af057bf',
   'openspec-guardrails': '92e695f6580ed033a2c093bd953d4ccb9409ffa8eb1a6ba947c3593a8f981fed',
   'openspec-debt-ledger': 'a63e4833c5e07f5ffbf2341d8748cb7e6c15d20d23ec836be270f98fda10e1c3',
@@ -266,7 +266,7 @@ describe('skill templates split parity', () => {
     }
   });
 
-  it('teaches store selection in every deployed opsx command template', () => {
+  it('teaches store selection in every deployed otrix command template', () => {
     for (const entry of getCommandContents()) {
       expect(entry.body, entry.id).toContain(STORE_SELECTION_GUIDANCE);
     }
@@ -296,13 +296,13 @@ describe('skill templates split parity', () => {
     const generatedSkill = generateSkillContent(getArchiveChangeSkillTemplate(), 'PARITY-BASELINE');
     const commandContent = getOpsxArchiveCommandTemplate().content;
 
-    // The single archive skill references openspec-sync-specs; opsx command references /opsx:sync.
+    // The single archive skill references openspec-sync-specs; otrix command references /otrix:sync.
     expect(generatedSkill, 'skill').toContain('run the `openspec-sync-specs` workflow inline');
-    expect(commandContent, 'opsx command').toContain('run the `/opsx:sync` workflow inline');
+    expect(commandContent, 'otrix command').toContain('run the `/otrix:sync` workflow inline');
 
     const variants: Array<[string, string]> = [
       ['skill', generatedSkill],
-      ['opsx command', commandContent],
+      ['otrix command', commandContent],
     ];
 
     for (const [variant, content] of variants) {
@@ -326,13 +326,13 @@ describe('skill templates split parity', () => {
     const generatedSkill = generateSkillContent(getBulkArchiveChangeSkillTemplate(), 'PARITY-BASELINE');
     const commandContent = getOpsxBulkArchiveCommandTemplate().content;
 
-    // The bulk archive skill references openspec-sync-specs; opsx command references /opsx:sync.
+    // The bulk archive skill references openspec-sync-specs; otrix command references /otrix:sync.
     expect(generatedSkill, 'bulk skill').toContain('run the `openspec-sync-specs` workflow inline');
-    expect(commandContent, 'bulk opsx command').toContain('run the `/opsx:sync` workflow inline');
+    expect(commandContent, 'bulk otrix command').toContain('run the `/otrix:sync` workflow inline');
 
     const variants: Array<[string, string]> = [
       ['bulk skill', generatedSkill],
-      ['bulk opsx command', commandContent],
+      ['bulk otrix command', commandContent],
     ];
 
     for (const [variant, content] of variants) {
@@ -356,7 +356,7 @@ describe('skill templates split parity', () => {
         'bulk skill',
         generateSkillContent(getBulkArchiveChangeSkillTemplate(), 'PARITY-BASELINE'),
       ],
-      ['bulk opsx command', getOpsxBulkArchiveCommandTemplate().content],
+      ['bulk otrix command', getOpsxBulkArchiveCommandTemplate().content],
     ];
 
     for (const [variant, content] of variants) {
@@ -631,9 +631,9 @@ describe('skill templates split parity', () => {
       ['openspec-archive-change', getArchiveChangeSkillTemplate().instructions],
       ['openspec-bulk-archive-change', getBulkArchiveChangeSkillTemplate().instructions],
       ['openspec-onboard', getOnboardSkillTemplate().instructions],
-      ['opsx-archive', getOpsxArchiveCommandTemplate().content],
-      ['opsx-bulk-archive', getOpsxBulkArchiveCommandTemplate().content],
-      ['opsx-onboard', getOpsxOnboardCommandTemplate().content],
+      ['otrix-archive', getOpsxArchiveCommandTemplate().content],
+      ['otrix-bulk-archive', getOpsxBulkArchiveCommandTemplate().content],
+      ['otrix-onboard', getOpsxOnboardCommandTemplate().content],
     ];
 
     for (const [id, text] of archiveInstructions) {
@@ -722,9 +722,9 @@ describe('skill templates split parity', () => {
   it('honors Cancel at every archive confirmation (#1381)', () => {
     const variants: Array<[string, string]> = [
       ['bulk skill', generateSkillContent(getBulkArchiveChangeSkillTemplate(), 'PARITY-BASELINE')],
-      ['bulk opsx command', getOpsxBulkArchiveCommandTemplate().content],
+      ['bulk otrix command', getOpsxBulkArchiveCommandTemplate().content],
       ['single skill', generateSkillContent(getArchiveChangeSkillTemplate(), 'PARITY-BASELINE')],
-      ['single opsx command', getOpsxArchiveCommandTemplate().content],
+      ['single otrix command', getOpsxArchiveCommandTemplate().content],
     ];
 
     for (const [variant, content] of variants) {
@@ -743,7 +743,7 @@ describe('skill templates split parity', () => {
   it('routes the bulk archive confirmation by intent, not by literal label (#1381)', () => {
     const variants: Array<[string, string]> = [
       ['bulk skill', generateSkillContent(getBulkArchiveChangeSkillTemplate(), 'PARITY-BASELINE')],
-      ['bulk opsx command', getOpsxBulkArchiveCommandTemplate().content],
+      ['bulk otrix command', getOpsxBulkArchiveCommandTemplate().content],
     ];
 
     for (const [variant, content] of variants) {

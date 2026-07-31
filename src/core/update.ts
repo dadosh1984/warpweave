@@ -136,7 +136,7 @@ export class UpdateCommand {
     }
     const declinedMigrations = await this.offerConsentedLegacyMigrations(resolvedProjectPath);
 
-    // Use detected tool directories to preserve existing opsx skills/commands.
+    // Use detected tool directories to preserve existing otrix skills/commands.
     const detectedTools = getAvailableTools(resolvedProjectPath);
     migrateIfNeededShared(resolvedProjectPath, detectedTools);
 
@@ -384,7 +384,7 @@ export class UpdateCommand {
           newlyConfiguredTools.map((toolId) => {
             if (shouldGenerateCommandsForTool(toolId, delivery)) {
               // Name the command the tool's files actually answer to:
-              // /opsx-<id> where the filename is the command name.
+              // /otrix-<id> where the filename is the command name.
               const transformer = getTransformerForTool(
                 toolId,
                 delivery,

@@ -2,7 +2,7 @@
 
 ### Requirement: Load current archive operation inputs
 
-The `/opsx:archive` skill SHALL request current archive operation inputs after resolving the target change and selected planning root, while preserving its existing archive workflow.
+The `/otrix:archive` skill SHALL request current archive operation inputs after resolving the target change and selected planning root, while preserving its existing archive workflow.
 
 #### Scenario: Archive context and guidance are configured
 
@@ -43,7 +43,7 @@ The `/opsx:archive` skill SHALL request current archive operation inputs after r
 
 ### Requirement: Preserve archive execution behavior
 
-The `/opsx:archive` skill SHALL keep its existing completion checks, task checks, spec-sync decision, confirmation behavior, archive move, and completion summary in this change.
+The `/otrix:archive` skill SHALL keep its existing completion checks, task checks, spec-sync decision, confirmation behavior, archive move, and completion summary in this change.
 
 #### Scenario: Runtime inputs are loaded
 
@@ -52,7 +52,7 @@ The `/opsx:archive` skill SHALL keep its existing completion checks, task checks
 
 ### Requirement: Carry artifact rules into archive-driven spec sync
 
-The `/opsx:archive` skill SHALL fetch current `specs` artifact instructions before archive-driven spec sync writes main specs and SHALL use the returned artifact rules only to constrain those specs.
+The `/otrix:archive` skill SHALL fetch current `specs` artifact instructions before archive-driven spec sync writes main specs and SHALL use the returned artifact rules only to constrain those specs.
 
 #### Scenario: Archive discovers delta specs from the specs artifact
 

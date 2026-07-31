@@ -50,10 +50,10 @@ order, and stop where a step tells you to stop.
    from `spectrix init --help` (Copilot is `github-copilot`, Zoo Code is
    `roocode`). `--tools` takes a comma-separated list, so name all of them.
    `spectrix init --tools <ids>` deletes leftovers from older Spectrix versions
-   automatically, without asking — including `opsx-*.md` prompt files in my home
+   automatically, without asking — including `otrix-*.md` prompt files in my home
    directory (Codex keeps them in ~/.codex/prompts). Before you run it, look for
    those: `.../commands/openspec/` folders, Spectrix marker blocks in files like
-   CLAUDE.md or AGENTS.md, and home-directory `opsx-*.md` prompts. List whatever
+   CLAUDE.md or AGENTS.md, and home-directory `otrix-*.md` prompts. List whatever
    you find and wait for my go-ahead; if you find nothing, say so and carry on
    without asking. An existing `openspec/` folder is not a problem — init
    refreshes it and leaves my specs and changes alone.
@@ -68,8 +68,8 @@ order, and stop where a step tells you to stop.
    not a failure on its own. If init said nothing was generated, relay the fix
    it suggested instead of retrying. Finish by telling me how to invoke OpenSpec
    in my tool, and take the exact spelling from the files init created rather
-   than from its summary line: the punctuation differs per tool (/opsx:propose
-   in some, /opsx-propose in others, @opsx-propose in Amazon Q), and tools that
+   than from its summary line: the punctuation differs per tool (/otrix:propose
+   in some, /otrix-propose in others, @otrix-propose in Amazon Q), and tools that
    get skills instead of commands are invoked by skill name (/openspec-propose,
    or $openspec-propose in Codex, or /skill:openspec-propose in Kimi Code).
 ```
@@ -190,7 +190,7 @@ rm -rf openspec/
 
 Think before you do this: `openspec/specs/` and `openspec/changes/archive/` are your record of how the system behaves and why it changed. If you might want that history, keep the folder (or keep it in git) even after uninstalling.
 
-**3. Remove generated AI tool files (optional).** Spectrix writes skill and command files into per-tool directories like `.claude/skills/openspec-*/`, `.cursor/commands/opsx-*`, and so on. Delete the `openspec-*` skills and `opsx-*` commands for whichever tools you configured. The exact paths per tool are listed in [Supported Tools](supported-tools.md).
+**3. Remove generated AI tool files (optional).** Spectrix writes skill and command files into per-tool directories like `.claude/skills/openspec-*/`, `.cursor/commands/otrix-*`, and so on. Delete the `openspec-*` skills and `otrix-*` commands for whichever tools you configured. The exact paths per tool are listed in [Supported Tools](supported-tools.md).
 
 If you also have Spectrix marker blocks in files like `CLAUDE.md` or `AGENTS.md`, remove those blocks by hand; your own content in those files is yours to keep.
 

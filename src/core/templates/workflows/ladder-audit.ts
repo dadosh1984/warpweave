@@ -88,7 +88,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxLadderAuditCommandTemplate(): CommandTemplate {
   return {
-    name: 'OPSX: Ladder Audit',
+    name: 'OTRIX: Ladder Audit',
     description: 'Audit the current diff against the Ponytail ladder',
     category: 'Quality',
     tags: ['quality', 'ponytail', 'ladder', 'audit'],
@@ -96,7 +96,7 @@ export function getOpsxLadderAuditCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a change name after \`/opsx:ladder-audit\` (e.g., \`/opsx:ladder-audit add-auth\`). If omitted, audit the current uncommitted diff.
+**Input**: Optionally specify a change name after \`/otrix:ladder-audit\` (e.g., \`/otrix:ladder-audit add-auth\`). If omitted, audit the current uncommitted diff.
 
 **Steps**
 

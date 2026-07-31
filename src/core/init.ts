@@ -1,7 +1,7 @@
 /**
  * Init Command
  *
- * Sets up Spectrix with Agent Skills and /opsx:* slash commands.
+ * Sets up Spectrix with Agent Skills and /otrix:* slash commands.
  * This is the unified setup command that replaces both the old init and experimental commands.
  */
 
@@ -955,14 +955,14 @@ export class InitCommand {
 
     // Getting started (task 7.6: show propose if in profile)
     const activeWorkflows = this.getActiveWorkflows();
-    // When no tool got /opsx:* commands, point at the skill instead of a
+    // When no tool got /otrix:* commands, point at the skill instead of a
     // command that does not exist.
     const activeDelivery: Delivery = getGlobalConfig().delivery ?? 'both';
     const commandsGenerated = successfulTools.some((tool) => shouldGenerateCommandsForTool(tool.value, activeDelivery));
     const skillsGenerated = successfulTools.some((tool) => shouldGenerateSkillsForTool(tool.value, activeDelivery));
     // Each hint line must be a usable instruction for the tool it serves.
     // Tools that generated commands are told the command name their files
-    // answer to (/opsx:* when namespaced under opsx/, /opsx-* when the
+    // answer to (/otrix:* when namespaced under otrix/, /otrix-* when the
     // filename is the command); tools that only got skills are told their
     // documented skill invocation (Kimi Code: /skill:openspec-*; Codex CLI:
     // $openspec-*; others: /openspec-*). Tools that got no artifacts are
@@ -1027,9 +1027,9 @@ export class InitCommand {
       // Nothing was generated for any tool: the correction above is the
       // whole story, so don't advertise an invocation that doesn't exist.
     } else if (activeWorkflows.includes('propose')) {
-      printStartHints('/opsx:propose');
+      printStartHints('/otrix:propose');
     } else if (activeWorkflows.includes('new')) {
-      printStartHints('/opsx:new');
+      printStartHints('/otrix:new');
     } else {
       console.log("Done. Run 'spectrix config profile' to configure your workflows.");
     }

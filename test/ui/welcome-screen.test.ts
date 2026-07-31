@@ -91,10 +91,10 @@ describe('welcome screen', () => {
 
     const output = writtenOutput();
 
-    expect(output).toContain('/opsx:propose');
-    expect(output).toContain('/opsx:apply');
-    expect(output).not.toContain('/opsx:new');
-    expect(output).not.toContain('/opsx:continue');
+    expect(output).toContain('/otrix:propose');
+    expect(output).toContain('/otrix:apply');
+    expect(output).not.toContain('/otrix:new');
+    expect(output).not.toContain('/otrix:continue');
   });
 
   it('advertises expanded commands when a custom profile installs them', async () => {
@@ -105,9 +105,9 @@ describe('welcome screen', () => {
 
     const output = writtenOutput();
 
-    expect(output).toContain('/opsx:new');
-    expect(output).toContain('/opsx:continue');
-    expect(output).not.toContain('/opsx:propose');
+    expect(output).toContain('/otrix:new');
+    expect(output).toContain('/otrix:continue');
+    expect(output).not.toContain('/otrix:propose');
   });
 
   it('omits the quick start block when no onboarding workflow is installed', async () => {
@@ -122,20 +122,20 @@ describe('welcome screen', () => {
     expect(output).not.toContain('Quick start after setup:');
   });
 
-  it('does not promise opsx commands in the setup summary', async () => {
+  it('does not promise otrix commands in the setup summary', async () => {
     const { showWelcomeScreen } = await import('../../src/ui/welcome-screen.js');
     renderStatically();
 
     // This screen runs before tool selection, and skills-only tools (Codex,
     // Kimi Code, ...) correctly receive no command files, so the summary must
-    // not state that opsx slash commands are part of every setup.
+    // not state that otrix slash commands are part of every setup.
     await showWelcomeScreen(['archive']);
 
     const output = writtenOutput();
 
     expect(output).toContain('Agent Skills for AI tools');
     expect(output).toContain('Workflow commands, if supported');
-    expect(output).not.toContain('opsx slash commands');
+    expect(output).not.toContain('otrix slash commands');
   });
 
   it('flags that the quick-start spelling varies by tool', async () => {
@@ -143,13 +143,13 @@ describe('welcome screen', () => {
     renderStatically();
 
     // The quick start shows canonical names, but this screen renders one
-    // prompt before tools are picked — an Amazon Q user types @opsx-propose
+    // prompt before tools are picked — an Amazon Q user types @otrix-propose
     // and a Codex user $openspec-propose, neither of which is shown here.
     await showWelcomeScreen(['propose']);
 
     const output = writtenOutput();
 
-    expect(output).toContain('/opsx:propose');
+    expect(output).toContain('/otrix:propose');
     expect(output).toContain('spelling varies by tool');
   });
 

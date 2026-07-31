@@ -78,18 +78,18 @@ Add to `opencode.json`:
 > [!TIP]
 > **New workflow now available!** We've rebuilt Spectrix with a new artifact-guided workflow.
 >
-> Run `/opsx:propose "your idea"` to get started. → [Learn more here](docs/opsx.md)
+> Run `/otrix:propose "your idea"` to get started. → [Learn more here](docs/otrix.md)
 
 <p align="center">
   Follow <a href="https://x.com/0xTab">@0xTab on X</a> for updates · Join the <a href="https://discord.gg/YctCnvvshC">Spectrix Discord</a> for help and questions.
 </p>
 
-<!-- TODO: Add GIF demo of /opsx:propose → /opsx:archive workflow -->
+<!-- TODO: Add GIF demo of /otrix:propose → /otrix:archive workflow -->
 
 ## See it in action
 
 ```text
-You: /opsx:explore
+You: /otrix:explore
 AI:  What would you like to explore?
 You: I want dark mode but I'm not sure how to do it cleanly.
 AI:  Let me look at your styling setup...
@@ -97,7 +97,7 @@ AI:  Let me look at your styling setup...
      with system-preference detection. No new dependencies. Scope it?
 You: Yes, let's do it.
 
-You: /opsx:propose add-dark-mode
+You: /otrix:propose add-dark-mode
 AI:  Created openspec/changes/add-dark-mode/
      ✓ proposal.md — why we're doing this, what's changing
      ✓ specs/       — requirements and scenarios
@@ -105,7 +105,7 @@ AI:  Created openspec/changes/add-dark-mode/
      ✓ tasks.md     — implementation checklist
      Ready for implementation!
 
-You: /opsx:apply
+You: /otrix:apply
 AI:  Implementing tasks...
      ✓ 1.1 Add theme context provider
      ✓ 1.2 Create toggle component
@@ -113,7 +113,7 @@ AI:  Implementing tasks...
      ✓ 2.2 Wire up localStorage
      All tasks complete!
 
-You: /opsx:archive
+You: /otrix:archive
 AI:  Archived to openspec/changes/archive/2025-01-23-add-dark-mode/
      Specs updated. Ready for the next feature.
 ```
@@ -183,12 +183,12 @@ spectrix init
 
 Now talk to your AI:
 
-- **Not sure what to build yet?** Start with `/opsx:explore`, a no-stakes thinking partner that reads your code, weighs options, and shapes a plan before anything is written. ([Explore guide](docs/explore.md))
-- **Already know what you want?** Go straight to `/opsx:propose <what-you-want-to-build>`.
+- **Not sure what to build yet?** Start with `/otrix:explore`, a no-stakes thinking partner that reads your code, weighs options, and shapes a plan before anything is written. ([Explore guide](docs/explore.md))
+- **Already know what you want?** Go straight to `/otrix:propose <what-you-want-to-build>`.
 
-Both are in the default profile. If you want the expanded workflow (`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:bulk-archive`, `/opsx:onboard`), select it with `spectrix config profile` and apply with `spectrix update`.
+Both are in the default profile. If you want the expanded workflow (`/otrix:new`, `/otrix:continue`, `/otrix:ff`, `/otrix:verify`, `/otrix:bulk-archive`, `/otrix:onboard`), select it with `spectrix config profile` and apply with `spectrix update`.
 
-`/opsx:propose` is the canonical name; your tool may spell it `/opsx-propose` (Cursor, GitHub Copilot), `@opsx-propose` (Amazon Q) or `$openspec-propose` (Codex). `spectrix init` prints the right form for the tools you picked — see [How To Invoke](docs/supported-tools.md#how-to-invoke).
+`/otrix:propose` is the canonical name; your tool may spell it `/otrix-propose` (Cursor, GitHub Copilot), `@otrix-propose` (Amazon Q) or `$openspec-propose` (Codex). `spectrix init` prints the right form for the tools you picked — see [How To Invoke](docs/supported-tools.md#how-to-invoke).
 
 > [!NOTE]
 > Not sure if your tool is supported? [View the full list](docs/supported-tools.md) – we support 30+ tools and growing.
@@ -197,11 +197,11 @@ Both are in the default profile. If you want the expanded workflow (`/opsx:new`,
 
 ## Docs
 
-**Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to Spectrix? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/opsx:propose`).
+**Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to Spectrix? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/otrix:propose`).
 
 → **[Spectrix Unified](docs/UNIFIED.md)**: the four systems, pipeline, profiles — how this fork integrates Superpowers, Ponytail, and RTK<br>
 → **[Getting Started](docs/getting-started.md)**: first steps<br>
-→ **[Explore First](docs/explore.md)**: think it through with `/opsx:explore` before you commit<br>
+→ **[Explore First](docs/explore.md)**: think it through with `/otrix:explore` before you commit<br>
 → **[How Commands Work](docs/how-commands-work.md)**: where slash commands run vs the CLI<br>
 → **[Core Concepts at a Glance](docs/overview.md)**: the whole mental model, one page<br>
 → **[Examples & Recipes](docs/examples.md)**: real changes, start to finish<br>

@@ -32,27 +32,27 @@ Terms are grouped by topic, then alphabetized within each group.
 
 **Design (`design.md`).** The *how*: technical approach, architecture decisions, and the files you expect to touch. Optional for simple changes.
 
-**Tasks (`tasks.md`).** The implementation checklist, with checkboxes. The AI works through it during `/opsx:apply` and checks items off as it goes.
+**Tasks (`tasks.md`).** The implementation checklist, with checkboxes. The AI works through it during `/otrix:apply` and checks items off as it goes.
 
 ## The lifecycle
 
 **Archive.** The act of finishing a change. Its delta specs merge into the main specs, and the change folder moves to `openspec/changes/archive/YYYY-MM-DD-<name>/`. After archiving, your specs describe the new reality. See [Concepts](concepts.md#archive).
 
-**Sync.** Merging a change's delta specs into the main specs *without* archiving the change. Usually automatic (archive offers to do it), but available on its own as `/opsx:sync` for long-running changes. See [Commands](commands.md#opsxsync).
+**Sync.** Merging a change's delta specs into the main specs *without* archiving the change. Usually automatic (archive offers to do it), but available on its own as `/otrix:sync` for long-running changes. See [Commands](commands.md#otrixsync).
 
 ## Workflow and commands
 
-**OPSX.** The current standard Spectrix workflow, built around fluid actions instead of rigid phases. Its slash commands all start with `/opsx:`. See [OPSX Workflow](opsx.md).
+**OTRIX.** The current standard Spectrix workflow, built around fluid actions instead of rigid phases. Its slash commands all start with `/otrix:`. See [OTRIX Workflow](otrix.md).
 
-**Slash command.** A command you type into your AI assistant's chat, like `/opsx:propose`. Slash commands drive the workflow. They are not terminal commands. See [How Commands Work](how-commands-work.md).
+**Slash command.** A command you type into your AI assistant's chat, like `/otrix:propose`. Slash commands drive the workflow. They are not terminal commands. See [How Commands Work](how-commands-work.md).
 
-**Explore (`/opsx:explore`).** The thinking-partner command. It reads your codebase, compares options, and clarifies a fuzzy idea into a concrete plan, creating no artifacts and writing no code. The recommended starting point whenever you have a problem but not yet a plan. See [Explore First](explore.md).
+**Explore (`/otrix:explore`).** The thinking-partner command. It reads your codebase, compares options, and clarifies a fuzzy idea into a concrete plan, creating no artifacts and writing no code. The recommended starting point whenever you have a problem but not yet a plan. See [Explore First](explore.md).
 
 **CLI.** The `spectrix` program you run in your terminal. It sets up projects, lists and validates changes, opens the dashboard, and archives. The terminal half of Spectrix. See [CLI](cli.md).
 
 **Skill.** A folder of instructions (`.../skills/openspec-*/SKILL.md`) that your AI assistant auto-detects and follows. Skills are the emerging cross-tool standard for delivering the Spectrix workflow to your assistant.
 
-**Command file.** A per-tool slash command file (`.../commands/opsx-*`). The older delivery mechanism, still supported alongside skills. You rarely touch these directly.
+**Command file.** A per-tool slash command file (`.../commands/otrix-*`). The older delivery mechanism, still supported alongside skills. You rarely touch these directly.
 
 **Profile.** The set of slash commands installed in your project. **Core** (the default) is `propose`, `explore`, `apply`, `update`, `sync`, `archive`. The **expanded** set adds `new`, `continue`, `ff`, `verify`, `bulk-archive`, `onboard`. Change it with `spectrix config profile`.
 

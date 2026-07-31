@@ -88,7 +88,7 @@ function classifyManagedFile(source: string, destination: string): FileDispositi
 
 /**
  * Rewrites a generated command path from the tool's current root to a legacy
- * one, so `.devin/workflows/opsx-apply.md` locates its `.windsurf/` twin
+ * one, so `.devin/workflows/otrix-apply.md` locates its `.windsurf/` twin
  * without the migration hard-coding either layout.
  *
  * Returns undefined for adapters whose paths are absolute (global-scoped
@@ -117,7 +117,7 @@ export function findLegacyToolMigrations(projectPath: string): LegacyToolMigrati
 
 /**
  * Moves Spectrix-managed skill directories (openspec-*) and command files
- * (opsx-*) from a tool's legacy root to its current one. When the destination
+ * (otrix-*) from a tool's legacy root to its current one. When the destination
  * already exists the legacy copy is removed instead. Legacy directories are
  * deleted only when left empty, so user files under the old location — a
  * hand-written Cascade workflow next to the generated ones — are preserved.
@@ -478,8 +478,8 @@ export function migrateIfNeeded(projectPath: string, tools: AIToolOption[]): voi
   console.log(`Migrated: custom profile with ${installedWorkflows.length} workflows`);
   // Each detected tool resolves to a propose reference for its surface: the
   // command name its generated files answer to when commands will exist for it
-  // under the effective delivery (/opsx:propose when namespaced under opsx/,
-  // /opsx-propose when the filename is the command), its documented skill
+  // under the effective delivery (/otrix:propose when namespaced under otrix/,
+  // /otrix-propose when the filename is the command), its documented skill
   // invocation otherwise. When the tools disagree — including command tools
   // mixed with skill-only tools — stay syntax-neutral rather than advertise a
   // form that is wrong for one of them.
@@ -493,9 +493,9 @@ export function migrateIfNeeded(projectPath: string, tools: AIToolOption[]): voi
           resolveCommandSurfaceCapability(tool.value),
           resolveCommandInvocation(tool.value)
         );
-        return transformer ? transformer('/opsx:propose') : '/opsx:propose';
+        return transformer ? transformer('/otrix:propose') : '/otrix:propose';
       }
-      return getSkillReferenceTransformer(tool.value)('/opsx:propose');
+      return getSkillReferenceTransformer(tool.value)('/otrix:propose');
     })
   );
   const proposeReference =

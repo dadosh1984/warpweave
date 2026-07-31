@@ -34,7 +34,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Mark the most recently modified change as "(Recommended)" since it's likely what the user wants to update.
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:update <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:update <other>\`).
 
 2. **Get the change's artifacts**
    \`\`\`bash
@@ -58,7 +58,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Read the artifact(s) the request touches and the change's other existing artifacts.
    - Apply the requested edit. Then check every other existing artifact against it - in ANY direction: an edit to a later artifact may require revising an earlier one, not only the other way around. Build order is a useful reading order, not a constraint on which artifacts may be revised.
    - Note everything that is now inconsistent, missing, or contradictory.
-   - Revise only files that already exist (\`existingOutputPaths\`). Do NOT create artifacts that don't exist yet, and do NOT invent new files under a glob artifact - note them and point the user to \`/opsx:continue\` to create them.
+   - Revise only files that already exist (\`existingOutputPaths\`). Do NOT create artifacts that don't exist yet, and do NOT invent new files under a glob artifact - note them and point the user to \`/otrix:continue\` to create them.
    - If the change is already coherent, say so and make no edits.
 
 5. **Confirm and apply, one artifact at a time**
@@ -70,25 +70,25 @@ ${STORE_SELECTION_GUIDANCE}
      \`\`\`
 
 6. **Point to the next step (guidance only - NEVER act on it)**
-   - Artifacts still missing -> suggest \`/opsx:continue\` to create them.
-   - Change already implemented (tasks checked off / already applied) -> the code may no longer match the revised plan; suggest \`/opsx:apply\` to carry the delta into code.
-   - Everything done and implemented -> suggest \`/opsx:archive\`.
+   - Artifacts still missing -> suggest \`/otrix:continue\` to create them.
+   - Change already implemented (tasks checked off / already applied) -> the code may no longer match the revised plan; suggest \`/otrix:apply\` to carry the delta into code.
+   - Everything done and implemented -> suggest \`/otrix:archive\`.
 
 **Output**
 
 After each invocation, show:
 - Which artifacts were revised (and which proposed revisions were rejected)
-- Anything deferred to \`/opsx:continue\` (not-yet-created artifacts or files)
+- Anything deferred to \`/otrix:continue\` (not-yet-created artifacts or files)
 - Where the change stands and the recommended next command
 
 **Guardrails**
-- Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to \`/opsx:apply\`.
+- Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to \`/otrix:apply\`.
 - Use the artifact ids and paths reported by \`spectrix status\`; never branch on hardcoded artifact names.
 - Edit only the concrete files in \`existingOutputPaths\`; never write to a glob \`resolvedOutputPath\`.
-- Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is \`/opsx:continue\`'s job.
+- Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is \`/otrix:continue\`'s job.
 - Confirm every edit with the user before writing.
-- If the request changes the change's *intent* rather than refining it, recommend starting fresh with \`/opsx:new\` (the "Update vs. Start Fresh" heuristic).
-- \`/opsx:continue\` and \`/opsx:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`spectrix status --change "<name>" --json\` shows the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` explains how to create it.`,
+- If the request changes the change's *intent* rather than refining it, recommend starting fresh with \`/otrix:new\` (the "Update vs. Start Fresh" heuristic).
+- \`/otrix:continue\` and \`/otrix:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`spectrix status --change "<name>" --json\` shows the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` explains how to create it.`,
     license: 'MIT',
     compatibility: 'Requires spectrix CLI.',
     metadata: { author: 'spectrix', version: '1.0' },
@@ -97,7 +97,7 @@ After each invocation, show:
 
 export function getOpsxUpdateCommandTemplate(): CommandTemplate {
   return {
-    name: 'OPSX: Update',
+    name: 'OTRIX: Update',
     description: "Update a change - revise existing planning artifacts and keep them coherent (Experimental)",
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
@@ -105,7 +105,7 @@ export function getOpsxUpdateCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a change name after \`/opsx:update\` (e.g., \`/opsx:update add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
+**Input**: Optionally specify a change name after \`/otrix:update\` (e.g., \`/otrix:update add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
 
@@ -124,7 +124,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Mark the most recently modified change as "(Recommended)" since it's likely what the user wants to update.
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:update <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:update <other>\`).
 
 2. **Get the change's artifacts**
    \`\`\`bash
@@ -148,7 +148,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Read the artifact(s) the request touches and the change's other existing artifacts.
    - Apply the requested edit. Then check every other existing artifact against it - in ANY direction: an edit to a later artifact may require revising an earlier one, not only the other way around. Build order is a useful reading order, not a constraint on which artifacts may be revised.
    - Note everything that is now inconsistent, missing, or contradictory.
-   - Revise only files that already exist (\`existingOutputPaths\`). Do NOT create artifacts that don't exist yet, and do NOT invent new files under a glob artifact - note them and point the user to \`/opsx:continue\` to create them.
+   - Revise only files that already exist (\`existingOutputPaths\`). Do NOT create artifacts that don't exist yet, and do NOT invent new files under a glob artifact - note them and point the user to \`/otrix:continue\` to create them.
    - If the change is already coherent, say so and make no edits.
 
 5. **Confirm and apply, one artifact at a time**
@@ -160,24 +160,24 @@ ${STORE_SELECTION_GUIDANCE}
      \`\`\`
 
 6. **Point to the next step (guidance only - NEVER act on it)**
-   - Artifacts still missing -> suggest \`/opsx:continue\` to create them.
-   - Change already implemented (tasks checked off / already applied) -> the code may no longer match the revised plan; suggest \`/opsx:apply\` to carry the delta into code.
-   - Everything done and implemented -> suggest \`/opsx:archive\`.
+   - Artifacts still missing -> suggest \`/otrix:continue\` to create them.
+   - Change already implemented (tasks checked off / already applied) -> the code may no longer match the revised plan; suggest \`/otrix:apply\` to carry the delta into code.
+   - Everything done and implemented -> suggest \`/otrix:archive\`.
 
 **Output**
 
 After each invocation, show:
 - Which artifacts were revised (and which proposed revisions were rejected)
-- Anything deferred to \`/opsx:continue\` (not-yet-created artifacts or files)
+- Anything deferred to \`/otrix:continue\` (not-yet-created artifacts or files)
 - Where the change stands and the recommended next command
 
 **Guardrails**
-- Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to \`/opsx:apply\`.
+- Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to \`/otrix:apply\`.
 - Use the artifact ids and paths reported by \`spectrix status\`; never branch on hardcoded artifact names.
 - Edit only the concrete files in \`existingOutputPaths\`; never write to a glob \`resolvedOutputPath\`.
-- Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is \`/opsx:continue\`'s job.
+- Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is \`/otrix:continue\`'s job.
 - Confirm every edit with the user before writing.
-- If the request changes the change's *intent* rather than refining it, recommend starting fresh with \`/opsx:new\` (the "Update vs. Start Fresh" heuristic).
-- \`/opsx:continue\` and \`/opsx:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`spectrix status --change "<name>" --json\` shows the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` explains how to create it.`
+- If the request changes the change's *intent* rather than refining it, recommend starting fresh with \`/otrix:new\` (the "Update vs. Start Fresh" heuristic).
+- \`/otrix:continue\` and \`/otrix:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`spectrix status --change "<name>" --json\` shows the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` explains how to create it.`
   };
 }

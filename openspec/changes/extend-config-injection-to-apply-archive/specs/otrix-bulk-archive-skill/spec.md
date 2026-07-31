@@ -2,7 +2,7 @@
 
 ### Requirement: Load current archive inputs for a batch
 
-The `/opsx:bulk-archive` skill SHALL request current archive operation inputs once for the selected planning root without changing its existing batch orchestration.
+The `/otrix:bulk-archive` skill SHALL request current archive operation inputs once for the selected planning root without changing its existing batch orchestration.
 
 #### Scenario: Batch context and guidance are configured
 
@@ -35,7 +35,7 @@ The `/opsx:bulk-archive` skill SHALL request current archive operation inputs on
 
 ### Requirement: Carry artifact rules into each batch spec sync
 
-The `/opsx:bulk-archive` skill SHALL fetch current `specs` artifact instructions for each selected change with concrete delta specs and SHALL use the returned artifact rules only for main specs written by that change's merge.
+The `/otrix:bulk-archive` skill SHALL fetch current `specs` artifact instructions for each selected change with concrete delta specs and SHALL use the returned artifact rules only for main specs written by that change's merge.
 
 #### Scenario: Discover specs inputs per change
 

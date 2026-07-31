@@ -1,20 +1,20 @@
-# Migrating to OPSX
+# Migrating to OTRIX
 
-This guide helps you transition from the legacy Spectrix workflow to OPSX. The migration is designed to be smooth—your existing work is preserved, and the new system offers more flexibility.
+This guide helps you transition from the legacy Spectrix workflow to OTRIX. The migration is designed to be smooth—your existing work is preserved, and the new system offers more flexibility.
 
 ## What's Changing?
 
-OPSX replaces the old phase-locked workflow with a fluid, action-based approach. Here's the key shift:
+OTRIX replaces the old phase-locked workflow with a fluid, action-based approach. Here's the key shift:
 
-| Aspect | Legacy | OPSX |
+| Aspect | Legacy | OTRIX |
 |--------|--------|------|
-| **Commands** | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` | Default: `/opsx:propose`, `/opsx:explore`, `/opsx:apply`, `/opsx:update`, `/opsx:sync`, `/opsx:archive` (expanded workflow commands optional) |
+| **Commands** | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` | Default: `/otrix:propose`, `/otrix:explore`, `/otrix:apply`, `/otrix:update`, `/otrix:sync`, `/otrix:archive` (expanded workflow commands optional) |
 | **Workflow** | Create all artifacts at once | Create incrementally or all at once—your choice |
 | **Going back** | Awkward phase gates | Natural—update any artifact anytime |
 | **Customization** | Fixed structure | Schema-driven, fully hackable |
 | **Configuration** | `CLAUDE.md` with markers + `project.md` | Clean config in `openspec/config.yaml` |
 
-**The philosophy change:** Work isn't linear. OPSX stops pretending it is.
+**The philosophy change:** Work isn't linear. OTRIX stops pretending it is.
 
 ---
 
@@ -24,7 +24,7 @@ OPSX replaces the old phase-locked workflow with a fluid, action-based approach.
 
 The migration process is designed with preservation in mind:
 
-- **Active changes in `openspec/changes/`** — Completely preserved. You can continue them with OPSX commands.
+- **Active changes in `openspec/changes/`** — Completely preserved. You can continue them with OTRIX commands.
 - **Archived changes** — Untouched. Your history remains intact.
 - **Main specs in `openspec/specs/`** — Untouched. These are your source of truth.
 - **Your content in CLAUDE.md, AGENTS.md, etc.** — Preserved. Only the Spectrix marker blocks are removed; everything you wrote stays.
@@ -287,33 +287,33 @@ Command availability is profile-dependent:
 
 | Command | Purpose |
 |---------|---------|
-| `/opsx:propose` | Create a change and generate planning artifacts in one step |
-| `/opsx:explore` | Think through ideas with no structure |
-| `/opsx:apply` | Implement tasks from tasks.md |
-| `/opsx:update` | Revise a change's planning artifacts and keep them coherent |
-| `/opsx:sync` | Merge delta specs into main specs |
-| `/opsx:archive` | Finalize and archive the change |
+| `/otrix:propose` | Create a change and generate planning artifacts in one step |
+| `/otrix:explore` | Think through ideas with no structure |
+| `/otrix:apply` | Implement tasks from tasks.md |
+| `/otrix:update` | Revise a change's planning artifacts and keep them coherent |
+| `/otrix:sync` | Merge delta specs into main specs |
+| `/otrix:archive` | Finalize and archive the change |
 
 **Expanded workflow (custom selection):**
 
 | Command | Purpose |
 |---------|---------|
-| `/opsx:new` | Start a new change scaffold |
-| `/opsx:continue` | Create the next artifact (one at a time) |
-| `/opsx:ff` | Fast-forward—create planning artifacts at once |
-| `/opsx:verify` | Validate implementation matches specs |
-| `/opsx:bulk-archive` | Archive multiple changes at once |
-| `/opsx:onboard` | Guided end-to-end onboarding workflow |
+| `/otrix:new` | Start a new change scaffold |
+| `/otrix:continue` | Create the next artifact (one at a time) |
+| `/otrix:ff` | Fast-forward—create planning artifacts at once |
+| `/otrix:verify` | Validate implementation matches specs |
+| `/otrix:bulk-archive` | Archive multiple changes at once |
+| `/otrix:onboard` | Guided end-to-end onboarding workflow |
 
 Enable expanded commands with `spectrix config profile`, then run `spectrix update`.
 
 ### Command Mapping from Legacy
 
-| Legacy | OPSX Equivalent |
+| Legacy | OTRIX Equivalent |
 |--------|-----------------|
-| `/openspec:proposal` | `/opsx:propose` (default) or `/opsx:new` then `/opsx:ff` (expanded) |
-| `/openspec:apply` | `/opsx:apply` |
-| `/openspec:archive` | `/opsx:archive` |
+| `/openspec:proposal` | `/otrix:propose` (default) or `/otrix:new` then `/otrix:ff` (expanded) |
+| `/openspec:apply` | `/otrix:apply` |
+| `/openspec:archive` | `/otrix:archive` |
 
 ### New Capabilities
 
@@ -321,13 +321,13 @@ These capabilities are part of the expanded workflow command set.
 
 **Granular artifact creation:**
 ```
-/opsx:continue
+/otrix:continue
 ```
 Creates one artifact at a time based on dependencies. Use this when you want to review each step.
 
 **Exploration mode:**
 ```
-/opsx:explore
+/otrix:explore
 ```
 Think through ideas with a partner before committing to a change.
 
@@ -349,7 +349,7 @@ If you're in implementation and realize the design is wrong?
 Too bad. Phase gates don't let you go back easily.
 ```
 
-OPSX uses actions, not phases:
+OTRIX uses actions, not phases:
 
 ```
          ┌───────────────────────────────────────────────┐
@@ -385,7 +385,7 @@ Artifacts form a directed graph. Dependencies are enablers, not gates:
                      specs, design)
 ```
 
-When you run `/opsx:continue`, it checks what's ready and offers the next artifact. You can also create multiple ready artifacts in any order.
+When you run `/otrix:continue`, it checks what's ready and offers the next artifact. You can also create multiple ready artifacts in any order.
 
 ### Skills vs Commands
 
@@ -398,7 +398,7 @@ The legacy system used tool-specific command files:
 └── archive.md
 ```
 
-OPSX uses the emerging **skills** standard:
+OTRIX uses the emerging **skills** standard:
 
 ```
 .claude/skills/
@@ -411,26 +411,26 @@ OPSX uses the emerging **skills** standard:
 
 Skills are recognized across multiple AI coding tools and provide richer metadata.
 
-Codex is skills-only in OPSX. Spectrix no longer generates Codex custom prompt files; use the generated `.codex/skills/openspec-*` directories instead.
+Codex is skills-only in OTRIX. Spectrix no longer generates Codex custom prompt files; use the generated `.codex/skills/openspec-*` directories instead.
 
 ---
 
 ## Continuing Existing Changes
 
-Your in-progress changes work seamlessly with OPSX commands.
+Your in-progress changes work seamlessly with OTRIX commands.
 
 **Have an active change from the legacy workflow?**
 
 ```
-/opsx:apply add-my-feature
+/otrix:apply add-my-feature
 ```
 
-OPSX reads the existing artifacts and continues from where you left off.
+OTRIX reads the existing artifacts and continues from where you left off.
 
 **Want to add more artifacts to an existing change?**
 
 ```
-/opsx:continue add-my-feature
+/otrix:continue add-my-feature
 ```
 
 Shows what's ready to create based on what already exists.
@@ -472,7 +472,7 @@ rules:
 
 ### Schema Resolution
 
-When determining which schema to use, OPSX checks in order:
+When determining which schema to use, OTRIX checks in order:
 
 1. **CLI flag**: `--schema <name>` (highest priority)
 2. **Change metadata**: `.openspec.yaml` in the change directory
@@ -563,7 +563,7 @@ project/
 │   │   └── archive/              # Unchanged
 │   └── config.yaml               # NEW: Project configuration
 ├── .claude/
-│   └── skills/                   # NEW: OPSX skills
+│   └── skills/                   # NEW: OTRIX skills
 │       ├── openspec-propose/     # default core profile
 │       ├── openspec-explore/
 │       ├── openspec-apply-change/
@@ -585,14 +585,14 @@ project/
 ### Command Cheatsheet
 
 ```text
-/opsx:propose      Start quickly (default core profile)
-/opsx:apply        Implement tasks
-/opsx:archive      Finish and archive
+/otrix:propose      Start quickly (default core profile)
+/otrix:apply        Implement tasks
+/otrix:archive      Finish and archive
 
 # Expanded workflow (if enabled):
-/opsx:new          Scaffold a change
-/opsx:continue     Create next artifact
-/opsx:ff           Create planning artifacts
+/otrix:new          Scaffold a change
+/otrix:continue     Create next artifact
+/otrix:ff           Create planning artifacts
 ```
 
 ---
@@ -601,4 +601,4 @@ project/
 
 - **Discord**: [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
 - **GitHub Issues**: [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
-- **Documentation**: [docs/opsx.md](opsx.md) for the full OPSX reference
+- **Documentation**: [docs/otrix.md](otrix.md) for the full OTRIX reference

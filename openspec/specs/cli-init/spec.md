@@ -52,7 +52,7 @@ The command SHALL configure AI coding assistants with skills and slash commands 
 
 - **WHEN** user selects tools and confirms
 - **THEN** generate skills in `.<tool>/skills/` directory for each selected tool
-- **AND** generate slash commands for each selected tool with a command adapter, at that adapter's own path (for example `.claude/commands/opsx/<id>.md` or `.cursor/commands/opsx-<id>.md`)
+- **AND** generate slash commands for each selected tool with a command adapter, at that adapter's own path (for example `.claude/commands/otrix/<id>.md` or `.cursor/commands/otrix-<id>.md`)
 - **AND** create `openspec/config.yaml` with default schema setting
 
 ### Requirement: Interactive Mode
@@ -85,8 +85,8 @@ The command SHALL provide clear, actionable next steps upon successful initializ
   - "Created: <tools>" for newly configured tools
   - "Refreshed: <tools>" for already-configured tools that were updated
   - Count of skills and commands generated
-- **AND** display a getting started section naming an installed onboarding workflow (for example `/opsx:propose` - Start a change)
-- **AND** spell each command the way the configured tool registers it: `/opsx-<id>` for tools whose command files are named `opsx-<id>`, and the tool's skill invocation (`$openspec-<skill>` for Codex, `/skill:openspec-<skill>` for Kimi Code, `/openspec-<skill>` otherwise) for tools that receive no command files
+- **AND** display a getting started section naming an installed onboarding workflow (for example `/otrix:propose` - Start a change)
+- **AND** spell each command the way the configured tool registers it: `/otrix-<id>` for tools whose command files are named `otrix-<id>`, and the tool's skill invocation (`$openspec-<skill>` for Codex, `/skill:openspec-<skill>` for Kimi Code, `/openspec-<skill>` otherwise) for tools that receive no command files
 - **AND** print one labeled line per distinct form when the selected tools disagree
 - **AND** display links to documentation and feedback
 
@@ -199,22 +199,22 @@ The command SHALL generate Agent Skills for selected AI tools.
 
 ### Requirement: Slash Command Generation
 
-The command SHALL generate opsx slash commands only for selected tools that have a registered command adapter, while keeping adapterless tools valid for skill generation.
+The command SHALL generate otrix slash commands only for selected tools that have a registered command adapter, while keeping adapterless tools valid for skill generation.
 
 #### Scenario: Generating slash commands for a tool with a registered adapter
 
 - **WHEN** a tool with a registered command adapter is selected during initialization
 - **THEN** create 9 slash command files using the tool's command adapter:
-  - `/opsx:explore`
-  - `/opsx:new`
-  - `/opsx:continue`
-  - `/opsx:apply`
-  - `/opsx:ff`
-  - `/opsx:verify`
-  - `/opsx:sync`
-  - `/opsx:archive`
-  - `/opsx:bulk-archive`
-- **AND** use tool-specific path conventions (e.g., `.claude/commands/opsx/` for Claude)
+  - `/otrix:explore`
+  - `/otrix:new`
+  - `/otrix:continue`
+  - `/otrix:apply`
+  - `/otrix:ff`
+  - `/otrix:verify`
+  - `/otrix:sync`
+  - `/otrix:archive`
+  - `/otrix:bulk-archive`
+- **AND** use tool-specific path conventions (e.g., `.claude/commands/otrix/` for Claude)
 - **AND** include tool-specific frontmatter format
 
 #### Scenario: Selected tool has no command adapter

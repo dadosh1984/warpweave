@@ -39,9 +39,9 @@ The full list of tool IDs is in [Supported Tools](supported-tools.md). Use `--to
 
 ## Commands don't show up
 
-If `/opsx:propose` (or your tool's equivalent) doesn't appear or doesn't do anything, work down this list. They're ordered fastest-to-check first.
+If `/otrix:propose` (or your tool's equivalent) doesn't appear or doesn't do anything, work down this list. They're ordered fastest-to-check first.
 
-1. **You may be in the wrong place.** Slash commands go in your AI assistant's chat, not your terminal. If you typed `/opsx:propose` into your shell, that's the issue. See [How Commands Work](how-commands-work.md).
+1. **You may be in the wrong place.** Slash commands go in your AI assistant's chat, not your terminal. If you typed `/otrix:propose` into your shell, that's the issue. See [How Commands Work](how-commands-work.md).
 
 2. **Regenerate the files.** From your project root:
 
@@ -59,7 +59,7 @@ If `/opsx:propose` (or your tool's equivalent) doesn't appear or doesn't do anyt
 
 5. **Check you initialized this project.** Skills are written per project. If you cloned a repo or switched folders, run `spectrix init` (or `spectrix update`) there.
 
-6. **Confirm your tool supports command files.** Codex, CodeArts, ForgeCode, Hermes, Kimi Code, Mistral Vibe and the shared `.agents` target don't get generated `opsx-*` command files; they use skill-based invocations instead, so `/opsx` will never autocomplete for them. Type `$openspec-propose` in Codex, `/skill:openspec-propose` in Kimi Code, and `/openspec-propose` in the rest. The shared `.agents` target is vendor-neutral, so `/openspec-propose` is the common form rather than a guaranteed one — if your assistant does not answer to it, check its own docs for how it invokes a skill. Amazon Q does get command files, but loads them into its prompt library rather than its slash menu — type `@opsx-propose` there, not `/opsx`. Every tool's form is listed in [How To Invoke](supported-tools.md#how-to-invoke).
+6. **Confirm your tool supports command files.** Codex, CodeArts, ForgeCode, Hermes, Kimi Code, Mistral Vibe and the shared `.agents` target don't get generated `otrix-*` command files; they use skill-based invocations instead, so `/otrix` will never autocomplete for them. Type `$openspec-propose` in Codex, `/skill:openspec-propose` in Kimi Code, and `/openspec-propose` in the rest. The shared `.agents` target is vendor-neutral, so `/openspec-propose` is the common form rather than a guaranteed one — if your assistant does not answer to it, check its own docs for how it invokes a skill. Amazon Q does get command files, but loads them into its prompt library rather than its slash menu — type `@otrix-propose` there, not `/otrix`. Every tool's form is listed in [How To Invoke](supported-tools.md#how-to-invoke).
 
 ## Working with changes
 
@@ -69,7 +69,7 @@ The command couldn't tell which change you meant. Name it explicitly, or check w
 
 ```bash
 spectrix list                    # see active changes
-/opsx:apply add-dark-mode        # name the change in chat
+/otrix:apply add-dark-mode        # name the change in chat
 ```
 
 Also confirm you're in the right project directory.
@@ -111,7 +111,7 @@ The AI didn't have enough context. A few levers help:
 - Add project context in `openspec/config.yaml` so your stack and conventions are injected into every request. See [Customization](customization.md#project-configuration).
 - Add per-artifact `rules:` for guidance that only applies to, say, specs.
 - Give a more detailed description when you propose.
-- Use the expanded `/opsx:continue` to create one artifact at a time and review each, instead of `/opsx:ff` doing them all at once.
+- Use the expanded `/otrix:continue` to create one artifact at a time and review each, instead of `/otrix:ff` doing them all at once.
 
 ### Archive won't finish, or warns about incomplete tasks
 

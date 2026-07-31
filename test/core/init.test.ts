@@ -168,12 +168,12 @@ describe('InitCommand', () => {
 
       // Core profile: propose, explore, apply, update, sync, archive
       const coreCommandNames = [
-        'opsx/propose.md',
-        'opsx/explore.md',
-        'opsx/apply.md',
-        'opsx/update.md',
-        'opsx/sync.md',
-        'opsx/archive.md',
+        'otrix/propose.md',
+        'otrix/explore.md',
+        'otrix/apply.md',
+        'otrix/update.md',
+        'otrix/sync.md',
+        'otrix/archive.md',
       ];
 
       for (const cmdName of coreCommandNames) {
@@ -183,11 +183,11 @@ describe('InitCommand', () => {
 
       // Non-core commands should NOT be created
       const nonCoreCommandNames = [
-        'opsx/new.md',
-        'opsx/continue.md',
-        'opsx/ff.md',
-        'opsx/bulk-archive.md',
-        'opsx/verify.md',
+        'otrix/new.md',
+        'otrix/continue.md',
+        'otrix/ff.md',
+        'otrix/bulk-archive.md',
+        'otrix/verify.md',
       ];
 
       for (const cmdName of nonCoreCommandNames) {
@@ -231,9 +231,9 @@ describe('InitCommand', () => {
       expect(await fileExists(exploreSkill)).toBe(true);
       expect(await fileExists(proposeSkill)).toBe(true);
 
-      // Core profile commands land under .zcode/commands/opsx
-      const exploreCmd = path.join(testDir, '.zcode', 'commands', 'opsx', 'explore.md');
-      const proposeCmd = path.join(testDir, '.zcode', 'commands', 'opsx', 'propose.md');
+      // Core profile commands land under .zcode/commands/otrix
+      const exploreCmd = path.join(testDir, '.zcode', 'commands', 'otrix', 'explore.md');
+      const proposeCmd = path.join(testDir, '.zcode', 'commands', 'otrix', 'propose.md');
       expect(await fileExists(exploreCmd)).toBe(true);
       expect(await fileExists(proposeCmd)).toBe(true);
 
@@ -387,7 +387,7 @@ describe('InitCommand', () => {
       expect(await fileExists(skillFile)).toBe(true);
 
       // Commands should also be created (Trae has an adapter)
-      const commandFile = path.join(testDir, '.trae', 'commands', 'opsx-explore.md');
+      const commandFile = path.join(testDir, '.trae', 'commands', 'otrix-explore.md');
       expect(await fileExists(commandFile)).toBe(true);
 
       const commandContent = await fs.readFile(commandFile, 'utf-8');
@@ -411,7 +411,7 @@ describe('InitCommand', () => {
         const skillFile = path.join(testDir, '.codex', 'skills', 'openspec-explore', 'SKILL.md');
         expect(await fileExists(skillFile)).toBe(true);
 
-        const promptFile = path.join(process.env.CODEX_HOME!, 'prompts', 'opsx-explore.md');
+        const promptFile = path.join(process.env.CODEX_HOME!, 'prompts', 'otrix-explore.md');
         expect(await fileExists(promptFile)).toBe(false);
       }
     );
@@ -611,7 +611,7 @@ describe('InitCommand', () => {
       const initCommand = new InitCommand({ tools: 'claude', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.claude', 'commands', 'opsx', 'explore.md');
+      const cmdFile = path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md');
       const content = await fs.readFile(cmdFile, 'utf-8');
 
       // Claude commands use YAML frontmatter
@@ -624,7 +624,7 @@ describe('InitCommand', () => {
       const initCommand = new InitCommand({ tools: 'cursor', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.cursor', 'commands', 'opsx-explore.md');
+      const cmdFile = path.join(testDir, '.cursor', 'commands', 'otrix-explore.md');
       expect(await fileExists(cmdFile)).toBe(true);
 
       const content = await fs.readFile(cmdFile, 'utf-8');
@@ -667,7 +667,7 @@ describe('InitCommand', () => {
       const initCommand = new InitCommand({ tools: 'gemini', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.gemini', 'commands', 'opsx', 'explore.toml');
+      const cmdFile = path.join(testDir, '.gemini', 'commands', 'otrix', 'explore.toml');
       expect(await fileExists(cmdFile)).toBe(true);
 
       const content = await fs.readFile(cmdFile, 'utf-8');
@@ -679,7 +679,7 @@ describe('InitCommand', () => {
       const initCommand = new InitCommand({ tools: 'windsurf', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.devin', 'workflows', 'opsx-explore.md');
+      const cmdFile = path.join(testDir, '.devin', 'workflows', 'otrix-explore.md');
       expect(await fileExists(cmdFile)).toBe(true);
     });
 
@@ -687,15 +687,15 @@ describe('InitCommand', () => {
       const initCommand = new InitCommand({ tools: 'devin', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.devin', 'workflows', 'opsx-apply.md');
+      const cmdFile = path.join(testDir, '.devin', 'workflows', 'otrix-apply.md');
       expect(await fileExists(cmdFile)).toBe(true);
 
       const content = await fs.readFile(cmdFile, 'utf-8');
       expect(content).toMatch(/^---\nname: "/);
       expect(content).toContain('category: "Workflow"');
-      // Devin discovers `.devin/workflows/opsx-apply.md` as `/opsx-apply`.
-      expect(content).toContain('/opsx-');
-      expect(content).not.toContain('/opsx:');
+      // Devin discovers `.devin/workflows/otrix-apply.md` as `/otrix-apply`.
+      expect(content).toContain('/otrix-');
+      expect(content).not.toContain('/otrix:');
     });
 
     it('should generate Devin Desktop skills that reference skills, not workflows', async () => {
@@ -709,19 +709,19 @@ describe('InitCommand', () => {
 
       const content = await fs.readFile(skillFile, 'utf-8');
       expect(content).toContain('/openspec-apply-change');
-      expect(content).not.toContain('/opsx:');
-      expect(content).not.toContain('/opsx-');
+      expect(content).not.toContain('/otrix:');
+      expect(content).not.toContain('/otrix-');
     });
 
     it('should generate Continue prompt files', async () => {
       const initCommand = new InitCommand({ tools: 'continue', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.continue', 'prompts', 'opsx-explore.prompt');
+      const cmdFile = path.join(testDir, '.continue', 'prompts', 'otrix-explore.prompt');
       expect(await fileExists(cmdFile)).toBe(true);
 
       const content = await fs.readFile(cmdFile, 'utf-8');
-      expect(content).toContain('name: "opsx-explore"');
+      expect(content).toContain('name: "otrix-explore"');
       expect(content).toContain('invokable: true');
     });
 
@@ -729,7 +729,7 @@ describe('InitCommand', () => {
       const initCommand = new InitCommand({ tools: 'cline', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.clinerules', 'workflows', 'opsx-explore.md');
+      const cmdFile = path.join(testDir, '.clinerules', 'workflows', 'otrix-explore.md');
       expect(await fileExists(cmdFile)).toBe(true);
     });
 
@@ -737,7 +737,7 @@ describe('InitCommand', () => {
       const initCommand = new InitCommand({ tools: 'github-copilot', force: true });
       await initCommand.execute(testDir);
 
-      const cmdFile = path.join(testDir, '.github', 'prompts', 'opsx-explore.prompt.md');
+      const cmdFile = path.join(testDir, '.github', 'prompts', 'otrix-explore.prompt.md');
       expect(await fileExists(cmdFile)).toBe(true);
     });
   });
@@ -819,14 +819,14 @@ describe('InitCommand - profile and detection features', () => {
     // Create legacy OpenCode command files (singular 'command' path)
     const legacyDir = path.join(testDir, '.opencode', 'command');
     await fs.mkdir(legacyDir, { recursive: true });
-    await fs.writeFile(path.join(legacyDir, 'opsx-propose.md'), 'legacy content');
+    await fs.writeFile(path.join(legacyDir, 'otrix-propose.md'), 'legacy content');
 
     // Run init in non-interactive mode without --force
     const initCommand = new InitCommand({ tools: 'opencode' });
     await initCommand.execute(testDir);
 
     // Legacy files should be cleaned up automatically
-    expect(await fileExists(path.join(legacyDir, 'opsx-propose.md'))).toBe(false);
+    expect(await fileExists(path.join(legacyDir, 'otrix-propose.md'))).toBe(false);
 
     // New commands should be at the correct plural path
     const newCommandsDir = path.join(testDir, '.opencode', 'commands');
@@ -835,7 +835,7 @@ describe('InitCommand - profile and detection features', () => {
 
   it('should remove managed global Codex prompts in non-interactive mode', async () => {
     const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-    const legacyPrompt = path.join(promptDir, 'opsx-apply.md');
+    const legacyPrompt = path.join(promptDir, 'otrix-apply.md');
     await fs.mkdir(promptDir, { recursive: true });
     await fs.writeFile(legacyPrompt, 'legacy apply prompt');
 
@@ -850,7 +850,7 @@ describe('InitCommand - profile and detection features', () => {
 
   it('should preserve legacy Codex prompts without replacement skills during non-interactive init', async () => {
     const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-    const legacyPrompt = path.join(promptDir, 'opsx-onboard.md');
+    const legacyPrompt = path.join(promptDir, 'otrix-onboard.md');
     await fs.mkdir(promptDir, { recursive: true });
     await fs.writeFile(legacyPrompt, 'legacy onboard prompt');
 
@@ -868,7 +868,7 @@ describe('InitCommand - profile and detection features', () => {
 
   it('should defer global Codex prompt removal messaging until after interactive tool selection', async () => {
     const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
-    const legacyPrompt = path.join(promptDir, 'opsx-apply.md');
+    const legacyPrompt = path.join(promptDir, 'otrix-apply.md');
     await fs.mkdir(promptDir, { recursive: true });
     await fs.writeFile(legacyPrompt, 'legacy apply prompt');
 
@@ -966,8 +966,8 @@ describe('InitCommand - profile and detection features', () => {
 
   it('should migrate commands-only extend mode to custom profile without injecting propose', async () => {
     await fs.mkdir(path.join(testDir, 'openspec'), { recursive: true });
-    await fs.mkdir(path.join(testDir, '.claude', 'commands', 'opsx'), { recursive: true });
-    await fs.writeFile(path.join(testDir, '.claude', 'commands', 'opsx', 'explore.md'), '# explore\n');
+    await fs.mkdir(path.join(testDir, '.claude', 'commands', 'otrix'), { recursive: true });
+    await fs.writeFile(path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md'), '# explore\n');
 
     const initCommand = new InitCommand({ tools: 'claude', force: true });
     await initCommand.execute(testDir);
@@ -977,8 +977,8 @@ describe('InitCommand - profile and detection features', () => {
     expect(config.delivery).toBe('commands');
     expect(config.workflows).toEqual(['explore']);
 
-    const exploreCommand = path.join(testDir, '.claude', 'commands', 'opsx', 'explore.md');
-    const proposeCommand = path.join(testDir, '.claude', 'commands', 'opsx', 'propose.md');
+    const exploreCommand = path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md');
+    const proposeCommand = path.join(testDir, '.claude', 'commands', 'otrix', 'propose.md');
     expect(await fileExists(exploreCommand)).toBe(true);
     expect(await fileExists(proposeCommand)).toBe(false);
 
@@ -1032,29 +1032,29 @@ describe('InitCommand - profile and detection features', () => {
     expect(await fileExists(skillFile)).toBe(true);
 
     // Commands should NOT exist
-    const cmdFile = path.join(testDir, '.claude', 'commands', 'opsx', 'explore.md');
+    const cmdFile = path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md');
     expect(await fileExists(cmdFile)).toBe(false);
 
     // Skill content should reference skills, not commands that were never generated
     const skillContent = await fs.readFile(skillFile, 'utf-8');
-    expect(skillContent).not.toContain('/opsx:');
-    expect(skillContent).not.toContain('/opsx-');
+    expect(skillContent).not.toContain('/otrix:');
+    expect(skillContent).not.toContain('/otrix-');
     expect(skillContent).toContain('/openspec-');
 
     // update-change references several other workflows; a command missing
-    // from the reference map would leave a raw /opsx: reference behind
+    // from the reference map would leave a raw /otrix: reference behind
     const updateSkillContent = await fs.readFile(
       path.join(testDir, '.claude', 'skills', 'openspec-update-change', 'SKILL.md'),
       'utf-8'
     );
-    expect(updateSkillContent).not.toContain('/opsx:');
-    expect(updateSkillContent).not.toContain('/opsx-');
+    expect(updateSkillContent).not.toContain('/otrix:');
+    expect(updateSkillContent).not.toContain('/otrix-');
     expect(updateSkillContent).toContain('/openspec-');
   });
 
   it('should use skill references for adapterless tools under default delivery (#1155)', async () => {
     // Kimi Code has no command adapter: commands are skipped even when
-    // delivery is 'both', so generated skills must not reference /opsx:*
+    // delivery is 'both', so generated skills must not reference /otrix:*
     const initCommand = new InitCommand({ tools: 'kimi', force: true });
     await initCommand.execute(testDir);
 
@@ -1062,8 +1062,8 @@ describe('InitCommand - profile and detection features', () => {
     expect(await fileExists(skillFile)).toBe(true);
 
     const skillContent = await fs.readFile(skillFile, 'utf-8');
-    expect(skillContent).not.toContain('/opsx:');
-    expect(skillContent).not.toContain('/opsx-');
+    expect(skillContent).not.toContain('/otrix:');
+    expect(skillContent).not.toContain('/otrix-');
     // Kimi Code documents /skill:<name> invocations (docs/supported-tools.md)
     expect(skillContent).toContain('/skill:openspec-');
 
@@ -1071,7 +1071,7 @@ describe('InitCommand - profile and detection features', () => {
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
     const startHint = logCalls.find((entry) => entry.includes('Start your first change'));
     expect(startHint).toContain('/skill:openspec-propose');
-    expect(startHint).not.toContain('/opsx:propose');
+    expect(startHint).not.toContain('/otrix:propose');
   });
 
   it('should print a configuration correction, not a dead hint, when delivery=commands generates nothing (adapterless tool)', async () => {
@@ -1089,7 +1089,7 @@ describe('InitCommand - profile and detection features', () => {
     expect(await fileExists(path.join(testDir, '.kimi-code', 'commands'))).toBe(false);
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
-    // No invocation hint may be shown — neither /opsx:* nor a skill reference exists
+    // No invocation hint may be shown — neither /otrix:* nor a skill reference exists
     expect(logCalls.some((entry) => entry.includes('Start your first change'))).toBe(false);
     const correction = logCalls.find((entry) => entry.includes('No skills or commands were generated'));
     expect(correction).toBeTruthy();
@@ -1126,27 +1126,27 @@ describe('InitCommand - profile and detection features', () => {
     expect(vibeHint).toContain('/openspec-propose');
     expect(vibeHint).not.toContain('/skill:');
     for (const hint of startHints) {
-      expect(hint).not.toContain('/opsx:');
+      expect(hint).not.toContain('/otrix:');
     }
   });
 
   it('should print the $-prefixed skill hint for codex (skills-invocable, no slash surface)', async () => {
     // Codex has no slash-command surface: it invokes skills as $<name>, so the
-    // hint - and the generated skills - must use that form, never /opsx:*
+    // hint - and the generated skills - must use that form, never /otrix:*
     const initCommand = new InitCommand({ tools: 'codex', force: true });
     await initCommand.execute(testDir);
 
     const skillFile = path.join(testDir, '.codex', 'skills', 'openspec-apply-change', 'SKILL.md');
     expect(await fileExists(skillFile)).toBe(true);
     const skillContent = await fs.readFile(skillFile, 'utf-8');
-    expect(skillContent).not.toContain('/opsx:');
+    expect(skillContent).not.toContain('/otrix:');
     expect(skillContent).toContain('$openspec-');
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
     const startHint = logCalls.find((entry) => entry.includes('Start your first change'));
     expect(startHint).toContain('$openspec-propose');
     expect(startHint).not.toContain('/openspec-propose');
-    expect(startHint).not.toContain('/opsx:propose');
+    expect(startHint).not.toContain('/otrix:propose');
 
     // No slash commands were generated, so the restart line must not claim any
     const restartHint = logCalls.find((entry) => entry.includes('Restart your IDE'));
@@ -1155,28 +1155,28 @@ describe('InitCommand - profile and detection features', () => {
   });
 
   it('should print the @-prefixed prompt hint for amazon-q (prompt library, no slash surface)', async () => {
-    // Amazon Q loads .amazonq/prompts/opsx-<id>.md into its prompt library,
-    // invoked as @opsx-<id>. It registers no slash command under any spelling,
+    // Amazon Q loads .amazonq/prompts/otrix-<id>.md into its prompt library,
+    // invoked as @otrix-<id>. It registers no slash command under any spelling,
     // so neither the hint, the generated prompts, the skills, nor the restart
     // line may name one.
     const initCommand = new InitCommand({ tools: 'amazon-q', force: true });
     await initCommand.execute(testDir);
 
-    const promptFile = path.join(testDir, '.amazonq', 'prompts', 'opsx-apply.md');
+    const promptFile = path.join(testDir, '.amazonq', 'prompts', 'otrix-apply.md');
     const skillFile = path.join(testDir, '.amazonq', 'skills', 'openspec-apply-change', 'SKILL.md');
     for (const file of [promptFile, skillFile]) {
       expect(await fileExists(file)).toBe(true);
       const content = await fs.readFile(file, 'utf-8');
-      expect(content).toContain('@opsx-apply');
-      expect(content).not.toContain('/opsx:');
-      expect(content).not.toContain('/opsx-');
+      expect(content).toContain('@otrix-apply');
+      expect(content).not.toContain('/otrix:');
+      expect(content).not.toContain('/otrix-');
     }
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
     const startHint = logCalls.find((entry) => entry.includes('Start your first change'));
-    expect(startHint).toContain('@opsx-propose');
-    expect(startHint).not.toContain('/opsx-propose');
-    expect(startHint).not.toContain('/opsx:propose');
+    expect(startHint).toContain('@otrix-propose');
+    expect(startHint).not.toContain('/otrix-propose');
+    expect(startHint).not.toContain('/otrix:propose');
 
     // Commands were generated, but they are not slash commands.
     const restartHint = logCalls.find((entry) => entry.includes('Restart your IDE'));
@@ -1197,13 +1197,13 @@ describe('InitCommand - profile and detection features', () => {
     expect(codexHint).not.toContain('/openspec-propose');
     expect(vibeHint).toContain('/openspec-propose');
     for (const hint of startHints) {
-      expect(hint).not.toContain('/opsx:');
+      expect(hint).not.toContain('/otrix:');
     }
   });
 
   it('should reference commands by the names each tool registers (cursor+claude)', async () => {
-    // Cursor registers commands by filename (.cursor/commands/opsx-apply.md ->
-    // /opsx-apply) while Claude namespaces them under opsx/ (-> /opsx:apply).
+    // Cursor registers commands by filename (.cursor/commands/otrix-apply.md ->
+    // /otrix-apply) while Claude namespaces them under otrix/ (-> /otrix:apply).
     // Command bodies, skills and the onboarding hint must each follow the tool
     // they are written for.
     const initCommand = new InitCommand({ tools: 'cursor,claude', force: true });
@@ -1211,27 +1211,27 @@ describe('InitCommand - profile and detection features', () => {
 
     const read = (...segments: string[]) => fs.readFile(path.join(testDir, ...segments), 'utf-8');
 
-    const cursorCommand = await read('.cursor', 'commands', 'opsx-apply.md');
+    const cursorCommand = await read('.cursor', 'commands', 'otrix-apply.md');
     // A body cross-reference, not the frontmatter name, which already
     // carried the hyphen form before this behaviour existed.
-    expect(cursorCommand).toContain('/opsx-archive');
-    expect(cursorCommand).not.toContain('/opsx:');
+    expect(cursorCommand).toContain('/otrix-archive');
+    expect(cursorCommand).not.toContain('/otrix:');
 
     const cursorSkill = await read('.cursor', 'skills', 'openspec-apply-change', 'SKILL.md');
-    expect(cursorSkill).not.toContain('/opsx:');
+    expect(cursorSkill).not.toContain('/otrix:');
 
     // Claude's namespaced commands are unchanged
-    const claudeCommand = await read('.claude', 'commands', 'opsx', 'apply.md');
-    expect(claudeCommand).toContain('/opsx:archive');
-    expect(claudeCommand).not.toContain('/opsx-');
+    const claudeCommand = await read('.claude', 'commands', 'otrix', 'apply.md');
+    expect(claudeCommand).toContain('/otrix:archive');
+    expect(claudeCommand).not.toContain('/otrix-');
 
     const claudeSkill = await read('.claude', 'skills', 'openspec-apply-change', 'SKILL.md');
-    expect(claudeSkill).not.toContain('/opsx-');
+    expect(claudeSkill).not.toContain('/otrix-');
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
     const startHints = logCalls.filter((entry) => entry.includes('Start your first change'));
-    expect(startHints.find((entry) => entry.includes('Cursor'))).toContain('/opsx-propose');
-    expect(startHints.find((entry) => entry.includes('Claude Code'))).toContain('/opsx:propose');
+    expect(startHints.find((entry) => entry.includes('Cursor'))).toContain('/otrix-propose');
+    expect(startHints.find((entry) => entry.includes('Claude Code'))).toContain('/otrix:propose');
   });
 
   it('should print the hyphen command hint for filename-invoked tools (claude+qwen)', async () => {
@@ -1240,14 +1240,14 @@ describe('InitCommand - profile and detection features', () => {
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
     const startHints = logCalls.filter((entry) => entry.includes('Start your first change'));
-    // Qwen invokes commands by filename (/opsx-propose), so it must not share
-    // Claude's /opsx:propose line
+    // Qwen invokes commands by filename (/otrix-propose), so it must not share
+    // Claude's /otrix:propose line
     expect(startHints).toHaveLength(2);
     const claudeHint = startHints.find((entry) => entry.includes('Claude Code'));
     const qwenHint = startHints.find((entry) => entry.includes('Qwen Code'));
-    expect(claudeHint).toContain('/opsx:propose');
-    expect(qwenHint).toContain('/opsx-propose');
-    expect(qwenHint).not.toContain('/opsx:propose');
+    expect(claudeHint).toContain('/otrix:propose');
+    expect(qwenHint).toContain('/otrix-propose');
+    expect(qwenHint).not.toContain('/otrix:propose');
   });
 
   it('should not advertise an instruction for a tool that got no skills (delivery=commands, codex+kimi)', async () => {
@@ -1291,16 +1291,16 @@ describe('InitCommand - profile and detection features', () => {
     await initCommand.execute(testDir);
 
     // Claude gets commands; kimi (no adapter, delivery excludes skills) gets nothing
-    expect(await fileExists(path.join(testDir, '.claude', 'commands', 'opsx', 'propose.md'))).toBe(true);
+    expect(await fileExists(path.join(testDir, '.claude', 'commands', 'otrix', 'propose.md'))).toBe(true);
     expect(await fileExists(path.join(testDir, '.kimi-code'))).toBe(false);
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
-    // The /opsx: hint is correct for Claude, but Kimi must not be left with
+    // The /otrix: hint is correct for Claude, but Kimi must not be left with
     // a dead instruction: the correction names it even though another tool
     // generated commands
     const startHints = logCalls.filter((entry) => entry.includes('Start your first change'));
     expect(startHints).toHaveLength(1);
-    expect(startHints[0]).toContain('/opsx:propose');
+    expect(startHints[0]).toContain('/otrix:propose');
     const correction = logCalls.find((entry) => entry.includes('No skills or commands were generated for'));
     expect(correction).toContain('Kimi Code');
     expect(correction).not.toContain('Claude');
@@ -1309,13 +1309,13 @@ describe('InitCommand - profile and detection features', () => {
   });
 
   it('should label per-tool hints when adapter-backed and adapterless tools are mixed (claude+kimi)', async () => {
-    // Claude gets /opsx:* commands; kimi only gets skills invoked as
-    // /skill:openspec-*. A single unlabeled /opsx: hint would be unusable
+    // Claude gets /otrix:* commands; kimi only gets skills invoked as
+    // /skill:openspec-*. A single unlabeled /otrix: hint would be unusable
     // for the Kimi user, so each tool gets its own labeled instruction.
     const initCommand = new InitCommand({ tools: 'claude,kimi', force: true });
     await initCommand.execute(testDir);
 
-    expect(await fileExists(path.join(testDir, '.claude', 'commands', 'opsx', 'propose.md'))).toBe(true);
+    expect(await fileExists(path.join(testDir, '.claude', 'commands', 'otrix', 'propose.md'))).toBe(true);
     expect(await fileExists(path.join(testDir, '.kimi-code', 'skills', 'openspec-propose', 'SKILL.md'))).toBe(true);
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
@@ -1323,22 +1323,22 @@ describe('InitCommand - profile and detection features', () => {
     expect(startHints).toHaveLength(2);
     const claudeHint = startHints.find((entry) => entry.includes('Claude Code'));
     const kimiHint = startHints.find((entry) => entry.includes('Kimi Code'));
-    expect(claudeHint).toContain('/opsx:propose');
+    expect(claudeHint).toContain('/otrix:propose');
     expect(kimiHint).toContain('/skill:openspec-propose');
-    expect(kimiHint).not.toContain('/opsx:');
+    expect(kimiHint).not.toContain('/otrix:');
   });
 
-  it('should keep /opsx: command hints for adapter-backed tools under default delivery', async () => {
+  it('should keep /otrix: command hints for adapter-backed tools under default delivery', async () => {
     const initCommand = new InitCommand({ tools: 'claude', force: true });
     await initCommand.execute(testDir);
 
     const skillFile = path.join(testDir, '.claude', 'skills', 'openspec-apply-change', 'SKILL.md');
     const skillContent = await fs.readFile(skillFile, 'utf-8');
-    expect(skillContent).toContain('/opsx:');
+    expect(skillContent).toContain('/otrix:');
 
     const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
     const startHint = logCalls.find((entry) => entry.includes('Start your first change'));
-    expect(startHint).toContain('/opsx:propose');
+    expect(startHint).toContain('/otrix:propose');
   });
 
   it('should use skill references for opencode in skills-only delivery', async () => {
@@ -1354,10 +1354,10 @@ describe('InitCommand - profile and detection features', () => {
     const skillFile = path.join(testDir, '.opencode', 'skills', 'openspec-explore', 'SKILL.md');
     expect(await fileExists(skillFile)).toBe(true);
 
-    // Skills-only must win over the hyphen transform: no /opsx: or /opsx- references
+    // Skills-only must win over the hyphen transform: no /otrix: or /otrix- references
     const skillContent = await fs.readFile(skillFile, 'utf-8');
-    expect(skillContent).not.toContain('/opsx:');
-    expect(skillContent).not.toContain('/opsx-');
+    expect(skillContent).not.toContain('/otrix:');
+    expect(skillContent).not.toContain('/otrix-');
     expect(skillContent).toContain('/openspec-');
   });
 
@@ -1376,7 +1376,7 @@ describe('InitCommand - profile and detection features', () => {
     expect(await fileExists(skillFile)).toBe(false);
 
     // Commands should exist
-    const cmdFile = path.join(testDir, '.claude', 'commands', 'opsx', 'explore.md');
+    const cmdFile = path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md');
     expect(await fileExists(cmdFile)).toBe(true);
   });
 
@@ -1390,7 +1390,7 @@ describe('InitCommand - profile and detection features', () => {
     const initCommand1 = new InitCommand({ tools: 'claude', force: true });
     await initCommand1.execute(testDir);
 
-    const cmdFile = path.join(testDir, '.claude', 'commands', 'opsx', 'explore.md');
+    const cmdFile = path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md');
     expect(await fileExists(cmdFile)).toBe(true);
 
     saveGlobalConfig({
