@@ -199,6 +199,7 @@ Both are in the default profile. If you want the expanded workflow (`/opsx:new`,
 
 **Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to OpenSpec? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/opsx:propose`).
 
+→ **[OpenSpec Unified](docs/UNIFIED.md)**: the four systems, pipeline, profiles — how this fork integrates Superpowers, Ponytail, and RTK<br>
 → **[Getting Started](docs/getting-started.md)**: first steps<br>
 → **[Explore First](docs/explore.md)**: think it through with `/opsx:explore` before you commit<br>
 → **[How Commands Work](docs/how-commands-work.md)**: where slash commands run vs the CLI<br>
