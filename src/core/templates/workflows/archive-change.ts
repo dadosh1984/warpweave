@@ -178,7 +178,11 @@ ${STORE_SELECTION_GUIDANCE}
 - Consider every guidance entry and explain any inapplicable or conflicting advice
 - Existing CLI checks, resolved paths, prompts, and command contracts are unchanged
 - Artifact rules constrain only the specs being written and are never operation guidance
-- Never copy runtime context, operation guidance, or artifact-rule text verbatim into output files`,
+- Never copy runtime context, operation guidance, or artifact-rule text verbatim into output files
+
+**Unified Archive (RTK)**
+
+Before archiving, run \`rtk gain\` to report token savings for the session. Include the savings summary in the archive completion output.`,
     license: 'MIT',
     compatibility: 'Requires openspec CLI.',
     metadata: { author: 'openspec', version: '1.0' },
@@ -405,6 +409,10 @@ Target archive directory already exists.
 - Consider every guidance entry and explain any inapplicable or conflicting advice
 - Existing CLI checks, resolved paths, prompts, and command contracts are unchanged
 - Artifact rules constrain only the specs being written and are never operation guidance
-- Never copy runtime context, operation guidance, or artifact-rule text verbatim into output files`
+- Never copy runtime context, operation guidance, or artifact-rule text verbatim into output files
+
+**Unified Archive (RTK)**
+
+Before archiving, run \`rtk gain\` to report token savings for the session. Include the savings summary in the archive completion output.`
   };
 }

@@ -294,7 +294,16 @@ But this summary is optional. Sometimes the thinking IS the value.
 - **Don't auto-capture** - Offer to save insights, don't just do it
 - **Do visualize** - A good diagram is worth many paragraphs
 - **Do explore the codebase** - Ground discussions in reality
-- **Do question assumptions** - Including the user's and your own`,
+- **Do question assumptions** - Including the user's and your own
+
+**Unified Thinking (Ponytail + Superpowers + RTK)**
+
+When exploring, apply Ponytail-aware thinking:
+- For every option, identify the minimal approach first — which ladder rung applies?
+- Prefer stdlib, native platform features, and existing code over new dependencies
+- When comparing options, include a "minimal" column: what's the smallest correct implementation?
+- Suggest: "Could we solve this without new code? (YAGNI — rung 1)"
+- Mark the ladder rung for each proposed approach (1-7)`,
     license: 'MIT',
     compatibility: 'Requires openspec CLI.',
     metadata: { author: 'openspec', version: '1.0' },
@@ -479,6 +488,15 @@ When things crystallize, you might offer a summary - but it's optional. Sometime
 - **Don't auto-capture** - Offer to save insights, don't just do it
 - **Do visualize** - A good diagram is worth many paragraphs
 - **Do explore the codebase** - Ground discussions in reality
-- **Do question assumptions** - Including the user's and your own`
+- **Do question assumptions** - Including the user's and your own
+
+**Unified Thinking (Ponytail + Superpowers + RTK)**
+
+When exploring, apply Ponytail-aware thinking:
+- For every option, identify the minimal approach first — which ladder rung applies?
+- Prefer stdlib, native platform features, and existing code over new dependencies
+- When comparing options, include a "minimal" column: what's the smallest correct implementation?
+- Suggest: "Could we solve this without new code? (YAGNI — rung 1)"
+- Mark the ladder rung for each proposed approach (1-7)`
   };
 }

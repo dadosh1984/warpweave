@@ -182,3 +182,34 @@ This skill supports the "actions on a change" model:
 
 - **Can be invoked anytime**: Before all artifacts are done (if tasks exist), after partial implementation, interleaved with other actions
 - **Allows artifact updates**: If implementation reveals design issues, suggest updating artifacts - not phase-locked, work fluidly
+
+**Unified Workflow (Ponytail + Superpowers + RTK)**
+
+During implementation, apply all three tools:
+
+**TDD Cycle (Superpowers):** For each task, follow RED-GREEN-REFACTOR:
+1. Write failing test (RED)
+2. Observe failure
+3. Write minimal code (GREEN) — apply ladder rung from tasks.md
+4. Observe pass
+5. Refactor if needed (still minimal)
+6. Commit with task reference
+
+**Ponytail Ladder:** Before writing each line, climb the ladder. Stop at the first rung that holds:
+1. YAGNI — does this need to exist?  2. Reuse — already in codebase?
+3. Stdlib — standard library covers it?  4. Native — platform feature?
+5. Dependency — installed package?  6. One-liner — single expression?
+7. Minimum — smallest correct implementation
+
+**RTK Wrapping:** All shell commands MUST be wrapped with `rtk`:
+- `git status` → `rtk git status`
+- `npm test` → `rtk jest` / `rtk vitest`
+- `cargo test` → `rtk cargo test`
+- `ls` → `rtk ls`
+- `grep` → `rtk grep`
+
+On command failure, read RTK tee log at `~/.local/share/rtk/tee/`.
+
+**Two-Stage Review (Superpowers):** After each task, review:
+1. Spec compliance — does the code satisfy the spec scenario?
+2. Code quality — is every line minimal? Would the senior engineer with the ponytail delete any of it?

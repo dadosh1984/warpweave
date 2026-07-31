@@ -172,3 +172,15 @@ Use clear markdown with:
 - Code references in format: `file.ts:123`
 - Specific, actionable recommendations
 - No vague suggestions like "consider reviewing"
+
+**Unified Verification (Ponytail + RTK)**
+
+During verification, also check:
+
+**Ladder Audit (Ponytail):** For each changed file, verify the ladder rung documented in tasks.md matches the actual implementation. Flag over-engineering:
+- Could any line be deleted without breaking a spec scenario?
+- Could any dependency be removed?
+- Could any abstraction be inlined?
+- Is there a stdlib call that replaces custom code?
+
+**RTK Gain (RTK):** Run `rtk gain` to report token savings for this change. Include the savings in the verification report.

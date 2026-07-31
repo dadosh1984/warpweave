@@ -121,7 +121,20 @@ After completing all artifacts, summarize:
 - Always read dependency artifacts before creating a new one - re-read from disk, not from conversation memory (files may have changed since you last saw them)
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
 - If a change with that name already exists, ask if user wants to continue it or create a new one
-- Verify each artifact file exists after writing before proceeding to next`,
+- Verify each artifact file exists after writing before proceeding to next
+
+**Unified Workflow (Ponytail + Superpowers + RTK)**
+
+When creating the proposal, include a Ladder Decision table (Ponytail). Before proposing any implementation, climb the ladder — stop at the first rung that holds:
+1. YAGNI — does this need to exist at all?
+2. Reuse — already in this codebase?
+3. Stdlib — standard library covers it?
+4. Native — platform feature exists?
+5. Dependency — installed package does it?
+6. One-liner — single expression?
+7. Minimum — smallest correct implementation
+
+Fill the Ladder Decision table in the proposal template with concrete answers.`,
     license: 'MIT',
     compatibility: 'Requires openspec CLI.',
     metadata: { author: 'openspec', version: '1.0' },
@@ -244,6 +257,19 @@ After completing all artifacts, summarize:
 - Always read dependency artifacts before creating a new one - re-read from disk, not from conversation memory (files may have changed since you last saw them)
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
 - If a change with that name already exists, ask if user wants to continue it or create a new one
-- Verify each artifact file exists after writing before proceeding to next`
+- Verify each artifact file exists after writing before proceeding to next
+
+**Unified Workflow (Ponytail + Superpowers + RTK)**
+
+When creating the proposal, include a Ladder Decision table (Ponytail). Before proposing any implementation, climb the ladder — stop at the first rung that holds:
+1. YAGNI — does this need to exist at all?
+2. Reuse — already in this codebase?
+3. Stdlib — standard library covers it?
+4. Native — platform feature exists?
+5. Dependency — installed package does it?
+6. One-liner — single expression?
+7. Minimum — smallest correct implementation
+
+Fill the Ladder Decision table in the proposal template with concrete answers.`
   };
 }
