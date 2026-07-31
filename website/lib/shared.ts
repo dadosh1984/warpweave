@@ -22,6 +22,6 @@ export const gitConfig = {
 export const links = {
   github: `https://github.com/${gitConfig.user}/${gitConfig.repo}`,
   discord: 'https://discord.gg/YctCnvvshC',
-  npm: 'https://www.npmjs.com/package/@dadosh1984/openspec-unified',
+  npm: 'https://www.npmjs.com/package/@dadosh1984/spectrix',
   x: 'https://x.com/0xTab',
 };

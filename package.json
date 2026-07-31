@@ -1,5 +1,5 @@
 {
-  "name": "@dadosh1984/openspec-unified",
+  "name": "@dadosh1984/spectrix",
   "version": "1.8.0",
   "description": "Spec-driven development with Ponytail, Superpowers, and RTK — one organism, four systems, zero waste",
   "keywords": [
@@ -15,10 +15,10 @@
     "minimal",
     "tdd"
   ],
-  "homepage": "https://github.com/dadosh1984/open-spec-fork",
+  "homepage": "https://github.com/dadosh1984/spectrix",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dadosh1984/open-spec-fork"
+    "url": "https://github.com/dadosh1984/spectrix"
   },
   "license": "MIT",
   "author": "OpenSpec Contributors",

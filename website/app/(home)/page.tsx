@@ -621,7 +621,7 @@ function FinalCta() {
       <div className="mt-8 inline-flex flex-col gap-1 rounded-lg border border-fd-border bg-fd-card px-4 py-3 text-left font-mono text-sm">
         <div className="flex items-center gap-2">
           <span className="text-fd-muted-foreground">$</span>
-          npm install -g @dadosh1984/openspec-unified@latest
+          npm install -g @dadosh1984/spectrix@latest
         </div>
         <div className="flex items-center gap-2">
           <span className="text-fd-muted-foreground">$</span>

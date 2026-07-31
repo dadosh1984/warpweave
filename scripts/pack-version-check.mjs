@@ -53,7 +53,7 @@ function main() {
   let tgzPath;
 
   try {
-    log(`Packing @dadosh1984/openspec-unified@${expected}...`);
+    log(`Packing @dadosh1984/spectrix@${expected}...`);
     const filename = npmPack();
     tgzPath = path.resolve(filename);
     log(`Created: ${tgzPath}`);

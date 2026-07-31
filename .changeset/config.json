@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "dadosh1984/open-spec-fork" }
+    { "repo": "dadosh1984/spectrix" }
   ],
   "commit": false,
   "fixed": [],

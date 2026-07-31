@@ -58,7 +58,7 @@ USER INTENT
 ### Quick Start
 
 ```bash
-npm install -g @dadosh1984/openspec-unified@latest
+npm install -g @dadosh1984/spectrix@latest
 brew install rtk
 cd your-project
 openspec init

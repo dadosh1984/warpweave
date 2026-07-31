@@ -1036,8 +1036,8 @@ export class InitCommand {
 
     // Links
     console.log();
-    console.log(`Learn more: ${chalk.cyan('https://github.com/dadosh1984/open-spec-fork')}`);
-    console.log(`Feedback:   ${chalk.cyan('https://github.com/dadosh1984/open-spec-fork/issues')}`);
+    console.log(`Learn more: ${chalk.cyan('https://github.com/dadosh1984/spectrix')}`);
+    console.log(`Feedback:   ${chalk.cyan('https://github.com/dadosh1984/spectrix/issues')}`);
 
     // Unified tool suggestions
     console.log();
