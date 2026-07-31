@@ -10,6 +10,7 @@ import chalk from 'chalk';
 import ora from 'ora';
 import * as fs from 'fs';
 import { createRequire } from 'module';
+import { fileURLToPath } from 'url';
 import { FileSystemUtils } from '../utils/file-system.js';
 import { classifyOpenSpecDir, storePointerProblem } from './project-config.js';
 import { findRepoPlanningRootSync } from './planning-home.js';
@@ -218,6 +219,9 @@ export class InitCommand {
 
     // Create directory structure and config
     await this.createDirectoryStructure(openspecPath, extendMode);
+
+    // Copy unified config files and AGENTS.md/.env.example to the project
+    await this.copyUnifiedConfig(projectPath);
 
     // Generate skills and commands for each tool
     const results = await this.generateSkillsAndCommands(projectPath, validatedTools);
@@ -661,6 +665,43 @@ export class InitCommand {
     });
   }
 
+  private async copyUnifiedConfig(projectPath: string): Promise<void> {
+    const unifiedDir = path.join(projectPath, '.unified', 'config');
+    await FileSystemUtils.createDirectory(unifiedDir);
+
+    // Resolve package root from the current module (dist/core/init.js -> package root)
+    const currentFile = fileURLToPath(import.meta.url);
+    const packageRoot = path.join(path.dirname(currentFile), '..', '..');
+    const sourceDir = path.join(packageRoot, 'config');
+    const files = ['unified.toml', 'pipeline.yaml'];
+
+    for (const file of files) {
+      const src = path.join(sourceDir, file);
+      const dest = path.join(unifiedDir, file);
+      try {
+        if (fs.existsSync(src)) {
+          await fs.promises.copyFile(src, dest);
+        }
+      } catch {
+        // Skip if source not found (e.g., running from dist/)
+      }
+    }
+
+    // Copy AGENTS.md and .env.example to project root (only if absent)
+    const rootFiles = ['AGENTS.md', '.env.example'];
+    for (const file of rootFiles) {
+      const src = path.join(packageRoot, file);
+      const dest = path.join(projectPath, file);
+      try {
+        if (fs.existsSync(src) && !fs.existsSync(dest)) {
+          await fs.promises.copyFile(src, dest);
+        }
+      } catch {
+        // Skip if source not found
+      }
+    }
+  }
+
   // ═══════════════════════════════════════════════════════════
   // SKILL & COMMAND GENERATION
   // ═══════════════════════════════════════════════════════════
@@ -986,8 +1027,16 @@ export class InitCommand {
 
     // Links
     console.log();
-    console.log(`Learn more: ${chalk.cyan('https://github.com/Fission-AI/OpenSpec')}`);
-    console.log(`Feedback:   ${chalk.cyan('https://github.com/Fission-AI/OpenSpec/issues')}`);
+    console.log(`Learn more: ${chalk.cyan('https://github.com/dadosh1984/open-spec-fork')}`);
+    console.log(`Feedback:   ${chalk.cyan('https://github.com/dadosh1984/open-spec-fork/issues')}`);
+
+    // Unified tool suggestions
+    console.log();
+    console.log(chalk.bold('Unified tools (optional but recommended):'));
+    console.log(`  ${chalk.cyan('rtk init -g --opencode')}  — compress shell output (-70% tokens)`);
+    console.log(`  Add to opencode.json: ${chalk.cyan('"superpowers@git+https://github.com/obra/superpowers.git"')}  — TDD + subagent methodology`);
+    console.log(`  Add to opencode.json: ${chalk.cyan('"@dietrichgebert/ponytail"')}  — minimal output ladder (-54% code)`);
+    console.log(`  Set profile: ${chalk.cyan('UNIFIED_PROFILE=standard')} in .env  — minimal | standard | enterprise`);
 
     // Restart instruction if any tools were configured and got a surface
     // (when nothing was generated there is nothing a restart would pick up);

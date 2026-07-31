@@ -64,6 +64,51 @@ describe('InitCommand', () => {
       expect(await directoryExists(path.join(openspecPath, 'changes', 'archive'))).toBe(true);
     });
 
+    it('should copy unified config files to .unified/config', async () => {
+      const initCommand = new InitCommand({ tools: 'claude', force: true });
+
+      await initCommand.execute(testDir);
+
+      expect(await fileExists(path.join(testDir, '.unified', 'config', 'unified.toml'))).toBe(true);
+      expect(await fileExists(path.join(testDir, '.unified', 'config', 'pipeline.yaml'))).toBe(true);
+    });
+
+    it('should copy AGENTS.md and .env.example to the project root', async () => {
+      const initCommand = new InitCommand({ tools: 'claude', force: true });
+
+      await initCommand.execute(testDir);
+
+      expect(await fileExists(path.join(testDir, 'AGENTS.md'))).toBe(true);
+      expect(await fileExists(path.join(testDir, '.env.example'))).toBe(true);
+
+      const agents = await fs.readFile(path.join(testDir, 'AGENTS.md'), 'utf-8');
+      expect(agents).toContain('SPEC GATE');
+      expect(agents).toContain('Superpowers');
+      expect(agents).toContain('Ponytail');
+      expect(agents).toContain('RTK');
+    });
+
+    it('should not overwrite an existing AGENTS.md in the project root', async () => {
+      await fs.writeFile(path.join(testDir, 'AGENTS.md'), '# custom agents\n');
+
+      const initCommand = new InitCommand({ tools: 'claude', force: true });
+      await initCommand.execute(testDir);
+
+      const agents = await fs.readFile(path.join(testDir, 'AGENTS.md'), 'utf-8');
+      expect(agents).toBe('# custom agents\n');
+    });
+
+    it('should suggest unified external tools in the success message', async () => {
+      const initCommand = new InitCommand({ tools: 'claude', force: true });
+      await initCommand.execute(testDir);
+
+      const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
+      expect(logCalls.some((entry) => entry.includes('Unified tools'))).toBe(true);
+      expect(logCalls.some((entry) => entry.includes('rtk init -g --opencode'))).toBe(true);
+      expect(logCalls.some((entry) => entry.includes('superpowers'))).toBe(true);
+      expect(logCalls.some((entry) => entry.includes('ponytail'))).toBe(true);
+    });
+
     it('should create config.yaml with default schema', async () => {
       const initCommand = new InitCommand({ tools: 'claude', force: true });
 
