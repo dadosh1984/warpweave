@@ -1,8 +1,8 @@
 /**
- * Shared OpenSpec root resolution for normal commands.
+ * Shared Spectrix root resolution for normal commands.
  *
  * Normal commands (`new change`, `status`, `instructions`, `list`, `show`,
- * `validate`, `archive`) resolve one OpenSpec root through this module:
+ * `validate`, `archive`) resolve one Spectrix root through this module:
  *
  * - `--store <id>` selects a registered store's root.
  * - Without `--store`, the nearest ancestor containing `openspec/` wins.
@@ -19,7 +19,7 @@
  * (`unknown_store`, `no_registered_stores`, `store_identity_mismatch`,
  * `unhealthy_store_root`, `store_path_not_supported`,
  * `invalid_store_pointer`, `no_root_with_registered_stores`,
- * `no_openspec_root`).
+ * `no_spectrix_root`).
  */
 
 import * as fs from 'node:fs';
@@ -111,7 +111,7 @@ function fromStoreError(error: unknown): never {
 }
 
 function doctorFix(id: string): string {
-  return `Run openspec store doctor ${id} to inspect it.`;
+  return `Run spectrix store doctor ${id} to inspect it.`;
 }
 
 function makeRoot(
@@ -169,7 +169,7 @@ async function resolveStoreRoot(
         'no_registered_stores',
         {
           target: 'store.id',
-          fix: `Run openspec store setup ${id} or openspec store register <path> first.`,
+          fix: `Run spectrix store setup ${id} or spectrix store register <path> first.`,
         }
       );
     }
@@ -181,7 +181,7 @@ async function resolveStoreRoot(
       'unknown_store',
       {
         target: 'store.id',
-        fix: 'Pass a registered store id, or run openspec store list.',
+        fix: 'Pass a registered store id, or run spectrix store list.',
       }
     );
   }
@@ -208,7 +208,7 @@ async function resolveStoreRoot(
       );
     case 'unhealthy_root':
       throw new RootSelectionError(
-        `Store '${id}' does not have a healthy OpenSpec root at ${storeRoot}: ${inspection.problems} ${doctorFix(id)}`,
+        `Store '${id}' does not have a healthy Spectrix root at ${storeRoot}: ${inspection.problems} ${doctorFix(id)}`,
         'unhealthy_store_root',
         { target: 'openspec.root', fix: doctorFix(id) }
       );
@@ -260,7 +260,7 @@ export async function inspectRegisteredStore(
   if (!inspection.healthy) {
     const problems =
       inspection.diagnostics.map((diagnostic) => diagnostic.message).join(' ') ||
-      'OpenSpec root is missing or incomplete.';
+      'Spectrix root is missing or incomplete.';
     return { kind: 'unhealthy_root', problems };
   }
 
@@ -306,7 +306,7 @@ async function resolveNearestOrDeclaredRoot(
   if (hasPlanningShape) {
     if (pointer.value !== undefined) {
       console.error(
-        `Warning: ${pointer.filePath} declares store '${pointer.value}', but this directory is a real OpenSpec root; the declaration is ignored.`
+        `Warning: ${pointer.filePath} declares store '${pointer.value}', but this directory is a real Spectrix root; the declaration is ignored.`
       );
     }
     return makeRoot(nearestRoot, 'nearest');
@@ -340,7 +340,7 @@ async function resolveNearestOrDeclaredRoot(
       // they did not pass --store.
       const declarationFix =
         error.diagnostic.code === 'unknown_store'
-          ? `Register the store (openspec store register <path> --id ${pointer.value}) or edit ${pointer.filePath} to name a registered store.`
+          ? `Register the store (spectrix store register <path> --id ${pointer.value}) or edit ${pointer.filePath} to name a registered store.`
           : error.diagnostic.fix;
       throw new RootSelectionError(
         `Declared in ${pointer.filePath}: ${error.message}`,
@@ -374,7 +374,7 @@ async function resolveDefaultStoreRoot(
       const staleFix =
         error.diagnostic.code === 'unknown_store' ||
         error.diagnostic.code === 'no_registered_stores'
-          ? `Register the store (openspec store register <path> --id ${id}) or clear the stale global default (openspec config unset defaultStore).`
+          ? `Register the store (spectrix store register <path> --id ${id}) or clear the stale global default (spectrix config unset defaultStore).`
           : error.diagnostic.fix;
       throw new RootSelectionError(
         `Global defaultStore '${id}': ${error.message}`,
@@ -394,11 +394,11 @@ export async function resolveOpenSpecRoot(
 ): Promise<ResolvedOpenSpecRoot> {
   if (options.storePath !== undefined) {
     throw new RootSelectionError(
-      '--store-path is not supported. Register the path with openspec store register <path>, then select it with --store <id>.',
+      '--store-path is not supported. Register the path with spectrix store register <path>, then select it with --store <id>.',
       'store_path_not_supported',
       {
         target: 'store.id',
-        fix: 'openspec store register <path>, then rerun with --store <id>.',
+        fix: 'spectrix store register <path>, then rerun with --store <id>.',
       }
     );
   }
@@ -435,20 +435,20 @@ export async function resolveOpenSpecRoot(
 
   if (registeredIds.length > 0) {
     throw new RootSelectionError(
-      `No OpenSpec root found in the current directory or its ancestors. Registered stores: ${registeredIds.join(', ')}. Pass --store <id> to use one, or run openspec init to create a local root.`,
+      `No Spectrix root found in the current directory or its ancestors. Registered stores: ${registeredIds.join(', ')}. Pass --store <id> to use one, or run spectrix init to create a local root.`,
       'no_root_with_registered_stores',
       {
         target: 'openspec.root',
-        fix: `Rerun with --store <id> (registered: ${registeredIds.join(', ')}) or run openspec init.`,
+        fix: `Rerun with --store <id> (registered: ${registeredIds.join(', ')}) or run spectrix init.`,
       }
     );
   }
 
   if (options.allowImplicitRoot === false) {
     throw new RootSelectionError(
-      'No OpenSpec root found from the current directory.',
-      'no_openspec_root',
-      { target: 'openspec.root', fix: 'Run openspec init to create a root here.' }
+      'No Spectrix root found from the current directory.',
+      'no_spectrix_root',
+      { target: 'openspec.root', fix: 'Run spectrix init to create a root here.' }
     );
   }
 
@@ -490,7 +490,7 @@ export function isStoreSelectedRoot(
  */
 export function emitStoreRootBanner(root: ResolvedOpenSpecRoot): void {
   if (isStoreSelectedRoot(root)) {
-    console.error(`Using OpenSpec root: ${root.storeId} (${root.path})`);
+    console.error(`Using Spectrix root: ${root.storeId} (${root.path})`);
   }
 }
 

@@ -23,7 +23,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    If a change name is provided, resolve it with:
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
    Otherwise diff the working tree:
    \`\`\`bash
@@ -81,8 +81,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Never flag a line that a spec scenario depends on
 - Every finding must name a concrete file:line and a concrete simplification`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI and RTK.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI and RTK.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -104,7 +104,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    If a change name is provided, resolve it with:
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
    Otherwise diff the working tree:
    \`\`\`bash

@@ -23,7 +23,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    List archived changes:
    \`\`\`bash
-   openspec list --archived --json
+   spectrix list --archived --json
    \`\`\`
    If archives are on disk under \`openspec/changes/archive/\`, list them directly.
 
@@ -76,8 +76,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Use dates from archive filenames or the change root, not from memory
 - Recommendations must trace to a concrete trend in the data`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -99,7 +99,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    List archived changes:
    \`\`\`bash
-   openspec list --archived --json
+   spectrix list --archived --json
    \`\`\`
    If archives are on disk under \`openspec/changes/archive/\`, list them directly.
 

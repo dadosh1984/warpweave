@@ -1,17 +1,17 @@
 ---
 name: openspec-token-budget
 description: Set a token limit for a change and track consumption across pipeline phases. Use when the user wants to constrain cost, project remaining budget, or review RTK savings per change.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI and RTK.
+compatibility: Requires spectrix CLI and RTK.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Track and constrain token consumption for a change across the pipeline phases.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: A change name, plus an optional budget. If no budget is given, read it from `unified.toml` (`[openspec]` / budget section) or default to a sensible limit.
 
@@ -25,7 +25,7 @@ Track and constrain token consumption for a change across the pipeline phases.
    - Record the limit in `openspec/changes/<name>/` as `budget.md` if none exists
 
    ```bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    ```
 
 2. **Track phase spend**

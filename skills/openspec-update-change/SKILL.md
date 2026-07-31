@@ -1,17 +1,17 @@
 ---
 name: openspec-update-change
-description: Update an OpenSpec change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Never edits code.
-allowed-tools: Bash(openspec:*)
+description: Update an Spectrix change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Never edits code.
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: Requires spectrix CLI.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Revise a change's existing planning artifacts and keep them coherent. Never edit code.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
@@ -22,7 +22,7 @@ Revise a change's existing planning artifacts and keep them coherent. Never edit
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run `openspec list --json` to get available changes sorted by most recently modified, and ask the user to select one
+   - If ambiguous, run `spectrix list --json` to get available changes sorted by most recently modified, and ask the user to select one
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
@@ -36,7 +36,7 @@ Revise a change's existing planning artifacts and keep them coherent. Never edit
 
 2. **Get the change's artifacts**
    ```bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    ```
    Parse the JSON to understand current state. The response includes:
    - `schemaName`: The workflow schema being used (e.g., "spec-driven")
@@ -64,7 +64,7 @@ Revise a change's existing planning artifacts and keep them coherent. Never edit
    - If the user rejects a revision, do not write it - leave that artifact unchanged.
    - When a substantial rewrite is needed, get that artifact's rules and template first:
      ```bash
-     openspec instructions <artifact-id> --change "<name>" --json
+     spectrix instructions <artifact-id> --change "<name>" --json
      ```
 
 6. **Point to the next step (guidance only - NEVER act on it)**
@@ -81,9 +81,9 @@ After each invocation, show:
 
 **Guardrails**
 - Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to `/openspec-apply-change`.
-- Use the artifact ids and paths reported by `openspec status`; never branch on hardcoded artifact names.
+- Use the artifact ids and paths reported by `spectrix status`; never branch on hardcoded artifact names.
 - Edit only the concrete files in `existingOutputPaths`; never write to a glob `resolvedOutputPath`.
 - Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is `/openspec-continue-change`'s job.
 - Confirm every edit with the user before writing.
 - If the request changes the change's *intent* rather than refining it, recommend starting fresh with `/openspec-new-change` (the "Update vs. Start Fresh" heuristic).
-- `/openspec-continue-change` and `/openspec-new-change` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: `openspec status --change "<name>" --json` shows the next artifact and `openspec instructions <artifact-id> --change "<name>" --json` explains how to create it.
+- `/openspec-continue-change` and `/openspec-new-change` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: `spectrix status --change "<name>" --json` shows the next artifact and `spectrix instructions <artifact-id> --change "<name>" --json` explains how to create it.

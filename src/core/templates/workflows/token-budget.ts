@@ -27,7 +27,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Record the limit in \`openspec/changes/<name>/\` as \`budget.md\` if none exists
 
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
 
 2. **Track phase spend**
@@ -75,8 +75,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Never hide an overrun; report it with a recovery path
 - Treat the RTK savings line as informational, not as budget credit`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI and RTK.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI and RTK.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -102,7 +102,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Record the limit in \`openspec/changes/<name>/\` as \`budget.md\` if none exists
 
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
 
 2. **Track phase spend**

@@ -27,7 +27,7 @@ async function runStoreCommand(args: string[]): Promise<void> {
   const { registerStoreCommand } = await import('../../src/commands/store.js');
   const program = new Command();
   registerStoreCommand(program);
-  await program.parseAsync(['node', 'openspec', 'store', ...args]);
+  await program.parseAsync(['node', 'spectrix', 'store', ...args]);
 }
 
 async function getPromptMocks(): Promise<{
@@ -300,7 +300,7 @@ describe('store command', () => {
     expectHealthyOpenSpecRoot(storeRoot);
   });
 
-  it('preserves an existing healthy OpenSpec root during setup', async () => {
+  it('preserves an existing healthy Spectrix root during setup', async () => {
     const storeRoot = mkdir('team-context');
     createHealthyOpenSpecRoot(storeRoot, 'config.yml');
     fs.writeFileSync(path.join(storeRoot, 'openspec', 'specs', 'note.md'), 'keep\n');
@@ -659,7 +659,7 @@ describe('store command', () => {
     await runStoreCommand(['register', storeRoot]);
 
     expect(confirm).toHaveBeenCalledWith({
-      message: "Turn this OpenSpec root into store 'team-context'?",
+      message: "Turn this Spectrix root into store 'team-context'?",
       default: false,
     });
     expect(fs.existsSync(getStoreMetadataPath(storeRoot))).toBe(false);
@@ -1068,7 +1068,7 @@ describe('store command', () => {
     );
   });
 
-  it('reports OpenSpec root health separately without repairing it', async () => {
+  it('reports Spectrix root health separately without repairing it', async () => {
     const storeRoot = mkdir('team-context');
     fs.mkdirSync(path.join(storeRoot, 'openspec', 'specs'), { recursive: true });
     fs.mkdirSync(path.join(storeRoot, 'openspec', 'changes'), { recursive: true });
@@ -1132,7 +1132,7 @@ describe('store command', () => {
     expect(conflictStatus.code).toBe('store_id_conflict');
     expect(conflictStatus.message).toContain('One checkout per store id');
     expect(conflictStatus.message).toContain(expectedExistingPath(original));
-    expect(conflictStatus.fix).toContain('openspec store unregister team-context');
+    expect(conflictStatus.fix).toContain('spectrix store unregister team-context');
     expect(conflictStatus.fix).not.toContain('different store id');
 
     // Mismatched --id when the metadata id is already registered elsewhere:
@@ -1239,11 +1239,11 @@ describe('store command', () => {
       });
 
       expect(result.exitCode).toBe(1);
-      expect(result.stderr).toContain("unknown command 'new' for 'openspec store'");
+      expect(result.stderr).toContain("unknown command 'new' for 'spectrix store'");
       expect(result.stderr).toContain(
         'setup, register, unregister, remove, list (ls), doctor'
       );
-      expect(result.stderr).toContain('openspec new change billing-rework --store <id>');
+      expect(result.stderr).toContain('spectrix new change billing-rework --store <id>');
     });
 
     it('never suggests an invalid command for partial new invocations', async () => {
@@ -1251,8 +1251,8 @@ describe('store command', () => {
 
       expect(result.exitCode).toBe(1);
       // 'new my-change' would be invalid; the hint falls back to the full form.
-      expect(result.stderr).toContain('openspec new change <change-id> --store <id>');
-      expect(result.stderr).not.toContain('openspec new my-change');
+      expect(result.stderr).toContain('spectrix new change <change-id> --store <id>');
+      expect(result.stderr).not.toContain('spectrix new my-change');
     });
 
     it('falls back to the generic example when flags interleave operands', async () => {
@@ -1262,7 +1262,7 @@ describe('store command', () => {
       );
 
       expect(result.exitCode).toBe(1);
-      expect(result.stderr).toContain('openspec new change <change-id> --store <id>');
+      expect(result.stderr).toContain('spectrix new change <change-id> --store <id>');
       expect(result.stderr).not.toContain('core');
     });
 

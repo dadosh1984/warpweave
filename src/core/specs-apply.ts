@@ -257,7 +257,7 @@ export async function buildUpdatedSpec(
       // Measured on the parsed overview, which is what the validator reads.
       warn(
         `${specName} - carried Purpose is under ${MIN_PURPOSE_LENGTH} characters; ` +
-          `openspec validate --strict reports it as too brief.`
+          `spectrix validate --strict reports it as too brief.`
       );
     }
   }

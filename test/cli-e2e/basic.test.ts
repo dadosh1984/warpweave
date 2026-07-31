@@ -38,11 +38,11 @@ afterAll(async () => {
   await Promise.all(tempRoots.map((dir) => fs.rm(dir, { recursive: true, force: true })));
 });
 
-describe('openspec CLI e2e basics', () => {
+describe('spectrix CLI e2e basics', () => {
   it('shows help output', async () => {
     const result = await runCLI(['--help']);
     expect(result.exitCode).toBe(0);
-    expect(result.stdout).toContain('Usage: openspec');
+    expect(result.stdout).toContain('Usage: spectrix');
     expect(result.stderr).toBe('');
 
   });
@@ -140,7 +140,7 @@ describe('openspec CLI e2e basics', () => {
       });
       expect(result.timedOut).toBe(false);
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('OpenSpec Setup Complete');
+      expect(result.stdout).toContain('Spectrix Setup Complete');
 
       // Check that skills were created for multiple tools
       const claudeSkillPath = path.join(emptyProjectDir, '.claude/skills/openspec-explore/SKILL.md');
@@ -156,7 +156,7 @@ describe('openspec CLI e2e basics', () => {
 
       const result = await runCLI(['init', '--tools', 'claude'], { cwd: emptyProjectDir });
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('OpenSpec Setup Complete');
+      expect(result.stdout).toContain('Spectrix Setup Complete');
       expect(result.stdout).toContain('Claude Code');
 
       // New init creates skills, not CLAUDE.md
@@ -173,7 +173,7 @@ describe('openspec CLI e2e basics', () => {
 
       const result = await runCLI(['init', '--tools', 'agents'], { cwd: emptyProjectDir });
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('OpenSpec Setup Complete');
+      expect(result.stdout).toContain('Spectrix Setup Complete');
 
       const skillPath = path.join(emptyProjectDir, '.agents', 'skills', 'openspec-explore', 'SKILL.md');
       expect(await fileExists(skillPath)).toBe(true);
@@ -186,7 +186,7 @@ describe('openspec CLI e2e basics', () => {
 
       const result = await runCLI(['init', '--tools', 'none'], { cwd: emptyProjectDir });
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('OpenSpec Setup Complete');
+      expect(result.stdout).toContain('Spectrix Setup Complete');
 
       // With --tools none, no tool skills should be created
       const claudeSkillPath = path.join(emptyProjectDir, '.claude/skills/openspec-explore/SKILL.md');
@@ -250,7 +250,7 @@ describe('openspec CLI e2e basics', () => {
       expect(result.exitCode).toBe(1);
       expect(output).not.toContain('force closed the prompt');
       expect(output).toContain('no answer could be read from stdin');
-      expect(output).toContain('openspec archive add-greeting --yes');
+      expect(output).toContain('spectrix archive add-greeting --yes');
 
       // The change is untouched: nothing was archived or merged.
       expect(await fileExists(path.join(projectDir, 'openspec', 'changes', 'add-greeting', 'proposal.md'))).toBe(true);
@@ -265,7 +265,7 @@ describe('openspec CLI e2e basics', () => {
       expect(result.exitCode).toBe(1);
       expect(output).not.toContain('force closed the prompt');
       expect(output).toContain('1 incomplete task(s) found');
-      expect(output).toContain('openspec archive add-greeting --yes');
+      expect(output).toContain('spectrix archive add-greeting --yes');
     });
 
     it('keeps the caller\'s own flags in the suggested rerun', async () => {
@@ -276,7 +276,7 @@ describe('openspec CLI e2e basics', () => {
 
       const output = `${result.stdout}${result.stderr}`;
       expect(result.exitCode).toBe(1);
-      expect(output).toContain('openspec archive add-greeting --skip-specs --yes');
+      expect(output).toContain('spectrix archive add-greeting --skip-specs --yes');
     });
 
     it('reports the skip-validation prompt the same way', async () => {
@@ -287,7 +287,7 @@ describe('openspec CLI e2e basics', () => {
       expect(result.exitCode).toBe(1);
       expect(output).not.toContain('force closed the prompt');
       expect(output).toContain('Skipping validation requires confirmation');
-      expect(output).toContain('openspec archive add-greeting --no-validate --yes');
+      expect(output).toContain('spectrix archive add-greeting --no-validate --yes');
     });
 
     it('archives normally once that flag is passed', async () => {
@@ -339,7 +339,7 @@ describe('openspec CLI e2e basics', () => {
 
       const output = `${result.stdout}${result.stderr}`;
       expect(result.exitCode).toBe(1);
-      expect(output).toContain('openspec archive add-greeting --yes --store team-store');
+      expect(output).toContain('spectrix archive add-greeting --yes --store team-store');
     });
 
     it('keeps --store in front of the `--` for a dash-leading change name', async () => {
@@ -376,7 +376,7 @@ describe('openspec CLI e2e basics', () => {
 
       const output = `${result.stdout}${result.stderr}`;
       expect(result.exitCode).toBe(1);
-      expect(output).toContain('openspec archive --yes --store team-store -- --force');
+      expect(output).toContain('spectrix archive --yes --store team-store -- --force');
     });
   });
 });

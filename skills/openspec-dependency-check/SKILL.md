@@ -1,17 +1,17 @@
 ---
 name: openspec-dependency-check
 description: Check a proposed new dependency against the Ponytail ladder before adding it. Use when the user wants to add a dependency or verify that an existing one is justified.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: Requires spectrix CLI.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Intercept any proposed new dependency and walk the Ponytail ladder before approving it.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: A proposed dependency (package name, crate, module, or service). If omitted, check the last dependency added or asked about in context.
 

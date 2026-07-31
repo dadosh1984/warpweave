@@ -8,7 +8,7 @@ async function runConfigCommand(args: string[]): Promise<void> {
   const { registerConfigCommand } = await import('../../src/commands/config.js');
   const program = new Command();
   registerConfigCommand(program);
-  await program.parseAsync(['node', 'openspec', 'config', ...args]);
+  await program.parseAsync(['node', 'spectrix', 'config', ...args]);
 }
 
 describe('config command integration', () => {
@@ -137,7 +137,7 @@ describe('config command shell completion registry', () => {
 
     const configCmd = COMMAND_REGISTRY.find((cmd) => cmd.name === 'config');
     expect(configCmd).toBeDefined();
-    expect(configCmd?.description).toBe('View and modify global OpenSpec configuration');
+    expect(configCmd?.description).toBe('View and modify global Spectrix configuration');
   });
 
   it('should have all config subcommands in registry', async () => {

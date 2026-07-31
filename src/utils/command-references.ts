@@ -136,7 +136,7 @@ export function getSkillReferenceTransformer(toolId: string): (text: string) => 
  * Skill references are used whenever the tool ends up without `/opsx:*`
  * commands — because delivery is skills-only, because the tool has no command
  * surface at all (capability 'none', e.g. Kimi Code or Mistral Vibe), or
- * because the tool invokes skills directly and OpenSpec generates no command
+ * because the tool invokes skills directly and Spectrix generates no command
  * files for it (capability 'skills-invocable', i.e. Codex) — so those skills
  * never point at commands that were not generated.
  *

@@ -688,7 +688,7 @@ context: |
         expect(consoleWarnSpy).not.toHaveBeenCalled();
       });
 
-      it('should return null when openspec directory does not exist', () => {
+      it('should return null when spectrix directory does not exist', () => {
         const config = readProjectConfig(tempDir);
 
         expect(config).toBeNull();

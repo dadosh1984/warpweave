@@ -1,5 +1,5 @@
 /**
- * `openspec doctor` (slice 3.6): the root-scoped relationship-health
+ * `spectrix doctor` (slice 3.6): the root-scoped relationship-health
  * report. Read-only — it answers "are the roots this work relates to
  * available on this machine?" and never clones, syncs, or repairs.
  */
@@ -152,7 +152,7 @@ function printHumanHealth(health: RelationshipHealth, declaredReferenceCount: nu
   console.log('');
   console.log('Root');
   console.log(`  Location: ${health.root.path}`);
-  console.log(`  OpenSpec root: ${health.root.healthy ? 'ok' : 'unhealthy'}`);
+  console.log(`  Spectrix root: ${health.root.healthy ? 'ok' : 'unhealthy'}`);
   if (health.store) {
     const metadataNote = health.store.metadata.valid ? 'metadata ok' : 'metadata invalid';
     console.log(`  Store: ${health.store.id} (${metadataNote})`);
@@ -185,7 +185,7 @@ function printHumanHealth(health: RelationshipHealth, declaredReferenceCount: nu
 export function registerDoctorCommand(program: Command): void {
   const description =
     COMMAND_REGISTRY.find((entry) => entry.name === 'doctor')?.description ??
-    'Report relationship health for the resolved OpenSpec root';
+    'Report relationship health for the resolved Spectrix root';
 
   program
     .command('doctor')

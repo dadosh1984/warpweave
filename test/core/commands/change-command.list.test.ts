@@ -99,7 +99,7 @@ describe('ChangeCommand.list with a change that has no proposal.md', () => {
     cmd = new ChangeCommand();
     originalCwd = process.cwd();
     tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'openspec-change-list-noproposal-'));
-    // What `openspec new change` leaves behind, plus tasks: no proposal.md.
+    // What `spectrix new change` leaves behind, plus tasks: no proposal.md.
     const scaffolded = path.join(tempRoot, 'openspec', 'changes', 'scaffolded');
     await fs.mkdir(scaffolded, { recursive: true });
     await fs.writeFile(path.join(scaffolded, '.openspec.yaml'), 'schema: spec-driven\n', 'utf-8');
@@ -112,7 +112,7 @@ describe('ChangeCommand.list with a change that has no proposal.md', () => {
     await fs.rm(tempRoot, { recursive: true, force: true });
   });
 
-  it('lists it, matching what `openspec list` resolves', async () => {
+  it('lists it, matching what `spectrix list` resolves', async () => {
     expect(await capture(() => cmd.list({}))).toContain('scaffolded');
   });
 

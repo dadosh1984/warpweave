@@ -55,7 +55,7 @@ function Hero() {
           Then build confidently.
         </h1>
         <p className="mt-6 max-w-2xl text-balance text-lg text-fd-muted-foreground">
-          OpenSpec is a tiny agreement layer between you and your AI. You write
+          Spectrix is a tiny agreement layer between you and your AI. You write
           down what a change should do, the AI drafts the details, you both look
           at the same plan, and <em>only then</em> does code get written. No more
           discovering halfway through that it built the wrong thing.
@@ -151,7 +151,7 @@ function TwoFolders() {
           The whole idea, in two folders
         </h2>
         <p className="mt-4 text-fd-muted-foreground">
-          OpenSpec lives in one <code className="text-fd-primary">openspec/</code>{' '}
+          Spectrix lives in one <code className="text-fd-primary">openspec/</code>{' '}
           directory in your repo. Two folders inside it carry the entire mental
           model.
         </p>
@@ -203,7 +203,7 @@ const IDEAS = [
   {
     icon: Layers,
     title: 'Deltas, not rewrites',
-    body: 'You describe what is changing — ADDED, MODIFIED, REMOVED — not the whole world. That is the trick that makes OpenSpec great at brownfield code.',
+    body: 'You describe what is changing — ADDED, MODIFIED, REMOVED — not the whole world. That is the trick that makes Spectrix great at brownfield code.',
   },
   {
     icon: Compass,
@@ -221,7 +221,7 @@ function FiveIdeas() {
             Learn four ideas, and the rest is detail
           </h2>
           <p className="mt-4 text-fd-muted-foreground">
-            Everything in OpenSpec is built from a handful of simple concepts.
+            Everything in Spectrix is built from a handful of simple concepts.
           </p>
         </div>
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
@@ -306,7 +306,7 @@ function Why() {
             Why bother with the extra step?
           </h2>
           <p className="mt-4 text-fd-muted-foreground">
-            OpenSpec adds one small step — a short plan before building. Here is
+            Spectrix adds one small step — a short plan before building. Here is
             what you get for it.
           </p>
         </div>
@@ -373,9 +373,9 @@ function Teams() {
             Why teams adopt OpenSpec
           </h2>
           <p className="mt-4 text-fd-muted-foreground">
-            Solo, OpenSpec keeps you and your AI honest on one repo. On a team,
+            Solo, Spectrix keeps you and your AI honest on one repo. On a team,
             the hard part moves: work spans repos, requirements cross team lines,
-            and planning starts before code exists. OpenSpec{' '}
+            and planning starts before code exists. Spectrix{' '}
             <Link href={`${docsRoute}/stores`} className="font-medium text-fd-primary underline">
               stores
             </Link>{' '}
@@ -561,7 +561,7 @@ const ROWS = [
     us: false,
   },
   {
-    name: 'OpenSpec',
+    name: 'Spectrix',
     by: '',
     good: 'Lightweight, fluid, lives in your repo',
     catch: 'Adds one small step — worth it whenever agreement matters',
@@ -575,7 +575,7 @@ function Comparison() {
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight">The honest middle</h2>
         <p className="mt-4 text-fd-muted-foreground">
-          Heavier tools exist. So does doing nothing. OpenSpec aims for the
+          Heavier tools exist. So does doing nothing. Spectrix aims for the
           spot where the value clearly beats the cost.
         </p>
       </div>
@@ -625,7 +625,7 @@ function FinalCta() {
         </div>
         <div className="flex items-center gap-2">
           <span className="text-fd-muted-foreground">$</span>
-          cd your-project &amp;&amp; openspec init
+          cd your-project &amp;&amp; spectrix init
         </div>
       </div>
       <p className="mt-4 text-sm text-fd-muted-foreground">

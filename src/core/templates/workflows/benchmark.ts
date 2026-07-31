@@ -21,7 +21,7 @@ ${STORE_SELECTION_GUIDANCE}
 1. **Select the change**
 
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
 
 2. **Collect the plan (estimate)**
@@ -85,8 +85,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Actual LOC comes from the diff, not from memory
 - A rung skip without a documented reason counts as unjustified`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI and RTK.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI and RTK.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -107,7 +107,7 @@ ${STORE_SELECTION_GUIDANCE}
 1. **Select the change**
 
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
 
 2. **Collect the plan (estimate)**

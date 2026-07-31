@@ -23,7 +23,7 @@ async function runStoreCommand(args: string[]): Promise<void> {
   const { registerStoreCommand } = await import('../../src/commands/store.js');
   const program = new Command();
   registerStoreCommand(program);
-  await program.parseAsync(['node', 'openspec', 'store', ...args]);
+  await program.parseAsync(['node', 'spectrix', 'store', ...args]);
 }
 
 async function getPromptMocks(): Promise<{
@@ -140,7 +140,7 @@ describe('store git lifecycle', () => {
     const committed = execFileSync('git', ['log', '--format=%s'], { cwd: storeRoot })
       .toString()
       .trim();
-    expect(committed).toBe('Initialize OpenSpec store interactive-context');
+    expect(committed).toBe('Initialize Spectrix store interactive-context');
     expect(process.exitCode).toBeUndefined();
   });
 

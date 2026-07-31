@@ -1,17 +1,17 @@
 ---
 name: openspec-learn
 description: Analyze archived changes for trends and recommendations. Use when the user wants to review project history, estimation accuracy, or ladder discipline across past changes.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: Requires spectrix CLI.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Scan archived changes, aggregate metrics, and surface trends and recommendations.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally limit to a date range or a number of most-recent changes. If omitted, analyze all archives.
 
@@ -21,7 +21,7 @@ Scan archived changes, aggregate metrics, and surface trends and recommendations
 
    List archived changes:
    ```bash
-   openspec list --archived --json
+   spectrix list --archived --json
    ```
    If archives are on disk under `openspec/changes/archive/`, list them directly.
 

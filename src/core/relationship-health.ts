@@ -66,7 +66,7 @@ export function inspectRelationships(input: InspectRelationshipsInput): Relation
       warning(
         'relationship_registry_unreadable',
         'The store registry is unreadable; reference health cannot be checked.',
-        'Run: openspec store doctor'
+        'Run: spectrix store doctor'
       )
     );
   }
@@ -75,7 +75,7 @@ export function inspectRelationships(input: InspectRelationshipsInput): Relation
     status.push(
       warning(
         'root_pointer_ignored',
-        `${input.bothShapesPointer.filePath} declares store '${input.bothShapesPointer.value}', but this directory is a real OpenSpec root; the declaration is ignored.`,
+        `${input.bothShapesPointer.filePath} declares store '${input.bothShapesPointer.value}', but this directory is a real Spectrix root; the declaration is ignored.`,
         `Remove the store: line from ${input.bothShapesPointer.filePath}, or move the planning files into the store.`
       )
     );
@@ -120,10 +120,10 @@ export function inspectRelationships(input: InspectRelationshipsInput): Relation
       );
     }
     // Checkout behind its upstream tracking ref: a read-only staleness
-    // signal, not a version pin — OpenSpec never syncs stores, so this
+    // signal, not a version pin — Spectrix never syncs stores, so this
     // compares against the local upstream ref, not the live remote.
     // Behind means teammates on newer commits may resolve different specs.
-    // Ahead-only is normal (OpenSpec never pushes stores), so it stays quiet.
+    // Ahead-only is normal (Spectrix never pushes stores), so it stays quiet.
     const drift = input.storeFacts.drift;
     if (drift && drift.behind > 0) {
       const behindCommits = `${drift.behind} commit${drift.behind === 1 ? '' : 's'}`;

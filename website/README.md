@@ -1,6 +1,6 @@
-# OpenSpec documentation site
+# Spectrix documentation site
 
-The marketing and documentation site for [OpenSpec](https://github.com/Fission-AI/OpenSpec), built with [Fumadocs](https://fumadocs.dev) and [Next.js](https://nextjs.org). It is configured as a **static export**, so it deploys to Cloudflare Pages (or any static host) with no server.
+The marketing and documentation site for [Spectrix](https://github.com/Fission-AI/OpenSpec), built with [Fumadocs](https://fumadocs.dev) and [Next.js](https://nextjs.org). It is configured as a **static export**, so it deploys to Cloudflare Pages (or any static host) with no server.
 
 > **The doc pages are generated, not authored here.** The repository's `docs/*.md` files are the single source of truth. `scripts/sync-docs.mjs` mirrors them into `content/docs/` (as `.md`) on every build, so the site stays current automatically — locally and in CI. Edit `../docs`, not `content/docs/`. Only the marketing landing page (`app/(home)/page.tsx`) is hand-authored. See [Keeping docs in sync](#keeping-docs-in-sync).
 

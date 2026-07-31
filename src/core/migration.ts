@@ -32,7 +32,7 @@ export interface LegacyToolRoot {
 }
 
 /**
- * Former tool roots whose OpenSpec-managed content belongs under the tool's
+ * Former tool roots whose Spectrix-managed content belongs under the tool's
  * current skillsDir. User files are never touched.
  */
 export const LEGACY_TOOL_ROOTS: Record<string, LegacyToolRoot[]> = {
@@ -57,7 +57,7 @@ export interface LegacyToolMigration {
   /** Command files that moved, or would move */
   commandFiles: number;
   /**
-   * OpenSpec-managed files left under the legacy root because the copy there
+   * Spectrix-managed files left under the legacy root because the copy there
    * differs from the one that survives — the user edited it, so it is reported
    * rather than dropped.
    */
@@ -67,7 +67,7 @@ export interface LegacyToolMigration {
 }
 
 /**
- * Classifies one OpenSpec-managed file. `move` is the fast path (nothing at
+ * Classifies one Spectrix-managed file. `move` is the fast path (nothing at
  * the destination yet); `drop` means the destination already holds the same
  * bytes, so the legacy copy is redundant; `keep` means the two differ, which
  * only happens when the user edited one, and an edit is not ours to discard.
@@ -108,7 +108,7 @@ function legacyCommandPath(
 }
 
 /**
- * Reports the OpenSpec content sitting under each tool's legacy root, without
+ * Reports the Spectrix content sitting under each tool's legacy root, without
  * moving anything. Callers use this to ask before a move that needs consent.
  */
 export function findLegacyToolMigrations(projectPath: string): LegacyToolMigration[] {
@@ -116,7 +116,7 @@ export function findLegacyToolMigrations(projectPath: string): LegacyToolMigrati
 }
 
 /**
- * Moves OpenSpec-managed skill directories (openspec-*) and command files
+ * Moves Spectrix-managed skill directories (openspec-*) and command files
  * (opsx-*) from a tool's legacy root to its current one. When the destination
  * already exists the legacy copy is removed instead. Legacy directories are
  * deleted only when left empty, so user files under the old location — a
@@ -214,7 +214,7 @@ function migrateSkillDirs(
     try {
       // Move the generated file, never the directory around it. A skill
       // directory can also hold files the user wrote, and this destination is
-      // one OpenSpec deletes on its own — commands-only delivery and a
+      // one Spectrix deletes on its own — commands-only delivery and a
       // deselected workflow both remove the whole skill directory. Carrying a
       // user's file across would be handing it to that later removal.
       if (disposition === 'drop') {
@@ -296,14 +296,14 @@ export function describeLegacyMigration(migration: LegacyToolMigration): string 
 }
 
 /**
- * Names OpenSpec-managed files the move deliberately left behind, so a user
+ * Names Spectrix-managed files the move deliberately left behind, so a user
  * who customized one knows there are now two copies to reconcile.
  */
 export function keptInPlaceNotice(migration: LegacyToolMigration): string | undefined {
   if (migration.keptInPlace === 0) return undefined;
   const n = migration.keptInPlace;
   // Deliberately does not claim the difference came from an edit: an older
-  // OpenSpec version's output differs too. Either way nothing was overwritten,
+  // Spectrix version's output differs too. Either way nothing was overwritten,
   // and the user is the one who decides which copy to keep.
   return (
     `Left ${n} file${n === 1 ? '' : 's'} in ${migration.from}/ that ` +
@@ -500,5 +500,5 @@ export function migrateIfNeeded(projectPath: string, tools: AIToolOption[]): voi
   );
   const proposeReference =
     proposeReferences.size === 1 ? [...proposeReferences][0] : 'the openspec-propose skill';
-  console.log(`New in this version: ${proposeReference}. Try 'openspec config profile core' for the streamlined experience.`);
+  console.log(`New in this version: ${proposeReference}. Try 'spectrix config profile core' for the streamlined experience.`);
 }

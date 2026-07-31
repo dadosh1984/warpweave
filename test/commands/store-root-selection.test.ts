@@ -130,7 +130,7 @@ describe('store root selection for normal commands', () => {
         env,
       });
       expect(result.exitCode).toBe(0);
-      expect(result.stderr).toContain(`Using OpenSpec root: team-context (${storeRoot})`);
+      expect(result.stderr).toContain(`Using Spectrix root: team-context (${storeRoot})`);
       expect(result.stdout).toContain("Created change 'add-billing'");
       expect(result.stdout).toContain(
         path.join(storeRoot, 'openspec', 'changes', 'add-billing')
@@ -372,7 +372,7 @@ operations:
       });
       expect(result.exitCode).toBe(0);
       expect(result.stdout.startsWith('## Why')).toBe(true);
-      expect(result.stderr).toContain(`Using OpenSpec root: team-context (${storeRoot})`);
+      expect(result.stderr).toContain(`Using Spectrix root: team-context (${storeRoot})`);
     });
 
     it('keeps instructions stdout as the artifact payload', async () => {
@@ -384,7 +384,7 @@ operations:
       );
       expect(result.exitCode).toBe(0);
       expect(result.stdout.startsWith('<artifact id="design"')).toBe(true);
-      expect(result.stderr).toContain('Using OpenSpec root: team-context');
+      expect(result.stderr).toContain('Using Spectrix root: team-context');
     });
 
     it('writes the status banner to stderr in human mode', async () => {
@@ -395,9 +395,9 @@ operations:
         { cwd: appRepo, env }
       );
       expect(result.exitCode).toBe(0);
-      expect(result.stderr).toContain(`Using OpenSpec root: team-context (${storeRoot})`);
+      expect(result.stderr).toContain(`Using Spectrix root: team-context (${storeRoot})`);
       expect(result.stdout).toContain('Change: store-change');
-      expect(result.stdout).not.toContain('Using OpenSpec root');
+      expect(result.stdout).not.toContain('Using Spectrix root');
     });
   });
 
@@ -498,7 +498,7 @@ operations:
       const output = result.stdout + result.stderr;
       expect(output).toContain('team-context');
       expect(output).toContain('--store <id>');
-      expect(output).toContain('openspec init');
+      expect(output).toContain('spectrix init');
       expectNoLocalOpenSpec();
     });
 
@@ -731,7 +731,7 @@ operations:
       ).toBe(false);
     });
 
-    it('removes openspec set change entirely', async () => {
+    it('removes spectrix set change entirely', async () => {
       const localRepo = path.join(tempDir, 'set-change-repo');
       createOpenSpecRoot(localRepo);
       createChange(localRepo, 'existing-change');
@@ -752,7 +752,7 @@ operations:
       expect(fs.existsSync(metadataPath)).toBe(false);
 
       const help = await runCLI(['--help'], { cwd: localRepo, env });
-      expect(help.stdout).not.toContain('Set checked-in OpenSpec metadata');
+      expect(help.stdout).not.toContain('Set checked-in Spectrix metadata');
       expect(help.stdout).not.toMatch(/^\s*set\s/m);
     });
   });
@@ -764,7 +764,7 @@ operations:
         { cwd: appRepo, env }
       );
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('openspec new change <change-id> --store fresh-context');
+      expect(result.stdout).toContain('spectrix new change <change-id> --store fresh-context');
     });
 
     it('shows --store usage after register', async () => {
@@ -780,7 +780,7 @@ operations:
         env,
       });
       expect(result.exitCode).toBe(0);
-      expect(result.stdout).toContain('openspec new change <change-id> --store register-context');
+      expect(result.stdout).toContain('spectrix new change <change-id> --store register-context');
     });
   });
 });

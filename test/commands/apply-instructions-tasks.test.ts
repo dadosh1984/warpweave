@@ -55,7 +55,7 @@ describe('generateApplyInstructions task list', () => {
     expect(instructions.progress).toEqual({ total: 3, complete: 1, remaining: 2 });
   });
 
-  it('reports the totals openspec list reports for the same change', async () => {
+  it('reports the totals spectrix list reports for the same change', async () => {
     writeTasks(
       ['## 1. Implementation', '- [x] 1.1 Parent task', '  - [ ] 1.1.1 Unfinished sub-task', ''].join(
         '\n'
@@ -63,7 +63,7 @@ describe('generateApplyInstructions task list', () => {
     );
 
     const instructions = await generateApplyInstructions(tempDir, 'my-change');
-    // `openspec list` reads progress through getTaskProgressForChange, not the
+    // `spectrix list` reads progress through getTaskProgressForChange, not the
     // apply parser. The two must not disagree about the same file.
     const listProgress = await getTaskProgressForChange(
       path.join(tempDir, 'openspec', 'changes'),
@@ -89,7 +89,7 @@ describe('generateApplyInstructions task list', () => {
   });
 
   it('counts a text-less checkbox toward progress even though it lists none', async () => {
-    // Progress must not disagree with `openspec list` or archive's gate just
+    // Progress must not disagree with `spectrix list` or archive's gate just
     // because a line carries no text an agent could act on: hiding the row is
     // presentation, dropping it from the count would understate the work left.
     writeTasks('## 1. Implementation\n- [x] 1.1 Real task\n- [ ]   \n');

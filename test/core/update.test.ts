@@ -48,7 +48,7 @@ describe('UpdateCommand', () => {
     testDir = await fs.mkdtemp(path.join(os.tmpdir(), 'openspec-test-'));
     process.env.CODEX_HOME = path.join(testDir, 'codex-home');
 
-    // Create openspec directory
+    // Create spectrix directory
     const openspecDir = path.join(testDir, 'openspec');
     await fs.mkdir(openspecDir, { recursive: true });
 
@@ -71,15 +71,15 @@ describe('UpdateCommand', () => {
   });
 
   describe('basic validation', () => {
-    it('should throw error if openspec directory does not exist', async () => {
-      // Remove openspec directory
+    it('should throw error if spectrix directory does not exist', async () => {
+      // Remove spectrix directory
       await fs.rm(path.join(testDir, 'openspec'), {
         recursive: true,
         force: true,
       });
 
       await expect(updateCommand.execute(testDir)).rejects.toThrow(
-        "No OpenSpec directory found. Run 'openspec init' first."
+        "No Spectrix directory found. Run 'spectrix init' first."
       );
     });
 
@@ -108,7 +108,7 @@ describe('UpdateCommand', () => {
 name: openspec-explore (old)
 description: Old description
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: Requires spectrix CLI.
 metadata:
   author: openspec
   version: "0.9"
@@ -183,7 +183,7 @@ Old instructions content
       consoleSpy.mockRestore();
     });
 
-    it('should migrate OpenSpec skills from legacy .kimi to .kimi-code, preserving user files', async () => {
+    it('should migrate Spectrix skills from legacy .kimi to .kimi-code, preserving user files', async () => {
       // Managed skill in the legacy Kimi CLI location
       const legacySkillDir = path.join(testDir, '.kimi', 'skills', 'openspec-explore');
       await fs.mkdir(legacySkillDir, { recursive: true });
@@ -227,7 +227,7 @@ Old instructions content
       consoleSpy.mockRestore();
     });
 
-    it('should remove the legacy .kimi directory entirely when it only held OpenSpec skills', async () => {
+    it('should remove the legacy .kimi directory entirely when it only held Spectrix skills', async () => {
       const legacySkillDir = path.join(testDir, '.kimi', 'skills', 'openspec-explore');
       await fs.mkdir(legacySkillDir, { recursive: true });
       await fs.writeFile(
@@ -314,7 +314,7 @@ Old instructions content
     it('heals stale colon references for a filename-invoked tool (cursor)', async () => {
       // The headline upgrade path for #1307: a project generated before the
       // fix carries /opsx: references that Cursor's palette never registers.
-      // `openspec update` must rewrite both the command bodies and the skills.
+      // `spectrix update` must rewrite both the command bodies and the skills.
       const initCommand = new InitCommand({ tools: 'cursor', force: true });
       await initCommand.execute(testDir);
 
@@ -632,7 +632,7 @@ Old instructions content
     });
 
     it('should migrate a legacy .windsurf install to .devin, preserving user files', async () => {
-      // A project set up before the Devin Desktop rebrand: OpenSpec skills and
+      // A project set up before the Devin Desktop rebrand: Spectrix skills and
       // workflows under .windsurf/, alongside files the user wrote themselves.
       const legacySkillDir = path.join(testDir, '.windsurf', 'skills', 'openspec-explore');
       await fs.mkdir(legacySkillDir, { recursive: true });
@@ -664,7 +664,7 @@ Old instructions content
       expect(migratedWorkflow).not.toContain('old workflow content');
       expect(migratedWorkflow).toContain('---');
 
-      // The OpenSpec-managed originals are gone; the user's files are not
+      // The Spectrix-managed originals are gone; the user's files are not
       await expect(fs.access(legacySkillDir)).rejects.toThrow();
       await expect(
         fs.access(path.join(legacyWorkflows, 'opsx-explore.md'))
@@ -691,7 +691,7 @@ Old instructions content
       expect(await FileSystemUtils.fileExists(path.join(devinSkill, 'SKILL.md'))).toBe(true);
     });
 
-    it('should keep user files that live inside an OpenSpec-managed skill directory', async () => {
+    it('should keep user files that live inside an Spectrix-managed skill directory', async () => {
       // Both roots holding the same skill is the normal state after a rebrand.
       // A reference the user wrote beside SKILL.md is theirs and never moves.
       const devinSkill = path.join(testDir, '.devin', 'skills', 'openspec-explore');
@@ -775,7 +775,7 @@ Old instructions content
     });
 
     it('should not carry a user file into a skill directory that commands-only delivery deletes', async () => {
-      // Only SKILL.md may cross. The destination is a directory OpenSpec owns
+      // Only SKILL.md may cross. The destination is a directory Spectrix owns
       // and removes on its own under commands-only delivery, so moving the
       // whole legacy directory would hand the user's file to that removal.
       setMockConfig({ featureFlags: {}, profile: 'core', delivery: 'commands' });
@@ -792,7 +792,7 @@ Old instructions content
 
     it('should not carry a user file into a skill directory a deselected workflow deletes', async () => {
       // openspec-new-change is outside the core profile, so the skill
-      // directory it would land in is one OpenSpec prunes.
+      // directory it would land in is one Spectrix prunes.
       const legacySkill = path.join(testDir, '.windsurf', 'skills', 'openspec-new-change');
       await fs.mkdir(legacySkill, { recursive: true });
       await fs.writeFile(path.join(legacySkill, 'SKILL.md'), 'stale');
@@ -1366,9 +1366,9 @@ metadata:
         'old'
       );
 
-      // Create legacy CLAUDE.md with OpenSpec markers
+      // Create legacy CLAUDE.md with Spectrix markers
       const legacyContent = `${OPENSPEC_MARKERS.start}
-# OpenSpec Instructions
+# Spectrix Instructions
 
 These instructions are for AI assistants.
 ${OPENSPEC_MARKERS.end}
@@ -1383,12 +1383,12 @@ ${OPENSPEC_MARKERS.end}
 
       // Should show v1 upgrade message
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Upgrading to the new OpenSpec')
+        expect.stringContaining('Upgrading to the new Spectrix')
       );
 
       // Should show marker removal message (config files are never deleted, only have markers removed)
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removed OpenSpec markers from CLAUDE.md')
+        expect.stringContaining('Removed Spectrix markers from CLAUDE.md')
       );
 
       // Config file should still exist (never deleted)
@@ -1583,7 +1583,7 @@ ${OPENSPEC_MARKERS.end}
       const promptDir = path.join(process.env.CODEX_HOME!, 'prompts');
       const managedPrompt = path.join(promptDir, 'opsx-update.md');
       await fs.mkdir(promptDir, { recursive: true });
-      await fs.writeFile(managedPrompt, 'prompt generated by OpenSpec v1.6.0');
+      await fs.writeFile(managedPrompt, 'prompt generated by Spectrix v1.6.0');
 
       const forceUpdateCommand = new UpdateCommand({ force: true });
       await forceUpdateCommand.execute(testDir);
@@ -1605,9 +1605,9 @@ ${OPENSPEC_MARKERS.end}
         'old'
       );
 
-      // Create legacy CLAUDE.md with OpenSpec markers
+      // Create legacy CLAUDE.md with Spectrix markers
       const legacyContent = `${OPENSPEC_MARKERS.start}
-# OpenSpec Instructions
+# Spectrix Instructions
 ${OPENSPEC_MARKERS.end}
 `;
       await fs.writeFile(path.join(testDir, 'CLAUDE.md'), legacyContent);
@@ -1619,7 +1619,7 @@ ${OPENSPEC_MARKERS.end}
 
       // Should show v1 upgrade message
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Upgrading to the new OpenSpec')
+        expect.stringContaining('Upgrading to the new Spectrix')
       );
 
       // Should show warning about --force
@@ -1735,14 +1735,14 @@ ${OPENSPEC_MARKERS.end}
         call.map(arg => String(arg)).join(' ')
       );
       const hasLegacyMessage = calls.some(call =>
-        call.includes('Upgrading to the new OpenSpec')
+        call.includes('Upgrading to the new Spectrix')
       );
       expect(hasLegacyMessage).toBe(false);
 
       consoleSpy.mockRestore();
     });
 
-    it('should remove OpenSpec marker block from mixed content files', async () => {
+    it('should remove Spectrix marker block from mixed content files', async () => {
       // Set up a configured tool
       const skillsDir = path.join(testDir, '.claude', 'skills');
       await fs.mkdir(path.join(skillsDir, 'openspec-explore'), {
@@ -1753,13 +1753,13 @@ ${OPENSPEC_MARKERS.end}
         'old'
       );
 
-      // Create CLAUDE.md with mixed content (user content + OpenSpec markers)
+      // Create CLAUDE.md with mixed content (user content + Spectrix markers)
       const mixedContent = `# My Project
 
 Some user-defined instructions here.
 
 ${OPENSPEC_MARKERS.start}
-# OpenSpec Instructions
+# Spectrix Instructions
 
 These instructions are for AI assistants.
 ${OPENSPEC_MARKERS.end}
@@ -1776,7 +1776,7 @@ More user content after markers.
 
       // Should show marker removal message
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Removed OpenSpec markers from CLAUDE.md')
+        expect.stringContaining('Removed Spectrix markers from CLAUDE.md')
       );
 
       // File should still exist
@@ -2173,7 +2173,7 @@ More user content after markers.
         call.includes('Your custom profile is missing 2 core workflows: update, sync')
       )).toBe(true);
       expect(calls.some(call =>
-        call.includes('openspec config profile core')
+        call.includes('spectrix config profile core')
       )).toBe(true);
 
       expect(await FileSystemUtils.fileExists(
@@ -2436,12 +2436,12 @@ More user content after markers.
         path.join(skillsDir, 'openspec-explore', 'SKILL.md')
       )).toBe(false);
 
-      // The tool now has zero OpenSpec artifacts; the removal must not be
+      // The tool now has zero Spectrix artifacts; the removal must not be
       // silent — update prints the same configuration correction init does.
       const logCalls = consoleSpy.mock.calls.flat().map(String);
       const correction = logCalls.find((entry) => entry.includes('No skills or commands remain'));
       expect(correction).toBeTruthy();
-      expect(correction).toContain("openspec config set delivery both");
+      expect(correction).toContain("spectrix config set delivery both");
     });
 
     it('should apply config sync when templates are up to date', async () => {
@@ -2572,7 +2572,7 @@ content
         call.map(arg => String(arg)).join(' ')
       );
       const hasNewToolMessage = calls.some(call =>
-        call.includes("Detected new tool: Cursor. Run 'openspec init' to add it.")
+        call.includes("Detected new tool: Cursor. Run 'spectrix init' to add it.")
       );
       expect(hasNewToolMessage).toBe(true);
 
@@ -2604,7 +2604,7 @@ content
       expect(consolidatedCalls).toHaveLength(1);
       expect(consolidatedCalls[0]).toContain('GitHub Copilot');
       expect(consolidatedCalls[0]).toContain('Windsurf');
-      expect(consolidatedCalls[0]).toContain("Run 'openspec init' to add them.");
+      expect(consolidatedCalls[0]).toContain("Run 'spectrix init' to add them.");
 
       const repeatedSingularCalls = calls.filter(call =>
         call.includes('Detected new tool:')

@@ -1,4 +1,4 @@
-# OpenSpec Test Guidance
+# Spectrix Test Guidance
 
 Applies to tests under `test/`.
 

@@ -13,7 +13,7 @@ import { getGlobalConfig } from '../global-config.js';
 import { getProfileWorkflows, ALL_WORKFLOWS } from '../profiles.js';
 
 /**
- * Names of skill directories created by openspec init.
+ * Names of skill directories created by spectrix init.
  */
 export const SKILL_NAMES = [
   'openspec-explore',
@@ -42,7 +42,7 @@ export const SKILL_NAMES = [
 export type SkillName = (typeof SKILL_NAMES)[number];
 
 /**
- * IDs of command templates created by openspec init.
+ * IDs of command templates created by spectrix init.
  */
 export const COMMAND_IDS = [
   'explore',
@@ -136,7 +136,7 @@ export function getToolSkillStatus(projectRoot: string, toolId: string): ToolSki
 }
 
 /**
- * Checks whether a tool has at least one generated OpenSpec command file.
+ * Checks whether a tool has at least one generated Spectrix command file.
  */
 export function toolHasAnyConfiguredCommand(projectPath: string, toolId: string): boolean {
   const adapter = CommandAdapterRegistry.get(toolId);

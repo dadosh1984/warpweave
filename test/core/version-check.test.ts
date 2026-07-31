@@ -443,7 +443,7 @@ describe('offerCliUpgrade', () => {
       if (isWindows) {
         // npm writes the .cmd shim beside node_modules; it is what separates
         // a real prefix from a hand-copied portable tree.
-        fs.writeFileSync(path.join(prefix, 'openspec.cmd'), '@echo off\n');
+        fs.writeFileSync(path.join(prefix, 'spectrix.cmd'), '@echo off\n');
       } else {
         fs.mkdirSync(path.join(prefix, 'bin'), { recursive: true });
       }
@@ -607,12 +607,12 @@ describe('offerCliUpgrade', () => {
       const isWindows = process.platform === 'win32';
       const bin = path.join(dir, isWindows ? 'banner.cmd' : 'banner.sh');
       // A wrapper that greets before answering: taking the first match would
-      // report the Node version as OpenSpec's.
+      // report the Node version as Spectrix's.
       fs.writeFileSync(
         bin,
         isWindows
-          ? '@echo Node.js v25.8.1 ^| OpenSpec\r\n@echo 1.7.0\r\n'
-          : '#!/bin/sh\necho "Node.js v25.8.1 | OpenSpec"\necho "1.7.0"\n'
+          ? '@echo Node.js v25.8.1 ^| Spectrix\r\n@echo 1.7.0\r\n'
+          : '#!/bin/sh\necho "Node.js v25.8.1 | Spectrix"\necho "1.7.0"\n'
       );
       fs.chmodSync(bin, 0o755);
 
@@ -649,7 +649,7 @@ describe('rerunUpdateWithUpgradedCli', () => {
   const isWindows = process.platform === 'win32';
 
   function writeFakeCli(body: string): string {
-    const bin = path.join(dir, isWindows ? 'openspec.cmd' : 'openspec');
+    const bin = path.join(dir, isWindows ? 'spectrix.cmd' : 'spectrix');
     fs.writeFileSync(bin, body);
     fs.chmodSync(bin, 0o755);
     return bin;
@@ -747,7 +747,7 @@ describe('displayCliUpdateNote', () => {
 
     expect(output).toContain(`v${OPENSPEC_VERSION} → v9.9.9`);
     expect(output).toContain('npm install -g @dadosh1984/spectrix@latest');
-    expect(output).toContain('Then run "openspec update" again');
+    expect(output).toContain('Then run "spectrix update" again');
     expect(output).toContain(`Running from: ${getInstallDir()}`);
   });
 
@@ -833,7 +833,7 @@ describe('displayCliUpdateNote', () => {
 
     // Every other flavor does need the second pass.
     expect(buildUpgradeCommandLines(path.join(GLOBAL_ROOT, 'lib', 'node_modules', 'pkg'), PROJECT_ROOT))
-      .toContain('  Then run "openspec update" again to pick up new workflows.');
+      .toContain('  Then run "spectrix update" again to pick up new workflows.');
   });
 
   it('finds the binary npm installs beside its global root', () => {
@@ -851,7 +851,7 @@ describe('displayCliUpdateNote', () => {
       expect(upgradedBinPath([root])).toBeNull();
 
       const bin = isWindows
-        ? path.join(prefix, 'openspec.cmd')
+        ? path.join(prefix, 'spectrix.cmd')
         : path.join(prefix, 'bin', 'openspec');
       fs.mkdirSync(path.dirname(bin), { recursive: true });
       fs.writeFileSync(bin, '');

@@ -63,7 +63,7 @@ describe('global defaultStore fallback (#1359)', () => {
 
     const human = await runCLI(['status'], { cwd: scratch, env });
     expect(human.exitCode).toBe(0);
-    expect(human.stderr).toContain('Using OpenSpec root: team-context');
+    expect(human.stderr).toContain('Using Spectrix root: team-context');
   }, 30_000);
 
   it('reports a stale default in the JSON failure payload with the clearing fix', async () => {
@@ -74,6 +74,6 @@ describe('global defaultStore fallback (#1359)', () => {
     const [diagnostic] = parseJson(status).status;
     expect(diagnostic.code).toBe('unknown_store');
     expect(diagnostic.message).toContain("Global defaultStore 'ghost-plans'");
-    expect(diagnostic.fix).toContain('openspec config unset defaultStore');
+    expect(diagnostic.fix).toContain('spectrix config unset defaultStore');
   }, 30_000);
 });

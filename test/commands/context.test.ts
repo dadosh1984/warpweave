@@ -11,7 +11,7 @@ import { cleanupTempPath } from '../helpers/temp-cleanup.js';
 
 const CONTEXT_MATRIX_TIMEOUT_MS = 30_000;
 
-describe('openspec context (4.1)', () => {
+describe('spectrix context (4.1)', () => {
   let tempDir: string;
   let globalDataDir: string;
   let env: NodeJS.ProcessEnv;
@@ -69,7 +69,7 @@ describe('openspec context (4.1)', () => {
         role: 'referenced_store',
         id: 'upstream-context',
         path: upstream,
-        fetch: 'openspec show <spec-id> --type spec --store upstream-context',
+        fetch: 'spectrix show <spec-id> --type spec --store upstream-context',
         status: [],
       },
       {
@@ -89,7 +89,7 @@ describe('openspec context (4.1)', () => {
     expect(human.exitCode).toBe(0);
     expect(human.stdout).toContain(`Working context for team-context (${storeRoot})`);
     expect(human.stdout).toContain(`  upstream-context  ${upstream}`);
-    expect(human.stdout).toContain('Fetch: openspec show <spec-id> --type spec --store upstream-context');
+    expect(human.stdout).toContain('Fetch: spectrix show <spec-id> --type spec --store upstream-context');
     expect(human.stdout).toContain('Not available on this machine');
     expect(human.stdout).toContain('Fix: git clone --');
 

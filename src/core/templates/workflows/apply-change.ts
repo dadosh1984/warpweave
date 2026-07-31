@@ -10,8 +10,8 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getApplyChangeSkillTemplate(): SkillTemplate {
   return {
     name: 'openspec-apply-change',
-    description: 'Implement tasks from an OpenSpec change. Use when the user wants to start implementing, continue implementation, or work through tasks.',
-    instructions: `Implement tasks from an OpenSpec change.
+    description: 'Implement tasks from an Spectrix change. Use when the user wants to start implementing, continue implementation, or work through tasks.',
+    instructions: `Implement tasks from an Spectrix change.
 
 ${STORE_SELECTION_GUIDANCE}
 
@@ -24,13 +24,13 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
 
    Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:apply <other>\`).
 
 2. **Check status to understand the schema**
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used (e.g., "spec-driven")
@@ -40,7 +40,7 @@ ${STORE_SELECTION_GUIDANCE}
 3. **Get apply instructions**
 
    \`\`\`bash
-   openspec instructions apply --change "<name>" --json
+   spectrix instructions apply --change "<name>" --json
    \`\`\`
 
    This returns:
@@ -52,7 +52,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Optional \`operationGuidance\`: current advisory guidance for apply
 
    **Handle states:**
-   - If \`state: "blocked"\` (missing artifacts): show message, suggest using openspec-continue-change (if it is not installed, run \`openspec status --change "<name>" --json\` to see the next artifact and \`openspec instructions <artifact-id> --change "<name>" --json\` for how to create it)
+   - If \`state: "blocked"\` (missing artifacts): show message, suggest using openspec-continue-change (if it is not installed, run \`spectrix status --change "<name>" --json\` to see the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` for how to create it)
    - If \`state: "all_done"\`: congratulate, suggest archive
    - Otherwise: proceed to implementation
 
@@ -216,18 +216,18 @@ On command failure, read RTK tee log at \`~/.local/share/rtk/tee/\`.
 1. Spec compliance — does the code satisfy the spec scenario?
 2. Code quality — is every line minimal? Would the senior engineer with the ponytail delete any of it?`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
 export function getOpsxApplyCommandTemplate(): CommandTemplate {
   return {
     name: 'OPSX: Apply',
-    description: 'Implement tasks from an OpenSpec change (Experimental)',
+    description: 'Implement tasks from an Spectrix change (Experimental)',
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
-    content: `Implement tasks from an OpenSpec change.
+    content: `Implement tasks from an Spectrix change.
 
 ${STORE_SELECTION_GUIDANCE}
 
@@ -240,13 +240,13 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
 
    Always announce: "Using change: <name>" and how to override (e.g., \`/opsx:apply <other>\`).
 
 2. **Check status to understand the schema**
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used (e.g., "spec-driven")
@@ -256,7 +256,7 @@ ${STORE_SELECTION_GUIDANCE}
 3. **Get apply instructions**
 
    \`\`\`bash
-   openspec instructions apply --change "<name>" --json
+   spectrix instructions apply --change "<name>" --json
    \`\`\`
 
    This returns:
@@ -268,7 +268,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Optional \`operationGuidance\`: current advisory guidance for apply
 
    **Handle states:**
-   - If \`state: "blocked"\` (missing artifacts): show message, suggest using \`/opsx:continue\` (if it is not installed, run \`openspec status --change "<name>" --json\` to see the next artifact and \`openspec instructions <artifact-id> --change "<name>" --json\` for how to create it)
+   - If \`state: "blocked"\` (missing artifacts): show message, suggest using \`/opsx:continue\` (if it is not installed, run \`spectrix status --change "<name>" --json\` to see the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` for how to create it)
    - If \`state: "all_done"\`: congratulate, suggest archive
    - Otherwise: proceed to implementation
 

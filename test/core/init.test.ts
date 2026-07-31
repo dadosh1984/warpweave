@@ -52,7 +52,7 @@ describe('InitCommand', () => {
   });
 
   describe('execute with --tools flag', () => {
-    it('should create OpenSpec directory structure', async () => {
+    it('should create Spectrix directory structure', async () => {
       const initCommand = new InitCommand({ tools: 'claude', force: true });
 
       await initCommand.execute(testDir);
@@ -351,7 +351,7 @@ describe('InitCommand', () => {
       ).toBe(true);
     });
 
-    it('should migrate OpenSpec skills from legacy .kimi to .kimi-code during init', async () => {
+    it('should migrate Spectrix skills from legacy .kimi to .kimi-code during init', async () => {
       const legacySkillDir = path.join(testDir, '.kimi', 'skills', 'openspec-explore');
       await fs.mkdir(legacySkillDir, { recursive: true });
       await fs.writeFile(
@@ -450,7 +450,7 @@ describe('InitCommand', () => {
 
       await initCommand.execute(testDir);
 
-      // Should create OpenSpec structure but no skills
+      // Should create Spectrix structure but no skills
       const openspecPath = path.join(testDir, 'openspec');
       expect(await directoryExists(openspecPath)).toBe(true);
 
@@ -893,7 +893,7 @@ describe('InitCommand - profile and detection features', () => {
   });
 
   it('should preselect configured tools but not directory-detected tools in extend mode', async () => {
-    // Simulate existing OpenSpec project (extend mode).
+    // Simulate existing Spectrix project (extend mode).
     await fs.mkdir(path.join(testDir, 'openspec'), { recursive: true });
 
     // Configured with OpenSpec
@@ -901,7 +901,7 @@ describe('InitCommand - profile and detection features', () => {
     await fs.mkdir(claudeSkillDir, { recursive: true });
     await fs.writeFile(path.join(claudeSkillDir, 'SKILL.md'), 'configured');
 
-    // Directory detected only (not configured with OpenSpec)
+    // Directory detected only (not configured with Spectrix)
     await fs.mkdir(path.join(testDir, '.github'), { recursive: true });
     await fs.writeFile(path.join(testDir, '.github', 'copilot-instructions.md'), '');
 
@@ -924,7 +924,7 @@ describe('InitCommand - profile and detection features', () => {
   });
 
   it('should preselect detected tools for first-time interactive setup', async () => {
-    // First-time init: no openspec/ directory and no configured OpenSpec skills.
+    // First-time init: no openspec/ directory and no configured Spectrix skills.
     await fs.mkdir(path.join(testDir, '.github'), { recursive: true });
     await fs.writeFile(path.join(testDir, '.github', 'copilot-instructions.md'), '');
 
@@ -1093,7 +1093,7 @@ describe('InitCommand - profile and detection features', () => {
     expect(logCalls.some((entry) => entry.includes('Start your first change'))).toBe(false);
     const correction = logCalls.find((entry) => entry.includes('No skills or commands were generated'));
     expect(correction).toBeTruthy();
-    expect(correction).toContain("openspec config set delivery both");
+    expect(correction).toContain("spectrix config set delivery both");
     // Nothing was generated, so there is nothing an IDE restart would pick up
     expect(logCalls.some((entry) => entry.includes('Restart your IDE'))).toBe(false);
   });
@@ -1277,7 +1277,7 @@ describe('InitCommand - profile and detection features', () => {
     const correction = logCalls.find((entry) => entry.includes('No skills or commands were generated for'));
     expect(correction).toContain('Kimi Code');
     expect(correction).not.toContain('Codex');
-    expect(correction).toContain("openspec config set delivery both");
+    expect(correction).toContain("spectrix config set delivery both");
   });
 
   it('should print a per-tool correction when an adapter-backed tool masks an adapterless one (delivery=commands, claude+kimi)', async () => {
@@ -1304,7 +1304,7 @@ describe('InitCommand - profile and detection features', () => {
     const correction = logCalls.find((entry) => entry.includes('No skills or commands were generated for'));
     expect(correction).toContain('Kimi Code');
     expect(correction).not.toContain('Claude');
-    expect(correction).toContain("openspec config set delivery both");
+    expect(correction).toContain("spectrix config set delivery both");
     expect(logCalls.some((entry) => entry.includes('/skill:openspec-'))).toBe(false);
   });
 

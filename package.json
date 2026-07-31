@@ -18,7 +18,7 @@
   "homepage": "https://github.com/dadosh1984/spectrix",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dadosh1984/spectrix"
+    "url": "git+https://github.com/dadosh1984/spectrix.git"
   },
   "license": "MIT",
   "author": "OpenSpec Contributors",
@@ -34,7 +34,7 @@
     }
   },
   "bin": {
-    "openspec": "./bin/openspec.js"
+    "spectrix": "bin/spectrix.js"
   },
   "files": [
     "dist",

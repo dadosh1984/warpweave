@@ -8,7 +8,7 @@ async function runSchemaCommand(args: string[]): Promise<void> {
   const { registerSchemaCommand } = await import('../../src/commands/schema.js');
   const program = new Command();
   registerSchemaCommand(program);
-  await program.parseAsync(['node', 'openspec', 'schema', ...args]);
+  await program.parseAsync(['node', 'spectrix', 'schema', ...args]);
 }
 
 describe('schema command', () => {
@@ -23,7 +23,7 @@ describe('schema command', () => {
     // Create unique temp directory for each test
     tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'openspec-schema-test-'));
 
-    // Create openspec directory structure
+    // Create spectrix directory structure
     fs.mkdirSync(path.join(tempDir, 'openspec', 'schemas'), { recursive: true });
 
     // Save original cwd and env

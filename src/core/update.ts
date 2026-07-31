@@ -1,7 +1,7 @@
 /**
  * Update Command
  *
- * Refreshes OpenSpec skills and commands for configured tools.
+ * Refreshes Spectrix skills and commands for configured tools.
  * Supports profile-aware updates, delivery changes, migration, and smart update detection.
  */
 
@@ -110,7 +110,7 @@ export class UpdateCommand {
   }
 
   /**
-   * Refreshes OpenSpec skills and commands for all configured tools,
+   * Refreshes Spectrix skills and commands for all configured tools,
    * regenerating artifacts according to the effective profile and delivery mode.
    *
    * @param projectPath - Path to the project root containing the openspec directory
@@ -121,10 +121,10 @@ export class UpdateCommand {
 
     // 1. Check openspec directory exists
     if (!await FileSystemUtils.directoryExists(openspecPath)) {
-      throw new Error(`No OpenSpec directory found. Run 'openspec init' first.`);
+      throw new Error(`No Spectrix directory found. Run 'spectrix init' first.`);
     }
 
-    // 2. Migrate OpenSpec-managed skills left in renamed tool directories
+    // 2. Migrate Spectrix-managed skills left in renamed tool directories
     // (e.g. .kimi -> .kimi-code) so they stay detected and get refreshed,
     // then perform the one-time profile migration if needed before any
     // legacy upgrade generation.
@@ -174,18 +174,18 @@ export class UpdateCommand {
         for (const migration of declinedMigrations) {
           console.log(
             chalk.yellow(
-              `Nothing to update: this project's OpenSpec files are still in ${migration.from}/, ` +
-                `which OpenSpec no longer writes.`
+              `Nothing to update: this project's Spectrix files are still in ${migration.from}/, ` +
+                `which Spectrix no longer writes.`
             )
           );
           console.log(
-            chalk.dim(`Re-run "openspec update" and accept the move to ${migration.to}/ to resume updates.`)
+            chalk.dim(`Re-run "spectrix update" and accept the move to ${migration.to}/ to resume updates.`)
           );
         }
         return;
       }
       console.log(chalk.yellow('No configured tools found.'));
-      console.log(chalk.dim('Run "openspec init" to set up tools.'));
+      console.log(chalk.dim('Run "spectrix init" to set up tools.'));
       return;
     }
 
@@ -289,7 +289,7 @@ export class UpdateCommand {
         // Delete skill directories if delivery is commands-only
         if (shouldRemoveSkillsForTool(tool.value, delivery)) {
           removedSkillCount += await this.removeSkillDirs(skillsDir);
-          // A tool with no command adapter now has zero OpenSpec artifacts;
+          // A tool with no command adapter now has zero Spectrix artifacts;
           // say so like init does, rather than deleting its skills silently
           // and letting tool detection re-suggest an init that would also
           // generate nothing under this delivery setting.
@@ -362,7 +362,7 @@ export class UpdateCommand {
         chalk.yellow(
           `No skills or commands remain for ${names}: delivery is set to 'commands' but ` +
             `${zeroArtifactTools.length === 1 ? 'it supports' : 'they support'} only skills. ` +
-            `Run 'openspec config set delivery both' to generate skills.`
+            `Run 'spectrix config set delivery both' to generate skills.`
         )
       );
     }
@@ -508,7 +508,7 @@ export class UpdateCommand {
       console.log();
       console.log(
         chalk.yellow(
-          `Detected new ${toolNoun}: ${newToolNames.join(', ')}. Run 'openspec init' to add ${pronoun}.`
+          `Detected new ${toolNoun}: ${newToolNames.join(', ')}. Run 'spectrix init' to add ${pronoun}.`
         )
       );
     }
@@ -527,7 +527,7 @@ export class UpdateCommand {
     const extraWorkflows = installedWorkflows.filter((w) => !profileSet.has(w));
 
     if (extraWorkflows.length > 0) {
-      console.log(chalk.dim(`Note: ${extraWorkflows.length} extra workflows not in profile (use \`openspec config profile\` to manage)`));
+      console.log(chalk.dim(`Note: ${extraWorkflows.length} extra workflows not in profile (use \`spectrix config profile\` to manage)`));
     }
   }
 
@@ -551,7 +551,7 @@ export class UpdateCommand {
     const label = missing.length === 1 ? 'workflow' : 'workflows';
     const pronoun = missing.length === 1 ? 'it' : 'them';
     console.log(chalk.dim(`Note: Your custom profile is missing ${missing.length} core ${label}: ${missing.join(', ')}`));
-    console.log(chalk.dim(`Run \`openspec config profile\` to add ${pronoun}, or \`openspec config profile core\` to use the core set.`));
+    console.log(chalk.dim(`Run \`spectrix config profile\` to add ${pronoun}, or \`spectrix config profile core\` to use the core set.`));
   }
 
   /**
@@ -674,7 +674,7 @@ export class UpdateCommand {
   }
 
   /**
-   * Offers to move OpenSpec content out of a renamed tool's former directory
+   * Offers to move Spectrix content out of a renamed tool's former directory
    * when the old location might still be the live one — today, Windsurf's
    * `.windsurf/` after the Devin Desktop rebrand.
    *
@@ -721,12 +721,12 @@ export class UpdateCommand {
           shouldMigrate = false;
         }
         if (!shouldMigrate) {
-          // Say what declining costs. OpenSpec writes the current root now, so
-          // the files keep working where they are, but OpenSpec stops managing
+          // Say what declining costs. Spectrix writes the current root now, so
+          // the files keep working where they are, but Spectrix stops managing
           // them — it no longer looks in the former directory.
           console.log(
             chalk.dim(
-              `Left in place. OpenSpec writes ${migration.to}/ now and will not manage ` +
+              `Left in place. Spectrix writes ${migration.to}/ now and will not manage ` +
                 `${migration.from}/, so those files stay as they are until you move them. ` +
                 `You will be asked again next run.`
             )
@@ -750,7 +750,7 @@ export class UpdateCommand {
   }
 
   /**
-   * Detect and handle legacy OpenSpec artifacts.
+   * Detect and handle legacy Spectrix artifacts.
    * Unlike init, update warns but continues if legacy files found in non-interactive mode.
    * Returns array of tool IDs that were newly configured during legacy upgrade.
    */

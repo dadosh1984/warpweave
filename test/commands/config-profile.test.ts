@@ -14,7 +14,7 @@ async function runConfigCommand(args: string[]): Promise<void> {
   const { registerConfigCommand } = await import('../../src/commands/config.js');
   const program = new Command();
   registerConfigCommand(program);
-  await program.parseAsync(['node', 'openspec', 'config', ...args]);
+  await program.parseAsync(['node', 'spectrix', 'config', ...args]);
 }
 
 async function getPromptMocks(): Promise<{
@@ -367,7 +367,7 @@ describe('config profile interactive flow', () => {
     });
   });
 
-  it('confirmed project apply should update in process without resolving openspec from PATH', async () => {
+  it('confirmed project apply should update in process without resolving spectrix from PATH', async () => {
     const { saveGlobalConfig, getGlobalConfig } = await import('../../src/core/global-config.js');
     const { select, confirm } = await getPromptMocks();
 
@@ -387,7 +387,7 @@ describe('config profile interactive flow', () => {
     expect(process.exitCode).toBeUndefined();
     expect(consoleErrorSpy).not.toHaveBeenCalled();
     expect(consoleLogSpy).toHaveBeenCalledWith('No configured tools found.');
-    expect(consoleLogSpy).toHaveBeenCalledWith('Run `openspec update` in your other projects to apply.');
+    expect(consoleLogSpy).toHaveBeenCalledWith('Run `spectrix update` in your other projects to apply.');
   });
 
   it('confirmed project apply should report the update failure reason', async () => {
@@ -410,7 +410,7 @@ describe('config profile interactive flow', () => {
       executeSpy.mockRestore();
     }
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith('`openspec update` failed: permission denied');
+    expect(consoleErrorSpy).toHaveBeenCalledWith('`spectrix update` failed: permission denied');
     expect(consoleErrorSpy).toHaveBeenCalledWith('Please run it manually to apply the profile changes.');
     expect(process.exitCode).toBe(1);
   });

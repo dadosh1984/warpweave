@@ -40,10 +40,10 @@ const expectedInvocation = (toolId: string) => ({
 
 const sampleContent: CommandContent = {
   id: 'apply',
-  name: 'OpenSpec Apply',
+  name: 'Spectrix Apply',
   description: 'Implement tasks',
   category: 'Workflow',
-  tags: ['openspec'],
+  tags: ['spectrix'],
   body: 'Run /opsx:archive when done. See /opsx:continue for the next artifact.',
 };
 

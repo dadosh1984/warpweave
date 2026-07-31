@@ -162,7 +162,7 @@ export function getCommandContents(workflowFilter?: readonly string[]): CommandC
  * Generates skill file content with YAML frontmatter.
  *
  * @param template - The skill template
- * @param generatedByVersion - The OpenSpec version to embed in the file
+ * @param generatedByVersion - The Spectrix version to embed in the file
  * @param transformInstructions - Optional callback to transform the instructions content
  */
 export function generateSkillContent(
@@ -179,9 +179,9 @@ name: ${template.name}
 description: ${template.description}
 allowed-tools: ${OPENSPEC_CLI_ALLOWED_TOOLS}
 license: ${template.license || 'MIT'}
-compatibility: ${template.compatibility || 'Requires openspec CLI.'}
+compatibility: ${template.compatibility || 'Requires spectrix CLI.'}
 metadata:
-  author: ${template.metadata?.author || 'openspec'}
+  author: ${template.metadata?.author || 'spectrix'}
   version: "${template.metadata?.version || '1.0'}"
   generatedBy: "${generatedByVersion}"
 ---

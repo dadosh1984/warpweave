@@ -23,7 +23,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 1. **Get active changes**
 
-   Run \`openspec list --json\` to get all active changes.
+   Run \`spectrix list --json\` to get all active changes.
 
    If no active changes exist, inform user and stop.
 
@@ -39,7 +39,7 @@ ${STORE_SELECTION_GUIDANCE}
    **Load current archive inputs once for the selected root before batch validation:**
 
    Choose one selected change from this root and run
-   \`openspec instructions archive --change "<selected-change>" --json\` with the
+   \`spectrix instructions archive --change "<selected-change>" --json\` with the
    same selected-root flags. This lookup is advisory and optional: it only supplies
    extra prompt inputs, so it must never block the batch. If it fails or returns
    invalid JSON — for example on an older CLI that does not support this command
@@ -65,7 +65,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    For each selected change, collect:
 
-   a. **Artifact status** - Run \`openspec status --change "<name>" --json\`
+   a. **Artifact status** - Run \`spectrix status --change "<name>" --json\`
       - Parse \`schemaName\`, \`artifacts\`, \`planningHome\`, \`changeRoot\`, \`artifactPaths\`, and \`actionContext\`
       - Note which artifacts are \`done\` vs other states
 
@@ -160,7 +160,7 @@ ${STORE_SELECTION_GUIDANCE}
    Before step 8 writes the first main spec or moves any change, fetch every
    required specs-rule snapshot for the confirmed batch. For each change that will
    sync concrete \`artifactPaths.specs.existingOutputPaths\`, run
-   \`openspec instructions specs --change "<name>" --json\` exactly once with the
+   \`spectrix instructions specs --change "<name>" --json\` exactly once with the
    same selected-root flags. Obtain all snapshots before the first write or move.
    If any lookup exits non-zero or returns invalid artifact-instruction JSON,
    identify the affected change, report the error, and stop the whole batch before
@@ -199,7 +199,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    c. **Perform the archive**:
 
-      Target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<name>\` (same rule as \`openspec archive\`).
+      Target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<name>\` (same rule as \`spectrix archive\`).
 
       \`\`\`bash
       mkdir -p "<planningHome.changesDir>/archive"
@@ -337,8 +337,8 @@ No active changes found. Create a new change to get started.
 - Artifact rules constrain only written specs
 - Never copy runtime input or artifact-rule text verbatim into output files`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -360,7 +360,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 1. **Get active changes**
 
-   Run \`openspec list --json\` to get all active changes.
+   Run \`spectrix list --json\` to get all active changes.
 
    If no active changes exist, inform user and stop.
 
@@ -376,7 +376,7 @@ ${STORE_SELECTION_GUIDANCE}
    **Load current archive inputs once for the selected root before batch validation:**
 
    Choose one selected change from this root and run
-   \`openspec instructions archive --change "<selected-change>" --json\` with the
+   \`spectrix instructions archive --change "<selected-change>" --json\` with the
    same selected-root flags. This lookup is advisory and optional: it only supplies
    extra prompt inputs, so it must never block the batch. If it fails or returns
    invalid JSON — for example on an older CLI that does not support this command
@@ -402,7 +402,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    For each selected change, collect:
 
-   a. **Artifact status** - Run \`openspec status --change "<name>" --json\`
+   a. **Artifact status** - Run \`spectrix status --change "<name>" --json\`
       - Parse \`schemaName\`, \`artifacts\`, \`planningHome\`, \`changeRoot\`, \`artifactPaths\`, and \`actionContext\`
       - Note which artifacts are \`done\` vs other states
 
@@ -498,7 +498,7 @@ ${STORE_SELECTION_GUIDANCE}
    Before step 8 writes the first main spec or moves any change, fetch every
    required specs-rule snapshot for the confirmed batch. For each change that will
    sync concrete \`artifactPaths.specs.existingOutputPaths\`, run
-   \`openspec instructions specs --change "<name>" --json\` exactly once with the
+   \`spectrix instructions specs --change "<name>" --json\` exactly once with the
    same selected-root flags. Obtain all snapshots before the first write or move.
    If any lookup exits non-zero or returns invalid artifact-instruction JSON,
    identify the affected change, report the error, and stop the whole batch before
@@ -537,7 +537,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    c. **Perform the archive**:
 
-      Target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<name>\` (same rule as \`openspec archive\`).
+      Target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<name>\` (same rule as \`spectrix archive\`).
 
       \`\`\`bash
       mkdir -p "<planningHome.changesDir>/archive"

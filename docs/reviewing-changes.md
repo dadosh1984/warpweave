@@ -1,6 +1,6 @@
 # Reviewing a Change
 
-OpenSpec's whole promise is that you and your AI **agree on what to build before any code is written.** That agreement only means something if you actually read what the AI drafted. This page is about the two minutes where you do that — what to open, in what order, and what to look for.
+Spectrix's whole promise is that you and your AI **agree on what to build before any code is written.** That agreement only means something if you actually read what the AI drafted. This page is about the two minutes where you do that — what to open, in what order, and what to look for.
 
 The bet is simple: catching a wrong turn in a one-paragraph plan is nearly free. Catching the same wrong turn in 300 lines of code is not. Review is where you collect on that bet.
 
@@ -118,7 +118,7 @@ AI:  Verifying add-dark-mode...
 
 It flags issues as CRITICAL, WARNING, or SUGGESTION, and it does **not** block archiving — it surfaces the gaps and leaves the call to you. This is the difference between "did the AI write code" and "did it build what we agreed."
 
-`/opsx:verify` is in the expanded profile. If you don't have it, turn it on with `openspec config profile` (then `openspec update`), or just re-read the change and the diff yourself.
+`/opsx:verify` is in the expanded profile. If you don't have it, turn it on with `spectrix config profile` (then `spectrix update`), or just re-read the change and the diff yourself.
 
 ## Right-size the review
 

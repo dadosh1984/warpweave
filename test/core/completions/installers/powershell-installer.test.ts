@@ -80,13 +80,13 @@ describe('PowerShellInstaller', () => {
       });
 
       const result = installer.getInstallationPath();
-      expect(result).toBe(path.join(testHomeDir, '.config', 'powershell', 'OpenSpecCompletion.ps1'));
+      expect(result).toBe(path.join(testHomeDir, '.config', 'powershell', 'SpectrixCompletion.ps1'));
     });
 
     it('should work with custom PROFILE environment variable', () => {
       process.env.PROFILE = path.join(testHomeDir, 'custom', 'profile.ps1');
       const result = installer.getInstallationPath();
-      expect(result).toBe(path.join(testHomeDir, 'custom', 'OpenSpecCompletion.ps1'));
+      expect(result).toBe(path.join(testHomeDir, 'custom', 'SpectrixCompletion.ps1'));
     });
 
     it('should return Windows path when on Windows platform', () => {
@@ -96,7 +96,7 @@ describe('PowerShellInstaller', () => {
       });
 
       const result = installer.getInstallationPath();
-      expect(result).toBe(path.join(testHomeDir, 'Documents', 'PowerShell', 'OpenSpecCompletion.ps1'));
+      expect(result).toBe(path.join(testHomeDir, 'Documents', 'PowerShell', 'SpectrixCompletion.ps1'));
     });
   });
 
@@ -142,7 +142,7 @@ describe('PowerShellInstaller', () => {
   });
 
   describe('configureProfile', () => {
-    const mockScriptPath = '/path/to/OpenSpecCompletion.ps1';
+    const mockScriptPath = '/path/to/SpectrixCompletion.ps1';
 
     // Note: OPENSPEC_NO_AUTO_CONFIG check is now handled in the install() method,
     // not in configureProfile() itself
@@ -185,7 +185,7 @@ describe('PowerShellInstaller', () => {
       await fs.mkdir(path.dirname(profilePath), { recursive: true });
 
       const initialContent = [
-        '# OPENSPEC:START - OpenSpec completion (managed block, do not edit manually)',
+        '# OPENSPEC:START - Spectrix completion (managed block, do not edit manually)',
         `. "${mockScriptPath}"`,
         '# OPENSPEC:END',
         '',
@@ -311,7 +311,7 @@ describe('PowerShellInstaller', () => {
 
       const initialContent = [
         '# OPENSPEC:START',
-        '# OpenSpec completions',
+        '# Spectrix completions',
         'if (Test-Path "/path") {',
         '    . "/path"',
         '}',
@@ -328,7 +328,7 @@ describe('PowerShellInstaller', () => {
       const content = await fs.readFile(profilePath, 'utf-8');
       expect(content).not.toContain('# OPENSPEC:START');
       expect(content).not.toContain('# OPENSPEC:END');
-      expect(content).not.toContain('# OpenSpec completions');
+      expect(content).not.toContain('# Spectrix completions');
       expect(content).toContain('# My config');
     });
 
@@ -361,7 +361,7 @@ describe('PowerShellInstaller', () => {
       const initialContent = [
         '# Before',
         '# OPENSPEC:START',
-        '# OpenSpec',
+        '# Spectrix',
         '# OPENSPEC:END',
         '# After',
       ].join('\n');
@@ -400,7 +400,7 @@ $openspecCompleter = {
     param($wordToComplete, $commandAst, $cursorPosition)
     # Completion logic here
 }
-Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
+Register-ArgumentCompleter -CommandName spectrix -ScriptBlock $openspecCompleter
 `;
 
     it('should install completion script for the first time', async () => {
@@ -409,7 +409,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
 
       expect(result.success).toBe(true);
       expect(result.message).toContain('installed');
-      expect(result.installedPath).toContain('OpenSpecCompletion.ps1');
+      expect(result.installedPath).toContain('SpectrixCompletion.ps1');
       expect(result.backupPath).toBeUndefined();
     });
 
@@ -517,13 +517,13 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
     });
 
     it('should handle installation with paths containing spaces', async () => {
-      const spacedHomeDir = await fs.mkdtemp(path.join(os.tmpdir(), 'openspec powershell test '));
+      const spacedHomeDir = await fs.mkdtemp(path.join(os.tmpdir(), 'spectrix powershell test '));
 
       const spacedInstaller = new PowerShellInstaller(spacedHomeDir);
       const result = await spacedInstaller.install(mockCompletionScript);
 
       expect(result.success).toBe(true);
-      expect(result.installedPath).toContain('openspec powershell test');
+      expect(result.installedPath).toContain('spectrix powershell test');
 
       // Cleanup
       await fs.rm(spacedHomeDir, { recursive: true, force: true });
@@ -572,7 +572,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
   });
 
   describe('encoding preservation', () => {
-    const mockScriptPath = '/path/to/OpenSpecCompletion.ps1';
+    const mockScriptPath = '/path/to/SpectrixCompletion.ps1';
     const utf16leBom = Buffer.from([0xff, 0xfe]);
     const utf8Bom = Buffer.from([0xef, 0xbb, 0xbf]);
 
@@ -624,7 +624,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
       const textWithBlock = [
         '. "C:\\Code\\profile.ps1"',
         '# OPENSPEC:START',
-        '. "/path/to/OpenSpecCompletion.ps1"',
+        '. "/path/to/SpectrixCompletion.ps1"',
         '# OPENSPEC:END',
         '',
       ].join('\n');
@@ -638,7 +638,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
       expect(raw[0]).toBe(0xff);
       expect(raw[1]).toBe(0xfe);
 
-      // Verify content: original line kept, OpenSpec block removed
+      // Verify content: original line kept, Spectrix block removed
       const content = raw.subarray(2).toString('utf16le');
       expect(content).toContain('. "C:\\Code\\profile.ps1"');
       expect(content).not.toContain('# OPENSPEC:START');
@@ -714,7 +714,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
       const originalText = '. "C:\\Code\\SystemConfig\\Powershell\\profile.ps1"\r\n';
       await writeUtf16LeFile(profilePath, originalText);
 
-      // Install adds the OpenSpec block
+      // Install adds the Spectrix block
       const mockScript = '# completion script';
       await installer.install(mockScript);
 
@@ -726,7 +726,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
       expect(content).toContain('# OPENSPEC:START');
       expect(content).toContain(originalText.trimEnd());
 
-      // Uninstall removes the OpenSpec block
+      // Uninstall removes the Spectrix block
       await installer.uninstall();
 
       raw = await fs.readFile(profilePath);
@@ -741,7 +741,7 @@ Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
   describe('uninstall', () => {
     const mockCompletionScript = `# PowerShell completion script
 $openspecCompleter = {}
-Register-ArgumentCompleter -CommandName openspec -ScriptBlock $openspecCompleter
+Register-ArgumentCompleter -CommandName spectrix -ScriptBlock $openspecCompleter
 `;
 
     it('should successfully uninstall when completion script exists', async () => {

@@ -72,7 +72,7 @@ export class ChangeCommand {
         } else {
           console.error(`No change specified. Available IDs: ${changes.join(', ')}`);
         }
-        console.error('Hint: use "openspec change list" to view available changes.');
+        console.error('Hint: use "spectrix change list" to view available changes.');
         process.exitCode = 1;
         return;
       }
@@ -88,7 +88,7 @@ export class ChangeCommand {
     try {
       await fs.access(proposalPath);
     } catch {
-      // A change can exist without a proposal: `openspec new change` scaffolds
+      // A change can exist without a proposal: `spectrix new change` scaffolds
       // only .openspec.yaml, and a custom schema need not define a proposal
       // artifact. Say which of the two cases this is instead of reporting a
       // change that does exist as missing. A stray file under changes/ is not a
@@ -101,7 +101,7 @@ export class ChangeCommand {
       if (isChangeDirectory) {
         throw new Error(
           `Change "${changeName}" has no proposal.md yet. ` +
-            `Run "openspec status --change ${changeName}" to see which artifact comes next.`
+            `Run "spectrix status --change ${changeName}" to see which artifact comes next.`
         );
       }
       throw new Error(`Change "${changeName}" not found at ${proposalPath}`);
@@ -142,7 +142,7 @@ export class ChangeCommand {
   async list(options?: { json?: boolean; long?: boolean }): Promise<void> {
     const changesPath = path.join(process.cwd(), 'openspec', 'changes');
     
-    // Same directory-based resolution as `openspec list`, the command this
+    // Same directory-based resolution as `spectrix list`, the command this
     // deprecated alias points users at. Every output path below already
     // tolerates a change whose proposal.md is missing or unreadable.
     const changes = await getActiveChangeIds();
@@ -241,7 +241,7 @@ export class ChangeCommand {
         } else {
           console.error(`No change specified. Available IDs: ${changes.join(', ')}`);
         }
-        console.error('Hint: use "openspec change list" to view available changes.');
+        console.error('Hint: use "spectrix change list" to view available changes.');
         process.exitCode = 1;
         return;
       }
@@ -307,7 +307,7 @@ export class ChangeCommand {
     } else {
       bullets.push('- Ensure change has deltas in specs/: use headers ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
       bullets.push('- Each requirement MUST include at least one #### Scenario: block');
-      bullets.push('- Debug parsed deltas: openspec change show <id> --json --deltas-only');
+      bullets.push('- Debug parsed deltas: spectrix change show <id> --json --deltas-only');
     }
     console.error('Next steps:');
     bullets.forEach(b => console.error(`  ${b}`));

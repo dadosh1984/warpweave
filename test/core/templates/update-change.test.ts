@@ -21,8 +21,8 @@ describe('update-change templates', () => {
     expect(skill.name).toBe('openspec-update-change');
     expect(skill.description).toContain('Never edits code');
     expect(skill.license).toBe('MIT');
-    expect(skill.compatibility).toBe('Requires openspec CLI.');
-    expect(skill.metadata).toEqual({ author: 'openspec', version: '1.0' });
+    expect(skill.compatibility).toBe('Requires spectrix CLI.');
+    expect(skill.metadata).toEqual({ author: 'spectrix', version: '1.0' });
 
     expect(command.name).toBe('OPSX: Update');
     expect(command.category).toBe('Workflow');
@@ -31,9 +31,9 @@ describe('update-change templates', () => {
 
     for (const [label, body] of bodies) {
       expect(body, label).toContain(STORE_SELECTION_GUIDANCE);
-      expect(body, label).toContain('openspec list --json');
-      expect(body, label).toContain('openspec status --change "<name>" --json');
-      expect(body, label).toContain('openspec instructions <artifact-id> --change "<name>" --json');
+      expect(body, label).toContain('spectrix list --json');
+      expect(body, label).toContain('spectrix status --change "<name>" --json');
+      expect(body, label).toContain('spectrix instructions <artifact-id> --change "<name>" --json');
     }
   });
 

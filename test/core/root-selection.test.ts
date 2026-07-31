@@ -120,7 +120,7 @@ describe('resolveOpenSpecRoot', () => {
     return error;
   }
 
-  it('resolves a selected store to its healthy OpenSpec root', async () => {
+  it('resolves a selected store to its healthy Spectrix root', async () => {
     const storeRoot = await registerStore('team-context');
 
     const root = await resolveOpenSpecRoot({ store: 'team-context', globalDataDir });
@@ -206,7 +206,7 @@ describe('resolveOpenSpecRoot', () => {
     expect(error.message).toContain('--store <id>');
   });
 
-  it('resolves the nearest openspec root without --store', async () => {
+  it('resolves the nearest spectrix root without --store', async () => {
     const repoRoot = mkdir('app-repo');
     createOpenSpecRoot(repoRoot);
     const nested = mkdir('app-repo/src/deep');
@@ -260,7 +260,7 @@ describe('resolveOpenSpecRoot', () => {
     );
     expect(error.message).toContain('team-context');
     expect(error.message).toContain('--store <id>');
-    expect(error.message).toContain('openspec init');
+    expect(error.message).toContain('spectrix init');
     // No scaffolding happened.
     expect(fs.existsSync(path.join(appRepo, 'openspec'))).toBe(false);
   });
@@ -274,7 +274,7 @@ describe('resolveOpenSpecRoot', () => {
 
     await expectRootSelectionError(
       resolveOpenSpecRoot({ startPath: appRepo, globalDataDir, allowImplicitRoot: false }),
-      'no_openspec_root'
+      'no_spectrix_root'
     );
   });
 
@@ -594,7 +594,7 @@ describe('resolveOpenSpecRoot', () => {
         'unknown_store'
       );
       expect(error.message).toContain("Global defaultStore 'ghost-plans'");
-      expect(error.diagnostic.fix).toContain('openspec config unset defaultStore');
+      expect(error.diagnostic.fix).toContain('spectrix config unset defaultStore');
     });
 
     it('falls through to the registered-store hint when no default is set', async () => {

@@ -1,6 +1,6 @@
 name: spec-driven
 version: 1
-description: Default OpenSpec workflow - proposal → specs → design → tasks
+description: Default Spectrix workflow - proposal → specs → design → tasks
 artifacts:
   - id: proposal
     generates: proposal.md
@@ -22,7 +22,7 @@ artifacts:
       Each capability listed here will need a corresponding spec file.
 
       Every change must either declare at least one capability (new or
-      modified) or explicitly opt out of specs: `openspec validate` rejects a
+      modified) or explicitly opt out of specs: `spectrix validate` rejects a
       change with zero deltas unless the change's `.openspec.yaml` sets
       `skip_specs: true`. Use `skip_specs: true` only when no spec-level
       behavior changes (pure refactor, tooling, docs) - specs describe
@@ -86,7 +86,7 @@ artifacts:
       - Modified capabilities: use the existing spec folder name from openspec/specs/<capability>/ when creating the delta spec at specs/<capability>/spec.md.
 
       There must be at least one spec file unless the change's `.openspec.yaml`
-      sets `skip_specs: true` (no spec-level behavior change) - `openspec validate`
+      sets `skip_specs: true` (no spec-level behavior change) - `spectrix validate`
       rejects a zero-delta change without that marker. If the proposal lists no
       capabilities and `skip_specs` is not set, revisit the proposal first.
 
@@ -104,7 +104,7 @@ artifacts:
       - Every requirement MUST have at least one scenario.
 
       New capabilities only: start the delta spec with a `## Purpose` section -
-      one or two sentences (50+ characters, or `openspec validate --strict`
+      one or two sentences (50+ characters, or `spectrix validate --strict`
       reports it as too brief) describing what the capability is for. Archive
       copies it into the main spec it creates; without it the new main spec is
       left with a `TBD ... Update Purpose after archive` placeholder to fill in

@@ -10,7 +10,7 @@ import { snapshotDirectory as snapshot } from '../helpers/fs-snapshot.js';
 import { cleanupTempPath } from '../helpers/temp-cleanup.js';
 import { isolatedGitEnv } from '../helpers/store-git.js';
 
-describe('openspec doctor (3.6)', () => {
+describe('spectrix doctor (3.6)', () => {
   let tempDir: string;
   let globalDataDir: string;
   let env: NodeJS.ProcessEnv;
@@ -100,7 +100,7 @@ describe('openspec doctor (3.6)', () => {
     // Banner on stderr in human mode; sections in the transcript voice.
     const human = await runCLI(['doctor', '--store', 'team-context'], { cwd: tempDir, env });
     expect(human.exitCode).toBe(0);
-    expect(human.stderr).toContain('Using OpenSpec root: team-context');
+    expect(human.stderr).toContain('Using Spectrix root: team-context');
     expect(human.stdout).toContain('Root');
     expect(human.stdout).toContain('  Store: team-context (metadata ok)');
     expect(human.stdout).toContain(`  - upstream-context: ok (${upstream})`);
@@ -336,7 +336,7 @@ describe('openspec doctor (3.6)', () => {
     const bare = mkdir('bare-dir-human');
     const result = await runCLI(['doctor'], { cwd: bare, env });
     expect(result.exitCode).toBe(1);
-    expect(result.stderr).toContain('Error: No OpenSpec root found');
+    expect(result.stderr).toContain('Error: No Spectrix root found');
     expect(result.stderr).not.toContain('at ');
   });
 

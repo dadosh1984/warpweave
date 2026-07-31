@@ -83,14 +83,14 @@ describe('ZshInstaller', () => {
       const result = await installer.getInstallationPath();
 
       expect(result.isOhMyZsh).toBe(true);
-      expect(result.path).toBe(path.join(testHomeDir, '.oh-my-zsh', 'custom', 'completions', '_openspec'));
+      expect(result.path).toBe(path.join(testHomeDir, '.oh-my-zsh', 'custom', 'completions', '_spectrix'));
     });
 
     it('should return standard Zsh path when Oh My Zsh is not installed', async () => {
       const result = await installer.getInstallationPath();
 
       expect(result.isOhMyZsh).toBe(false);
-      expect(result.path).toBe(path.join(testHomeDir, '.zsh', 'completions', '_openspec'));
+      expect(result.path).toBe(path.join(testHomeDir, '.zsh', 'completions', '_spectrix'));
     });
 
     it('should honor $ZSH for an Oh My Zsh install at a custom location', async () => {
@@ -102,7 +102,7 @@ describe('ZshInstaller', () => {
       const result = await installer.getInstallationPath();
 
       expect(result.isOhMyZsh).toBe(true);
-      expect(result.path).toBe(path.join(customRoot, 'custom', 'completions', '_openspec'));
+      expect(result.path).toBe(path.join(customRoot, 'custom', 'completions', '_spectrix'));
     });
 
     it('should honor $ZSH_CUSTOM over the derived custom dir', async () => {
@@ -113,7 +113,7 @@ describe('ZshInstaller', () => {
 
       expect(result.isOhMyZsh).toBe(true);
       expect(result.path).toBe(
-        path.join(testHomeDir, 'dotfiles', 'omz-custom', 'completions', '_openspec')
+        path.join(testHomeDir, 'dotfiles', 'omz-custom', 'completions', '_spectrix')
       );
     });
   });
@@ -151,7 +151,7 @@ describe('ZshInstaller', () => {
   });
 
   describe('install', () => {
-    const testScript = '#compdef openspec\n_openspec() {\n  echo "test"\n}\n';
+    const testScript = '#compdef spectrix\n_spectrix() {\n  echo "test"\n}\n';
 
     it('should install to Oh My Zsh path when Oh My Zsh is present', async () => {
       // Create .oh-my-zsh directory
@@ -162,7 +162,7 @@ describe('ZshInstaller', () => {
 
       expect(result.success).toBe(true);
       expect(result.isOhMyZsh).toBe(true);
-      expect(result.installedPath).toBe(path.join(ohMyZshPath, 'custom', 'completions', '_openspec'));
+      expect(result.installedPath).toBe(path.join(ohMyZshPath, 'custom', 'completions', '_spectrix'));
       expect(result.message).toContain('Oh My Zsh');
 
       // Verify file was created with correct content
@@ -175,7 +175,7 @@ describe('ZshInstaller', () => {
 
       expect(result.success).toBe(true);
       expect(result.isOhMyZsh).toBe(false);
-      expect(result.installedPath).toBe(path.join(testHomeDir, '.zsh', 'completions', '_openspec'));
+      expect(result.installedPath).toBe(path.join(testHomeDir, '.zsh', 'completions', '_spectrix'));
 
       // Verify file was created
       const content = await fs.readFile(result.installedPath!, 'utf-8');
@@ -194,7 +194,7 @@ describe('ZshInstaller', () => {
     });
 
     it('should backup existing file before overwriting', async () => {
-      const targetPath = path.join(testHomeDir, '.zsh', 'completions', '_openspec');
+      const targetPath = path.join(testHomeDir, '.zsh', 'completions', '_spectrix');
       await fs.mkdir(path.dirname(targetPath), { recursive: true });
       await fs.writeFile(targetPath, 'old script');
 
@@ -278,12 +278,12 @@ describe('ZshInstaller', () => {
 
     it('should update completion when content differs', async () => {
       // First installation
-      const firstScript = '#compdef openspec\n_openspec() {\n  echo "version 1"\n}\n';
+      const firstScript = '#compdef spectrix\n_spectrix() {\n  echo "version 1"\n}\n';
       const firstResult = await installer.install(firstScript);
       expect(firstResult.success).toBe(true);
 
       // Second installation with different script
-      const secondScript = '#compdef openspec\n_openspec() {\n  echo "version 2"\n}\n';
+      const secondScript = '#compdef spectrix\n_spectrix() {\n  echo "version 2"\n}\n';
       const secondResult = await installer.install(secondScript);
 
       expect(secondResult.success).toBe(true);
@@ -302,7 +302,7 @@ describe('ZshInstaller', () => {
 
     it('should handle paths with spaces in .zshrc config', async () => {
       // Create a test home directory with spaces
-      const testHomeDirWithSpaces = await fs.mkdtemp(path.join(os.tmpdir(), 'openspec zsh test '));
+      const testHomeDirWithSpaces = await fs.mkdtemp(path.join(os.tmpdir(), 'spectrix zsh test '));
       const installerWithSpaces = new ZshInstaller(testHomeDirWithSpaces);
 
       try {
@@ -326,7 +326,7 @@ describe('ZshInstaller', () => {
   });
 
   describe('uninstall', () => {
-    const testScript = '#compdef openspec\n_openspec() {}\n';
+    const testScript = '#compdef spectrix\n_spectrix() {}\n';
 
     it('should remove installed completion script', async () => {
       // Install first
@@ -364,12 +364,12 @@ describe('ZshInstaller', () => {
       const result = await installer.uninstall();
 
       expect(result.success).toBe(true);
-      expect(result.message).toContain(path.join('.oh-my-zsh', 'custom', 'completions', '_openspec'));
+      expect(result.message).toContain(path.join('.oh-my-zsh', 'custom', 'completions', '_spectrix'));
     });
   });
 
   describe('isInstalled', () => {
-    const testScript = '#compdef openspec\n_openspec() {}\n';
+    const testScript = '#compdef spectrix\n_spectrix() {}\n';
 
     it('should return false when not installed', async () => {
       const isInstalled = await installer.isInstalled();
@@ -395,7 +395,7 @@ describe('ZshInstaller', () => {
   });
 
   describe('getInstallationInfo', () => {
-    const testScript = '#compdef openspec\n_openspec() {}\n';
+    const testScript = '#compdef spectrix\n_spectrix() {}\n';
 
     it('should return not installed when script does not exist', async () => {
       const info = await installer.getInstallationInfo();
@@ -412,7 +412,7 @@ describe('ZshInstaller', () => {
 
       expect(info.installed).toBe(true);
       expect(info.path).toBeDefined();
-      expect(info.path).toContain('_openspec');
+      expect(info.path).toContain('_spectrix');
       expect(info.isOhMyZsh).toBe(false);
     });
 
@@ -455,7 +455,7 @@ describe('ZshInstaller', () => {
 
       expect(content).toContain('# OPENSPEC:START');
       expect(content).toContain('# OPENSPEC:END');
-      expect(content).toContain('# OpenSpec shell completions configuration');
+      expect(content).toContain('# Spectrix shell completions configuration');
       expect(content).toContain(`fpath=("${completionsDir}" $fpath)`);
       expect(content).toContain('autoload -Uz compinit');
       expect(content).toContain('compinit');
@@ -516,7 +516,7 @@ describe('ZshInstaller', () => {
         'export PATH="/custom/path:$PATH"',
         '',
         '# OPENSPEC:START',
-        '# Old OpenSpec config',
+        '# Old Spectrix config',
         '# OPENSPEC:END',
         '',
         'alias ls="ls -G"',
@@ -534,7 +534,7 @@ describe('ZshInstaller', () => {
       expect(content).toContain('export PATH="/custom/path:$PATH"');
       expect(content).toContain('alias ls="ls -G"');
       expect(content).toContain(`fpath=("${completionsDir}" $fpath)`);
-      expect(content).not.toContain('# Old OpenSpec config');
+      expect(content).not.toContain('# Old Spectrix config');
     });
 
     it('should return false when OPENSPEC_NO_AUTO_CONFIG is set', async () => {
@@ -596,7 +596,7 @@ describe('ZshInstaller', () => {
         '# My config',
         '',
         '# OPENSPEC:START',
-        '# OpenSpec shell completions configuration',
+        '# Spectrix shell completions configuration',
         'fpath=(~/.zsh/completions $fpath)',
         'autoload -Uz compinit',
         'compinit',
@@ -615,7 +615,7 @@ describe('ZshInstaller', () => {
 
       expect(newContent).not.toContain('# OPENSPEC:START');
       expect(newContent).not.toContain('# OPENSPEC:END');
-      expect(newContent).not.toContain('OpenSpec shell completions');
+      expect(newContent).not.toContain('Spectrix shell completions');
       expect(newContent).toContain('# My config');
       expect(newContent).toContain('alias ll="ls -la"');
     });
@@ -624,7 +624,7 @@ describe('ZshInstaller', () => {
       const zshrcPath = path.join(testHomeDir, '.zshrc');
       const content = [
         '# OPENSPEC:START',
-        '# OpenSpec config',
+        '# Spectrix config',
         '# OPENSPEC:END',
         '',
         '# User config below',
@@ -665,7 +665,7 @@ describe('ZshInstaller', () => {
   });
 
   describe('install with .zshrc auto-configuration', () => {
-    const testScript = '#compdef openspec\n_openspec() {}\n';
+    const testScript = '#compdef spectrix\n_spectrix() {}\n';
 
     it('should auto-configure .zshrc for standard Zsh', async () => {
       const result = await installer.install(testScript);
@@ -743,7 +743,7 @@ describe('ZshInstaller', () => {
   });
 
   describe('uninstall with .zshrc cleanup', () => {
-    const testScript = '#compdef openspec\n_openspec() {}\n';
+    const testScript = '#compdef spectrix\n_spectrix() {}\n';
 
     it('should remove .zshrc config when uninstalling', async () => {
       // Install first (which creates .zshrc config)
@@ -758,7 +758,7 @@ describe('ZshInstaller', () => {
       const result = await installer.uninstall();
 
       expect(result.success).toBe(true);
-      expect(result.message).toContain('Removed OpenSpec configuration from ~/.zshrc');
+      expect(result.message).toContain('Removed Spectrix configuration from ~/.zshrc');
 
       // Verify .zshrc config was removed
       content = await fs.readFile(zshrcPath, 'utf-8');
@@ -785,7 +785,7 @@ describe('ZshInstaller', () => {
       const result = await installer.uninstall();
 
       expect(result.success).toBe(true);
-      expect(result.message).toContain('Removed OpenSpec configuration from ~/.zshrc');
+      expect(result.message).toContain('Removed Spectrix configuration from ~/.zshrc');
     });
 
     it('should include both messages when removing script and .zshrc', async () => {
@@ -795,7 +795,7 @@ describe('ZshInstaller', () => {
 
       expect(result.success).toBe(true);
       expect(result.message).toContain('Completion script removed');
-      expect(result.message).toContain('Removed OpenSpec configuration from ~/.zshrc');
+      expect(result.message).toContain('Removed Spectrix configuration from ~/.zshrc');
     });
   });
 });

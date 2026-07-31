@@ -94,7 +94,7 @@ describe('ChangeCommand.show/validate', () => {
       await fs.mkdir(path.join(tempRoot, 'openspec', 'changes', 'scaffolded'), { recursive: true });
 
       await expect(cmd.show('scaffolded', { json: false })).rejects.toThrow(
-        /Change "scaffolded" has no proposal\.md yet\..*openspec status --change scaffolded/s
+        /Change "scaffolded" has no proposal\.md yet\..*spectrix status --change scaffolded/s
       );
     });
 

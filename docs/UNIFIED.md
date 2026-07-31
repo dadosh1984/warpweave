@@ -1,14 +1,14 @@
-# OpenSpec Unified
+# Spectrix Unified
 
 **Spec-driven minimalism with compressed feedback loops.** One organism. Four systems. Zero waste.
 
-OpenSpec Unified is a fork of [Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) that embeds three tools into the existing `spec-driven` pipeline. The artifact structure (`proposal → specs → design → tasks`) stays exactly the same — each phase of the pipeline gains built-in support for the three tools.
+Spectrix Unified is a fork of [Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) that embeds three tools into the existing `spec-driven` pipeline. The artifact structure (`proposal → specs → design → tasks`) stays exactly the same — each phase of the pipeline gains built-in support for the three tools.
 
 ## The Four Systems
 
 | Layer | Question | System | Effect |
 |-------|----------|--------|--------|
-| Spec | WHAT to build | [OpenSpec](https://github.com/Fission-AI/OpenSpec) | requirements with GIVEN/WHEN/THEN scenarios |
+| Spec | WHAT to build | [Spectrix](https://github.com/Fission-AI/OpenSpec) | requirements with GIVEN/WHEN/THEN scenarios |
 | Process | HOW to build | [Superpowers](https://github.com/obra/superpowers) | TDD, subagent-driven development, two-stage review |
 | Quality | HOW MUCH to write | [Ponytail](https://github.com/DietrichGebert/ponytail) | -54% lines, YAGNI ladder |
 | Feedback | HOW FAST to iterate | [RTK](https://github.com/rtk-ai/rtk) | -70% tokens on command output |
@@ -19,11 +19,11 @@ Every action passes through all four layers. Never skip a layer.
 
 ```text
 USER INTENT
-  → PHASE 1: SPEC GATE  (OpenSpec)      — proposal, specs, design, tasks; human approves
+  → PHASE 1: SPEC GATE  (Spectrix)      — proposal, specs, design, tasks; human approves
   → PHASE 2: PLAN       (Superpowers)   — tasks decomposed, file-level granularity
   → PHASE 3: EXECUTE    (Ponytail + Superpowers TDD) — RED → GREEN → REFACTOR, ladder rungs
   → PHASE 4: FEEDBACK   (RTK)           — every shell command runs through `rtk`
-  → PHASE 5: REVIEW     (Superpowers + OpenSpec) — two-stage review, archive, spec sync
+  → PHASE 5: REVIEW     (Superpowers + Spectrix) — two-stage review, archive, spec sync
 ```
 
 ### Gates
@@ -84,7 +84,7 @@ You receive compressed output. Act on signal, ignore noise. On command failure, 
 
 ## Configuration
 
-`openspec init` copies the unified configuration into your project:
+`spectrix init` copies the unified configuration into your project:
 
 | Source | Destination |
 |--------|-------------|
@@ -123,7 +123,7 @@ Select a profile with the `UNIFIED_PROFILE` environment variable (see `.env.exam
 npm install -g @dadosh1984/spectrix@latest
 brew install rtk
 cd your-project
-openspec init
+spectrix init
 rtk init -g --opencode
 ```
 
@@ -140,7 +140,7 @@ Add Superpowers and Ponytail to `opencode.json`:
 
 ## Commands
 
-The unified workflow uses the standard OpenSpec commands:
+The unified workflow uses the standard Spectrix commands:
 
 | Command | Purpose |
 |---------|---------|
@@ -149,13 +149,13 @@ The unified workflow uses the standard OpenSpec commands:
 | `/opsx:apply` | Implement tasks with TDD and ladder rungs |
 | `/opsx:archive` | Archive the change, sync specs |
 
-Your tool may spell `/opsx:propose` as `/opsx-propose`, `@opsx-propose`, or `$openspec-propose` — `openspec init` prints the right form for the tools you picked.
+Your tool may spell `/opsx:propose` as `/opsx-propose`, `@opsx-propose`, or `$openspec-propose` — `spectrix init` prints the right form for the tools you picked.
 
 ## FAQ
 
-**Do I need to change how I use OpenSpec?** No. The artifact structure and commands are identical. The three tools are embedded as instructions, templates, and suggestions.
+**Do I need to change how I use Spectrix?** No. The artifact structure and commands are identical. The three tools are embedded as instructions, templates, and suggestions.
 
-**Does OpenSpec Unified change the schema?** No. The schema stays `spec-driven`. We modify the existing `instruction` blocks, templates, and skill generator.
+**Does Spectrix Unified change the schema?** No. The schema stays `spec-driven`. We modify the existing `instruction` blocks, templates, and skill generator.
 
 **What if I don't want RTK/Superpowers/Ponytail?** They are suggestions, not requirements. The spec-driven pipeline works standalone; the unified tooling layers on top.
 

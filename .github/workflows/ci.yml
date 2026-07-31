@@ -189,7 +189,7 @@ jobs:
             echo "Error: Nix build output 'result' symlink not found"
             exit 1
           fi
-          if [ ! -f "result/bin/openspec" ]; then
+          if [ ! -f "result/bin/spectrix" ]; then
             echo "Error: openspec binary not found in build output"
             exit 1
           fi

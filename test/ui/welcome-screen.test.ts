@@ -118,7 +118,7 @@ describe('welcome screen', () => {
 
     const output = writtenOutput();
 
-    expect(output).toContain('Welcome to OpenSpec');
+    expect(output).toContain('Welcome to Spectrix');
     expect(output).not.toContain('Quick start after setup:');
   });
 
@@ -188,7 +188,7 @@ describe('welcome screen', () => {
     // otherwise the keystroke falls through into the tool picker (#1462).
     expect(useKeypressMock).toHaveBeenCalledOnce();
     const output = writtenOutput();
-    expect(output).toContain('Welcome to OpenSpec');
+    expect(output).toContain('Welcome to Spectrix');
     expect(output).toContain('Press Enter');
     // No cursor-up repaints: the frame is drawn exactly once.
     expect(output).not.toMatch(/\x1b\[\d+A/);
@@ -211,7 +211,7 @@ describe('welcome screen', () => {
 
     expect(useKeypressMock).toHaveBeenCalledOnce();
     const output = writtenOutput();
-    expect(output).toContain('Welcome to OpenSpec');
+    expect(output).toContain('Welcome to Spectrix');
     expect(output).not.toMatch(/\x1b\[\d+A/);
   });
 
@@ -226,7 +226,7 @@ describe('welcome screen', () => {
       await showWelcomeScreen(CORE_WORKFLOWS);
 
       expect(useKeypressMock).toHaveBeenCalledOnce();
-      expect(writtenOutput()).toContain('Welcome to OpenSpec');
+      expect(writtenOutput()).toContain('Welcome to Spectrix');
     }
   );
 });

@@ -124,7 +124,7 @@ export async function instructionsCommand(
       options.change,
       projectRoot,
       root.changesDir,
-      { newChangeHint: withStoreFlag(root, 'openspec new change <name>') }
+      { newChangeHint: withStoreFlag(root, 'spectrix new change <name>') }
     );
 
     // Validate schema if explicitly provided
@@ -330,7 +330,7 @@ export function printInstructionsText(instructions: ArtifactInstructions, isBloc
  * agent to act on and tick off, and a bare `- [ ]` gives it nothing to match.
  * It still counts toward progress, which is taken from every parsed line, so
  * this list can be shorter than the totals beside it but never disagrees with
- * `openspec list` or archive about how much work is left. An empty list is also
+ * `spectrix list` or archive about how much work is left. An empty list is also
  * what puts apply in its "nothing to work on" state, so a file of nothing but
  * text-less checkboxes asks to be rewritten instead of being called done.
  */
@@ -425,7 +425,7 @@ export async function generateApplyInstructions(
   const tasks = toTaskItems(parsedTasks);
 
   // Calculate progress over every checkbox in the file, listed or not, so these
-  // numbers match `openspec list` and archive's incomplete-task check.
+  // numbers match `spectrix list` and archive's incomplete-task check.
   const total = parsedTasks.length;
   const complete = parsedTasks.filter((task) => task.done).length;
   const remaining = total - complete;
@@ -491,7 +491,7 @@ export async function applyInstructionsCommand(options: ApplyInstructionsOptions
       options.change,
       projectRoot,
       root.changesDir,
-      { newChangeHint: withStoreFlag(root, 'openspec new change <name>') }
+      { newChangeHint: withStoreFlag(root, 'spectrix new change <name>') }
     );
 
     // Validate schema if explicitly provided
@@ -609,7 +609,7 @@ export async function archiveInstructionsCommand(
       options.change,
       root.path,
       root.changesDir,
-      { newChangeHint: withStoreFlag(root, 'openspec new change <name>') }
+      { newChangeHint: withStoreFlag(root, 'spectrix new change <name>') }
     );
     const projectConfig = readProjectConfig(root.path);
     const instructions = generateArchiveInstructions(changeName, projectConfig);

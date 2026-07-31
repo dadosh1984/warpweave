@@ -219,7 +219,7 @@ describe('standalone store lifecycle journey', () => {
 
     const log = await git(storeRoot, machineA, ['log', '--format=%s']);
     expect(log.trim().split('\n')).toHaveLength(1);
-    expect(log).toContain(`Initialize OpenSpec store ${STORE_ID}`);
+    expect(log).toContain(`Initialize Spectrix store ${STORE_ID}`);
 
     const committedFiles = await git(storeRoot, machineA, [
       'show',
@@ -284,7 +284,7 @@ describe('standalone store lifecycle journey', () => {
       { env: machineA, cwd: projectDir }
     );
     expect(status.exitCode).toBe(0);
-    expect(status.stderr).toContain(`Using OpenSpec root: ${STORE_ID}`);
+    expect(status.stderr).toContain(`Using Spectrix root: ${STORE_ID}`);
     expect(status.stdout).not.toContain('Planning home');
 
     const instructions = await runCLI(
@@ -403,7 +403,7 @@ describe('standalone store lifecycle journey', () => {
       { env: machineB, cwd: base }
     );
     expect(created.exitCode).toBe(0);
-    expect(created.stderr).toContain(`Using OpenSpec root: ${STORE_ID}`);
+    expect(created.stderr).toContain(`Using Spectrix root: ${STORE_ID}`);
     expect(created.stdout).toContain(`--store ${STORE_ID}`);
 
     const instructions = await runCLI(
@@ -450,11 +450,11 @@ describe('standalone store lifecycle journey', () => {
       { env: machineB, cwd: base }
     );
     expect(failedApply.exitCode).not.toBe(0);
-    expect(failedApply.stderr).toContain(`Using OpenSpec root: ${STORE_ID}`);
-    expect(failedApply.stderr).toContain(`openspec new change <name> --store ${STORE_ID}`);
+    expect(failedApply.stderr).toContain(`Using Spectrix root: ${STORE_ID}`);
+    expect(failedApply.stderr).toContain(`spectrix new change <name> --store ${STORE_ID}`);
   }, JOURNEY_TIMEOUT_MS);
 
-  it('end state is just normal OpenSpec files in both checkouts', async () => {
+  it('end state is just normal Spectrix files in both checkouts', async () => {
     for (const root of [storeRoot, cloneRoot]) {
       const entries = await listRelativeEntries(root, new Set(['.git']));
 

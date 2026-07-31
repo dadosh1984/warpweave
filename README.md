@@ -2,14 +2,14 @@
   <a href="https://github.com/Fission-AI/OpenSpec">
     <picture>
       <source srcset="assets/openspec_bg.png">
-      <img src="assets/openspec_bg.png" alt="OpenSpec logo">
+      <img src="assets/openspec_bg.png" alt="Spectrix logo">
     </picture>
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/Fission-AI/OpenSpec/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Fission-AI/OpenSpec/actions/workflows/ci.yml/badge.svg" /></a>
-  <a href="https://www.npmjs.com/package/@fission-ai/openspec"><img alt="npm version" src="https://img.shields.io/npm/v/@fission-ai/openspec?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/@dadosh1984/spectrix"><img alt="npm version" src="https://img.shields.io/npm/v/@dadosh1984/spectrix?style=flat-square" /></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" /></a>
   <a href="https://discord.gg/YctCnvvshC"><img alt="Discord" src="https://img.shields.io/discord/1411657095639601154?style=flat-square&logo=discord&logoColor=white&label=Discord&suffix=%20online" /></a>
 </p>
@@ -18,7 +18,7 @@
 <summary><strong>The most loved spec framework.</strong></summary>
 
 [![Stars](https://img.shields.io/github/stars/Fission-AI/OpenSpec?style=flat-square&label=Stars)](https://github.com/Fission-AI/OpenSpec/stargazers)
-[![Downloads](https://img.shields.io/npm/dm/@fission-ai/openspec?style=flat-square&label=Downloads/mo)](https://www.npmjs.com/package/@fission-ai/openspec)
+[![Downloads](https://img.shields.io/npm/dm/@dadosh1984/spectrix?style=flat-square&label=Downloads/mo)](https://www.npmjs.com/package/@dadosh1984/spectrix)
 [![Contributors](https://img.shields.io/github/contributors/Fission-AI/OpenSpec?style=flat-square&label=Contributors)](https://github.com/Fission-AI/OpenSpec/graphs/contributors)
 
 </details>
@@ -33,13 +33,13 @@ Our philosophy:
 → scalable from personal projects to enterprises
 ```
 
-## OpenSpec Unified
+## Spectrix Unified
 
 **Spec-driven minimalism with compressed feedback loops.** One organism. Four systems. Zero waste.
 
 | Layer | Role | Source |
 |-------|------|--------|
-| Spec | WHAT to build | OpenSpec |
+| Spec | WHAT to build | Spectrix |
 | Process | HOW to build | [Superpowers](https://github.com/obra/superpowers) |
 | Quality | HOW MUCH to write | [Ponytail](https://github.com/DietrichGebert/ponytail) |
 | Feedback | HOW FAST to iterate | [RTK](https://github.com/rtk-ai/rtk) |
@@ -48,7 +48,7 @@ Our philosophy:
 
 ```
 USER INTENT
-  → PHASE 1: SPEC GATE (OpenSpec)
+  → PHASE 1: SPEC GATE (Spectrix)
   → PHASE 2: PLAN (Superpowers)
   → PHASE 3: EXECUTE (Ponytail + Superpowers TDD)
   → PHASE 4: FEEDBACK (RTK compressed output)
@@ -61,7 +61,7 @@ USER INTENT
 npm install -g @dadosh1984/spectrix@latest
 brew install rtk
 cd your-project
-openspec init
+spectrix init
 rtk init -g --opencode
 ```
 
@@ -76,12 +76,12 @@ Add to `opencode.json`:
 ```
 
 > [!TIP]
-> **New workflow now available!** We've rebuilt OpenSpec with a new artifact-guided workflow.
+> **New workflow now available!** We've rebuilt Spectrix with a new artifact-guided workflow.
 >
 > Run `/opsx:propose "your idea"` to get started. → [Learn more here](docs/opsx.md)
 
 <p align="center">
-  Follow <a href="https://x.com/0xTab">@0xTab on X</a> for updates · Join the <a href="https://discord.gg/YctCnvvshC">OpenSpec Discord</a> for help and questions.
+  Follow <a href="https://x.com/0xTab">@0xTab on X</a> for updates · Join the <a href="https://discord.gg/YctCnvvshC">Spectrix Discord</a> for help and questions.
 </p>
 
 <!-- TODO: Add GIF demo of /opsx:propose → /opsx:archive workflow -->
@@ -137,22 +137,22 @@ defaulting to the system preference.
 
 Your AI writes these; you review the plan before any code is written.
 
-OpenSpec is built with OpenSpec — browse this repo's live [specs](openspec/specs) and in-flight [changes](openspec/changes) for real examples at scale.
+Spectrix is built with Spectrix — browse this repo's live [specs](openspec/specs) and in-flight [changes](openspec/changes) for real examples at scale.
 
 </details>
 
 <details>
-<summary><strong>OpenSpec Dashboard</strong></summary>
+<summary><strong>Spectrix Dashboard</strong></summary>
 
 <p align="center">
-  <img src="assets/openspec_dashboard.png" alt="OpenSpec dashboard preview" width="90%">
+  <img src="assets/openspec_dashboard.png" alt="Spectrix dashboard preview" width="90%">
 </p>
 
 </details>
 
 ## Why teams adopt OpenSpec
 
-Solo, OpenSpec keeps you and your AI honest on a single repo. On a team, the hard part moves: a feature spans the API server, the web app, and a shared library; requirements are owned by one team and consumed by others; planning starts before any code exists.
+Solo, Spectrix keeps you and your AI honest on a single repo. On a team, the hard part moves: a feature spans the API server, the web app, and a shared library; requirements are owned by one team and consumed by others; planning starts before any code exists.
 
 **[Stores](docs/stores-beta/user-guide.md)** are the answer — planning in a repo of its own. The same `openspec/` shape you already know (specs and changes), shared by `git push` like anything else. One source of truth your whole team and every coding agent can read, across every repo.
 
@@ -166,29 +166,29 @@ Solo, OpenSpec keeps you and your AI honest on a single repo. On a team, the har
 
 **Requires Node.js 20.19.0 or higher.**
 
-Install OpenSpec globally:
+Install Spectrix globally:
 
 ```bash
-npm install -g @fission-ai/openspec@latest
+npm install -g @dadosh1984/spectrix@latest
 ```
 
 Then navigate to your project directory and initialize:
 
 ```bash
 cd your-project
-openspec init
+spectrix init
 ```
 
-> **Want your AI to do it?** Paste the [setup prompt](docs/installation.md#install-with-your-ai-assistant) into your coding assistant — it installs the CLI, runs `openspec init`, and verifies the result.
+> **Want your AI to do it?** Paste the [setup prompt](docs/installation.md#install-with-your-ai-assistant) into your coding assistant — it installs the CLI, runs `spectrix init`, and verifies the result.
 
 Now talk to your AI:
 
 - **Not sure what to build yet?** Start with `/opsx:explore`, a no-stakes thinking partner that reads your code, weighs options, and shapes a plan before anything is written. ([Explore guide](docs/explore.md))
 - **Already know what you want?** Go straight to `/opsx:propose <what-you-want-to-build>`.
 
-Both are in the default profile. If you want the expanded workflow (`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:bulk-archive`, `/opsx:onboard`), select it with `openspec config profile` and apply with `openspec update`.
+Both are in the default profile. If you want the expanded workflow (`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:bulk-archive`, `/opsx:onboard`), select it with `spectrix config profile` and apply with `spectrix update`.
 
-`/opsx:propose` is the canonical name; your tool may spell it `/opsx-propose` (Cursor, GitHub Copilot), `@opsx-propose` (Amazon Q) or `$openspec-propose` (Codex). `openspec init` prints the right form for the tools you picked — see [How To Invoke](docs/supported-tools.md#how-to-invoke).
+`/opsx:propose` is the canonical name; your tool may spell it `/opsx-propose` (Cursor, GitHub Copilot), `@opsx-propose` (Amazon Q) or `$openspec-propose` (Codex). `spectrix init` prints the right form for the tools you picked — see [How To Invoke](docs/supported-tools.md#how-to-invoke).
 
 > [!NOTE]
 > Not sure if your tool is supported? [View the full list](docs/supported-tools.md) – we support 30+ tools and growing.
@@ -197,16 +197,16 @@ Both are in the default profile. If you want the expanded workflow (`/opsx:new`,
 
 ## Docs
 
-**Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to OpenSpec? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/opsx:propose`).
+**Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to Spectrix? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/opsx:propose`).
 
-→ **[OpenSpec Unified](docs/UNIFIED.md)**: the four systems, pipeline, profiles — how this fork integrates Superpowers, Ponytail, and RTK<br>
+→ **[Spectrix Unified](docs/UNIFIED.md)**: the four systems, pipeline, profiles — how this fork integrates Superpowers, Ponytail, and RTK<br>
 → **[Getting Started](docs/getting-started.md)**: first steps<br>
 → **[Explore First](docs/explore.md)**: think it through with `/opsx:explore` before you commit<br>
 → **[How Commands Work](docs/how-commands-work.md)**: where slash commands run vs the CLI<br>
 → **[Core Concepts at a Glance](docs/overview.md)**: the whole mental model, one page<br>
 → **[Examples & Recipes](docs/examples.md)**: real changes, start to finish<br>
 → **[Workflows](docs/workflows.md)**: combos and patterns<br>
-→ **[Existing Projects](docs/existing-projects.md)**: adopt OpenSpec on a brownfield codebase<br>
+→ **[Existing Projects](docs/existing-projects.md)**: adopt Spectrix on a brownfield codebase<br>
 → **[Editing a Change](docs/editing-changes.md)**: update artifacts, go back, reconcile manual edits<br>
 → **[Commands](docs/commands.md)**: slash commands & skills<br>
 → **[CLI](docs/cli.md)**: terminal reference<br>
@@ -220,14 +220,14 @@ Both are in the default profile. If you want the expanded workflow (`/opsx:new`,
 
 ## Community schemas
 
-Third-party schema bundles distributed via standalone repositories — these provide opinionated workflows that integrate OpenSpec with other tools, similar to how [github/spec-kit's community extension catalog](https://github.com/github/spec-kit/tree/main/extensions) handles tool integrations.
+Third-party schema bundles distributed via standalone repositories — these provide opinionated workflows that integrate Spectrix with other tools, similar to how [github/spec-kit's community extension catalog](https://github.com/github/spec-kit/tree/main/extensions) handles tool integrations.
 
 → **[Browse the catalog](docs/customization.md#community-schemas)** in the customization docs.
 
 
-## Why OpenSpec?
+## Why Spectrix?
 
-AI coding assistants are powerful but unpredictable when requirements live only in chat history. OpenSpec adds a lightweight spec layer so you agree on what to build before any code is written.
+AI coding assistants are powerful but unpredictable when requirements live only in chat history. Spectrix adds a lightweight spec layer so you agree on what to build before any code is written.
 
 - **Agree before you build** — human and AI align on specs before code gets written
 - **Stay organized** — each change gets its own folder with proposal, specs, design, and tasks
@@ -236,18 +236,18 @@ AI coding assistants are powerful but unpredictable when requirements live only 
 
 ### How we compare
 
-**vs. [Spec Kit](https://github.com/github/spec-kit)** (GitHub) — Thorough but heavyweight. Rigid phase gates, lots of Markdown, Python setup. OpenSpec is lighter and lets you iterate freely.
+**vs. [Spec Kit](https://github.com/github/spec-kit)** (GitHub) — Thorough but heavyweight. Rigid phase gates, lots of Markdown, Python setup. Spectrix is lighter and lets you iterate freely.
 
-**vs. [Kiro](https://kiro.dev)** (AWS) — Powerful but you're locked into their IDE and limited to Claude models. OpenSpec works with the tools you already use.
+**vs. [Kiro](https://kiro.dev)** (AWS) — Powerful but you're locked into their IDE and limited to Claude models. Spectrix works with the tools you already use.
 
-**vs. nothing** — AI coding without specs means vague prompts and unpredictable results. OpenSpec brings predictability without the ceremony.
+**vs. nothing** — AI coding without specs means vague prompts and unpredictable results. Spectrix brings predictability without the ceremony.
 
 ## Updating OpenSpec
 
 **Upgrade the package**
 
 ```bash
-npm install -g @fission-ai/openspec@latest
+npm install -g @dadosh1984/spectrix@latest
 ```
 
 **Refresh agent instructions**
@@ -255,22 +255,22 @@ npm install -g @fission-ai/openspec@latest
 Run this inside each project to regenerate AI guidance and ensure the latest slash commands are active:
 
 ```bash
-openspec update
+spectrix update
 ```
 
 ## Usage Notes
 
-**Model selection**: OpenSpec works best with high-reasoning models. We recommend Codex 5.5 and Opus 4.7 for both planning and implementation.
+**Model selection**: Spectrix works best with high-reasoning models. We recommend Codex 5.5 and Opus 4.7 for both planning and implementation.
 
-**Context hygiene**: OpenSpec benefits from a clean context window. Clear your context before starting implementation and maintain good context hygiene throughout your session.
+**Context hygiene**: Spectrix benefits from a clean context window. Clear your context before starting implementation and maintain good context hygiene throughout your session.
 
 ## Contributing
 
 **Small fixes** — Bug fixes, typo corrections, and minor improvements can be submitted directly as PRs.
 
-**Larger changes** — For new features, significant refactors, or architectural changes, please submit an OpenSpec change proposal first so we can align on intent and goals before implementation begins.
+**Larger changes** — For new features, significant refactors, or architectural changes, please submit an Spectrix change proposal first so we can align on intent and goals before implementation begins.
 
-When writing proposals, keep the OpenSpec philosophy in mind: we serve a wide variety of users across different coding agents, models, and use cases. Changes should work well for everyone.
+When writing proposals, keep the Spectrix philosophy in mind: we serve a wide variety of users across different coding agents, models, and use cases. Changes should work well for everyone.
 
 **AI-generated code is welcome** — as long as it's been tested and verified. PRs containing AI-generated code should mention the coding agent and model used (e.g., "Generated with Claude Code using claude-opus-4-5-20251101").
 
@@ -287,7 +287,7 @@ When writing proposals, keep the OpenSpec philosophy in mind: we serve a wide va
 <details>
 <summary><strong>Telemetry</strong></summary>
 
-OpenSpec collects anonymous usage stats.
+Spectrix collects anonymous usage stats.
 
 We collect only command names and version to understand usage patterns. No arguments, paths, content, or PII. Automatically disabled in CI.
 

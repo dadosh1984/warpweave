@@ -1,13 +1,13 @@
 # Commands
 
-This is the reference for OpenSpec's slash commands. These commands are invoked in your AI coding assistant's chat interface (e.g., Claude Code, Cursor, Devin Desktop).
+This is the reference for Spectrix's slash commands. These commands are invoked in your AI coding assistant's chat interface (e.g., Claude Code, Cursor, Devin Desktop).
 
 For workflow patterns and when to use each command, see [Workflows](workflows.md). For CLI commands, see [CLI](cli.md).
 
 These pages use `/opsx:<command>` as the canonical name. Some tools spell it
 differently — Cursor and GitHub Copilot register `/opsx-propose`, Codex uses
 `$openspec-propose` — so check [How To Invoke](supported-tools.md#how-to-invoke)
-for your tool. The files OpenSpec generates already use the right form.
+for your tool. The files Spectrix generates already use the right form.
 
 ## Quick Reference
 
@@ -33,7 +33,7 @@ for your tool. The files OpenSpec generates already use the right form.
 | `/opsx:bulk-archive` | Archive multiple changes at once |
 | `/opsx:onboard` | Guided tutorial through the complete workflow |
 
-The default global profile is `core`. To enable expanded workflow commands, run `openspec config profile`, select workflows, then run `openspec update` in your project.
+The default global profile is `core`. To enable expanded workflow commands, run `spectrix config profile`, select workflows, then run `spectrix update` in your project.
 
 ---
 
@@ -341,7 +341,7 @@ Revise a change's existing planning artifacts and keep them coherent with one an
 
 **What it does:**
 
-- Reads the change's artifacts via `openspec status --change <name> --json`
+- Reads the change's artifacts via `spectrix status --change <name> --json`
 - Applies your requested revision, or reviews the artifacts for contradictions if you didn't name one
 - Reconciles the other existing artifacts in any direction (a design edit may ripple back to the proposal)
 - Confirms every edit with you before writing, one artifact at a time
@@ -607,7 +607,7 @@ AI:  ✓ Archived add-dark-mode
 
 ### `/opsx:onboard`
 
-Guided onboarding through the complete OpenSpec workflow. An interactive tutorial using your actual codebase.
+Guided onboarding through the complete Spectrix workflow. An interactive tutorial using your actual codebase.
 
 **Syntax:**
 ```
@@ -639,7 +639,7 @@ Guided onboarding through the complete OpenSpec workflow. An interactive tutoria
 ```
 You: /opsx:onboard
 
-AI:  Welcome to OpenSpec!
+AI:  Welcome to Spectrix!
 
      I'll walk you through the complete workflow using your actual codebase.
      We'll find something small to improve, create a proper change for it,
@@ -679,7 +679,7 @@ Different AI tools use slightly different command syntax. Use the format that ma
 
 > **Devin Desktop vs Devin Local:** the `.devin/workflows/opsx-*.md` files give
 > Devin Desktop `/opsx-propose`. Devin Local has no workflows — use the skills
-> OpenSpec writes to `.devin/skills/`, e.g. `/openspec-propose`, which work on
+> Spectrix writes to `.devin/skills/`, e.g. `/openspec-propose`, which work on
 > both agents.
 
 The intent is the same across tools, but how commands are surfaced can differ by integration. [How To Invoke](supported-tools.md#how-to-invoke) lists every supported tool; this table shows only examples of each shape.
@@ -716,7 +716,7 @@ The command couldn't identify which change to work on.
 
 **Solutions:**
 - Specify the change name explicitly: `/opsx:apply add-dark-mode`
-- Check that the change folder exists: `openspec list`
+- Check that the change folder exists: `spectrix list`
 - Verify you're in the right project directory
 
 ### "No artifacts ready"
@@ -724,7 +724,7 @@ The command couldn't identify which change to work on.
 All artifacts are either complete or blocked by missing dependencies.
 
 **Solutions:**
-- Run `openspec status --change <name>` to see what's blocking
+- Run `spectrix status --change <name>` to see what's blocking
 - Check if required artifacts exist
 - Create missing dependency artifacts first
 
@@ -733,17 +733,17 @@ All artifacts are either complete or blocked by missing dependencies.
 The specified schema doesn't exist.
 
 **Solutions:**
-- List available schemas: `openspec schemas`
+- List available schemas: `spectrix schemas`
 - Check spelling of schema name
-- Create the schema if it's custom: `openspec schema init <name>`
+- Create the schema if it's custom: `spectrix schema init <name>`
 
 ### Commands not recognized
 
-The AI tool doesn't recognize OpenSpec commands.
+The AI tool doesn't recognize Spectrix commands.
 
 **Solutions:**
-- Ensure OpenSpec is initialized: `openspec init`
-- Regenerate skills: `openspec update`
+- Ensure Spectrix is initialized: `spectrix init`
+- Regenerate skills: `spectrix update`
 - Check that `.claude/skills/` directory exists (for Claude Code)
 - Restart your AI tool to pick up new skills
 

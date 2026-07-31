@@ -56,7 +56,7 @@ The agent SHALL reconcile main specs with delta specs using the delta operation 
 #### Scenario: New capability spec
 - **WHEN** delta spec exists for a capability not in main specs
 - **THEN** create new main spec file at `openspec/specs/<capability>/spec.md`
-- **AND** copy the delta's `## Purpose` body into it when the delta has one, matching what `openspec archive` does
+- **AND** copy the delta's `## Purpose` body into it when the delta has one, matching what `spectrix archive` does
 - **AND** write a brief TBD placeholder Purpose only when the delta has none
 
 #### Scenario: Merged main spec keeps canonical structure

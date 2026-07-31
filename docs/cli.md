@@ -1,13 +1,13 @@
 # CLI Reference
 
-The OpenSpec CLI (`openspec`) provides terminal commands for project setup, validation, status inspection, and management. These commands complement the AI slash commands (like `/opsx:propose`) documented in [Commands](commands.md).
+The Spectrix CLI (`spectrix`) provides terminal commands for project setup, validation, status inspection, and management. These commands complement the AI slash commands (like `/opsx:propose`) documented in [Commands](commands.md).
 
 ## Summary
 
 | Category | Commands | Purpose |
 |----------|----------|---------|
-| **Setup** | `init`, `update` | Initialize and update OpenSpec in your project |
-| **Stores (standalone OpenSpec repos)** | `store setup`, `store register`, `store unregister`, `store remove`, `store list`, `store doctor` | Manage stores — standalone OpenSpec repos you've registered |
+| **Setup** | `init`, `update` | Initialize and update Spectrix in your project |
+| **Stores (standalone Spectrix repos)** | `store setup`, `store register`, `store unregister`, `store remove`, `store list`, `store doctor` | Manage stores — standalone Spectrix repos you've registered |
 | **Health** | `doctor` | Report relationship health for the resolved root |
 | **Working context** | `context` | Assemble the working set (root + referenced stores) |
 | **Personal worksets** | `workset create`, `workset list`, `workset open`, `workset remove` | Keep and open personal, local working views in your tool |
@@ -31,12 +31,12 @@ These commands are interactive and designed for terminal use:
 
 | Command | Purpose |
 |---------|---------|
-| `openspec init` | Initialize project (interactive prompts) |
-| `openspec view` | Interactive dashboard |
-| `openspec workset open <name>` | Open a saved workset (editor window or terminal agent session) |
-| `openspec config edit` | Open config in editor |
-| `openspec feedback` | Submit feedback via GitHub |
-| `openspec completion install` | Install shell completions |
+| `spectrix init` | Initialize project (interactive prompts) |
+| `spectrix view` | Interactive dashboard |
+| `spectrix workset open <name>` | Open a saved workset (editor window or terminal agent session) |
+| `spectrix config edit` | Open config in editor |
+| `spectrix feedback` | Submit feedback via GitHub |
+| `spectrix completion install` | Install shell completions |
 
 ### Agent-Compatible Commands
 
@@ -44,23 +44,23 @@ These commands support `--json` output for programmatic use by AI agents and scr
 
 | Command | Human Use | Agent Use |
 |---------|-----------|-----------|
-| `openspec list` | Browse changes/specs | `--json` for structured data |
-| `openspec show <item>` | Read content | `--json` for parsing |
-| `openspec validate` | Check for issues | `--all --json` for bulk validation |
-| `openspec status` | See artifact progress | `--json` for structured status |
-| `openspec instructions` | Get next steps | `--json` for agent instructions |
-| `openspec templates` | Find template paths | `--json` for path resolution |
-| `openspec schemas` | List available schemas | `--json` for schema discovery |
-| `openspec store setup <id>` | Create and register a local store | `--json` with explicit inputs for structured setup output |
-| `openspec store register <path>` | Register an existing store | `--json` for structured registration output |
-| `openspec store unregister <id>` | Forget a local store registration | `--json` for structured cleanup output |
-| `openspec store remove <id>` | Delete a registered local store folder | `--yes --json` for non-interactive deletion |
-| `openspec store list` | Browse registered stores | `--json` for structured registrations |
-| `openspec store doctor` | Check local store setup | `--json` for structured diagnostics |
-| `openspec new change <id>` | Create repo-local change scaffolding | `--json`, plus `--store <id>` to use a registered store as the OpenSpec root |
-| `openspec workset create [name]` | Compose a personal working view | `--member <path> --json` for non-interactive composition |
-| `openspec workset list` | Browse saved worksets | `--json` for structured views |
-| `openspec workset remove <name>` | Delete a saved view | `--yes --json` for non-interactive removal |
+| `spectrix list` | Browse changes/specs | `--json` for structured data |
+| `spectrix show <item>` | Read content | `--json` for parsing |
+| `spectrix validate` | Check for issues | `--all --json` for bulk validation |
+| `spectrix status` | See artifact progress | `--json` for structured status |
+| `spectrix instructions` | Get next steps | `--json` for agent instructions |
+| `spectrix templates` | Find template paths | `--json` for path resolution |
+| `spectrix schemas` | List available schemas | `--json` for schema discovery |
+| `spectrix store setup <id>` | Create and register a local store | `--json` with explicit inputs for structured setup output |
+| `spectrix store register <path>` | Register an existing store | `--json` for structured registration output |
+| `spectrix store unregister <id>` | Forget a local store registration | `--json` for structured cleanup output |
+| `spectrix store remove <id>` | Delete a registered local store folder | `--yes --json` for non-interactive deletion |
+| `spectrix store list` | Browse registered stores | `--json` for structured registrations |
+| `spectrix store doctor` | Check local store setup | `--json` for structured diagnostics |
+| `spectrix new change <id>` | Create repo-local change scaffolding | `--json`, plus `--store <id>` to use a registered store as the Spectrix root |
+| `spectrix workset create [name]` | Compose a personal working view | `--member <path> --json` for non-interactive composition |
+| `spectrix workset list` | Browse saved worksets | `--json` for structured views |
+| `spectrix workset remove <name>` | Delete a saved view | `--yes --json` for non-interactive removal |
 
 ---
 
@@ -78,14 +78,14 @@ These options work with all commands:
 
 ## Setup Commands
 
-### `openspec init`
+### `spectrix init`
 
-Initialize OpenSpec in your project. Creates the folder structure and configures AI tool integrations.
+Initialize Spectrix in your project. Creates the folder structure and configures AI tool integrations.
 
 Default behavior uses global config defaults: profile `core`, delivery `both`, workflows `propose, explore, apply, update, sync, archive`.
 
 ```
-openspec init [path] [options]
+spectrix init [path] [options]
 ```
 
 **Arguments:**
@@ -103,7 +103,7 @@ openspec init [path] [options]
 | `--profile <profile>` | Override global profile for this init run (`core` or `custom`) |
 | `--no-animation` | Show a static welcome screen instead of the animated one |
 
-`--profile custom` uses whatever workflows are currently selected in global config (`openspec config profile`).
+`--profile custom` uses whatever workflows are currently selected in global config (`spectrix config profile`).
 
 The welcome animation is also skipped when the `OPENSPEC_NO_ANIMATION` environment variable is set (any value, including empty), when `NO_COLOR` is set to a non-empty value, or when the OS reduced-motion preference is enabled (macOS Reduce Motion, GNOME animations disabled).
 
@@ -115,22 +115,22 @@ The welcome animation is also skipped when the `OPENSPEC_NO_ANIMATION` environme
 
 ```bash
 # Interactive initialization
-openspec init
+spectrix init
 
 # Initialize in a specific directory
-openspec init ./my-project
+spectrix init ./my-project
 
 # Non-interactive: configure for Claude and Cursor
-openspec init --tools claude,cursor
+spectrix init --tools claude,cursor
 
 # Configure for all supported tools
-openspec init --tools all
+spectrix init --tools all
 
 # Override profile for this run
-openspec init --profile core
+spectrix init --profile core
 
 # Skip prompts and auto-cleanup legacy files
-openspec init --force
+spectrix init --force
 ```
 
 **What it creates:**
@@ -150,12 +150,12 @@ openspec/
 
 ---
 
-### `openspec update`
+### `spectrix update`
 
-Update OpenSpec instruction files after upgrading the CLI. Re-generates AI tool configuration files using your current global profile, selected workflows, and delivery mode.
+Update Spectrix instruction files after upgrading the CLI. Re-generates AI tool configuration files using your current global profile, selected workflows, and delivery mode.
 
 ```
-openspec update [path] [options]
+spectrix update [path] [options]
 ```
 
 **Arguments:**
@@ -174,30 +174,30 @@ openspec update [path] [options]
 
 ```bash
 # Update instruction files after npm upgrade
-npm install -g @fission-ai/openspec@latest
-openspec update
+npm install -g @dadosh1984/spectrix@latest
+spectrix update
 ```
 
-Upgrade the package first. Instruction files are generated by the installed CLI, so running `openspec update` against a stale install reports everything up to date without adding the workflows newer releases ship.
+Upgrade the package first. Instruction files are generated by the installed CLI, so running `spectrix update` against a stale install reports everything up to date without adding the workflows newer releases ship.
 
-To make that visible, `openspec update` asks the npm registry whether a newer CLI has been published. When yours is behind, it offers to upgrade:
+To make that visible, `spectrix update` asks the npm registry whether a newer CLI has been published. When yours is behind, it offers to upgrade:
 
 ```text
-A newer OpenSpec CLI is available (v1.6.0 → v1.7.0).
-  Running from: /usr/local/lib/node_modules/@fission-ai/openspec
+A newer Spectrix CLI is available (v1.6.0 → v1.7.0).
+  Running from: /usr/local/lib/node_modules/@dadosh1984/spectrix
 ? Upgrade to v1.7.0 now? (Y/n)
 ```
 
-Answer yes and it runs `npm install -g @fission-ai/openspec@latest`, then re-runs the update with the new CLI so the new workflows land in the same command. It confirms the upgrade by asking the installed binary its version rather than trusting npm's exit code, so if another install earlier on your `PATH` is still answering, it tells you instead of claiming success. Answer no and it prints the command and updates with the CLI you have. Ctrl-C stops the command.
+Answer yes and it runs `npm install -g @dadosh1984/spectrix@latest`, then re-runs the update with the new CLI so the new workflows land in the same command. It confirms the upgrade by asking the installed binary its version rather than trusting npm's exit code, so if another install earlier on your `PATH` is still answering, it tells you instead of claiming success. Answer no and it prints the command and updates with the CLI you have. Ctrl-C stops the command.
 
 The offer appears only in an interactive terminal, and only when npm owns the install — the one case `npm install -g` actually fixes. Everything else gets the command that matches how it was installed instead:
 
-| How OpenSpec is installed | What you get |
+| How Spectrix is installed | What you get |
 |---------------------------|--------------|
 | Global npm install | The prompt, and the upgrade run for you — in an interactive terminal; piped output gets the printed command instead |
 | Global pnpm, bun, yarn, or volta install | That manager's own command: `pnpm add -g …@latest`, `bun add -g …@latest`, `yarn global add …@latest`, or `volta install …@latest` |
 | A dependency of the project | A note to update the dependency, since its package manager owns the lockfile |
-| An `npx` / `dlx` cache | `npx @fission-ai/openspec@latest update` — that command is the update, so there is no second step |
+| An `npx` / `dlx` cache | `npx @dadosh1984/spectrix@latest update` — that command is the update, so there is no second step |
 | A git clone | Nothing — your version is whatever the branch says |
 
 Whenever anything is printed, it names the directory the running CLI was loaded from — the thing to check when you did upgrade but a stale shim still owns your `PATH`.
@@ -205,31 +205,31 @@ Whenever anything is printed, it names the directory the running CLI was loaded 
 It asks the registry in `npm_config_registry` when npm exports it, and `https://registry.npmjs.org` otherwise. No `.npmrc` is read: letting file contents choose where an outbound request goes is a flow worth avoiding, and a project's `.npmrc` travels with the repository. On a private mirror, export `npm_config_registry` — or set `OPENSPEC_NO_UPDATE_CHECK` to skip the check entirely. The check is skipped when `CI` is set to anything but an explicit off-value (`false`, `0`, `no`, `off`, or empty), under `NODE_ENV=test`, and whenever `OPENSPEC_NO_UPDATE_CHECK` (any value), `DO_NOT_TRACK=1`, or `OPENSPEC_TELEMETRY=0` is set. It runs before the update and can delay it by at most 1.5 seconds — it gives up after that even when the network drops packets silently, and stays quiet when the registry is unreachable.
 
 **How "up to date" is decided:** skill files record the version that generated
-them, so OpenSpec compares that against the installed CLI. Command files carry no
+them, so Spectrix compares that against the installed CLI. Command files carry no
 version stamp, so for a tool that has commands but no skills (delivery
-`commands`), OpenSpec compares the file contents against what it would generate
+`commands`), Spectrix compares the file contents against what it would generate
 now — edits to those files count as drift and are overwritten. With delivery
 `skills` or `both`, only the recorded version is checked, so a hand-edited file
 whose version still matches is left alone; use `--force` to rewrite it. Either
-way, generated files are OpenSpec's to own — keep your own instructions
+way, generated files are Spectrix's to own — keep your own instructions
 elsewhere.
 
 ---
 
-## Stores (standalone OpenSpec repos)
+## Stores (standalone Spectrix repos)
 
 > **Beta.** Stores and the features built on them (references, working context, worksets) are new; command names, flags, file formats, and JSON output may change shape between releases. For the problem-first walkthrough, see the [stores guide](stores-beta/user-guide.md).
 
-A store is a standalone OpenSpec repo you've registered on this machine — for example a planning repo or a contracts repo. Registering a store lets normal commands (`list`, `show`, `status`, `validate`, `new change`, `archive`, ...) act in it from anywhere by passing `--store <id>`.
+A store is a standalone Spectrix repo you've registered on this machine — for example a planning repo or a contracts repo. Registering a store lets normal commands (`list`, `show`, `status`, `validate`, `new change`, `archive`, ...) act in it from anywhere by passing `--store <id>`.
 
-### `openspec store setup`
+### `spectrix store setup`
 
 Create and register a local store. With no arguments in a terminal,
-OpenSpec guides the user through setup. Agents and scripts should pass explicit
+Spectrix guides the user through setup. Agents and scripts should pass explicit
 inputs and use `--json`.
 
 ```bash
-openspec store setup [id] [options]
+spectrix store setup [id] [options]
 ```
 
 **Options:**
@@ -242,18 +242,18 @@ openspec store setup [id] [options]
 | `--no-init-git` | Skip every Git action: no init, no initial commit |
 | `--json` | Output JSON |
 
-Non-interactive runs (`--json`, scripts, agents) must pass both the store id and `--path`. In an interactive terminal, setup prompts for the location with an editable suggestion in a visible, user-owned place (for example `~/openspec/<id>`); it never defaults to OpenSpec's managed data directory.
+Non-interactive runs (`--json`, scripts, agents) must pass both the store id and `--path`. In an interactive terminal, setup prompts for the location with an editable suggestion in a visible, user-owned place (for example `~/openspec/<id>`); it never defaults to Spectrix's managed data directory.
 
 Examples:
 
 ```bash
-openspec store setup
-openspec store setup team-context
-openspec store setup team-context --path ~/openspec/team-context --no-init-git
-openspec store setup team-context --path ~/openspec/team-context --no-init-git --json
+spectrix store setup
+spectrix store setup team-context
+spectrix store setup team-context --path ~/openspec/team-context --no-init-git
+spectrix store setup team-context --path ~/openspec/team-context --no-init-git --json
 ```
 
-### `openspec store register`
+### `spectrix store register`
 
 Register an existing local store folder. During the stores beta, a root may be
 registered before any changes exist, specs have been applied, or changes have
@@ -263,7 +263,7 @@ A config-only repo that declares `store: <id>` remains a pointer to another
 store and is not registered as a store root unless that pointer is removed.
 
 ```bash
-openspec store register [path] [options]
+spectrix store register [path] [options]
 ```
 
 **Options:**
@@ -271,48 +271,48 @@ openspec store register [path] [options]
 | Option | Description |
 |--------|-------------|
 | `--id <id>` | Store id; defaults to store metadata or folder name |
-| `--yes` | Confirm creating store identity metadata for a healthy OpenSpec root |
+| `--yes` | Confirm creating store identity metadata for a healthy Spectrix root |
 | `--json` | Output JSON |
 
-### `openspec store unregister`
+### `spectrix store unregister`
 
 Forget a local store registration without deleting files.
 
 ```bash
-openspec store unregister <id> [--json]
+spectrix store unregister <id> [--json]
 ```
 
 Use this when a store was moved, cloned somewhere else, or should no longer be
-shown by OpenSpec on this machine.
+shown by Spectrix on this machine.
 
-### `openspec store remove`
+### `spectrix store remove`
 
 Forget a local store registration and delete its local folder.
 
 ```bash
-openspec store remove <id> [--yes] [--json]
+spectrix store remove <id> [--yes] [--json]
 ```
 
 `remove` shows the exact folder before deleting in an interactive terminal.
 Agents, scripts, and JSON callers must pass `--yes` to confirm deletion.
-OpenSpec refuses to delete a folder that does not contain matching
+Spectrix refuses to delete a folder that does not contain matching
 store metadata.
 
-### `openspec store list`
+### `spectrix store list`
 
 List locally registered stores.
 
 ```bash
-openspec store list [--json]
-openspec store ls [--json]
+spectrix store list [--json]
+spectrix store ls [--json]
 ```
 
-### `openspec store doctor`
+### `spectrix store doctor`
 
 Check local store registration, metadata, and Git presence.
 
 ```bash
-openspec store doctor [id] [--json]
+spectrix store doctor [id] [--json]
 ```
 
 Doctor is diagnostic-only; it reports missing roots, metadata mismatches, and invalid local registry state without modifying the store.
@@ -327,29 +327,29 @@ references:
   - team-context
 ```
 
-From then on, `openspec instructions` output in that repo (both the per-artifact and `apply` surfaces, JSON and human modes) carries an index of each referenced store's specs — spec ids, a one-line summary from each spec's Purpose section, and the fetch command (`openspec show <spec-id> --type spec --store <id>`). The index is built live from the registered checkout on every run; spec content is never copied into the output.
+From then on, `spectrix instructions` output in that repo (both the per-artifact and `apply` surfaces, JSON and human modes) carries an index of each referenced store's specs — spec ids, a one-line summary from each spec's Purpose section, and the fetch command (`spectrix show <spec-id> --type spec --store <id>`). The index is built live from the registered checkout on every run; spec content is never copied into the output.
 
-References are read-only context. They never change where commands act: work stays in the repo's own root, and writing to a referenced store remains an explicit `--store` action. A reference that cannot be resolved (for example, a store not registered on this machine) degrades to a warning in the index with the exact fix, and instructions still generate. `openspec doctor` reports reference health in one place.
+References are read-only context. They never change where commands act: work stays in the repo's own root, and writing to a referenced store remains an explicit `--store` action. A reference that cannot be resolved (for example, a store not registered on this machine) degrades to a warning in the index with the exact fix, and instructions still generate. `spectrix doctor` reports reference health in one place.
 
 ### Recording where a store is cloned from
 
 A store can record its canonical clone source in its committed identity file, so onboarding never dead-ends at "register the store":
 
 ```bash
-openspec store setup team-context --path ~/openspec/team-context \
+spectrix store setup team-context --path ~/openspec/team-context \
   --remote git@github.com:acme/team-context.git
 ```
 
 The remote lands in `.openspec-store/store.yaml` inside the initial commit, so every clone is born knowing it. For an existing store, edit `store.yaml` by hand and commit. `store doctor` shows the recorded remote (and the checkout's observed Git origin); setup/register sharing guidance names it; and register records the checkout's origin in the machine-local registry.
 
-A reference declaration can carry the clone source too, so a teammate who doesn't have the store yet gets a complete, pasteable fix (`git clone <remote> <path> && openspec store register <path> --id <id>`):
+A reference declaration can carry the clone source too, so a teammate who doesn't have the store yet gets a complete, pasteable fix (`git clone <remote> <path> && spectrix store register <path> --id <id>`):
 
 ```yaml
 references:
   - { id: team-context, remote: "git@github.com:acme/team-context.git" }
 ```
 
-Recording a remote is not sync: OpenSpec never clones, pulls, or pushes on its own.
+Recording a remote is not sync: Spectrix never clones, pulls, or pushes on its own.
 
 ### Declaring a default store
 
@@ -360,31 +360,31 @@ A repo whose planning is fully externalized — no local `openspec/specs/` or `o
 store: team-context
 ```
 
-Normal commands then resolve to the declared store automatically; the root banner and JSON `root` block report `source: "declared"` with the store id, and printed hints still carry `--store <id>`. The declaration is a fallback, never an override: explicit `--store` always wins, and a directory with real planning folders ignores the pointer (with a warning). To convert a pointer repo into a local OpenSpec root, remove the `store:` line and run `openspec init` — init refuses to scaffold while the declaration is present.
+Normal commands then resolve to the declared store automatically; the root banner and JSON `root` block report `source: "declared"` with the store id, and printed hints still carry `--store <id>`. The declaration is a fallback, never an override: explicit `--store` always wins, and a directory with real planning folders ignores the pointer (with a warning). To convert a pointer repo into a local Spectrix root, remove the `store:` line and run `spectrix init` — init refuses to scaffold while the declaration is present.
 
-A machine-level variant covers every repo at once: `openspec config set defaultStore <id>` (see Configuration). It is consulted only after `--store`, a local root, and a project pointer have all failed to resolve; the root banner and JSON `root` block then report `source: "global_default"`.
+A machine-level variant covers every repo at once: `spectrix config set defaultStore <id>` (see Configuration). It is consulted only after `--store`, a local root, and a project pointer have all failed to resolve; the root banner and JSON `root` block then report `source: "global_default"`.
 
 ## Doctor (relationship health)
 
-One read-only question, one place: is the OpenSpec root healthy, and are the stores it references available on this machine?
+One read-only question, one place: is the Spectrix root healthy, and are the stores it references available on this machine?
 
 ```bash
-openspec doctor [--store <id>] [--json]
+spectrix doctor [--store <id>] [--json]
 ```
 
-The report separates root health, store metadata health (including a note when the recorded remote and the checkout's origin diverge, and a note when the store checkout has drifted behind its last-fetched upstream tracking ref), and reference health (the same diagnostics instructions show, with clone fixes for unresolved references). Health findings of any severity exit 0 — agents read the `status` arrays; only command failures (no root, unknown store) exit 1. Doctor never clones, syncs, or repairs. To get the assembled set itself rather than its health, use `openspec context`.
+The report separates root health, store metadata health (including a note when the recorded remote and the checkout's origin diverge, and a note when the store checkout has drifted behind its last-fetched upstream tracking ref), and reference health (the same diagnostics instructions show, with clone fixes for unresolved references). Health findings of any severity exit 0 — agents read the `status` arrays; only command failures (no root, unknown store) exit 1. Doctor never clones, syncs, or repairs. To get the assembled set itself rather than its health, use `spectrix context`.
 
 ## Working context (the assembled set)
 
-Everything this work relates to through OpenSpec declarations, in one working set: the OpenSpec root and the stores it references.
+Everything this work relates to through Spectrix declarations, in one working set: the Spectrix root and the stores it references.
 
 ```bash
-openspec context [--store <id>] [--json] [--code-workspace <path> [--force]]
+spectrix context [--store <id>] [--json] [--code-workspace <path> [--force]]
 ```
 
 The JSON brief is agent-consumable (each available referenced store carries its fetch recipe; unresolved members carry the same fixes instructions and doctor show). `--code-workspace` additionally writes a VS Code workspace file containing the root plus the available referenced stores (`ref:<id>` folders) — the one write this command performs, refused without `--force` if the file exists. Unavailable members are reported, never guessed at.
 
-"Working context" is the assembled set; the `context:` field in `openspec/config.yaml` is project background injected into instructions — two different things. `openspec doctor` answers whether the set is healthy; `openspec context` answers what the set is.
+"Working context" is the assembled set; the `context:` field in `openspec/config.yaml` is project background injected into instructions — two different things. `spectrix doctor` answers whether the set is healthy; `spectrix context` answers what the set is.
 
 ## Personal worksets
 
@@ -393,15 +393,15 @@ The JSON brief is agent-consumable (each available referenced store carries its 
 A workset is a personal, named view of the folders you work on together — a planning root plus whatever else you choose — kept on your machine and reopened by name in your tool. It is purely local: never committed, never shared, never derived from declarations, and removing one never touches a member folder.
 
 ```bash
-openspec workset create [name] [--member <path> | --member <name>=<path>]... [--tool <id>] [--json]
-openspec workset list [--json]
-openspec workset open <name> [--tool <id>]
-openspec workset remove <name> [--yes] [--json]
+spectrix workset create [name] [--member <path> | --member <name>=<path>]... [--tool <id>] [--json]
+spectrix workset list [--json]
+spectrix workset open <name> [--tool <id>]
+spectrix workset remove <name> [--yes] [--json]
 ```
 
 `create` runs a short guided flow (or takes `--member` flags non-interactively; the first member is the primary — sessions start there). `open` launches the chosen tool: editors (VS Code, Cursor) open a window with every member and return; CLI agents (Claude Code, codex) take over this terminal as a session with every member attached and no prompt pre-filled, ending when you exit. A member folder missing at open time is skipped with a note; the rest opens. The saved tool preference is overridable per open with `--tool`.
 
-Supporting a new tool is configuration, not code. Every tool is one of two launch styles — `workspace-file` (launched with the generated `.code-workspace`) or `attach-dirs` (one attach flag per member) — and the `openers` key in the global `config.json` (open it with `openspec config edit`) adds tools or adjusts built-ins per field:
+Supporting a new tool is configuration, not code. Every tool is one of two launch styles — `workspace-file` (launched with the generated `.code-workspace`) or `attach-dirs` (one attach flag per member) — and the `openers` key in the global `config.json` (open it with `spectrix config edit`) adds tools or adjusts built-ins per field:
 
 ```json
 {
@@ -418,12 +418,12 @@ All workset state lives under the global data dir's `worksets/` folder (the save
 
 ## Browsing Commands
 
-### `openspec list`
+### `spectrix list`
 
 List changes or specs in your project.
 
 ```
-openspec list [options]
+spectrix list [options]
 ```
 
 **Options:**
@@ -439,13 +439,13 @@ openspec list [options]
 
 ```bash
 # List all active changes
-openspec list
+spectrix list
 
 # List all specs
-openspec list --specs
+spectrix list --specs
 
 # JSON output for scripts
-openspec list --json
+spectrix list --json
 ```
 
 **Output (text):**
@@ -457,24 +457,24 @@ Changes:
 
 ---
 
-### `openspec view`
+### `spectrix view`
 
 Display an interactive dashboard for exploring specs and changes.
 
 ```
-openspec view
+spectrix view
 ```
 
 Opens a terminal-based interface for navigating your project's specifications and changes.
 
 ---
 
-### `openspec show`
+### `spectrix show`
 
 Display details of a change or spec.
 
 ```
-openspec show [item-name] [options]
+spectrix show [item-name] [options]
 ```
 
 **Arguments:**
@@ -509,28 +509,28 @@ openspec show [item-name] [options]
 
 ```bash
 # Interactive selection
-openspec show
+spectrix show
 
 # Show a specific change
-openspec show add-dark-mode
+spectrix show add-dark-mode
 
 # Show a specific spec
-openspec show auth --type spec
+spectrix show auth --type spec
 
 # JSON output for parsing
-openspec show add-dark-mode --json
+spectrix show add-dark-mode --json
 ```
 
 ---
 
 ## Validation Commands
 
-### `openspec validate`
+### `spectrix validate`
 
 Validate changes and specs for structural issues, and check a change's MODIFIED requirements against the main specs they would replace.
 
 ```
-openspec validate [item-name] [options]
+spectrix validate [item-name] [options]
 ```
 
 A change with zero spec deltas fails validation unless its `.openspec.yaml` declares `skip_specs: true` (for pure refactors, tooling, or docs work — see [Recipe 5](examples.md#recipe-5-a-refactor-with-no-behavior-change)).
@@ -558,19 +558,19 @@ A change with zero spec deltas fails validation unless its `.openspec.yaml` decl
 
 ```bash
 # Interactive validation
-openspec validate
+spectrix validate
 
 # Validate a specific change
-openspec validate add-dark-mode
+spectrix validate add-dark-mode
 
 # Validate all changes
-openspec validate --changes
+spectrix validate --changes
 
 # Validate everything with JSON output (for CI/scripts)
-openspec validate --all --json
+spectrix validate --all --json
 
 # Strict validation with increased parallelism
-openspec validate --all --strict --concurrency 12
+spectrix validate --all --strict --concurrency 12
 ```
 
 **Output (text):**
@@ -610,12 +610,12 @@ Validating add-dark-mode...
 
 ## Lifecycle Commands
 
-### `openspec archive`
+### `spectrix archive`
 
 Archive a completed change and merge delta specs into main specs.
 
 ```
-openspec archive [change-name] [options]
+spectrix archive [change-name] [options]
 ```
 
 **Arguments:**
@@ -636,16 +636,16 @@ openspec archive [change-name] [options]
 
 ```bash
 # Interactive archive (asks which change, then confirms)
-openspec archive
+spectrix archive
 
 # Archive specific change
-openspec archive add-dark-mode
+spectrix archive add-dark-mode
 
 # Archive without prompts (agents, CI, scripts)
-openspec archive add-dark-mode --yes
+spectrix archive add-dark-mode --yes
 
 # Archive a tooling change that doesn't affect specs
-openspec archive update-ci-config --skip-specs
+spectrix archive update-ci-config --skip-specs
 ```
 
 **What it does:**
@@ -657,7 +657,7 @@ openspec archive update-ci-config --skip-specs
 
 **Without a terminal:** an AI agent, a CI job, or any run with stdin closed cannot
 answer step 2, so archive stops before touching anything, exits 1, and names the
-command to rerun — `openspec archive <name> --yes`, carrying whatever other flags
+command to rerun — `spectrix archive <name> --yes`, carrying whatever other flags
 you passed. Pass `--yes` (and the change name) up front to skip the round trip.
 
 ---
@@ -666,12 +666,12 @@ you passed. Pass `--yes` (and the change name) up front to skip the round trip.
 
 These commands support the artifact-driven OPSX workflow. They're useful for both humans checking progress and agents determining next steps.
 
-### `openspec new change`
+### `spectrix new change`
 
-Create a change directory and optional checked-in metadata in the resolved OpenSpec root.
+Create a change directory and optional checked-in metadata in the resolved Spectrix root.
 
 ```bash
-openspec new change <name> [options]
+spectrix new change <name> [options]
 ```
 
 Change names must use lowercase kebab-case: lowercase letters, numbers, and
@@ -687,22 +687,22 @@ or `00001-add-auth`.
 | `--description <text>` | Description to add to `README.md` |
 | `--goal <text>` | Optional goal metadata to store with the change |
 | `--schema <name>` | Workflow schema to use |
-| `--store <id>` | Store id to use as the OpenSpec root (a store is a standalone OpenSpec repo you've registered) |
+| `--store <id>` | Store id to use as the Spectrix root (a store is a standalone Spectrix repo you've registered) |
 | `--json` | Output JSON |
 
 Examples:
 
 ```bash
-openspec new change add-billing-api
-openspec new change add-billing-api --store team-context --json
+spectrix new change add-billing-api
+spectrix new change add-billing-api --store team-context --json
 ```
 
-### `openspec status`
+### `spectrix status`
 
 Display artifact completion status for a change.
 
 ```
-openspec status [options]
+spectrix status [options]
 ```
 
 **Options:**
@@ -717,13 +717,13 @@ openspec status [options]
 
 ```bash
 # Interactive status check
-openspec status
+spectrix status
 
 # Status for specific change
-openspec status --change add-dark-mode
+spectrix status --change add-dark-mode
 
 # JSON for agent use
-openspec status --change add-dark-mode --json
+spectrix status --change add-dark-mode --json
 ```
 
 **Output (text):**
@@ -766,12 +766,12 @@ is the artifact to write next.
 
 ---
 
-### `openspec instructions`
+### `spectrix instructions`
 
 Get enriched instructions for creating an artifact or applying tasks. Used by AI agents to understand what to create next.
 
 ```
-openspec instructions [artifact] [options]
+spectrix instructions [artifact] [options]
 ```
 
 **Arguments:**
@@ -796,19 +796,19 @@ openspec instructions [artifact] [options]
 
 ```bash
 # Get instructions for next artifact
-openspec instructions --change add-dark-mode
+spectrix instructions --change add-dark-mode
 
 # Get specific artifact instructions
-openspec instructions design --change add-dark-mode
+spectrix instructions design --change add-dark-mode
 
 # Get apply/implementation instructions
-openspec instructions apply --change add-dark-mode
+spectrix instructions apply --change add-dark-mode
 
 # Get current archive operation inputs without archiving
-openspec instructions archive --change add-dark-mode --json
+spectrix instructions archive --change add-dark-mode --json
 
 # JSON for agent consumption
-openspec instructions design --change add-dark-mode --json
+spectrix instructions design --change add-dark-mode --json
 ```
 
 **Output includes:**
@@ -835,12 +835,12 @@ For an artifact skipped via `skip_specs: true`, the output is a warning only (JS
 
 ---
 
-### `openspec templates`
+### `spectrix templates`
 
 Show resolved template paths for all artifacts in a schema.
 
 ```
-openspec templates [options]
+spectrix templates [options]
 ```
 
 **Options:**
@@ -854,13 +854,13 @@ openspec templates [options]
 
 ```bash
 # Show template paths for default schema
-openspec templates
+spectrix templates
 
 # Show templates for custom schema
-openspec templates --schema my-workflow
+spectrix templates --schema my-workflow
 
 # JSON for programmatic use
-openspec templates --json
+spectrix templates --json
 ```
 
 **Output (text):**
@@ -877,12 +877,12 @@ Templates:
 
 ---
 
-### `openspec schemas`
+### `spectrix schemas`
 
 List available workflow schemas with their descriptions and artifact flows.
 
 ```
-openspec schemas [options]
+spectrix schemas [options]
 ```
 
 **Options:**
@@ -894,7 +894,7 @@ openspec schemas [options]
 **Example:**
 
 ```bash
-openspec schemas
+spectrix schemas
 ```
 
 **Output:**
@@ -917,12 +917,12 @@ Available schemas:
 
 Commands for creating and managing custom workflow schemas.
 
-### `openspec schema init`
+### `spectrix schema init`
 
 Create a new project-local schema.
 
 ```
-openspec schema init <name> [options]
+spectrix schema init <name> [options]
 ```
 
 **Arguments:**
@@ -946,10 +946,10 @@ openspec schema init <name> [options]
 
 ```bash
 # Interactive schema creation
-openspec schema init research-first
+spectrix schema init research-first
 
 # Non-interactive with specific artifacts
-openspec schema init rapid \
+spectrix schema init rapid \
   --description "Rapid iteration workflow" \
   --artifacts "proposal,tasks" \
   --default
@@ -969,12 +969,12 @@ openspec/schemas/<name>/
 
 ---
 
-### `openspec schema fork`
+### `spectrix schema fork`
 
 Copy an existing schema to your project for customization.
 
 ```
-openspec schema fork <source> [name] [options]
+spectrix schema fork <source> [name] [options]
 ```
 
 **Arguments:**
@@ -995,17 +995,17 @@ openspec schema fork <source> [name] [options]
 
 ```bash
 # Fork the built-in spec-driven schema
-openspec schema fork spec-driven my-workflow
+spectrix schema fork spec-driven my-workflow
 ```
 
 ---
 
-### `openspec schema validate`
+### `spectrix schema validate`
 
 Validate a schema's structure and templates.
 
 ```
-openspec schema validate [name] [options]
+spectrix schema validate [name] [options]
 ```
 
 **Arguments:**
@@ -1025,20 +1025,20 @@ openspec schema validate [name] [options]
 
 ```bash
 # Validate a specific schema
-openspec schema validate my-workflow
+spectrix schema validate my-workflow
 
 # Validate all schemas
-openspec schema validate
+spectrix schema validate
 ```
 
 ---
 
-### `openspec schema which`
+### `spectrix schema which`
 
 Show where a schema resolves from (useful for debugging precedence).
 
 ```
-openspec schema which [name] [options]
+spectrix schema which [name] [options]
 ```
 
 **Arguments:**
@@ -1058,14 +1058,14 @@ openspec schema which [name] [options]
 
 ```bash
 # Check where a schema comes from
-openspec schema which spec-driven
+spectrix schema which spec-driven
 ```
 
 **Output:**
 
 ```
 spec-driven resolves from: package
-  Source: /usr/local/lib/node_modules/@fission-ai/openspec/schemas/spec-driven
+  Source: /usr/local/lib/node_modules/@dadosh1984/spectrix/schemas/spec-driven
 ```
 
 **Schema precedence:**
@@ -1078,12 +1078,12 @@ spec-driven resolves from: package
 
 ## Configuration Commands
 
-### `openspec config`
+### `spectrix config`
 
-View and modify global OpenSpec configuration.
+View and modify global Spectrix configuration.
 
 ```
-openspec config <subcommand> [options]
+spectrix config <subcommand> [options]
 ```
 
 **Subcommands:**
@@ -1103,61 +1103,61 @@ openspec config <subcommand> [options]
 
 ```bash
 # Show config file path
-openspec config path
+spectrix config path
 
 # List all settings
-openspec config list
+spectrix config list
 
 # Get a specific value
-openspec config get telemetry.enabled
+spectrix config get telemetry.enabled
 
 # Set a value
-openspec config set telemetry.enabled false
+spectrix config set telemetry.enabled false
 
 # Set a string value explicitly
-openspec config set user.name "My Name" --string
+spectrix config set user.name "My Name" --string
 
 # Remove a custom setting
-openspec config unset user.name
+spectrix config unset user.name
 
 # Set a machine-level default store (fallback root when no --store,
 # local root, or project store: pointer resolves)
-openspec config set defaultStore team-plans
+spectrix config set defaultStore team-plans
 
 # Reset all configuration
-openspec config reset --all --yes
+spectrix config reset --all --yes
 
 # Edit config in your editor
-openspec config edit
+spectrix config edit
 
 # Configure profile with action-based wizard
-openspec config profile
+spectrix config profile
 
 # Fast preset: switch workflows to core (keeps delivery mode)
-openspec config profile core
+spectrix config profile core
 ```
 
-`openspec config profile` starts with a current-state summary, then lets you choose:
+`spectrix config profile` starts with a current-state summary, then lets you choose:
 - Change delivery + workflows
 - Change delivery only
 - Change workflows only
 - Keep current settings (exit)
 
 If you keep current settings, no changes are written and no update prompt is shown.
-If there are no config changes but the current project files are out of sync with your global profile/delivery, OpenSpec will show a warning and suggest `openspec update`.
+If there are no config changes but the current project files are out of sync with your global profile/delivery, Spectrix will show a warning and suggest `spectrix update`.
 Pressing `Ctrl+C` also cancels the flow cleanly (no stack trace) and exits with code `130`.
-In the workflow checklist, `[x]` means the workflow is selected in global config. To apply those selections to project files, run `openspec update` (or choose `Apply changes to this project now?` when prompted inside a project).
+In the workflow checklist, `[x]` means the workflow is selected in global config. To apply those selections to project files, run `spectrix update` (or choose `Apply changes to this project now?` when prompted inside a project).
 
 **Interactive examples:**
 
 ```bash
 # Delivery-only update
-openspec config profile
+spectrix config profile
 # choose: Change delivery only
 # choose delivery: Skills only
 
 # Workflows-only update
-openspec config profile
+spectrix config profile
 # choose: Change workflows only
 # toggle workflows in the checklist, then confirm
 ```
@@ -1166,12 +1166,12 @@ openspec config profile
 
 ## Utility Commands
 
-### `openspec feedback`
+### `spectrix feedback`
 
-Submit feedback about OpenSpec. Creates a GitHub issue.
+Submit feedback about Spectrix. Creates a GitHub issue.
 
 ```
-openspec feedback <message> [options]
+spectrix feedback <message> [options]
 ```
 
 **Arguments:**
@@ -1191,18 +1191,18 @@ openspec feedback <message> [options]
 **Example:**
 
 ```bash
-openspec feedback "Add support for custom artifact types" \
+spectrix feedback "Add support for custom artifact types" \
   --body "I'd like to define my own artifact types beyond the built-in ones."
 ```
 
 ---
 
-### `openspec completion`
+### `spectrix completion`
 
-Manage shell completions for the OpenSpec CLI.
+Manage shell completions for the Spectrix CLI.
 
 ```
-openspec completion <subcommand> [shell]
+spectrix completion <subcommand> [shell]
 ```
 
 **Subcommands:**
@@ -1219,16 +1219,16 @@ openspec completion <subcommand> [shell]
 
 ```bash
 # Install completions (auto-detects shell)
-openspec completion install
+spectrix completion install
 
 # Install for specific shell
-openspec completion install zsh
+spectrix completion install zsh
 
 # Generate script for manual installation
-openspec completion generate bash > ~/.bash_completion.d/openspec
+spectrix completion generate bash > ~/.bash_completion.d/openspec
 
 # Uninstall
-openspec completion uninstall
+spectrix completion uninstall
 ```
 
 ---
@@ -1246,14 +1246,14 @@ openspec completion uninstall
 
 | Variable | Description |
 |----------|-------------|
-| `OPENSPEC_TELEMETRY` | Set to `0` to disable telemetry and the `openspec update` version check |
-| `DO_NOT_TRACK` | Set to `1` to disable telemetry and the `openspec update` version check (standard DNT signal) |
+| `OPENSPEC_TELEMETRY` | Set to `0` to disable telemetry and the `spectrix update` version check |
+| `DO_NOT_TRACK` | Set to `1` to disable telemetry and the `spectrix update` version check (standard DNT signal) |
 | `OPENSPEC_CONCURRENCY` | Default concurrency for bulk validation (default: 6) |
-| `EDITOR` or `VISUAL` | Editor for `openspec config edit` |
+| `EDITOR` or `VISUAL` | Editor for `spectrix config edit` |
 | `NO_COLOR` | Disable color output when set |
-| `OPENSPEC_NO_ANIMATION` | Disable the `openspec init` welcome animation when set |
-| `OPENSPEC_NO_UPDATE_CHECK` | Disable the `openspec update` check for a newer published CLI when set (any value, including empty). Also skipped when `CI` is set (unless `false`/`0`/`no`/`off`) or `NODE_ENV=test` |
-| `npm_config_registry` | Registry the `openspec update` version check asks. Must be an `http(s)` URL or it falls back to `https://registry.npmjs.org`. No `.npmrc` file is read |
+| `OPENSPEC_NO_ANIMATION` | Disable the `spectrix init` welcome animation when set |
+| `OPENSPEC_NO_UPDATE_CHECK` | Disable the `spectrix update` check for a newer published CLI when set (any value, including empty). Also skipped when `CI` is set (unless `false`/`0`/`no`/`off`) or `NODE_ENV=test` |
+| `npm_config_registry` | Registry the `spectrix update` version check asks. Must be an `http(s)` URL or it falls back to `https://registry.npmjs.org`. No `.npmrc` file is read |
 
 ---
 

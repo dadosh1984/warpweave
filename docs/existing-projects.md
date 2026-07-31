@@ -1,8 +1,8 @@
-# Using OpenSpec in an Existing Project
+# Using Spectrix in an Existing Project
 
-**You do not document your whole codebase to start. You write specs only for what you're about to change.** That's the single most important thing to know about adopting OpenSpec on an existing project, and it's why OpenSpec is built brownfield-first.
+**You do not document your whole codebase to start. You write specs only for what you're about to change.** That's the single most important thing to know about adopting Spectrix on an existing project, and it's why Spectrix is built brownfield-first.
 
-A common worry sounds like this: "My app is 80,000 lines old. Do I have to write specs for all of it before OpenSpec is useful?" No. You'd hate that, and so would we. OpenSpec grows your specs one change at a time. Your first change documents the slice it touches, the next change documents its slice, and over months your specs fill in naturally around the work you actually do.
+A common worry sounds like this: "My app is 80,000 lines old. Do I have to write specs for all of it before Spectrix is useful?" No. You'd hate that, and so would we. Spectrix grows your specs one change at a time. Your first change documents the slice it touches, the next change documents its slice, and over months your specs fill in naturally around the work you actually do.
 
 This guide shows how to start on day one without boiling the ocean.
 
@@ -10,7 +10,7 @@ This guide shows how to start on day one without boiling the ocean.
 
 ```bash
 $ cd your-existing-project
-$ openspec init          # adds openspec/ and your AI tool's commands
+$ spectrix init          # adds openspec/ and your AI tool's commands
 ```
 
 Then, in your AI chat:
@@ -26,7 +26,7 @@ Your specs now describe exactly the part of the system that change touched, and 
 
 ## Why delta-first is the whole trick
 
-OpenSpec changes are written as **deltas**: `ADDED`, `MODIFIED`, `REMOVED`. A delta describes what's changing relative to current behavior, not the entire system.
+Spectrix changes are written as **deltas**: `ADDED`, `MODIFIED`, `REMOVED`. A delta describes what's changing relative to current behavior, not the entire system.
 
 This is exactly what brownfield work needs. You're rarely building from nothing. You're adding a field, fixing a redirect, tightening a timeout. A delta lets you specify that one change precisely without first writing a 40-page spec of everything around it.
 
@@ -71,8 +71,8 @@ If you'd rather watch the whole loop happen on your own code with narration, the
 Turn on the expanded commands first:
 
 ```bash
-$ openspec config profile      # select the expanded workflows
-$ openspec update              # apply them to this project
+$ spectrix config profile      # select the expanded workflows
+$ spectrix update              # apply them to this project
 ```
 
 Then in chat:
@@ -87,9 +87,9 @@ It's the gentlest possible introduction on a real project, and it leaves you wit
 
 Maybe you have a PRD, an SRS, a formal spec, even TLA+ models. Good. You don't import them wholesale, and you don't throw them away either.
 
-Treat existing docs as **source material for exploration**, not as specs to convert. When you start a change, paste or point the AI at the relevant section, and let it shape a focused OpenSpec delta from it. The delta captures the behavior you're changing now, in OpenSpec's testable requirement-and-scenario form. Your original documents stay where they are as background.
+Treat existing docs as **source material for exploration**, not as specs to convert. When you start a change, paste or point the AI at the relevant section, and let it shape a focused Spectrix delta from it. The delta captures the behavior you're changing now, in Spectrix's testable requirement-and-scenario form. Your original documents stay where they are as background.
 
-The honest reason: OpenSpec specs are deliberately behavior-first and scoped to changes. A 40-page PRD is a different artifact with a different job. Forcing a one-time bulk conversion tends to produce a large, stale spec nobody trusts. Letting specs grow from real changes keeps them accurate.
+The honest reason: Spectrix specs are deliberately behavior-first and scoped to changes. A 40-page PRD is a different artifact with a different job. Forcing a one-time bulk conversion tends to produce a large, stale spec nobody trusts. Letting specs grow from real changes keeps them accurate.
 
 ```text
 You: /opsx:explore
@@ -116,7 +116,7 @@ Pick whatever makes a newcomer nod. You can refine later. See [Concepts: Specs](
 
 For a monorepo, the simplest model is one `openspec/` directory at the repo root, with domains that map to your packages or services. That covers most teams.
 
-If your work genuinely spans **multiple repositories** (or several packages you treat as separate), OpenSpec has a beta **stores** feature: planning lives in its own standalone repo that any of your code repos can reference, so the plan does not have to live inside one repo's `openspec/` folder. It's beta, so treat its commands and state as evolving. Start with the [Stores User Guide](stores-beta/user-guide.md) for the mental model and the smallest useful path.
+If your work genuinely spans **multiple repositories** (or several packages you treat as separate), Spectrix has a beta **stores** feature: planning lives in its own standalone repo that any of your code repos can reference, so the plan does not have to live inside one repo's `openspec/` folder. It's beta, so treat its commands and state as evolving. Start with the [Stores User Guide](stores-beta/user-guide.md) for the mental model and the smallest useful path.
 
 ## A few honest cautions
 
@@ -131,4 +131,4 @@ If your work genuinely spans **multiple repositories** (or several packages you 
 - [Getting Started](getting-started.md) - the full first-change walkthrough
 - [Editing & Iterating on a Change](editing-changes.md) - adjusting a change as you learn
 - [Concepts: Delta Specs](concepts.md#delta-specs) - why deltas make brownfield work clean
-- [Customization](customization.md) - teach OpenSpec your project's conventions
+- [Customization](customization.md) - teach Spectrix your project's conventions

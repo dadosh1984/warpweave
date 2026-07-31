@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getInitUnifiedSkillTemplate(): SkillTemplate {
   return {
     name: 'openspec-init-unified',
-    description: 'Set up the full unified environment in one flow. Use when the user wants to bootstrap a project or machine with OpenSpec, RTK, Superpowers, and Ponytail in a single pass.',
+    description: 'Set up the full unified environment in one flow. Use when the user wants to bootstrap a project or machine with Spectrix, RTK, Superpowers, and Ponytail in a single pass.',
     instructions: `Perform the one-shot unified setup for a fresh project.
 
 ${STORE_SELECTION_GUIDANCE}
@@ -22,7 +22,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Run the fork's init in the target directory:
    \`\`\`bash
-   rtk openspec init
+   rtk spectrix init
    \`\`\`
    Keep the default \`spec-driven\` schema.
 
@@ -57,7 +57,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Run a verification pass:
    \`\`\`bash
-   rtk openspec doctor
+   rtk spectrix doctor
    \`\`\`
    Confirm the unified rules are active (read the generated \`AGENTS.md\`).
 
@@ -80,8 +80,8 @@ ${STORE_SELECTION_GUIDANCE}
 - On verification failure, report the failing step and the fix, not a generic error
 - Keep the default profile standard unless the user chooses otherwise`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI and RTK.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI and RTK.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -103,7 +103,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Run the fork's init in the target directory:
    \`\`\`bash
-   rtk openspec init
+   rtk spectrix init
    \`\`\`
    Keep the default \`spec-driven\` schema.
 
@@ -138,7 +138,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Run a verification pass:
    \`\`\`bash
-   rtk openspec doctor
+   rtk spectrix doctor
    \`\`\`
    Confirm the unified rules are active (read the generated \`AGENTS.md\`).
 

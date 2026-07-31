@@ -2,7 +2,7 @@
 
 Real changes, start to finish. Each recipe shows the commands you'd type and what you'd see back, so you can match your situation to a pattern and copy it. These use the default **core** commands (`propose`, `explore`, `apply`, `update`, `sync`, `archive`); where the expanded set helps, it's noted.
 
-A reminder before you start: slash commands like `/opsx:propose` go in your **AI assistant's chat**, and `openspec` commands go in your **terminal**. If that's new, read [How Commands Work](how-commands-work.md) first. In the transcripts below, `You:` and `AI:` are the chat, and lines starting with `$` are the terminal.
+A reminder before you start: slash commands like `/opsx:propose` go in your **AI assistant's chat**, and `spectrix` commands go in your **terminal**. If that's new, read [How Commands Work](how-commands-work.md) first. In the transcripts below, `You:` and `AI:` are the chat, and lines starting with `$` are the terminal.
 
 > **Not sure what you're building yet?** Most of these recipes are sharper if you start with `/opsx:explore` to think it through first. [Recipe 3](#recipe-3-exploring-before-you-commit) shows it in action, and the [Explore First](explore.md) guide makes the full case.
 
@@ -23,7 +23,7 @@ AI:  Created openspec/changes/add-logout-button/
      Ready for implementation. Run /opsx:apply.
 ```
 
-Now read the plan. Open the proposal and the delta spec. This is the moment OpenSpec is built for: catching a wrong assumption while it's still one paragraph, not 400 lines of code. Edit any artifact directly if something's off, then continue.
+Now read the plan. Open the proposal and the delta spec. This is the moment Spectrix is built for: catching a wrong assumption while it's still one paragraph, not 400 lines of code. Edit any artifact directly if something's off, then continue.
 
 ```text
 You: /opsx:apply
@@ -147,12 +147,12 @@ schema: spec-driven
 skip_specs: true
 ```
 
-Without the marker, `openspec validate` rejects a change with zero deltas (so a forgotten specs phase still gets caught); with it, validation passes and `openspec status` shows the specs stage as explicitly skipped rather than pending. If the refactor turns out to change behavior after all, remove `skip_specs` from `.openspec.yaml` and write the delta specs — validate treats the marker plus spec files as a conflict, so the stale marker can't linger silently.
+Without the marker, `spectrix validate` rejects a change with zero deltas (so a forgotten specs phase still gets caught); with it, validation passes and `spectrix status` shows the specs stage as explicitly skipped rather than pending. If the refactor turns out to change behavior after all, remove `skip_specs` from `.openspec.yaml` and write the delta specs — validate treats the marker plus spec files as a conflict, so the stale marker can't linger silently.
 
 Archiving a marked change needs no extra flags (there are no deltas to merge). Independently, the `--skip-specs` flag tells the terminal command to skip the spec step explicitly:
 
 ```bash
-$ openspec archive refactor-payment-module --skip-specs
+$ spectrix archive refactor-payment-module --skip-specs
 ```
 
 The same flag is handy for tooling, CI, and docs-only changes. The principle: specs describe behavior, so if behavior didn't change, the spec shouldn't either. See [Concepts](concepts.md#what-a-spec-is-and-is-not).
@@ -164,8 +164,8 @@ The same flag is handy for tooling, CI, and docs-only changes. The principle: sp
 The core `/opsx:propose` drafts everything at once. When you'd rather go one step at a time, turn on the expanded commands:
 
 ```bash
-$ openspec config profile      # select the expanded workflows
-$ openspec update              # apply them to this project
+$ spectrix config profile      # select the expanded workflows
+$ spectrix update              # apply them to this project
 ```
 
 Now you can scaffold and build incrementally:
@@ -188,14 +188,14 @@ Review each artifact as it lands, edit freely, and continue when you're happy. W
 
 ## Recipe 7: Learning the whole loop hands-on
 
-**When to use it:** you've installed OpenSpec and want to *feel* the workflow on your own code, not a toy example.
+**When to use it:** you've installed Spectrix and want to *feel* the workflow on your own code, not a toy example.
 
 Turn on the expanded commands (see Recipe 6), then:
 
 ```text
 You: /opsx:onboard
 
-AI:  Welcome to OpenSpec! I'll walk you through a complete change
+AI:  Welcome to Spectrix! I'll walk you through a complete change
      using your actual codebase. Let me scan for a small, safe
      improvement we can make together...
 ```
@@ -207,10 +207,10 @@ AI:  Welcome to OpenSpec! I'll walk you through a complete change
 Any time, from your terminal, you can inspect the state of things:
 
 ```bash
-$ openspec list                      # active changes
-$ openspec show add-dark-mode        # one change in detail
-$ openspec validate add-dark-mode    # check structure
-$ openspec view                      # interactive dashboard
+$ spectrix list                      # active changes
+$ spectrix show add-dark-mode        # one change in detail
+$ spectrix validate add-dark-mode    # check structure
+$ spectrix view                      # interactive dashboard
 ```
 
 These are read-and-inspect tools. The proposing and building still happen through slash commands in chat. Full details in the [CLI reference](cli.md).

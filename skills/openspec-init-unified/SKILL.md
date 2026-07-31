@@ -1,17 +1,17 @@
 ---
 name: openspec-init-unified
-description: Set up the full unified environment in one flow. Use when the user wants to bootstrap a project or machine with OpenSpec, RTK, Superpowers, and Ponytail in a single pass.
-allowed-tools: Bash(openspec:*)
+description: Set up the full unified environment in one flow. Use when the user wants to bootstrap a project or machine with Spectrix, RTK, Superpowers, and Ponytail in a single pass.
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI and RTK.
+compatibility: Requires spectrix CLI and RTK.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Perform the one-shot unified setup for a fresh project.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: A target directory (defaults to the current project root). If a project is already initialized, confirm before re-running.
 
@@ -21,7 +21,7 @@ Perform the one-shot unified setup for a fresh project.
 
    Run the fork's init in the target directory:
    ```bash
-   rtk openspec init
+   rtk spectrix init
    ```
    Keep the default `spec-driven` schema.
 
@@ -56,7 +56,7 @@ Perform the one-shot unified setup for a fresh project.
 
    Run a verification pass:
    ```bash
-   rtk openspec doctor
+   rtk spectrix doctor
    ```
    Confirm the unified rules are active (read the generated `AGENTS.md`).
 

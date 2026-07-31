@@ -1,7 +1,7 @@
 ---
 name: release-openspec
 description: >-
-  Use this skill when releasing OpenSpec: audit merged work and changeset
+  Use this skill when releasing Spectrix: audit merged work and changeset
   coverage, decide whether a catch-up changeset PR is needed, prepare or resume
   the Changesets Version Packages PR, cut a beta or stable release, verify
   publishing, and polish GitHub release notes. Also use when asked whether an
@@ -11,7 +11,7 @@ description: >-
 
 # Release OpenSpec
 
-Run the OpenSpec release workflow as a resumable state machine. Inspect live GitHub state on every invocation and take only the next safe action. Do not assume an earlier invocation completed.
+Run the Spectrix release workflow as a resumable state machine. Inspect live GitHub state on every invocation and take only the next safe action. Do not assume an earlier invocation completed.
 
 ## Principles
 

@@ -1,10 +1,10 @@
 # Getting Started
 
-This guide explains how OpenSpec works after you've installed and initialized it. For installation instructions, see the [main README](../README.md#quick-start) or the [Installation guide](installation.md). New to the whole docs set? The [documentation home](README.md) maps everything.
+This guide explains how Spectrix works after you've installed and initialized it. For installation instructions, see the [main README](../README.md#quick-start) or the [Installation guide](installation.md). New to the whole docs set? The [documentation home](README.md) maps everything.
 
 > **Where do I type these commands?** Two places, and mixing them up is the most common early stumble.
 >
-> - `openspec ...` commands (like `openspec init`) run in your **terminal**.
+> - `spectrix ...` commands (like `spectrix init`) run in your **terminal**.
 > - `/opsx:...` commands (like `/opsx:propose`) run in your **AI assistant's chat**, the same box where you'd ask it to write code.
 >
 > There's no separate "interactive mode" to start. You just type the slash command in chat and your assistant takes it from there. Full explanation: [How Commands Work](how-commands-work.md).
@@ -14,8 +14,8 @@ This guide explains how OpenSpec works after you've installed and initialized it
 The whole loop, with each step labeled by where it happens:
 
 ```text
-TERMINAL   $ npm install -g @fission-ai/openspec@latest
-TERMINAL   $ cd your-project && openspec init
+TERMINAL   $ npm install -g @dadosh1984/spectrix@latest
+TERMINAL   $ cd your-project && spectrix init
 AI CHAT      /opsx:explore                    (optional: think it through first)
 AI CHAT      /opsx:propose add-dark-mode      (AI drafts the plan; you review it)
 AI CHAT      /opsx:apply                      (AI builds it)
@@ -30,7 +30,7 @@ Two terminal steps to set up, then you live in chat. The rest of this guide unpa
 
 ## How It Works
 
-OpenSpec helps you and your AI coding assistant agree on what to build before any code is written.
+Spectrix helps you and your AI coding assistant agree on what to build before any code is written.
 
 **Default quick path (core profile):**
 
@@ -47,11 +47,11 @@ Start with `/opsx:explore` when you're figuring out what to do, or jump straight
 /opsx:new ──► /opsx:ff or /opsx:continue ──► /opsx:apply ──► /opsx:verify ──► /opsx:archive
 ```
 
-The default global profile is `core`, which includes `propose`, `explore`, `apply`, `update`, `sync`, and `archive`. You can enable the expanded workflow commands with `openspec config profile` and then `openspec update`.
+The default global profile is `core`, which includes `propose`, `explore`, `apply`, `update`, `sync`, and `archive`. You can enable the expanded workflow commands with `spectrix config profile` and then `spectrix update`.
 
-## What OpenSpec Creates
+## What Spectrix Creates
 
-After running `openspec init`, your project has this structure:
+After running `spectrix init`, your project has this structure:
 
 ```
 openspec/
@@ -99,7 +99,7 @@ You can always go back and refine earlier artifacts as you learn more during imp
 
 ## How Delta Specs Work
 
-Delta specs are the key concept in OpenSpec. They show what's changing relative to your current specs.
+Delta specs are the key concept in Spectrix. They show what's changing relative to your current specs.
 
 ### The Format
 
@@ -262,16 +262,16 @@ Use the CLI to check on your changes:
 
 ```bash
 # List active changes
-openspec list
+spectrix list
 
 # View change details
-openspec show add-dark-mode
+spectrix show add-dark-mode
 
 # Validate spec formatting
-openspec validate add-dark-mode
+spectrix validate add-dark-mode
 
 # Interactive dashboard
-openspec view
+spectrix view
 ```
 
 ## Next Steps
@@ -279,13 +279,13 @@ openspec view
 - [Explore First](explore.md) - Use `/opsx:explore` to think through an idea before you commit
 - [Reviewing a Change](reviewing-changes.md) - What to check in the plan the AI drafts, before any code
 - [Writing Good Specs](writing-specs.md) - What a strong requirement and scenario look like
-- [Using OpenSpec in an Existing Project](existing-projects.md) - Start on a large brownfield codebase
+- [Using Spectrix in an Existing Project](existing-projects.md) - Start on a large brownfield codebase
 - [Editing & Iterating on a Change](editing-changes.md) - Update artifacts, go back, reconcile manual edits
 - [Core Concepts at a Glance](overview.md) - The whole mental model on one page
 - [Examples & Recipes](examples.md) - Real changes, start to finish
 - [Workflows](workflows.md) - Common patterns and when to use each command
 - [Commands](commands.md) - Full reference for all slash commands
 - [Concepts](concepts.md) - Deeper understanding of specs, changes, and schemas
-- [Customization](customization.md) - Make OpenSpec work your way
+- [Customization](customization.md) - Make Spectrix work your way
 - [Stores](stores-beta/user-guide.md) - Planning that spans repos or teams? Keep it in its own repo (beta)
 - [FAQ](faq.md) and [Troubleshooting](troubleshooting.md) - When you get stuck

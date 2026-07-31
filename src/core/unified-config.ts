@@ -44,15 +44,15 @@ export function loadUnifiedConfig(projectPath?: string): UnifiedConfig | undefin
 }
 
 /**
- * Human-readable one-liner summary of each unified section, used by `openspec config list`.
+ * Human-readable one-liner summary of each unified section, used by `spectrix config list`.
  */
 export function formatUnifiedConfigSummary(config: UnifiedConfig): string[] {
   const lines: string[] = [];
 
-  const openspec = config.openspec;
-  if (openspec) {
-    const schema = openspec.schema ?? 'spec-driven';
-    const profile = openspec.profile ?? 'standard';
+  const spectrix = config.openspec;
+  if (spectrix) {
+    const schema = spectrix.schema ?? 'spec-driven';
+    const profile = spectrix.profile ?? 'standard';
     lines.push(`  schema: ${String(schema)}, profile: ${String(profile)}`);
   }
 

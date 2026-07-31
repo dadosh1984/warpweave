@@ -65,7 +65,7 @@ describe('store references in instructions (3.1)', () => {
         store_id: 'team-context',
         root: fs.realpathSync.native(storeRoot),
         specs: [{ id: 'billing', summary: 'Usage-based invoicing.' }],
-        fetch: 'openspec show <spec-id> --type spec --store team-context',
+        fetch: 'spectrix show <spec-id> --type spec --store team-context',
         status: [],
       },
     ]);

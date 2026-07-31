@@ -1,17 +1,17 @@
 ---
 name: openspec-guardrails
 description: Check the four pipeline gates (SPEC, TDD, LADDER, RTK) before committing. Use when the user wants to verify a change is safe to commit or merge.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI and RTK.
+compatibility: Requires spectrix CLI and RTK.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Check the four pipeline gates before a commit.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
@@ -22,10 +22,10 @@ Check the four pipeline gates before a commit.
    If a name is provided, use it. Otherwise:
    - Infer from conversation context
    - Auto-select if only one active change exists
-   - If ambiguous, run `openspec list --json` and ask the user
+   - If ambiguous, run `spectrix list --json` and ask the user
 
    ```bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    ```
 
 2. **Gate 1 — SPEC**

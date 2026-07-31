@@ -19,7 +19,7 @@ describe('explore templates', () => {
   // Regression for #696: explore never loaded the project's declared
   // context, so it reasoned without the tech stack, conventions, and
   // rules every artifact-creating workflow already receives.
-  it('loads project context from the OpenSpec config at startup (#696)', () => {
+  it('loads project context from the Spectrix config at startup (#696)', () => {
     for (const [label, body] of bodies) {
       expect(body, label).toContain('openspec/config.yaml');
       expect(body, label).toContain('`context`: project background');
@@ -29,14 +29,14 @@ describe('explore templates', () => {
 
   it('resolves the config through the reported root rather than assuming a repo-local path (#696)', () => {
     for (const [label, body] of bodies) {
-      expect(body, label).toContain('openspec list --json');
+      expect(body, label).toContain('spectrix list --json');
       expect(body, label).toContain('<root.path>/openspec/config.yaml');
       expect(body, label).toContain('root.path');
     }
   });
 
   // resolveConfigFilePath() probes config.yaml then config.yml, and
-  // `openspec init` leaves a .yml project on .yml forever - naming only
+  // `spectrix init` leaves a .yml project on .yml forever - naming only
   // .yaml would silently skip context for those projects.
   it('accepts config.yml as well as config.yaml (#696)', () => {
     for (const [label, body] of bodies) {

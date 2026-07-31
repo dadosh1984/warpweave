@@ -18,7 +18,7 @@ import { createFakeTool, envWithFakeTools, readLaunchLog } from '../helpers/fake
 import { snapshotDirectory as snapshot } from '../helpers/fs-snapshot.js';
 import { cleanupTempPath } from '../helpers/temp-cleanup.js';
 
-describe('openspec workset (7.1)', () => {
+describe('spectrix workset (7.1)', () => {
   let tempDir: string;
   let globalDataDir: string;
   let env: NodeJS.ProcessEnv;
@@ -172,7 +172,7 @@ describe('openspec workset (7.1)', () => {
       expect(payload.workset).toBeNull();
       expect(payload.status[0].code).toBe('workset_exists');
       expect(payload.status[0].fix).toBe(
-        'Choose another name, or remove it first: openspec workset remove platform'
+        'Choose another name, or remove it first: spectrix workset remove platform'
       );
     });
 
@@ -186,7 +186,7 @@ describe('openspec workset (7.1)', () => {
         'workset_members_required'
       );
       expect(parseJson(noMembers).status[0].fix).toBe(
-        'openspec workset create empty --member <path> --member <name>=<path>'
+        'spectrix workset create empty --member <path> --member <name>=<path>'
       );
 
       const noName = await runCLI(
@@ -292,7 +292,7 @@ describe('openspec workset (7.1)', () => {
     it('says so plainly when nothing is saved', async () => {
       const human = await runCLI(['workset', 'list'], { cwd: tempDir, env });
       expect(human.stdout).toContain(
-        'No worksets saved. Create one with: openspec workset create'
+        'No worksets saved. Create one with: spectrix workset create'
       );
 
       const json = await runCLI(['workset', 'list', '--json'], {
@@ -316,7 +316,7 @@ describe('openspec workset (7.1)', () => {
         'workset_remove_confirmation_required'
       );
       expect(parseJson(refused).status[0].fix).toBe(
-        'openspec workset remove platform --yes'
+        'spectrix workset remove platform --yes'
       );
 
       const removed = await runCLI(
@@ -364,7 +364,7 @@ describe('openspec workset (7.1)', () => {
       });
       expect(parseJson(noneSaved).status[0].code).toBe('workset_not_found');
       expect(parseJson(noneSaved).status[0].fix).toBe(
-        'Create it first: openspec workset create ghost'
+        'Create it first: spectrix workset create ghost'
       );
 
       await createPlatform();
@@ -373,7 +373,7 @@ describe('openspec workset (7.1)', () => {
         env,
       });
       expect(parseJson(someSaved).status[0].fix).toBe(
-        'Saved worksets: platform. See them with: openspec workset list'
+        'Saved worksets: platform. See them with: spectrix workset list'
       );
     });
   });
@@ -549,7 +549,7 @@ describe('openspec workset (7.1)', () => {
       expect(result.exitCode).toBe(1);
       expect(result.stderr).toContain("Workset 'platform' has no saved tool.");
       expect(result.stderr).toContain(
-        'openspec workset open platform --tool <id>'
+        'spectrix workset open platform --tool <id>'
       );
     });
 
@@ -567,7 +567,7 @@ describe('openspec workset (7.1)', () => {
         "Error: Cursor ('cursor') is not on PATH."
       );
       expect(unavailable.stderr).toContain(
-        'Fix: Install \'cursor\' or run: openspec workset open platform --tool code'
+        'Fix: Install \'cursor\' or run: spectrix workset open platform --tool code'
       );
       expect(unavailable.stderr).toContain('Open manually:');
       const generated = getWorksetCodeWorkspacePath('platform', pathOptions());
@@ -607,7 +607,7 @@ describe('openspec workset (7.1)', () => {
       const payload = parseJson(result);
       expect(payload.status[0].code).toBe('workset_open_json_unsupported');
       expect(payload.status[0].fix).toBe(
-        'Inspect worksets with: openspec workset list --json'
+        'Inspect worksets with: spectrix workset list --json'
       );
     });
   });
@@ -757,7 +757,7 @@ describe('openspec workset (7.1)', () => {
       expect(result.exitCode).toBe(1);
       expect(result.stderr).toContain('Could not launch Claude Code');
       expect(result.stderr).toContain(
-        'Fix: Run: openspec workset open platform --tool code'
+        'Fix: Run: spectrix workset open platform --tool code'
       );
       expect(result.stderr).toContain('Open manually:');
     });
@@ -977,7 +977,7 @@ describe('interactive compose cancellation (in-process)', () => {
     expect(fs.readFileSync(yamlPath, 'utf-8')).toContain('platform');
     expect(fs.readFileSync(yamlPath, 'utf-8')).toContain('tool: claude');
     expect(logSpy).toHaveBeenCalledWith(
-      'Open it any time with: openspec workset open platform'
+      'Open it any time with: spectrix workset open platform'
     );
   });
 
@@ -1006,7 +1006,7 @@ describe('interactive compose cancellation (in-process)', () => {
     );
     expect(errorSpy).not.toHaveBeenCalledWith('Cancelled.');
     expect(logSpy).toHaveBeenCalledWith(
-      'Open it any time with: openspec workset open platform'
+      'Open it any time with: spectrix workset open platform'
     );
     expect(
       fs.existsSync(

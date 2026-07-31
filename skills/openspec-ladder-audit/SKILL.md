@@ -1,17 +1,17 @@
 ---
 name: openspec-ladder-audit
 description: Audit the current change's diff against the Ponytail ladder. Use when the user wants to find deletable code, over-engineering, or unjustified dependencies before committing or archiving.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI and RTK.
+compatibility: Requires spectrix CLI and RTK.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Audit the current change's diff against the Ponytail ladder.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally specify a change name or path. If omitted, audit the current uncommitted diff.
 
@@ -21,7 +21,7 @@ Audit the current change's diff against the Ponytail ladder.
 
    If a change name is provided, resolve it with:
    ```bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    ```
    Otherwise diff the working tree:
    ```bash

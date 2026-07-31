@@ -122,7 +122,7 @@ describe('artifact loop guards (propose and ff)', () => {
 
   // The skip_specs carve-out must stay explicit in the loop: an artifact the CLI
   // already reports as `skipped` is satisfied and must never be written, or the
-  // agent creates spec files that `openspec validate` then rejects as
+  // agent creates spec files that `spectrix validate` then rejects as
   // conflicting with the marker (#1399).
   it('treats a `skipped` status as satisfied and never creates it (#1399)', () => {
     for (const [label, body] of loopBodies) {
@@ -137,7 +137,7 @@ describe('artifact loop guards (propose and ff)', () => {
   it('makes the agent fetch and read the instruction field before skipping', () => {
     for (const [label, body] of loopBodies) {
       expect(body, label).toContain(
-        'run `openspec instructions <artifact-id> --change "<name>" --json` and skip only if its `instruction` field marks it optional'
+        'run `spectrix instructions <artifact-id> --change "<name>" --json` and skip only if its `instruction` field marks it optional'
       );
       expect(body, label).toContain('never by your own judgment');
     }

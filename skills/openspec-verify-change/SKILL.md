@@ -1,17 +1,17 @@
 ---
 name: openspec-verify-change
 description: Verify implementation matches change artifacts. Use when the user wants to validate that implementation is complete, correct, and coherent before archiving.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: Requires spectrix CLI.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Verify that an implementation matches the change artifacts (specs, tasks, design).
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
@@ -22,7 +22,7 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run `openspec list --json` to get available changes and ask the user to select one
+   - If ambiguous, run `spectrix list --json` to get available changes and ask the user to select one
 
    When prompting, show changes that have implementation tasks (tasks artifact exists).
    Include the schema used for each change if available.
@@ -32,7 +32,7 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
 
 2. **Check status to understand the schema**
    ```bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    ```
    Parse the JSON to understand:
    - `schemaName`: The workflow being used (e.g., "spec-driven")
@@ -42,7 +42,7 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
 3. **Get planning context and load artifacts**
 
    ```bash
-   openspec instructions apply --change "<name>" --json
+   spectrix instructions apply --change "<name>" --json
    ```
 
    This returns the change directory and `contextFiles` (artifact ID -> array of concrete file paths). Read all available artifacts from `contextFiles`.

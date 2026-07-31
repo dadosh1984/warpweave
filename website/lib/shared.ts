@@ -1,4 +1,4 @@
-export const appName = 'OpenSpec';
+export const appName = 'Spectrix';
 
 // Absolute base URL of the deployed site, used to resolve Open Graph / social
 // image URLs. Set NEXT_PUBLIC_SITE_URL in your deploy environment (e.g. on
@@ -12,10 +12,10 @@ export const docsRoute = '/docs';
 export const docsImageRoute = '/og/docs';
 export const docsContentRoute = '/llms.mdx/docs';
 
-// OpenSpec source repository, used for "edit this page" and GitHub links.
+// Spectrix source repository, used for "edit this page" and GitHub links.
 export const gitConfig = {
   user: 'Fission-AI',
-  repo: 'OpenSpec',
+  repo: 'Spectrix',
   branch: 'main',
 };
 

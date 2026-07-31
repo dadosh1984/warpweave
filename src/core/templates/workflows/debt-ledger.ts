@@ -76,8 +76,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Prefer deleting orphaned markers over rewriting dead references
 - Never silently drop a marker; list it as orphaned so the decision is explicit`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI and RTK.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI and RTK.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 

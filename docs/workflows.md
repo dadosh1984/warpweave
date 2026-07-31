@@ -1,6 +1,6 @@
 # Workflows
 
-This guide covers common workflow patterns for OpenSpec and when to use each one. For basic setup, see [Getting Started](getting-started.md). For command reference, see [Commands](commands.md).
+This guide covers common workflow patterns for Spectrix and when to use each one. For basic setup, see [Getting Started](getting-started.md). For command reference, see [Commands](commands.md).
 
 ## Philosophy: Actions, Not Phases
 
@@ -78,8 +78,8 @@ Explore creates no artifacts and writes no code. It's a free, no-stakes conversa
 If you want explicit scaffold-and-build commands (`/opsx:new`, `/opsx:continue`, `/opsx:ff`, `/opsx:verify`, `/opsx:bulk-archive`, `/opsx:onboard`), enable them with:
 
 ```bash
-openspec config profile
-openspec update
+spectrix config profile
+spectrix update
 ```
 
 ## Workflow Patterns (Expanded Mode)
@@ -446,7 +446,7 @@ Catches mismatches before you close out the change.
 
 ### Name Changes Clearly
 
-Good names make `openspec list` useful:
+Good names make `spectrix list` useful:
 
 ```text
 Good:                          Avoid:
@@ -477,7 +477,7 @@ For full command details and options, see [Commands](commands.md).
 
 - [Writing Good Specs](writing-specs.md) - What a strong requirement and scenario look like, and how to right-size a change
 - [Reviewing a Change](reviewing-changes.md) - The two-minute pass on a drafted plan before any code
-- [OpenSpec on a Team](team-workflow.md) - How changes fit branches and pull requests
+- [Spectrix on a Team](team-workflow.md) - How changes fit branches and pull requests
 - [Commands](commands.md) - Full command reference with options
 - [Concepts](concepts.md) - Deep dive into specs, artifacts, and schemas
 - [Customization](customization.md) - Create custom workflows

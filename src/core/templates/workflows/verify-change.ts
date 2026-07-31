@@ -24,7 +24,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
 
    When prompting, show changes that have implementation tasks (tasks artifact exists).
    Include the schema used for each change if available.
@@ -34,7 +34,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check status to understand the schema**
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used (e.g., "spec-driven")
@@ -44,7 +44,7 @@ ${STORE_SELECTION_GUIDANCE}
 3. **Get planning context and load artifacts**
 
    \`\`\`bash
-   openspec instructions apply --change "<name>" --json
+   spectrix instructions apply --change "<name>" --json
    \`\`\`
 
    This returns the change directory and \`contextFiles\` (artifact ID -> array of concrete file paths). Read all available artifacts from \`contextFiles\`.
@@ -187,8 +187,8 @@ During verification, also check:
 
 **RTK Gain (RTK):** Run \`rtk gain\` to report token savings for this change. Include the savings in the verification report.`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -211,7 +211,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
 
    When prompting, show changes that have implementation tasks (tasks artifact exists).
    Include the schema used for each change if available.
@@ -221,7 +221,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check status to understand the schema**
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used (e.g., "spec-driven")
@@ -231,7 +231,7 @@ ${STORE_SELECTION_GUIDANCE}
 3. **Get planning context and load artifacts**
 
    \`\`\`bash
-   openspec instructions apply --change "<name>" --json
+   spectrix instructions apply --change "<name>" --json
    \`\`\`
 
    This returns the change directory and \`contextFiles\` (artifact ID -> array of concrete file paths). Read all available artifacts from \`contextFiles\`.

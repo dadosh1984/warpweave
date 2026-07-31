@@ -24,7 +24,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
 
    When prompting, show only active changes (not already archived).
    Include the schema used for each change if available.
@@ -35,7 +35,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    After resolving the selected change and planning root, run:
    \`\`\`bash
-   openspec instructions archive --change "<name>" --json
+   spectrix instructions archive --change "<name>" --json
    \`\`\`
    Keep the same selected-root flags on this command. This lookup is advisory and
    optional: it only supplies extra prompt inputs, so it must never block archiving.
@@ -60,7 +60,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check artifact completion status**
 
-   Run \`openspec status --change "<name>" --json\` to check artifact completion.
+   Run \`spectrix status --change "<name>" --json\` to check artifact completion.
 
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used
@@ -108,7 +108,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Anything else — ask again rather than archiving
 
    Before a selected sync writes any main spec, run
-   \`openspec instructions specs --change "<name>" --json\` once with the same
+   \`spectrix instructions specs --change "<name>" --json\` once with the same
    selected-root flags. Require a zero exit status and valid artifact-instruction
    JSON. If the lookup fails or returns invalid JSON, report the error and stop
    before writing any main spec or moving the change. A valid response with omitted
@@ -133,7 +133,7 @@ ${STORE_SELECTION_GUIDANCE}
    mkdir -p "<planningHome.changesDir>/archive"
    \`\`\`
 
-   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`openspec archive\`).
+   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`spectrix archive\`).
 
    **Check if target already exists:**
    - If yes: Fail with error, suggest renaming existing archive or using different date
@@ -167,7 +167,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 **Guardrails**
 - Announce the selected change; prompt for selection when it is ambiguous
-- Use artifact graph (openspec status --json) for completion checking
+- Use artifact graph (spectrix status --json) for completion checking
 - Don't block archive on warnings - just inform and confirm
 - Preserve .openspec.yaml when moving to archive (it moves with the directory)
 - Show clear summary of what happened
@@ -184,8 +184,8 @@ ${STORE_SELECTION_GUIDANCE}
 
 Before archiving, run \`rtk gain\` to report token savings for the session. Include the savings summary in the archive completion output.`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -208,7 +208,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
 
    When prompting, show only active changes (not already archived).
    Include the schema used for each change if available.
@@ -219,7 +219,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    After resolving the selected change and planning root, run:
    \`\`\`bash
-   openspec instructions archive --change "<name>" --json
+   spectrix instructions archive --change "<name>" --json
    \`\`\`
    Keep the same selected-root flags on this command. This lookup is advisory and
    optional: it only supplies extra prompt inputs, so it must never block archiving.
@@ -244,7 +244,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check artifact completion status**
 
-   Run \`openspec status --change "<name>" --json\` to check artifact completion.
+   Run \`spectrix status --change "<name>" --json\` to check artifact completion.
 
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used
@@ -292,7 +292,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Anything else — ask again rather than archiving
 
    Before a selected sync writes any main spec, run
-   \`openspec instructions specs --change "<name>" --json\` once with the same
+   \`spectrix instructions specs --change "<name>" --json\` once with the same
    selected-root flags. Require a zero exit status and valid artifact-instruction
    JSON. If the lookup fails or returns invalid JSON, report the error and stop
    before writing any main spec or moving the change. A valid response with omitted
@@ -317,7 +317,7 @@ ${STORE_SELECTION_GUIDANCE}
    mkdir -p "<planningHome.changesDir>/archive"
    \`\`\`
 
-   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`openspec archive\`).
+   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`spectrix archive\`).
 
    **Check if target already exists:**
    - If yes: Fail with error, suggest renaming existing archive or using different date
@@ -398,7 +398,7 @@ Target archive directory already exists.
 
 **Guardrails**
 - Announce the selected change; prompt for selection when it is ambiguous
-- Use artifact graph (openspec status --json) for completion checking
+- Use artifact graph (spectrix status --json) for completion checking
 - Don't block archive on warnings - just inform and confirm
 - Preserve .openspec.yaml when moving to archive (it moves with the directory)
 - Show clear summary of what happened

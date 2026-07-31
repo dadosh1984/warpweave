@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The `openspec view` command provides a comprehensive dashboard view of the OpenSpec project state, displaying specifications, changes, and progress metrics in a unified, visually appealing format to help developers quickly understand project status.
+The `spectrix view` command provides a comprehensive dashboard view of the Spectrix project state, displaying specifications, changes, and progress metrics in a unified, visually appealing format to help developers quickly understand project status.
 ## Requirements
 ### Requirement: Dashboard Display
 
@@ -10,13 +10,13 @@ The system SHALL provide a `view` command that displays a dashboard overview of 
 
 #### Scenario: Basic dashboard display
 
-- **WHEN** user runs `openspec view`
+- **WHEN** user runs `spectrix view`
 - **THEN** system displays a formatted dashboard with sections for summary, active changes, completed changes, and specifications
 
-#### Scenario: No OpenSpec directory
+#### Scenario: No Spectrix directory
 
-- **WHEN** user runs `openspec view` in a directory without OpenSpec
-- **THEN** system displays error message "✗ No openspec directory found"
+- **WHEN** user runs `spectrix view` in a directory without OpenSpec
+- **THEN** system displays error message "✗ No spectrix directory found"
 
 ### Requirement: Summary Section
 

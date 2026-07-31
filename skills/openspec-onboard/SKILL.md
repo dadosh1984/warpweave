@@ -1,33 +1,33 @@
 ---
 name: openspec-onboard
-description: Guided onboarding for OpenSpec - walk through a complete workflow cycle with narration and real codebase work.
-allowed-tools: Bash(openspec:*)
+description: Guided onboarding for Spectrix - walk through a complete workflow cycle with narration and real codebase work.
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: Requires spectrix CLI.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
-Guide the user through their first complete OpenSpec workflow cycle. This is a teaching experience—you'll do real work in their codebase while explaining each step.
+Guide the user through their first complete Spectrix workflow cycle. This is a teaching experience—you'll do real work in their codebase while explaining each step.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 ---
 
 ## Preflight
 
-Before starting, check if the OpenSpec CLI is installed:
+Before starting, check if the Spectrix CLI is installed:
 
 ```bash
 # Unix/macOS
-openspec --version 2>&1 || echo "CLI_NOT_INSTALLED"
+spectrix --version 2>&1 || echo "CLI_NOT_INSTALLED"
 # Windows (PowerShell)
-# if (Get-Command openspec -ErrorAction SilentlyContinue) { openspec --version } else { echo "CLI_NOT_INSTALLED" }
+# if (Get-Command spectrix -ErrorAction SilentlyContinue) { spectrix --version } else { echo "CLI_NOT_INSTALLED" }
 ```
 
 **If CLI not installed:**
-> OpenSpec CLI is not installed. Install it first, then come back to `/openspec-onboard`.
+> Spectrix CLI is not installed. Install it first, then come back to `/openspec-onboard`.
 
 Stop here if not installed.
 
@@ -38,7 +38,7 @@ Stop here if not installed.
 Display:
 
 ```
-## Welcome to OpenSpec!
+## Welcome to Spectrix!
 
 I'll walk you through a complete change cycle—from idea to implementation—using a real task in your codebase. Along the way, you'll learn the workflow by doing it.
 
@@ -116,7 +116,7 @@ Which task interests you? (Pick a number or describe your own)
 If the user picks or describes something too large (major feature, multi-day work):
 
 ```
-That's a valuable task, but it's probably larger than ideal for your first OpenSpec run-through.
+That's a valuable task, but it's probably larger than ideal for your first Spectrix run-through.
 
 For learning the workflow, smaller is better—it lets you see the full cycle without getting stuck in implementation details.
 
@@ -169,14 +169,14 @@ Now let's create a change to hold our work.
 ```
 ## Creating a Change
 
-A "change" in OpenSpec is a container for all the thinking and planning around a piece of work. It lives at the `changeRoot` reported by `openspec status --change "<name>" --json` and holds your artifacts—proposal, specs, design, tasks.
+A "change" in Spectrix is a container for all the thinking and planning around a piece of work. It lives at the `changeRoot` reported by `spectrix status --change "<name>" --json` and holds your artifacts—proposal, specs, design, tasks.
 
 Let me create one for our task.
 ```
 
 **DO:** Create the change with a derived kebab-case name:
 ```bash
-openspec new change "<derived-name>"
+spectrix new change "<derived-name>"
 ```
 
 **SHOW:**
@@ -245,9 +245,9 @@ Does this capture the intent? I can adjust before we save it.
 
 After approval, save the proposal:
 ```bash
-openspec instructions proposal --change "<name>" --json
+spectrix instructions proposal --change "<name>" --json
 ```
-Then write the content to the `resolvedOutputPath` from `openspec instructions proposal --change "<name>" --json`.
+Then write the content to the `resolvedOutputPath` from `spectrix instructions proposal --change "<name>" --json`.
 
 ```
 Proposal saved. This is your "why" document—you can always come back and refine it as understanding evolves.
@@ -270,7 +270,7 @@ For a small task like this, we might only need one spec file.
 
 **DO:** Resolve where the spec file should be created:
 ```bash
-openspec instructions specs --change "<name>" --json
+spectrix instructions specs --change "<name>" --json
 # Use resolvedOutputPath from the JSON. If it is a glob, choose the concrete file path using the schema instruction and the change's context.
 ```
 
@@ -343,7 +343,7 @@ Here's the design:
 For a small task, this captures the key decisions without over-engineering.
 ```
 
-Save to the `resolvedOutputPath` from `openspec instructions design --change "<name>" --json`.
+Save to the `resolvedOutputPath` from `spectrix instructions design --change "<name>" --json`.
 
 ---
 
@@ -381,7 +381,7 @@ Each checkbox becomes a unit of work in the apply phase. Ready to implement?
 
 **PAUSE** - Wait for user to confirm they're ready to implement.
 
-Save to the `resolvedOutputPath` from `openspec instructions tasks --change "<name>" --json`.
+Save to the `resolvedOutputPath` from `spectrix instructions tasks --change "<name>" --json`.
 
 ---
 
@@ -432,7 +432,7 @@ Archived changes become your project's decision history—you can always find th
 
 **DO:** Archive the change (`--yes` answers the confirmation prompts, which you cannot answer from a tool call):
 ```bash
-openspec archive "<name>" --yes
+spectrix archive "<name>" --yes
 ```
 
 **SHOW:**
@@ -449,7 +449,7 @@ The change is now part of your project's history. The code is in your codebase, 
 ```
 ## Congratulations!
 
-You just completed a full OpenSpec cycle:
+You just completed a full Spectrix cycle:
 
 1. **Explore** - Thought through the problem
 2. **New** - Created a change container
@@ -500,10 +500,10 @@ Try `/openspec-propose` on something you actually want to build. You've got the 
 If the user says they need to stop, want to pause, or seem disengaged:
 
 ```
-No problem! Your change is saved at the `changeRoot` reported by `openspec status --change "<name>" --json`.
+No problem! Your change is saved at the `changeRoot` reported by `spectrix status --change "<name>" --json`.
 
 To pick up where we left off later:
-- `/openspec-continue-change <name>` - Resume artifact creation (if installed; otherwise `openspec status --change "<name>" --json` shows the next artifact)
+- `/openspec-continue-change <name>` - Resume artifact creation (if installed; otherwise `spectrix status --change "<name>" --json` shows the next artifact)
 - `/openspec-apply-change <name>` - Jump to implementation (if tasks exist)
 
 The work won't be lost. Come back whenever you're ready.
@@ -516,7 +516,7 @@ Exit gracefully without pressure.
 If the user says they just want to see the commands or skip the tutorial:
 
 ```
-## OpenSpec Quick Reference
+## Spectrix Quick Reference
 
 **Core workflow:**
 

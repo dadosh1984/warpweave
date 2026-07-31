@@ -42,7 +42,7 @@ describe('top-level validate command', () => {
       '',
       '#### Scenario: Apply alpha delta',
       '- **GIVEN** the test change delta',
-      '- **WHEN** openspec validate runs',
+      '- **WHEN** spectrix validate runs',
       '- **THEN** the validator reports the change as valid',
     ].join('\n');
     const c1DeltaDir = path.join(changesDir, 'c1', 'specs', 'alpha');
@@ -161,7 +161,7 @@ describe('top-level validate command', () => {
       '',
       '#### Scenario: Validate CRLF change',
       '- **GIVEN** a change proposal saved with CRLF line endings',
-      '- **WHEN** a developer runs openspec validate on the proposal',
+      '- **WHEN** a developer runs spectrix validate on the proposal',
       '- **THEN** validation succeeds without section errors',
     ]);
 
@@ -182,7 +182,7 @@ describe('top-level validate command', () => {
     '',
     '#### Scenario: Validate scaffolded change',
     '- **GIVEN** a change directory with no proposal.md',
-    '- **WHEN** openspec validate runs',
+    '- **WHEN** spectrix validate runs',
     '- **THEN** the change resolves and its deltas are validated',
   ].join('\n');
 

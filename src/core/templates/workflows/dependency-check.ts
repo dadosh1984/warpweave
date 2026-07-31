@@ -70,8 +70,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Prefer "existing dependency" over a new one when the gap is small
 - Never approve a dependency to satisfy a YAGNI need`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 

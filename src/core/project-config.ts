@@ -25,9 +25,9 @@ const OperationConfigSchema = z.object({
  * 3. Runtime validation - uses safeParse() for resilient field-by-field validation
  *
  * Why Zod over manual validation:
- * - Helps understand OpenSpec's data interfaces at a glance
+ * - Helps understand Spectrix's data interfaces at a glance
  * - Single source of truth for type and validation
- * - Consistent with other OpenSpec schemas
+ * - Consistent with other Spectrix schemas
  */
 export const ProjectConfigSchema = z.object({
   // Required: which schema to use (e.g., "spec-driven", or project-local schema name)
@@ -72,7 +72,7 @@ export const ProjectConfigSchema = z.object({
   store: z
     .string()
     .optional()
-    .describe('Store id used as the OpenSpec root when no local planning shape exists'),
+    .describe('Store id used as the Spectrix root when no local planning shape exists'),
 });
 
 /** Normalized in-memory shape of a referenced store declaration. */
@@ -496,7 +496,7 @@ export interface StorePointerRead {
 /**
  * Warning-silent targeted read of the `store:` pointer. Used by root
  * resolution (which must not re-emit the resilient parser's field
- * warnings) and by `openspec init`'s pointer guard. Unlike
+ * warnings) and by `spectrix init`'s pointer guard. Unlike
  * `readProjectConfig`, a malformed value is REPORTED, not dropped —
  * a dropped pointer would silently flip where work lands.
  */

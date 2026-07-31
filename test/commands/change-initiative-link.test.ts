@@ -9,7 +9,7 @@ import { runCLI, type RunCLIResult } from '../helpers/run-cli.js';
 /**
  * Initiative-link creation was removed from normal change flows in the
  * store-root-selection slice: `new change` no longer accepts `--initiative`
- * and `openspec set change` is gone. Existing initiative metadata from the
+ * and `spectrix set change` is gone. Existing initiative metadata from the
  * beta remains readable and untouched; this suite covers that legacy
  * behavior.
  */
@@ -113,7 +113,7 @@ describe('legacy repo-local change initiative metadata', () => {
     expect(fs.existsSync(changeDir('linked-change'))).toBe(false);
   });
 
-  it('no longer provides openspec set change', async () => {
+  it('no longer provides spectrix set change', async () => {
     createLegacyLinkedChange('legacy-change');
 
     const result = await runCLI(

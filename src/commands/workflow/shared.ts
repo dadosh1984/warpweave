@@ -189,7 +189,7 @@ export async function validateChangeExists(
 ): Promise<string> {
   // Hints must stay pasteable: callers with a selected store pass a
   // store-carrying hint so following it lands in the same root.
-  const newChangeHint = hints.newChangeHint ?? 'openspec new change <name>';
+  const newChangeHint = hints.newChangeHint ?? 'spectrix new change <name>';
 
   if (!changeName) {
     const available = await getAvailableChanges(projectRoot, changesDir);

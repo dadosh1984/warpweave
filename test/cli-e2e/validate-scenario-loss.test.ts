@@ -9,7 +9,7 @@ import { runCLI } from '../helpers/run-cli.js';
  * its main specs root, so these exercise the wiring through the real CLI —
  * every entry point, and the exit code each one reports.
  */
-describe('openspec validate reports scenarios a MODIFIED block would drop (#1477)', () => {
+describe('spectrix validate reports scenarios a MODIFIED block would drop (#1477)', () => {
   const tempRoots: string[] = [];
   let projectDir: string;
 

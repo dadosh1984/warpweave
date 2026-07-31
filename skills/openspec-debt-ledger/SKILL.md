@@ -1,17 +1,17 @@
 ---
 name: openspec-debt-ledger
 description: Collect `// ponytail:` markers from the codebase into a structured debt backlog. Use when the user wants to review deferred simplifications or decide which technical debt to pay off now.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI and RTK.
+compatibility: Requires spectrix CLI and RTK.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Collect every deliberate simplification marked `// ponytail:` into a structured backlog.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally narrow to a directory or change name. If omitted, scan the whole codebase.
 

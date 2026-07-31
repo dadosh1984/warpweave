@@ -23,10 +23,10 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` and ask the user
+   - If ambiguous, run \`spectrix list --json\` and ask the user
 
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
 
 2. **Gate 1 — SPEC**
@@ -92,8 +92,8 @@ ${STORE_SELECTION_GUIDANCE}
 - If a task lacks a "Test first" entry, Gate 2 is RED regardless of existing tests
 - Never mark Gate 1 GREEN on a spec the human has not reviewed`,
     license: 'MIT',
-    compatibility: 'Requires openspec CLI and RTK.',
-    metadata: { author: 'openspec', version: '1.0' },
+    compatibility: 'Requires spectrix CLI and RTK.',
+    metadata: { author: 'spectrix', version: '1.0' },
   };
 }
 
@@ -116,10 +116,10 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context
    - Auto-select if only one active change exists
-   - If ambiguous, run \`openspec list --json\` and ask the user
+   - If ambiguous, run \`spectrix list --json\` and ask the user
 
    \`\`\`bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    \`\`\`
 
 2. **Gate 1 — SPEC**

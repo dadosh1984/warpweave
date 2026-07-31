@@ -1,17 +1,17 @@
 ---
 name: openspec-parallel-execute
 description: Run independent tasks from tasks.md in parallel using subagents. Use when the user wants to speed up implementation of a change with independent work items.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI and RTK.
+compatibility: Requires spectrix CLI and RTK.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
 Break tasks.md into dependency layers and execute independent groups in parallel via subagents.
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: A change name. If omitted, infer from conversation context; if ambiguous, prompt for available changes.
 
@@ -20,7 +20,7 @@ Break tasks.md into dependency layers and execute independent groups in parallel
 1. **Select the change**
 
    ```bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    ```
 
 2. **Read and parse tasks.md**

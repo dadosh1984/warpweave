@@ -43,7 +43,7 @@ export interface ValidationResult {
 /**
  * Validates that a change name follows kebab-case conventions.
  *
- * Uses OpenSpec's shared kebab-id grammar (the same one store ids and change
+ * Uses Spectrix's shared kebab-id grammar (the same one store ids and change
  * metadata ids use), so a change name may:
  * - Start with a lowercase letter or a digit
  * - Contain only lowercase letters, numbers, and hyphens

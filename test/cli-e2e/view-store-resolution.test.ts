@@ -6,9 +6,9 @@ import { runCLI } from '../helpers/run-cli.js';
 import { cleanupTempPath } from '../helpers/temp-cleanup.js';
 
 /**
- * `openspec view` used to hard-code '.' as its target, so a project whose
+ * `spectrix view` used to hard-code '.' as its target, so a project whose
  * openspec/config.yaml points at an external store rendered an empty dashboard
- * while `openspec list` read the store correctly. These cover the fix and the
+ * while `spectrix list` read the store correctly. These cover the fix and the
  * cwd-fallback behavior view shares with list/status.
  */
 
@@ -71,7 +71,7 @@ afterAll(async () => {
   await cleanupTempPath(base);
 });
 
-describe('openspec view root resolution', () => {
+describe('spectrix view root resolution', () => {
   it(
     'follows a store pointer declared in openspec/config.yaml',
     async () => {
@@ -138,7 +138,7 @@ describe('openspec view root resolution', () => {
 
       expect(list.exitCode, list.stderr).toBe(0);
       expect(view.exitCode, view.stderr).toBe(0);
-      expect(view.stdout).toContain('OpenSpec Dashboard');
+      expect(view.stdout).toContain('Spectrix Dashboard');
     },
     TIMEOUT_MS
   );
@@ -173,7 +173,7 @@ describe('openspec view root resolution', () => {
   );
 
   it(
-    'reports a missing openspec directory outside any project',
+    'reports a missing spectrix directory outside any project',
     async () => {
       const bare = path.join(base, 'bare');
       await fs.mkdir(bare, { recursive: true });

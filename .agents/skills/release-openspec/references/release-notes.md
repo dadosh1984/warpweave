@@ -63,7 +63,7 @@ Use only the sections that contain content:
 
 ## Voice and cleanup
 
-- Write for developers using OpenSpec with AI coding assistants.
+- Write for developers using Spectrix with AI coding assistants.
 - Be direct and practical; avoid marketing language.
 - Lead with user capability or impact, not implementation.
 - Keep each item to one or two sentences.

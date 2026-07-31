@@ -1,11 +1,11 @@
 ---
 name: openspec-sync-specs
 description: Sync delta specs from a change to main specs. Use when the user wants to update main specs with changes from a delta spec, without archiving the change.
-allowed-tools: Bash(openspec:*)
+allowed-tools: Bash(spectrix:*)
 license: MIT
-compatibility: Requires openspec CLI.
+compatibility: Requires spectrix CLI.
 metadata:
-  author: openspec
+  author: spectrix
   version: "1.0"
 ---
 
@@ -13,7 +13,7 @@ Sync delta specs from a change to main specs.
 
 This is an **agent-driven** operation - you will read delta specs and directly edit main specs to apply the changes. This allows intelligent merging (e.g., adding a scenario without copying the entire requirement).
 
-**Store selection:** If the user names a store (a store is a standalone OpenSpec repo registered on this machine) or the work lives in one, run `openspec store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
 
 **Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
@@ -24,7 +24,7 @@ This is an **agent-driven** operation - you will read delta specs and directly e
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run `openspec list --json` to get available changes and ask the user to select one
+   - If ambiguous, run `spectrix list --json` to get available changes and ask the user to select one
 
    When prompting, show changes that have delta specs (under `specs/` directory).
 
@@ -34,7 +34,7 @@ This is an **agent-driven** operation - you will read delta specs and directly e
 
    Run:
    ```bash
-   openspec status --change "<name>" --json
+   spectrix status --change "<name>" --json
    ```
 
    The JSON includes `planningHome.root`. Main specs live under `<planningHome.root>/openspec/specs/` — use that (store-aware) root for every main-spec path below, not a hardcoded repo path. When a store is selected it points at the store, not the current repository.
@@ -71,7 +71,7 @@ This is an **agent-driven** operation - you will read delta specs and directly e
 
    Before the first main-spec write, obtain one current specs-rule snapshot:
    - If archive invoked this workflow inline and supplied a valid snapshot from
-     `openspec instructions specs --change "<name>" --json`, reuse it and do not
+     `spectrix instructions specs --change "<name>" --json`, reuse it and do not
      fetch the same instructions again.
    - Otherwise run that command once now with the same selected-root flags.
    - If the direct lookup exits non-zero or returns invalid artifact-instruction
@@ -113,12 +113,12 @@ This is an **agent-driven** operation - you will read delta specs and directly e
 
       **`## Purpose` in the delta:**
       - The main spec already has one and it is authoritative - leave it alone
-        (this is what `openspec archive` does; it warns and moves on)
+        (this is what `spectrix archive` does; it warns and moves on)
 
    d. **Create new main spec** if capability doesn't exist yet:
       - Create `<planningHome.root>/openspec/specs/<capability>/spec.md`
       - Add Purpose section: copy the delta's `## Purpose` body verbatim when it has one
-        (this is what `openspec archive` does); only write a brief TBD placeholder when it does not
+        (this is what `spectrix archive` does); only write a brief TBD placeholder when it does not
       - Add Requirements section with the ADDED requirements
       - Follow the **Main Spec Format Reference** below
 
@@ -192,7 +192,7 @@ The system SHALL do something new.
 **Key Principle: Intelligent Merging**
 
 Unlike programmatic merging, you merge rather than overwrite:
-- A MODIFIED block carries the whole requirement - body plus every scenario that survives the change. `openspec validate` and `openspec archive` both reject one that drops a scenario the main spec still has.
+- A MODIFIED block carries the whole requirement - body plus every scenario that survives the change. `spectrix validate` and `spectrix archive` both reject one that drops a scenario the main spec still has.
 - Keep anything the delta does not mention, in the main spec's existing order
 - Use your judgment to merge changes sensibly
 
