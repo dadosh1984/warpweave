@@ -66,6 +66,9 @@ const COMMAND_TO_SKILL_NAME: Record<string, string> = {
   'propose': 'openspec-propose',
   'ladder-audit': 'openspec-ladder-audit',
   'guardrails': 'openspec-guardrails',
+  'debt-ledger': 'openspec-debt-ledger',
+  'token-budget': 'openspec-token-budget',
+  'benchmark': 'openspec-benchmark',
 };
 
 /**

@@ -18,6 +18,9 @@ export { getBulkArchiveChangeSkillTemplate, getOpsxBulkArchiveCommandTemplate } 
 export { getVerifyChangeSkillTemplate, getOpsxVerifyCommandTemplate } from './workflows/verify-change.js';
 export { getLadderAuditSkillTemplate, getOpsxLadderAuditCommandTemplate } from './workflows/ladder-audit.js';
 export { getGuardrailsSkillTemplate, getOpsxGuardrailsCommandTemplate } from './workflows/guardrails.js';
+export { getDebtLedgerSkillTemplate, getOpsxDebtLedgerCommandTemplate } from './workflows/debt-ledger.js';
+export { getTokenBudgetSkillTemplate, getOpsxTokenBudgetCommandTemplate } from './workflows/token-budget.js';
+export { getBenchmarkSkillTemplate, getOpsxBenchmarkCommandTemplate } from './workflows/benchmark.js';
 export { getOnboardSkillTemplate, getOpsxOnboardCommandTemplate } from './workflows/onboard.js';
 export { getOpsxProposeSkillTemplate, getOpsxProposeCommandTemplate } from './workflows/propose.js';
 export { getFeedbackSkillTemplate } from './workflows/feedback.js';

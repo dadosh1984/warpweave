@@ -31,6 +31,9 @@ export const ALL_WORKFLOWS = [
   'onboard',
   'ladder-audit',
   'guardrails',
+  'debt-ledger',
+  'token-budget',
+  'benchmark',
 ] as const;
 
 export type WorkflowId = (typeof ALL_WORKFLOWS)[number];

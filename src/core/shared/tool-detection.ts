@@ -30,6 +30,9 @@ export const SKILL_NAMES = [
   'openspec-propose',
   'openspec-ladder-audit',
   'openspec-guardrails',
+  'openspec-debt-ledger',
+  'openspec-token-budget',
+  'openspec-benchmark',
 ] as const;
 
 export type SkillName = (typeof SKILL_NAMES)[number];
@@ -52,6 +55,9 @@ export const COMMAND_IDS = [
   'propose',
   'ladder-audit',
   'guardrails',
+  'debt-ledger',
+  'token-budget',
+  'benchmark',
 ] as const;
 
 export type CommandId = (typeof COMMAND_IDS)[number];

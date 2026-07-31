@@ -19,6 +19,9 @@ import {
   getOpsxProposeSkillTemplate,
   getLadderAuditSkillTemplate,
   getGuardrailsSkillTemplate,
+  getDebtLedgerSkillTemplate,
+  getTokenBudgetSkillTemplate,
+  getBenchmarkSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -33,6 +36,9 @@ import {
   getOpsxProposeCommandTemplate,
   getOpsxLadderAuditCommandTemplate,
   getOpsxGuardrailsCommandTemplate,
+  getOpsxDebtLedgerCommandTemplate,
+  getOpsxTokenBudgetCommandTemplate,
+  getOpsxBenchmarkCommandTemplate,
   type SkillTemplate,
 } from '../templates/skill-templates.js';
 import type { CommandContent } from '../command-generation/index.js';
@@ -76,6 +82,9 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getOpsxProposeSkillTemplate(), dirName: 'openspec-propose', workflowId: 'propose' },
     { template: getLadderAuditSkillTemplate(), dirName: 'openspec-ladder-audit', workflowId: 'ladder-audit' },
     { template: getGuardrailsSkillTemplate(), dirName: 'openspec-guardrails', workflowId: 'guardrails' },
+    { template: getDebtLedgerSkillTemplate(), dirName: 'openspec-debt-ledger', workflowId: 'debt-ledger' },
+    { template: getTokenBudgetSkillTemplate(), dirName: 'openspec-token-budget', workflowId: 'token-budget' },
+    { template: getBenchmarkSkillTemplate(), dirName: 'openspec-benchmark', workflowId: 'benchmark' },
   ];
 
   if (!workflowFilter) return all;
@@ -105,6 +114,9 @@ export function getCommandTemplates(workflowFilter?: readonly string[]): Command
     { template: getOpsxProposeCommandTemplate(), id: 'propose' },
     { template: getOpsxLadderAuditCommandTemplate(), id: 'ladder-audit' },
     { template: getOpsxGuardrailsCommandTemplate(), id: 'guardrails' },
+    { template: getOpsxDebtLedgerCommandTemplate(), id: 'debt-ledger' },
+    { template: getOpsxTokenBudgetCommandTemplate(), id: 'token-budget' },
+    { template: getOpsxBenchmarkCommandTemplate(), id: 'benchmark' },
   ];
 
   if (!workflowFilter) return all;

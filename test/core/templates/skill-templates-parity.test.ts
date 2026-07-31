@@ -29,6 +29,12 @@ import {
   getOpsxLadderAuditCommandTemplate,
   getGuardrailsSkillTemplate,
   getOpsxGuardrailsCommandTemplate,
+  getDebtLedgerSkillTemplate,
+  getOpsxDebtLedgerCommandTemplate,
+  getTokenBudgetSkillTemplate,
+  getOpsxTokenBudgetCommandTemplate,
+  getBenchmarkSkillTemplate,
+  getOpsxBenchmarkCommandTemplate,
   getSyncSpecsSkillTemplate,
   getUpdateChangeSkillTemplate,
   getVerifyChangeSkillTemplate,
@@ -70,6 +76,12 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getOpsxLadderAuditCommandTemplate: 'fa6bb74bacbf95f1e01912f1875404b670983d507b1e6bdeebaebcd9330ae92f',
   getGuardrailsSkillTemplate: '55d81adc9664e73421d0f16e4caa7cc700d775f0bdd54533b7a019c8fc5e7148',
   getOpsxGuardrailsCommandTemplate: '1838be75592a336e02cc7032b6627d42408c5d53a4fab4eb1005d052d95fa1a8',
+  getDebtLedgerSkillTemplate: 'c439e4cd7ff38e80508b31bf6323ca6e1b4777e224c224bca354efa2e2328733',
+  getOpsxDebtLedgerCommandTemplate: '34cb967c8f5d547a3814f03a4f1ecdb89b62de57c4df0d470ba3142010226b66',
+  getTokenBudgetSkillTemplate: '21a6cb872667fed62507d5569fec2d3fb0bba6c05b221e6cfc8b0c08f483e541',
+  getOpsxTokenBudgetCommandTemplate: '095f7c5cbb4d77ae8ba02ed885e7f726e8b19f32ea53a6cc7e7290d5c433efde',
+  getBenchmarkSkillTemplate: '674701ffd73d023628243c8c2a82e8f28206e2fef1d1204b7f9bd9792b8f4f3d',
+  getOpsxBenchmarkCommandTemplate: '4a5513530206ab0b683b9fb53edbd92687cc8a873f960c1ad551e32b3492bb03',
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
@@ -87,6 +99,9 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'openspec-update-change': '1e61edfcd229b5b3e7ea957a5606712805cae19709304b26448fe111657a7255',
   'openspec-ladder-audit': 'ee0a24d188337c52ee701bfa40c7b7303d5f21cdd5bb7dc08462b679e9cbc874',
   'openspec-guardrails': '00178aa53df65b3dbe4bcdb4ee767b492b241ce02d0f482beec49d15ede9e906',
+  'openspec-debt-ledger': '8e296dffc0141ae423474d6af9eed7a61aa5449e3f7d368dd51d9267036b3d6c',
+  'openspec-token-budget': 'e1b346df8d0613fa865dde3ae2a806f3878af0bfe686fff02860f7297e1bd3a9',
+  'openspec-benchmark': '140488eb17862704f14538299f0d4fb0c82668105451af4ab5715e71e6d5ed08',
 };
 
 // Intentionally excludes getFeedbackSkillTemplate: this list only models templates
@@ -106,6 +121,9 @@ const GENERATED_SKILL_FACTORIES: Array<[string, () => SkillTemplate]> = [
   ['openspec-update-change', getUpdateChangeSkillTemplate],
   ['openspec-ladder-audit', getLadderAuditSkillTemplate],
   ['openspec-guardrails', getGuardrailsSkillTemplate],
+  ['openspec-debt-ledger', getDebtLedgerSkillTemplate],
+  ['openspec-token-budget', getTokenBudgetSkillTemplate],
+  ['openspec-benchmark', getBenchmarkSkillTemplate],
 ];
 
 function stableStringify(value: unknown): string {
@@ -160,6 +178,12 @@ describe('skill templates split parity', () => {
       getOpsxLadderAuditCommandTemplate,
       getGuardrailsSkillTemplate,
       getOpsxGuardrailsCommandTemplate,
+      getDebtLedgerSkillTemplate,
+      getOpsxDebtLedgerCommandTemplate,
+      getTokenBudgetSkillTemplate,
+      getOpsxTokenBudgetCommandTemplate,
+      getBenchmarkSkillTemplate,
+      getOpsxBenchmarkCommandTemplate,
     };
 
     const actualHashes = Object.fromEntries(
