@@ -1,6 +1,6 @@
 {
   "name": "@fission-ai/openspec-unified",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Spec-driven development with Ponytail, Superpowers, and RTK — one organism, four systems, zero waste",
   "keywords": [
     "openspec",
