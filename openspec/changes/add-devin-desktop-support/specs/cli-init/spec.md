@@ -26,28 +26,28 @@ The command SHALL generate Agent Skills for selected AI tools.
 
 - **GIVEN** the Devin Local agent does not support workflows and its documentation directs users to skills instead
 - **WHEN** generating skills for the `devin` tool
-- **THEN** rewrite `/opsx:<id>` references in the skill body to the matching `/openspec-<skill>` invocation, which both Devin agents accept
+- **THEN** rewrite `/otrix:<id>` references in the skill body to the matching `/openspec-<skill>` invocation, which both Devin agents accept
 - **AND** the getting-started hint SHALL name `/openspec-propose` rather than a workflow
-- **AND** under commands-only delivery, where no Devin skills are written, both the workflow bodies and the hint SHALL fall back to `/opsx-<id>`
+- **AND** under commands-only delivery, where no Devin skills are written, both the workflow bodies and the hint SHALL fall back to `/otrix-<id>`
 
 ### Requirement: Slash Command Generation
 
-The command SHALL generate opsx slash commands only for selected tools that have a registered command adapter, while keeping adapterless tools valid for skill generation.
+The command SHALL generate otrix slash commands only for selected tools that have a registered command adapter, while keeping adapterless tools valid for skill generation.
 
 #### Scenario: Generating slash commands for a tool with a registered adapter
 
 - **WHEN** a tool with a registered command adapter is selected during initialization
 - **THEN** create 9 slash command files using the tool's command adapter:
-  - `/opsx:explore`
-  - `/opsx:new`
-  - `/opsx:continue`
-  - `/opsx:apply`
-  - `/opsx:ff`
-  - `/opsx:verify`
-  - `/opsx:sync`
-  - `/opsx:archive`
-  - `/opsx:bulk-archive`
-- **AND** use tool-specific path conventions (e.g., `.claude/commands/opsx/` for Claude)
+  - `/otrix:explore`
+  - `/otrix:new`
+  - `/otrix:continue`
+  - `/otrix:apply`
+  - `/otrix:ff`
+  - `/otrix:verify`
+  - `/otrix:sync`
+  - `/otrix:archive`
+  - `/otrix:bulk-archive`
+- **AND** use tool-specific path conventions (e.g., `.claude/commands/otrix/` for Claude)
 - **AND** include tool-specific frontmatter format
 
 #### Scenario: Selected tool has no command adapter
@@ -67,6 +67,6 @@ The command SHALL generate opsx slash commands only for selected tools that have
 #### Scenario: Generating workflows for Devin Desktop
 
 - **WHEN** the user selects Devin Desktop during initialization
-- **THEN** create one workflow file per profile workflow at `.devin/workflows/opsx-<id>.md`
+- **THEN** create one workflow file per profile workflow at `.devin/workflows/otrix-<id>.md`
 - **AND** include frontmatter with `name`, `description`, `category`, and `tags`
-- **AND** rewrite `/opsx:<id>` references in the body to `/opsx-<id>`, the name Devin registers for a workflow file
+- **AND** rewrite `/otrix:<id>` references in the body to `/otrix-<id>`, the name Devin registers for a workflow file

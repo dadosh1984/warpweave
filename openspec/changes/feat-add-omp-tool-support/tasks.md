@@ -1,6 +1,6 @@
 ## 1. Adapter
 
-- [x] 1.1 Create `src/core/command-generation/adapters/oh-my-pi.ts` with `ohMyPiAdapter` (toolId `'oh-my-pi'`, path `.omp/commands/opsx-<id>.md`, description-only frontmatter, `transformToHyphenCommands` on body)
+- [x] 1.1 Create `src/core/command-generation/adapters/oh-my-pi.ts` with `ohMyPiAdapter` (toolId `'oh-my-pi'`, path `.omp/commands/otrix-<id>.md`, description-only frontmatter, `transformToHyphenCommands` on body)
 - [x] 1.2 Use `escapeYamlValue` for the `description` frontmatter field (consistent with Pi adapter)
 - [x] 1.3 Export `ohMyPiAdapter` from `src/core/command-generation/adapters/index.ts`
 - [x] 1.4 Import and register `ohMyPiAdapter` in `src/core/command-generation/registry.ts`
@@ -17,12 +17,12 @@
 
 ## 4. Tests
 
-- [x] 4.1 In `test/core/command-generation/adapters.test.ts`, add unit tests for `ohMyPiAdapter`: verify `toolId`, `getFilePath` output uses `path.join('.omp', 'commands', 'opsx-<id>.md')`, and `formatFile` produces correct description frontmatter and transformed body
+- [x] 4.1 In `test/core/command-generation/adapters.test.ts`, add unit tests for `ohMyPiAdapter`: verify `toolId`, `getFilePath` output uses `path.join('.omp', 'commands', 'otrix-<id>.md')`, and `formatFile` produces correct description frontmatter and transformed body
 - [x] 4.2 Verify all path assertions in the new tests use `path.join()` (not hardcoded slashes) for cross-platform correctness
 
 ## 5. Documentation
 
-- [x] 5.1 Add Oh My Pi row to the tool directory reference table in `docs/supported-tools.md`: `| Oh My Pi (\`oh-my-pi\`) | \`.omp/skills/openspec-*/SKILL.md\` | \`.omp/commands/opsx-<id>.md\` |`
+- [x] 5.1 Add Oh My Pi row to the tool directory reference table in `docs/supported-tools.md`: `| Oh My Pi (\`oh-my-pi\`) | \`.omp/skills/openspec-*/SKILL.md\` | \`.omp/commands/otrix-<id>.md\` |`
 
 ## 6. Verification
 

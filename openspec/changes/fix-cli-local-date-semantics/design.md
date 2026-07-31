@@ -17,7 +17,7 @@ The repository supports Node.js 20.19+ on Windows, macOS, and Linux. The selecte
 - Rename or migrate existing archive directories or existing change metadata.
 - Add a project time-zone setting, CLI flag, or user-selectable time zone.
 - Change full UTC timestamps used for logs, JSON timestamps, feedback metadata, or backup identifiers.
-- Alter agent-generated date prefixes in OPSX archive workflows, which do not derive their dates through `Date#toISOString()`.
+- Alter agent-generated date prefixes in OTRIX archive workflows, which do not derive their dates through `Date#toISOString()`.
 
 ## Decisions
 

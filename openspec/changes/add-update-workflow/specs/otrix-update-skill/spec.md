@@ -2,36 +2,36 @@
 
 ### Requirement: Update Workflow Command
 
-The system SHALL provide a `/opsx:update` workflow skill that revises a change's existing planning artifacts in place. It SHALL NOT advance the build frontier (it does not create a not-yet-started artifact) and SHALL edit planning artifacts only, never implementation code.
+The system SHALL provide a `/otrix:update` workflow skill that revises a change's existing planning artifacts in place. It SHALL NOT advance the build frontier (it does not create a not-yet-started artifact) and SHALL edit planning artifacts only, never implementation code.
 
 #### Scenario: Select the change to update
 
-- **WHEN** the user invokes `/opsx:update` without a change name
+- **WHEN** the user invokes `/otrix:update` without a change name
 - **THEN** the skill infers the change from conversation context if possible, or auto-selects the change when only one active change exists
 - **AND** if it is still ambiguous, it lists available changes (most-recently-modified first) via `openspec list --json` and asks the user to choose
 - **AND** it announces which change was selected and how to override
 
 #### Scenario: Revise without advancing the frontier
 
-- **WHEN** the user asks `/opsx:update` to revise an existing artifact
+- **WHEN** the user asks `/otrix:update` to revise an existing artifact
 - **THEN** the skill updates that artifact and reconciles the change's other existing artifacts with it
-- **AND** it does NOT create any artifact that does not yet exist (that remains the job of `/opsx:continue`/`/opsx:propose`)
+- **AND** it does NOT create any artifact that does not yet exist (that remains the job of `/otrix:continue`/`/otrix:propose`)
 
 #### Scenario: Missing artifacts are deferred to continue
 
 - **WHEN** keeping the change coherent would require an artifact that has not been created yet
 - **THEN** the skill revises only the artifacts that currently exist
-- **AND** it notes the not-yet-created artifacts and points the user to `/opsx:continue` to create them
+- **AND** it notes the not-yet-created artifacts and points the user to `/otrix:continue` to create them
 
 #### Scenario: Update stays within the plan
 
 - **WHEN** revising artifacts would imply changes to implementation code
 - **THEN** the skill updates the planning artifacts only
-- **AND** it directs the user to `/opsx:apply` to carry the revised plan into code, rather than editing code itself
+- **AND** it directs the user to `/otrix:apply` to carry the revised plan into code, rather than editing code itself
 
 ### Requirement: Schema-Driven Artifact Resolution
 
-The `/opsx:update` skill SHALL learn which artifacts exist and where they live by reading the change's status from the CLI, and SHALL NOT rely on hardcoded artifact names or assumed path separators. This makes the skill correct for custom schemas and on every platform, not only the default `spec-driven` schema.
+The `/otrix:update` skill SHALL learn which artifacts exist and where they live by reading the change's status from the CLI, and SHALL NOT rely on hardcoded artifact names or assumed path separators. This makes the skill correct for custom schemas and on every platform, not only the default `spec-driven` schema.
 
 #### Scenario: Reads the artifact set from status
 
@@ -67,11 +67,11 @@ The `/opsx:update` skill SHALL learn which artifacts exist and where they live b
 
 - **WHEN** keeping the change coherent would require a new file under a glob artifact that does not exist yet (for example a spec for a not-yet-captured capability)
 - **THEN** the skill revises only the files already present in `existingOutputPaths`
-- **AND** it points the user to `/opsx:continue`/`/opsx:propose` to create the new file rather than inventing a path from the glob
+- **AND** it points the user to `/otrix:continue`/`/otrix:propose` to create the new file rather than inventing a path from the glob
 
 ### Requirement: Bidirectional Coherence Review
 
-The `/opsx:update` skill SHALL keep a change's existing planning artifacts coherent with one another after a revision, reviewing affected artifacts in any direction rather than assuming a fixed downstream flow.
+The `/otrix:update` skill SHALL keep a change's existing planning artifacts coherent with one another after a revision, reviewing affected artifacts in any direction rather than assuming a fixed downstream flow.
 
 #### Scenario: Reconcile related artifacts after an edit
 
@@ -87,7 +87,7 @@ The `/opsx:update` skill SHALL keep a change's existing planning artifacts coher
 
 #### Scenario: Coherence review with no specific edit
 
-- **WHEN** the user invokes `/opsx:update` without a specific revision in mind ("make this change coherent")
+- **WHEN** the user invokes `/otrix:update` without a specific revision in mind ("make this change coherent")
 - **THEN** the skill reads the change's existing artifacts and reviews them against each other for contradictions, gaps, and duplication
 - **AND** it presents any findings for the user to confirm before editing
 
@@ -98,28 +98,28 @@ The `/opsx:update` skill SHALL keep a change's existing planning artifacts coher
 
 ### Requirement: Next-Step Guidance
 
-After applying confirmed revisions (or finding none needed), the `/opsx:update` skill SHALL report where the change stands and recommend the next command, without acting on the recommendation itself.
+After applying confirmed revisions (or finding none needed), the `/otrix:update` skill SHALL report where the change stands and recommend the next command, without acting on the recommendation itself.
 
 #### Scenario: Updating an already-implemented change
 
-- **WHEN** the user updates a change whose implementation already happened (for example tasks are checked off or `/opsx:apply` was already run)
+- **WHEN** the user updates a change whose implementation already happened (for example tasks are checked off or `/otrix:apply` was already run)
 - **THEN** the skill still revises planning artifacts only
-- **AND** it notes that the implementation may no longer match the revised plan and recommends `/opsx:apply` to carry the delta into code
+- **AND** it notes that the implementation may no longer match the revised plan and recommends `/otrix:apply` to carry the delta into code
 - **AND** it does not implement anything itself
 
 #### Scenario: Next step when artifacts are incomplete
 
 - **WHEN** the update finishes and the change still has not-yet-created artifacts
-- **THEN** the skill recommends `/opsx:continue` to create them
+- **THEN** the skill recommends `/otrix:continue` to create them
 
 #### Scenario: Next step when the change is fully done
 
 - **WHEN** the update finishes and the change's artifacts are complete and already implemented
-- **THEN** the skill recommends `/opsx:archive`
+- **THEN** the skill recommends `/otrix:archive`
 
 ### Requirement: User-Confirmed Incremental Application
 
-The `/opsx:update` skill SHALL propose each artifact revision and apply it only after user confirmation.
+The `/otrix:update` skill SHALL propose each artifact revision and apply it only after user confirmation.
 
 #### Scenario: Confirm before writing
 
@@ -136,4 +136,4 @@ The `/opsx:update` skill SHALL propose each artifact revision and apply it only 
 #### Scenario: Intent change is redirected to a new change
 
 - **WHEN** the requested revision changes the intent of the change rather than refining it (per the "Update vs. Start Fresh" heuristic)
-- **THEN** the skill recommends starting a new change (`/opsx:new`) instead of mutating the existing proposal into different work
+- **THEN** the skill recommends starting a new change (`/otrix:new`) instead of mutating the existing proposal into different work

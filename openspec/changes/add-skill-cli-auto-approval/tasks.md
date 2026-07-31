@@ -8,7 +8,7 @@
 - [x] 2.1 Regenerate the golden generated-content hashes in `skill-templates-parity.test.ts`
 - [x] 2.2 Add a test asserting every deployed skill's generated content contains `allowed-tools: Bash(openspec:*)` (iterates the registry so new skills are covered)
 - [x] 2.3 Assert the Claude adapter output contains the field (`adapters.test.ts`)
-- [x] 2.4 Verify end-to-end: `openspec init --tools claude` emits the field in both SKILL.md and `.claude/commands/opsx/*.md`, and it parses as the YAML string `Bash(openspec:*)`
+- [x] 2.4 Verify end-to-end: `openspec init --tools claude` emits the field in both SKILL.md and `.claude/commands/otrix/*.md`, and it parses as the YAML string `Bash(openspec:*)`
 
 ## 3. Release
 

@@ -16,26 +16,26 @@ The system SHALL define a `ToolCommandAdapter` interface for per-tool formatting
 
 - **WHEN** formatting a command for Claude Code
 - **THEN** the adapter SHALL output YAML frontmatter with `name`, `description`, `category`, `tags` fields
-- **AND** file path SHALL follow pattern `.claude/commands/opsx/<id>.md`
+- **AND** file path SHALL follow pattern `.claude/commands/otrix/<id>.md`
 
 #### Scenario: Cursor adapter formatting
 
 - **WHEN** formatting a command for Cursor
-- **THEN** the adapter SHALL output YAML frontmatter with `name` as `/opsx-<id>`, `id`, `category`, `description` fields
-- **AND** file path SHALL follow pattern `.cursor/commands/opsx-<id>.md`
+- **THEN** the adapter SHALL output YAML frontmatter with `name` as `/otrix-<id>`, `id`, `category`, `description` fields
+- **AND** file path SHALL follow pattern `.cursor/commands/otrix-<id>.md`
 
 #### Scenario: Windsurf adapter formatting
 
 - **WHEN** formatting a command for Windsurf
 - **THEN** the adapter SHALL output YAML frontmatter with `name`, `description`, `category`, `tags` fields
-- **AND** file path SHALL follow pattern `.windsurf/workflows/opsx-<id>.md`
+- **AND** file path SHALL follow pattern `.windsurf/workflows/otrix-<id>.md`
 
 #### Scenario: OpenCode adapter formatting
 
 - **WHEN** formatting a command for OpenCode
 - **THEN** the adapter SHALL output YAML frontmatter with `description` field
-- **AND** file path SHALL follow pattern `.opencode/commands/opsx-<id>.md` using `path.join('.opencode', 'commands', ...)` for cross-platform compatibility
-- **AND** the adapter SHALL transform colon-based command references (`/opsx:name`) to hyphen-based (`/opsx-name`) in the body
+- **AND** file path SHALL follow pattern `.opencode/commands/otrix-<id>.md` using `path.join('.opencode', 'commands', ...)` for cross-platform compatibility
+- **AND** the adapter SHALL transform colon-based command references (`/otrix:name`) to hyphen-based (`/otrix-name`) in the body
 
 ## ADDED Requirements
 
@@ -45,7 +45,7 @@ The legacy cleanup module SHALL detect and remove old OpenCode command files fro
 
 #### Scenario: Detect old singular-path OpenCode command files
 
-- **WHEN** running legacy artifact detection on a project with files matching `.opencode/command/opsx-*.md` or `.opencode/command/openspec-*.md`
+- **WHEN** running legacy artifact detection on a project with files matching `.opencode/command/otrix-*.md` or `.opencode/command/openspec-*.md`
 - **THEN** the system SHALL include those files in the legacy slash command files list via `LEGACY_SLASH_COMMAND_PATHS`
 - **AND** `LegacySlashCommandPattern.pattern` SHALL accept `string | string[]` to support multiple glob patterns per tool
 

@@ -50,7 +50,7 @@
 
 ## 6. Review Follow-up
 
-- [x] 6.1 Add `opsx-update.md` to the managed global Codex prompt allowlist and map it to the `update` workflow.
+- [x] 6.1 Add `otrix-update.md` to the managed global Codex prompt allowlist and map it to the `update` workflow.
 - [x] 6.2 Simplify managed global Codex prompt detection to exact directory and filename allowlisting so prompts from older template revisions still migrate.
 - [x] 6.3 Defer approved global Codex prompt cleanup until after configured tools refresh, allowing replacement skills and prompt cleanup to complete in one update run.
 - [x] 6.4 Update focused tests and change artifacts for the final allowlist and cleanup ordering behavior.

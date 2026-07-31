@@ -1,5 +1,3 @@
-# cli-update Delta Specification
-
 ## MODIFIED Requirements
 
 ### Requirement: Slash Command Updates
@@ -8,8 +6,8 @@ The update command SHALL refresh existing slash command files for configured too
 
 #### Scenario: Updating slash commands for Antigravity
 - **WHEN** `.agent/workflows/` contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
-- **THEN** refresh the OpenSpec-managed portion of each file so the workflow copy matches other tools while preserving the existing single-field `description` frontmatter
-- **AND** skip creating any missing workflow files during update, mirroring the behavior for Devin Desktop and other IDEs
+- **THEN** refresh the Spectrix-managed portion of each file so the workflow copy matches other tools while preserving the existing single-field `description` frontmatter
+- **AND** skip creating any missing workflow files during update, mirroring the behavior for Windsurf and other IDEs
 
 #### Scenario: Updating slash commands for Claude Code
 - **WHEN** `.claude/commands/openspec/` contains `proposal.md`, `apply.md`, and `archive.md`
@@ -20,7 +18,7 @@ The update command SHALL refresh existing slash command files for configured too
 - **WHEN** `.codebuddy/commands/openspec/` contains `proposal.md`, `apply.md`, and `archive.md`
 - **THEN** refresh each file using the shared CodeBuddy templates that include YAML frontmatter for the `description` and `argument-hint` fields
 - **AND** use square bracket format for `argument-hint` parameters (e.g., `[change-id]`)
-- **AND** preserve any user customizations outside the OpenSpec managed markers
+- **AND** preserve any user customizations outside the Spectrix managed markers
 
 #### Scenario: Updating slash commands for Cline
 - **WHEN** `.clinerules/workflows/` contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
@@ -36,7 +34,7 @@ The update command SHALL refresh existing slash command files for configured too
 #### Scenario: Updating slash commands for Crush
 - **WHEN** `.crush/commands/` contains `openspec/proposal.md`, `openspec/apply.md`, and `openspec/archive.md`
 - **THEN** refresh each file using shared templates
-- **AND** include Crush-specific frontmatter with OpenSpec category and tags
+- **AND** include Crush-specific frontmatter with Spectrix category and tags
 - **AND** ensure templates include instructions for the relevant workflow stage
 
 #### Scenario: Updating slash commands for Cursor
@@ -48,11 +46,11 @@ The update command SHALL refresh existing slash command files for configured too
 - **WHEN** `.factory/commands/` contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
 - **THEN** refresh each file using the shared Factory templates that include YAML frontmatter for the `description` and `argument-hint` fields
 - **AND** ensure the template body retains the `$ARGUMENTS` placeholder so user input keeps flowing into droid
-- **AND** update only the content inside the OpenSpec managed markers, leaving any unmanaged notes untouched
+- **AND** update only the content inside the Spectrix managed markers, leaving any unmanaged notes untouched
 - **AND** skip creating missing files during update
 
 #### Scenario: Updating slash commands for OpenCode
-- **WHEN** `.opencode/commands/` contains OpenSpec-managed `otrix-*.md` command files for the configured profile (for example `otrix-propose.md`, `otrix-apply.md`, and `otrix-archive.md`)
+- **WHEN** `.opencode/commands/` contains Spectrix-managed `otrix-*.md` command files for the configured profile (for example `otrix-propose.md`, `otrix-apply.md`, and `otrix-archive.md`)
 - **THEN** refresh each file using shared templates
 - **AND** transform command references to hyphen form (for example `/otrix-propose`), as for every tool whose command files are named `otrix-<id>`
 - **AND** ensure templates include instructions for the relevant workflow stage
@@ -60,39 +58,32 @@ The update command SHALL refresh existing slash command files for configured too
 
 #### Scenario: Legacy OpenCode command path cleanup
 - **WHEN** a project still has command files under the legacy singular path `.opencode/command/` (for example `otrix-*.md` or `openspec-*.md`)
-- **THEN** `openspec init` or legacy cleanup SHALL remove those files and generate replacements under `.opencode/commands/`
-- **AND** `openspec update` SHALL NOT refresh files that remain only under `.opencode/command/`
+- **THEN** `spectrix init` or legacy cleanup SHALL remove those files and generate replacements under `.opencode/commands/`
+- **AND** `spectrix update` SHALL NOT refresh files that remain only under `.opencode/command/`
 
 #### Scenario: Updating slash commands for Windsurf
-- **WHEN** the legacy Windsurf location `.windsurf/workflows/`, now Devin's, contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
-- **THEN** refresh each file using shared templates wrapped in OpenSpec markers
+- **WHEN** `.windsurf/workflows/` contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
+- **THEN** refresh each file using shared templates wrapped in Spectrix markers
 - **AND** ensure templates include instructions for the relevant workflow stage
 - **AND** skip creating missing files (the update command only refreshes what already exists)
 
-#### Scenario: Updating workflows for Devin Desktop
-- **WHEN** Devin Desktop is a configured tool (its `.devin/` directory exists)
-- **THEN** write `.devin/workflows/otrix-<id>.md` for each workflow in the active profile, from shared templates
-- **AND** emit frontmatter with `name`, `description`, `category`, and `tags`
-- **AND** transform command references to hyphen form (for example `/otrix-propose`), the name Devin registers for a workflow file
-- **AND** refresh `.devin/skills/openspec-*/SKILL.md` with `/openspec-*` skill references, the one invocation both Devin agents accept
-
 #### Scenario: Updating slash commands for Kilo Code
 - **WHEN** `.kilocode/workflows/` contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
-- **THEN** refresh each file using shared templates wrapped in OpenSpec markers
+- **THEN** refresh each file using shared templates wrapped in Spectrix markers
 - **AND** ensure templates include instructions for the relevant workflow stage
 - **AND** skip creating missing files (the update command only refreshes what already exists)
 
 #### Scenario: Updating slash commands for Codex
 - **GIVEN** the global Codex prompt directory contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
-- **WHEN** a user runs `openspec update`
+- **WHEN** a user runs `spectrix update`
 - **THEN** refresh each file using the shared slash-command templates (including placeholder guidance)
-- **AND** preserve any unmanaged content outside the OpenSpec marker block
+- **AND** preserve any unmanaged content outside the Spectrix marker block
 - **AND** skip creation when a Codex prompt file is missing
 
 #### Scenario: Updating slash commands for GitHub Copilot
 - **WHEN** `.github/prompts/` contains `openspec-proposal.prompt.md`, `openspec-apply.prompt.md`, and `openspec-archive.prompt.md`
 - **THEN** refresh each file using shared templates while preserving the YAML frontmatter
-- **AND** update only the OpenSpec-managed block between markers
+- **AND** update only the Spectrix-managed block between markers
 - **AND** ensure templates include instructions for the relevant workflow stage
 
 #### Scenario: Updating slash commands for Gemini CLI
@@ -105,7 +96,7 @@ The update command SHALL refresh existing slash command files for configured too
 - **WHEN** `.iflow/commands/` contains `openspec-proposal.md`, `openspec-apply.md`, and `openspec-archive.md`
 - **THEN** refresh each file using shared templates
 - **AND** preserve the YAML frontmatter with `name`, `id`, `category`, and `description` fields
-- **AND** update only the OpenSpec-managed block between markers
+- **AND** update only the Spectrix-managed block between markers
 - **AND** ensure templates include instructions for the relevant workflow stage
 
 #### Scenario: Missing slash command file

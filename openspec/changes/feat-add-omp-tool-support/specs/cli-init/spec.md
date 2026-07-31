@@ -6,8 +6,8 @@ The `openspec init` command SHALL support Oh My Pi as a configurable tool, gener
 #### Scenario: Selecting Oh My Pi during init
 - **WHEN** a user selects Oh My Pi during `openspec init`
 - **THEN** skill files are written to `.omp/skills/openspec-<id>/SKILL.md` for each active command
-- **AND** command files are written to `.omp/commands/opsx-<id>.md` for each active command
-- **AND** skill file bodies use hyphen-based `/opsx-<id>` command references
+- **AND** command files are written to `.omp/commands/otrix-<id>.md` for each active command
+- **AND** skill file bodies use hyphen-based `/otrix-<id>` command references
 - **AND** command file bodies have `**Provided arguments**: $@` injected after any `**Input**:` heading
 
 #### Scenario: Oh My Pi listed when .omp directory is detected

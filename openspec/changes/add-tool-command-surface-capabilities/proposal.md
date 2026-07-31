@@ -31,7 +31,7 @@ Initial explicit overrides:
 - Kimi CLI -> `skills-invocable`
 - Mistral Vibe -> `skills-invocable`
 
-Trae no longer belongs in this override set once its `.trae/commands/opsx-<id>.md` adapter is available; it should resolve to `adapter` like other file-backed command integrations.
+Trae no longer belongs in this override set once its `.trae/commands/otrix-<id>.md` adapter is available; it should resolve to `adapter` like other file-backed command integrations.
 
 ### 2. Make delivery behavior capability-aware
 

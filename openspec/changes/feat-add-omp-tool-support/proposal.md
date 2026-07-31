@@ -4,10 +4,10 @@ Oh My Pi (OMP) is a terminal AI coding agent whose users expect OpenSpec workflo
 
 ## What Changes
 
-- Add a `ToolCommandAdapter` for Oh My Pi that generates command files at `.omp/commands/opsx-<id>.md` with YAML `description` frontmatter, hyphen-based command references, and `$@` argument injection after the `**Input**:` heading (matching Pi's convention so user-supplied arguments are visible to the agent).
+- Add a `ToolCommandAdapter` for Oh My Pi that generates command files at `.omp/commands/otrix-<id>.md` with YAML `description` frontmatter, hyphen-based command references, and `$@` argument injection after the `**Input**:` heading (matching Pi's convention so user-supplied arguments are visible to the agent).
 - Register `oh-my-pi` in `AI_TOOLS` with `skillsDir: '.omp'` so detection and skill generation work.
 - Register the new adapter in `CommandAdapterRegistry` and `adapters/index.ts`.
-- Add Oh My Pi to the `transformToHyphenCommands` whitelist in `init.ts` and `update.ts` so skill files use the correct `/opsx-*` invocation form that matches OMP's filename-based command naming.
+- Add Oh My Pi to the `transformToHyphenCommands` whitelist in `init.ts` and `update.ts` so skill files use the correct `/otrix-*` invocation form that matches OMP's filename-based command naming.
 - Add test coverage for the new adapter.
 - Update `docs/supported-tools.md` with the new tool's directory reference.
 
@@ -15,7 +15,7 @@ Oh My Pi (OMP) is a terminal AI coding agent whose users expect OpenSpec workflo
 
 ### New Capabilities
 
-- `oh-my-pi-tool`: Command and skill generation support for the Oh My Pi (OMP) AI coding agent, following its `.omp/commands/opsx-<id>.md` format with `description` frontmatter, hyphen-based command references, and `$@` argument injection.
+- `oh-my-pi-tool`: Command and skill generation support for the Oh My Pi (OMP) AI coding agent, following its `.omp/commands/otrix-<id>.md` format with `description` frontmatter, hyphen-based command references, and `$@` argument injection.
 
 ### Modified Capabilities
 

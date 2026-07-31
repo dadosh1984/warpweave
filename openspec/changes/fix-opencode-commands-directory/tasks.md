@@ -4,15 +4,15 @@
 
 ## 2. Legacy Cleanup
 
-- [x] 2.1 Update `src/core/legacy-cleanup.ts`: update the `'opencode'` entry in `LEGACY_SLASH_COMMAND_PATHS` to detect both `opsx-*.md` and `openspec-*.md` patterns at `.opencode/command/` for backward compatibility
+- [x] 2.1 Update `src/core/legacy-cleanup.ts`: update the `'opencode'` entry in `LEGACY_SLASH_COMMAND_PATHS` to detect both `otrix-*.md` and `openspec-*.md` patterns at `.opencode/command/` for backward compatibility
 
 ## 3. Documentation
 
-- [x] 3.1 Update `docs/supported-tools.md`: change OpenCode command path from `.opencode/command/opsx-<id>.md` to `.opencode/commands/opsx-<id>.md`
+- [x] 3.1 Update `docs/supported-tools.md`: change OpenCode command path from `.opencode/command/otrix-<id>.md` to `.opencode/commands/otrix-<id>.md`
 
 ## 4. Tests
 
-- [x] 4.1 Update `test/core/command-generation/adapters.test.ts`: change the OpenCode file path assertion from `path.join('.opencode', 'command', 'opsx-explore.md')` to `path.join('.opencode', 'commands', 'opsx-explore.md')`
+- [x] 4.1 Update `test/core/command-generation/adapters.test.ts`: change the OpenCode file path assertion from `path.join('.opencode', 'command', 'otrix-explore.md')` to `path.join('.opencode', 'commands', 'otrix-explore.md')`
 
 ## 5. Changeset
 

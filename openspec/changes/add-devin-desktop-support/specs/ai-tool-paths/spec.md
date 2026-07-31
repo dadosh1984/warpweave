@@ -66,7 +66,7 @@ distinguishes that user from one who took the rebrand.
 
 - **GIVEN** a former root also holds files the user wrote, such as a hand-written workflow beside the generated ones
 - **WHEN** the move runs
-- **THEN** move only the files OpenSpec generates — each skill's `SKILL.md` and command files named `opsx-*`
+- **THEN** move only the files OpenSpec generates — each skill's `SKILL.md` and command files named `otrix-*`
 - **AND** delete the former directory only when the move leaves it empty
 
 #### Scenario: A user file beside a generated skill is not carried into a directory OpenSpec prunes
@@ -122,7 +122,7 @@ The `AI_TOOLS` array SHALL include `skillsDir` for tools that support the Agent 
 
 - **WHEN** looking up the `devin` tool
 - **THEN** `skillsDir` SHALL be `.devin`
-- **AND** workflow files SHALL be written to `.devin/workflows/opsx-<id>.md`
+- **AND** workflow files SHALL be written to `.devin/workflows/otrix-<id>.md`
 - **AND** `detectionPaths` SHALL include both `.devin` and the legacy `.windsurf`, so a project set up before the rebrand is still recognized
 
 #### Scenario: Retired tool ids resolve on the command line

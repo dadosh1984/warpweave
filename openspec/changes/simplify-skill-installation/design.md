@@ -179,7 +179,7 @@ function migrateIfNeeded(projectPath: string, tools: AiTool[]): void {
 **Scanning logic:**
 - Scan all tool directories (`.claude/skills/`, `.cursor/skills/`, etc.) for workflow directories/files
 - Match only against `ALL_WORKFLOWS` constant — ignore user-created custom skills/commands
-- Map directory names back to workflow IDs (e.g., `openspec-explore/` → `explore`, `opsx-explore.md` → `explore`)
+- Map directory names back to workflow IDs (e.g., `openspec-explore/` → `explore`, `otrix-explore.md` → `explore`)
 - Take the union of detected workflow names across all tools
 
 **Edge cases:**
@@ -196,7 +196,7 @@ function migrateIfNeeded(projectPath: string, tools: AiTool[]): void {
 
 ### 9. Generic Next-Step Guidance in Templates
 
-Workflow templates use generic, concept-based next-step guidance rather than referencing specific workflow commands. For example, instead of "run `/opsx:propose`", templates say "create a change proposal".
+Workflow templates use generic, concept-based next-step guidance rather than referencing specific workflow commands. For example, instead of "run `/otrix:propose`", templates say "create a change proposal".
 
 **Rationale:** Conditional cross-referencing (where each template checks which other workflows are installed and renders different command names) adds significant complexity to template generation, testing, and maintenance. Generic guidance avoids this entirely while still being useful — users already know their installed workflows.
 

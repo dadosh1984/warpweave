@@ -17,16 +17,16 @@ The system SHALL define a `ToolCommandAdapter` interface for per-tool formatting
 - **WHEN** formatting a command for Claude Code
 - **THEN** the adapter SHALL output YAML frontmatter with `name`, `description`, `allowed-tools`, `category`, `tags` fields
 - **AND** the `allowed-tools` field SHALL have the value `Bash(openspec:*)` so Claude Code runs `openspec` commands from the slash command without prompting for approval
-- **AND** file path SHALL follow pattern `.claude/commands/opsx/<id>.md`
+- **AND** file path SHALL follow pattern `.claude/commands/otrix/<id>.md`
 
 #### Scenario: Cursor adapter formatting
 
 - **WHEN** formatting a command for Cursor
-- **THEN** the adapter SHALL output YAML frontmatter with `name` as `/opsx-<id>`, `id`, `category`, `description` fields
-- **AND** file path SHALL follow pattern `.cursor/commands/opsx-<id>.md`
+- **THEN** the adapter SHALL output YAML frontmatter with `name` as `/otrix-<id>`, `id`, `category`, `description` fields
+- **AND** file path SHALL follow pattern `.cursor/commands/otrix-<id>.md`
 
 #### Scenario: Windsurf adapter formatting
 
 - **WHEN** formatting a command for Windsurf
 - **THEN** the adapter SHALL output YAML frontmatter with `name`, `description`, `category`, `tags` fields
-- **AND** file path SHALL follow pattern `.windsurf/workflows/opsx-<id>.md`
+- **AND** file path SHALL follow pattern `.windsurf/workflows/otrix-<id>.md`

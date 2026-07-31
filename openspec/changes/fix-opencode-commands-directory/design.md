@@ -1,6 +1,6 @@
 ## Context
 
-The OpenCode adapter in `src/core/command-generation/adapters/opencode.ts` currently generates command files at `.opencode/command/opsx-<id>.md` (singular `command`). OpenCode's official documentation uses `.opencode/commands/` (plural), and every other adapter in the codebase follows the plural convention for commands directories. The legacy cleanup module in `src/core/legacy-cleanup.ts` also references the singular form for detecting old artifacts.
+The OpenCode adapter in `src/core/command-generation/adapters/opencode.ts` currently generates command files at `.opencode/command/otrix-<id>.md` (singular `command`). OpenCode's official documentation uses `.opencode/commands/` (plural), and every other adapter in the codebase follows the plural convention for commands directories. The legacy cleanup module in `src/core/legacy-cleanup.ts` also references the singular form for detecting old artifacts.
 
 ## Goals / Non-Goals
 
@@ -29,16 +29,16 @@ The OpenCode adapter in `src/core/command-generation/adapters/opencode.ts` curre
 
 ### 2. Legacy cleanup via existing constant map
 
-**Decision:** Update the `LEGACY_SLASH_COMMAND_PATHS` entry for `'opencode'` from `'.opencode/command/openspec-*.md'` to `'.opencode/command/opsx-*.md'` (the old singular path becomes the legacy pattern) and ensure the new path is handled by the current command generation pipeline.
+**Decision:** Update the `LEGACY_SLASH_COMMAND_PATHS` entry for `'opencode'` from `'.opencode/command/openspec-*.md'` to `'.opencode/command/otrix-*.md'` (the old singular path becomes the legacy pattern) and ensure the new path is handled by the current command generation pipeline.
 
-**Rationale:** The existing legacy cleanup infrastructure uses `LEGACY_SLASH_COMMAND_PATHS` as an explicit lookup. The old singular-path pattern already matches the legacy format (`openspec-*` prefix from the old SlashCommandRegistry era). The current command generation uses the `opsx-*` prefix, so we also need to add a legacy pattern for `opsx-*` files in the old singular directory.
+**Rationale:** The existing legacy cleanup infrastructure uses `LEGACY_SLASH_COMMAND_PATHS` as an explicit lookup. The old singular-path pattern already matches the legacy format (`openspec-*` prefix from the old SlashCommandRegistry era). The current command generation uses the `otrix-*` prefix, so we also need to add a legacy pattern for `otrix-*` files in the old singular directory.
 
 **Alternatives considered:**
 - Add a separate migration script — rejected; the existing legacy cleanup mechanism handles this scenario
 
 ### 3. Documentation update
 
-**Decision:** Update the `docs/supported-tools.md` table entry for OpenCode from `.opencode/command/opsx-<id>.md` to `.opencode/commands/opsx-<id>.md`.
+**Decision:** Update the `docs/supported-tools.md` table entry for OpenCode from `.opencode/command/otrix-<id>.md` to `.opencode/commands/otrix-<id>.md`.
 
 **Rationale:** Documentation must match the actual generated paths.
 

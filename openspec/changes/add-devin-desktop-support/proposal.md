@@ -7,9 +7,9 @@
 
 ## What Changes
 
-- **Rename the tool, don't duplicate it.** `windsurf` is retired as a tool id; `devin` (Devin Desktop) takes its place with `skillsDir: '.devin'` and `detectionPaths: ['.devin', '.windsurf']`. The Windsurf adapter is replaced by a Devin adapter writing `.devin/workflows/opsx-<id>.md`.
+- **Rename the tool, don't duplicate it.** `windsurf` is retired as a tool id; `devin` (Devin Desktop) takes its place with `skillsDir: '.devin'` and `detectionPaths: ['.devin', '.windsurf']`. The Windsurf adapter is replaced by a Devin adapter writing `.devin/workflows/otrix-<id>.md`.
 - **Keep `--tools windsurf` working.** A `TOOL_ID_ALIASES` map resolves retired ids, so existing setup scripts and CI keep running; they now configure `.devin/`.
-- **Migrate existing installs, with consent.** OpenSpec-managed skills (`openspec-*`) and command files (`opsx-*`) under `.windsurf/` move to `.devin/`. `openspec update` explains the rebrand and asks first; `--force` and non-interactive runs take the move. Selecting the tool during `openspec init` is itself consent. Files the user wrote are never touched.
+- **Migrate existing installs, with consent.** OpenSpec-managed skills (`openspec-*`) and command files (`otrix-*`) under `.windsurf/` move to `.devin/`. `openspec update` explains the rebrand and asks first; `--force` and non-interactive runs take the move. Selecting the tool during `openspec init` is itself consent. Files the user wrote are never touched.
 - Route Devin's **skill** bodies and the getting-started hint through the skill-reference transformer so they say `/openspec-*`, the one invocation both Devin agents accept.
 - Update the tool reference, invocation, and command-syntax tables in `docs/`, plus the website tool list.
 
@@ -22,9 +22,9 @@
   - `src/core/config.ts` (`AI_TOOLS` row, `TOOL_ID_ALIASES`, `resolveToolIdAlias`)
   - `src/core/migration.ts` (`LEGACY_TOOL_ROOTS`, consent-aware migration of skills *and* command files)
   - `src/core/init.ts`, `src/core/update.ts` (alias resolution, migration prompt)
-  - `src/core/legacy-cleanup.ts` (pre-opsx `.windsurf/` files now key to `devin`)
+  - `src/core/legacy-cleanup.ts` (pre-otrix `.windsurf/` files now key to `devin`)
   - `src/utils/command-references.ts` (Devin's skill-reference transformer)
-- **Docs:** `supported-tools.md`, `cli.md`, `commands.md`, `how-commands-work.md`, `faq.md`, `migration-guide.md`, `opsx.md`, website home page
+- **Docs:** `supported-tools.md`, `cli.md`, `commands.md`, `how-commands-work.md`, `faq.md`, `migration-guide.md`, `otrix.md`, website home page
 
 ## Notes
 
