@@ -33,6 +33,48 @@ Our philosophy:
 → scalable from personal projects to enterprises
 ```
 
+## OpenSpec Unified
+
+**Spec-driven minimalism with compressed feedback loops.** One organism. Four systems. Zero waste.
+
+| Layer | Role | Source |
+|-------|------|--------|
+| Spec | WHAT to build | OpenSpec |
+| Process | HOW to build | [Superpowers](https://github.com/obra/superpowers) |
+| Quality | HOW MUCH to write | [Ponytail](https://github.com/DietrichGebert/ponytail) |
+| Feedback | HOW FAST to iterate | [RTK](https://github.com/rtk-ai/rtk) |
+
+### Pipeline
+
+```
+USER INTENT
+  → PHASE 1: SPEC GATE (OpenSpec)
+  → PHASE 2: PLAN (Superpowers)
+  → PHASE 3: EXECUTE (Ponytail + Superpowers TDD)
+  → PHASE 4: FEEDBACK (RTK compressed output)
+  → PHASE 5: REVIEW + ARCHIVE
+```
+
+### Quick Start
+
+```bash
+npm install -g @fission-ai/openspec-unified@latest
+brew install rtk
+cd your-project
+openspec init
+rtk init -g --opencode
+```
+
+Add to `opencode.json`:
+```json
+{
+  "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git",
+    "@dietrichgebert/ponytail"
+  ]
+}
+```
+
 > [!TIP]
 > **New workflow now available!** We've rebuilt OpenSpec with a new artifact-guided workflow.
 >

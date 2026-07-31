@@ -1,18 +1,24 @@
 {
-  "name": "@fission-ai/openspec",
+  "name": "@fission-ai/openspec-unified",
   "version": "1.7.0",
-  "description": "AI-native system for spec-driven development",
+  "description": "Spec-driven development with Ponytail, Superpowers, and RTK — one organism, four systems, zero waste",
   "keywords": [
     "openspec",
     "specs",
     "cli",
     "ai",
-    "development"
+    "development",
+    "ponytail",
+    "superpowers",
+    "rtk",
+    "spec-driven",
+    "minimal",
+    "tdd"
   ],
-  "homepage": "https://github.com/Fission-AI/OpenSpec",
+  "homepage": "https://github.com/dadosh1984/open-spec-fork",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Fission-AI/OpenSpec"
+    "url": "https://github.com/dadosh1984/open-spec-fork"
   },
   "license": "MIT",
   "author": "OpenSpec Contributors",
