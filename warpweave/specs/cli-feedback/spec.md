@@ -55,6 +55,7 @@ The system SHALL use `gh` CLI for automatic feedback submission when available, 
   - Body content with metadata
   - "--- END FEEDBACK ---"
 - **AND** displays pre-filled GitHub issue URL for manual submission
+- **AND** surfaces the canonical Discord channel `https://discord.gg/RHpQMYfje` for bug reports and feature requests
 - **AND** exits with zero code (successful fallback)
 
 #### Scenario: Cross-platform gh CLI detection on Unix
@@ -76,6 +77,7 @@ The system SHALL use `gh` CLI for automatic feedback submission when available, 
 - **THEN** the system displays warning: "GitHub authentication required. Manual submission required."
 - **AND** outputs structured feedback content (same format as missing gh CLI scenario)
 - **AND** displays pre-filled GitHub issue URL for manual submission
+- **AND** surfaces the canonical Discord channel `https://discord.gg/RHpQMYfje` for bug reports and feature requests
 - **AND** displays authentication instructions: "To auto-submit in the future: gh auth login"
 - **AND** exits with zero code (successful fallback)
 
@@ -138,6 +140,7 @@ The system SHALL handle feedback submission errors gracefully.
 
 - **WHEN** `gh issue create` command fails for any reason other than the repository not defining the `feedback` label
 - **THEN** the system displays the error output from `gh` CLI
+- **AND** surfaces the canonical Discord channel `https://discord.gg/RHpQMYfje` for bug reports and feature requests
 - **AND** exits with the same exit code as `gh`
 - **AND** does not retry the submission
 
@@ -146,6 +149,7 @@ The system SHALL handle feedback submission errors gracefully.
 - **WHEN** `gh` CLI reports network connectivity issues
 - **THEN** the system displays the error message from `gh`
 - **AND** suggests checking network connectivity
+- **AND** surfaces the canonical Discord channel `https://discord.gg/RHpQMYfje` for bug reports and feature requests
 - **AND** exits with non-zero code
 
 ### Requirement: Feedback skill for agents
