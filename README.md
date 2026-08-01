@@ -40,7 +40,40 @@ Two more quality skills ship by default and are installed for every supported ag
 - `warpweave-superpowers-tdd` — RED-GREEN-REFACTOR, subagent-driven development, and two-stage review (spec compliance, then code quality)
 - `warpweave-ponytail-minimal-output` — the YAGNI ladder (skip → reuse → stdlib → native → dependency → one-liner → minimum) and `// ponytail:` debt markers, so every line earns its place
 
+## Fast Lane
+
+Small changes skip the ceremony. When the AI detects a change touches ≤3 files and <30 lines (or is a pure style/config/typo fix), it sets `complexity: minimal` in the change metadata. This auto-completes `design.md` and `tasks.md` — the change goes straight from proposal → specs → apply. No manual flags, no extra config. For normal changes, the full artifact chain runs as always.
+
+| Signal | Complexity | Artifacts |
+|--------|-----------|-----------|
+| ≤3 files, <30 lines, or style/config fix | **minimal** | proposal → specs → apply |
+| 4+ files, new component, new API | **normal** | proposal → specs → design → tasks → apply |
+
 Full command list: `warpweave --help`
+
+## Tessl Registry Integration
+
+Warpweave can pull verified library skills from the [Tessl Registry](https://tessl.io/registry) — a catalog of 10,000+ evaluated, versioned instructions for popular libraries. This reduces AI hallucination by giving agents accurate, up-to-date API knowledge instead of relying on stale training data.
+
+Enable it during `warpweave init` (you'll be prompted) or manually:
+
+```bash
+warpweave config registry --enable
+```
+
+Once enabled, Warpweave automatically scans your `package.json` dependencies, queries the Tessl Registry, caches matching skills locally, and injects them into agent instructions as a `## Registry Skills` section. No manual configuration needed per library.
+
+| Command | Description |
+|---------|-------------|
+| `warpweave config registry --status` | Show current configuration |
+| `warpweave config registry --enable` | Enable registry integration |
+| `warpweave config registry --disable` | Disable and clear cache |
+| `warpweave config registry --endpoint <url>` | Set custom API endpoint |
+| `warpweave config registry --auto-detect` | Enable auto-scanning of dependencies |
+| `warpweave config registry --no-auto-detect` | Disable auto-scanning |
+| `warpweave config registry --clear-cache` | Clear cached skills |
+
+Integration is opt-in and disabled by default. No new runtime dependencies — uses built-in `node:fetch`.
 
 ## Documentation
 

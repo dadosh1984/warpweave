@@ -49,6 +49,8 @@ import {
   getSyncSpecsSkillTemplate,
   getUpdateChangeSkillTemplate,
   getVerifyChangeSkillTemplate,
+  getSecurityScanSkillTemplate,
+  getOpsxSecurityScanCommandTemplate,
 } from '../../../src/core/templates/skill-templates.js';
 import {
   generateSkillContent,
@@ -62,14 +64,14 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getNewChangeSkillTemplate: '0f53db986a27557fcfb13d6cb2b5e9f34b00e5b1f6d8fa76c8ef828fa38be5fb',
   getContinueChangeSkillTemplate: '30811ea3a5cfae4b06031d005667024e46a55d8ac1d86e4e09a9bae8d2ce9453',
   getApplyChangeSkillTemplate: '5aebeb525ee3d10752224559ccadca4e42f880c07fb8256c93b16aa7d8bd39ae',
-  getFfChangeSkillTemplate: '38ab4680e1d78266c54e1c9f4aa8ecdefaa6101c8521c9c1414fd67ce3cc197d',
+  getFfChangeSkillTemplate: 'aac770cbdfae3873446f3d2250da613d5902ee6e2820a1f68f22df3efce30fa5',
   getSyncSpecsSkillTemplate: '72d3f60f964c6521c2d2fad1957ea8f35507e854b188a755f0e2b71b3555da6f',
   getOnboardSkillTemplate: '9fbe0e5e706060e611e55607ce909f7b673da28bd1aa3da6443f0f168bba6b8d',
   getOpsxExploreCommandTemplate: '4d5a50e3d05a00b74b4ec17efe13a0907e3fc8ee20c22da71327b2cef6980052',
   getOpsxNewCommandTemplate: 'ef994bab196a1ed4ddeb26b02b6b8f5aff2ccd9cf6e050beb023218726409f24',
   getOpsxContinueCommandTemplate: '348ec9a3bb5c2b018c1962d0f0a2445b5937d6725175f6a5b4ce7c57a1b417df',
   getOpsxApplyCommandTemplate: 'e55dd4551b6e22b4910ee323631ea6c9f27baeee368194a510b90aeb3b5d1654',
-  getOpsxFfCommandTemplate: 'daf8a851ec37551a7c2328cf47265af46ab0cc539152adec3d6227cf0901e484',
+  getOpsxFfCommandTemplate: 'f98c1a4bc9dcb808b69ef4a46919e555f23b4346ec2311b30ec90c64fc460eb4',
   getArchiveChangeSkillTemplate: '2b505516059fa7ce44ea811f4b658a8a07536f203b5a044ed9894699c7dc7601',
   getBulkArchiveChangeSkillTemplate: '38600adf09cf4994511785fcae39eca4fd7343d9fd940168447dbd3a3af65e2a',
   getOpsxSyncCommandTemplate: '4c4806fd35fa739a9483c6847a8817c5b40f54107c3dff7f2a31a91acad0783e',
@@ -78,8 +80,8 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getOpsxOnboardCommandTemplate: 'b457741217470196a2159074715658b1070a3a01f7f3f0910032b83bfaf5cde5',
   getOpsxBulkArchiveCommandTemplate: '137a0eaa63493e6a72763f60f793842334df922ee7eaf58fd67cd19bb5074cee',
   getOpsxVerifyCommandTemplate: '570c49b75dd64324867f909ddff110df324fdc043d433c89f79c26f79210df63',
-  getOpsxProposeSkillTemplate: 'c4b51d950b537fdeab24492bc4790acdebb487a274ed4596b3bd7e112b07538c',
-  getOpsxProposeCommandTemplate: '6d6d217c6d07b4422ecc495d64b2d4c42e78751a06f384ae9597476e8d05ff9e',
+  getOpsxProposeSkillTemplate: '12e77889b38418a6adb1d70c125f640a65258d406a164e74db95231c49be2864',
+  getOpsxProposeCommandTemplate: 'd39c752df7ea59fe072258885c4e92f1df324423920b5a2c910c58205b3a891e',
   getFeedbackSkillTemplate: '5a5409d71814e32ddf2f00c2364cb9bace1ef5dfb5aa85ac8ae2b71efcf5dd90',
   getUpdateChangeSkillTemplate: '63708d0de3542e7c855ca1a770095960a565f2b7c1822faac8e2304154ab074f',
   getOpsxUpdateCommandTemplate: 'dfa9bbcf907c55b70f3a96cf95c6db0fc6f0c6120ccf620f35252660822be41c',
@@ -104,6 +106,8 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getTranslatorSkillTemplate: 'b5cd1c6c921758ddfb89a09f536613d49eeab03622ae5c5152f0396c24b0345e',
   getPonytailMinimalOutputSkillTemplate: '2654f74f6ad5be6a3269c646460a9282301868d9500bbe7faf4bd09a704f0080',
   getSuperpowersTddSkillTemplate: '83ef6743035402052749c52a6a9ad089ffd5fd221e261f6ff6bd37f1942f2293',
+  getSecurityScanSkillTemplate: 'c28737bc0bd0461a9b8e0176b2807947fcc221284eb1e0c9949a6ce73b21de60',
+  getOpsxSecurityScanCommandTemplate: 'd110c39aab1ee8662735443d74d6007b05dc7ddfa32ad78b75682aa623c70009',
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
@@ -111,13 +115,13 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'warpweave-new-change': '72633ff954982862574971a99ce155245346ccd01d4a5f8678d9bd7174dad015',
   'warpweave-continue-change': '2fe5f69a7266e88ca4751602d14a6c3064b2098aaecf4f34267054bbd4788617',
   'warpweave-apply-change': '7c245e7fa03c58ed51a31c0908cda90123ac7ff32e7139b766f9bbf69ae36449',
-  'warpweave-ff-change': '190833c734ac35c8bafc9a9b70a41880569bdbbe7b2b203e2f68347807af2ff7',
+  'warpweave-ff-change': 'c5575c5c50f615578bf4fabb22582d92d6d64ca6355168f95daafb9bc5a3ea78',
   'warpweave-sync-specs': '0e683cde43e2a2183614345a96b80d9a540beff51f55feadeaaf64bf2a0575c2',
   'warpweave-archive-change': 'bdcb9240554422198cc1153711c4cd1ff625c5d9b5356ccbbc613a7e0a26ba9b',
   'warpweave-bulk-archive-change': '175c6e91104991f358920a717f77f572781e8c8ae0d6ef820c79a8484664bd5b',
   'warpweave-verify-change': 'd3a73670a326b1ae24a7627b222bcb9207a084af51b6b8811d540e6c64692fbd',
   'warpweave-onboard': '068d466d8162e1fdfd8288e84f3a56f7d7cc25a0ddf81cc84a234d4ecedb58d0',
-  'warpweave-propose': '5d983ab1f8ac37152de6b4ee5c6380a789da0840c12a804d03a9796e30309483',
+  'warpweave-propose': '5437ccae5b9ab566f0041f1d654a49de9f4639d76ee291a0147f808e16a3e021',
   'warpweave-update-change': 'deb45dea49abd22d3524a05c666b6828e954504681eb049eefcba1c9bfedbeec',
   'warpweave-ladder-audit': 'd51830228981414dbb3454fe1bbd6ed67a86909db13d4de4a4d1d618269197ca',
   'warpweave-guardrails': 'a203cf3e71dee602663dcdad970e818a17e69ff923adb25d1bcad54a4410c9df',
@@ -131,6 +135,7 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'warpweave-translator': '05da878bb56300829ed356218eecd9d84e2639b548b917d0c06a3d5995a0a29f',
   'warpweave-ponytail-minimal-output': '0f96e500e3a63faa709b26383da61a24038fc2d03aec4da58fa22adce1c2e032',
   'warpweave-superpowers-tdd': 'c5ce3134257014a6892ca78fa8099751a5c446ab407cbbb10b71ff7aaa01f971',
+  'warpweave-security-scan': '576fbb60100e5b436972ff712bae85772f895ddcad9a5a9b0072761a6140e16e',
 };
 
 // Intentionally excludes getFeedbackSkillTemplate: this list only models templates
@@ -160,6 +165,7 @@ const GENERATED_SKILL_FACTORIES: Array<[string, () => SkillTemplate]> = [
   ['warpweave-translator', getTranslatorSkillTemplate],
   ['warpweave-ponytail-minimal-output', getPonytailMinimalOutputSkillTemplate],
   ['warpweave-superpowers-tdd', getSuperpowersTddSkillTemplate],
+  ['warpweave-security-scan', getSecurityScanSkillTemplate],
 ];
 
 function stableStringify(value: unknown): string {
@@ -231,6 +237,8 @@ describe('skill templates split parity', () => {
       getTranslatorSkillTemplate,
       getPonytailMinimalOutputSkillTemplate,
       getSuperpowersTddSkillTemplate,
+      getSecurityScanSkillTemplate,
+      getOpsxSecurityScanCommandTemplate,
     };
 
     const actualHashes = Object.fromEntries(

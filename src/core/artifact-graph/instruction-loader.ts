@@ -19,6 +19,7 @@ import type { PlanningHome } from '../planning-home.js';
 import { resolvePlanningDirName } from '../planning-home.js';
 import type { ChangeMetadata } from '../change-metadata/index.js';
 import type { Artifact, CompletedSet } from './types.js';
+import { resolveSkills, type TesslSkill, type TesslRegistryConfig, DEFAULT_REGISTRY_ENDPOINT } from '../tessl-registry/index.js';
 
 // Session-level cache for validation warnings (avoid repeating same warnings)
 const shownWarnings = new Set<string>();
@@ -286,6 +287,19 @@ export function loadChangeContext(
     }
   }
 
+  // Fast Lane: when complexity is "minimal", auto-complete artifacts that
+  // declare autoGenerateWhen: ["minimal"]. This lets small changes skip
+  // non-essential artifacts (design, tasks) without manual skip_specs.
+  if (metadata?.complexity === 'minimal') {
+    for (const artifact of graph.getAllArtifacts()) {
+      if (completed.has(artifact.id)) continue;
+      if (artifact.autoGenerateWhen?.includes('minimal')) {
+        completed.add(artifact.id);
+        skippedArtifacts.add(artifact.id);
+      }
+    }
+  }
+
   return {
     graph,
     completed,
@@ -320,12 +334,12 @@ export interface GenerateInstructionsOptions {
   references?: ReferenceIndexEntry[];
 }
 
-export function generateInstructions(
+export async function generateInstructions(
   context: ChangeContext,
   artifactId: string,
   projectRoot?: string,
   options: GenerateInstructionsOptions = {}
-): ArtifactInstructions {
+): Promise<ArtifactInstructions> {
   const artifact = context.graph.getArtifact(artifactId);
   if (!artifact) {
     throw new Error(`Artifact '${artifactId}' not found in schema '${context.schemaName}'`);
@@ -367,9 +381,30 @@ export function generateInstructions(
   }
 
   // Extract context and rules as separate fields (not prepended to template)
-  const configContext = projectConfig?.context?.trim() || undefined;
+  let configContext = projectConfig?.context?.trim() || undefined;
   const rulesForArtifact = projectConfig?.rules?.[artifactId];
   const configRules = rulesForArtifact && rulesForArtifact.length > 0 ? rulesForArtifact : undefined;
+
+  // Inject Tessl Registry skills into context when enabled
+  const tesslRaw = (projectConfig as Record<string, unknown>)?.tessl_registry as Record<string, unknown> | undefined;
+  if (tesslRaw?.enabled === true && effectiveProjectRoot) {
+    const tesslConfig: TesslRegistryConfig = {
+      enabled: true,
+      endpoint: (tesslRaw.endpoint as string) ?? DEFAULT_REGISTRY_ENDPOINT,
+      autoDetect: (tesslRaw.auto_detect as boolean) ?? true,
+      cacheTtlMs: 24 * 60 * 60 * 1000,
+    };
+    try {
+      const skills = await resolveSkills(effectiveProjectRoot, tesslConfig);
+      if (skills.length > 0) {
+        const skillsSection = skills.map(s => `- **${s.name}** v${s.version}: ${s.description}`).join('\n');
+        const registryBlock = `\n## Registry Skills\n\nResolved from Tessl Registry:\n${skillsSection}\n`;
+        configContext = configContext ? configContext + registryBlock : registryBlock;
+      }
+    } catch {
+      // Silently skip — registry failure should not block instructions
+    }
+  }
 
   return {
     changeName: context.changeName,

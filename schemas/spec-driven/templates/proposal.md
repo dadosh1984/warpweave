@@ -35,3 +35,12 @@
 | Stdlib? | |
 | Native platform? | |
 | New dependency? | |
+
+## Complexity
+
+<!-- Auto-detected by the AI agent. Do not set manually.
+     minimal: ≤3 files, <30 lines, or pure style/config/typo fix
+     normal: 4+ files, new component/service, new public behavior/API
+     If unclear, default to normal. -->
+
+Complexity: **normal**

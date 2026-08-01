@@ -100,6 +100,7 @@ Finally /ww-apply to implement`;
       'verify',
       'explore',
       'onboard',
+      'security-scan',
     ];
 
     for (const cmd of commands) {
@@ -147,6 +148,7 @@ describe('transformToSkillReferences', () => {
       ['verify', '/warpweave-verify-change'],
       ['onboard', '/warpweave-onboard'],
       ['propose', '/warpweave-propose'],
+      ['security-scan', '/warpweave-security-scan'],
     ];
 
     for (const [cmd, skillRef] of mappings) {

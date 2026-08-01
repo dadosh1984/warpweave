@@ -13,7 +13,7 @@ import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { FileSystemUtils } from '../utils/file-system.js';
 import { classifyWarpweaveDir, storePointerProblem } from './project-config.js';
-import { findRepoPlanningRootSync } from './planning-home.js';
+import { findRepoPlanningRootSync, resolvePlanningDirName } from './planning-home.js';
 import { getSkillReferenceTransformer, getTransformerForTool } from '../utils/command-references.js';
 import {
   AI_TOOLS,
@@ -98,6 +98,7 @@ const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
   'parallel-execute': 'warpweave-parallel-execute',
   'learn': 'warpweave-learn',
   'init-unified': 'warpweave-init-unified',
+  'security-scan': 'warpweave-security-scan',
 };
 
 // -----------------------------------------------------------------------------
@@ -246,6 +247,11 @@ export class InitCommand {
 
     // Display success message
     this.displaySuccessMessage(projectPath, validatedTools, results, configStatus);
+
+    // Optional Tessl Registry setup
+    if (isInteractive()) {
+      await this.offerTesslSetup(projectPath);
+    }
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -1116,5 +1122,51 @@ export class InitCommand {
     }
 
     return removed;
+  }
+
+  private async offerTesslSetup(projectPath: string): Promise<void> {
+    try {
+      const { confirm } = await import('@inquirer/prompts');
+      const setup = await confirm({
+        message: 'Configure Tessl Registry integration? This will scan your dependencies and cache library skills to reduce AI hallucination.',
+        default: false,
+      });
+      if (!setup) return;
+
+      const { resolveSkills, clearCache } = await import('./tessl-registry/index.js');
+      const { readProjectConfig } = await import('./project-config.js');
+      const { stringify } = await import('yaml');
+      const configPath = path.join(projectPath, resolvePlanningDirName(projectPath), 'config.yaml');
+
+      let raw: Record<string, unknown> = {};
+      if (fs.existsSync(configPath)) {
+        try {
+          const { parse } = await import('yaml');
+          raw = parse(fs.readFileSync(configPath, 'utf-8')) as Record<string, unknown> || {};
+        } catch { /* use empty */ }
+      }
+
+      raw.tessl_registry = { enabled: true, auto_detect: true };
+      fs.writeFileSync(configPath, stringify(raw), 'utf-8');
+
+      const spinner = ora('Scanning dependencies and resolving Tessl skills...').start();
+      try {
+        const skills = await resolveSkills(projectPath, {
+          enabled: true,
+          endpoint: 'https://tessl.io/api/registry/search',
+          autoDetect: true,
+          cacheTtlMs: 24 * 60 * 60 * 1000,
+        });
+        if (skills.length > 0) {
+          spinner.succeed(`Resolved ${skills.length} Tessl skills for your project dependencies.`);
+        } else {
+          spinner.info('No Tessl skills found for your project dependencies. Skills will be resolved on next instruction generation.');
+        }
+      } catch {
+        spinner.warn('Could not reach Tessl Registry. Skills will be resolved on next instruction generation when network is available.');
+      }
+    } catch {
+      // Silently skip if prompts fail
+    }
   }
 }

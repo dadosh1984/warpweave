@@ -1,0 +1,25 @@
+# Express profile: fast lane for small changes
+# Auto-detects complexity and skips non-essential artifacts for minimal changes
+profile: express
+
+warpweave:
+  require_approval: true
+  auto_archive: true
+  fast_lane: true  # enables complexity detection and autoGenerateWhen
+
+superpowers:
+  tdd_mode: relaxed
+  subagent_review: false
+  task_max_minutes: 10
+
+ponytail:
+  mode: ultra
+
+rtk:
+  ultra_compact: true
+
+pipeline:
+  gate_spec: true
+  gate_plan: false   # skipped for minimal changes
+  gate_tdd: true
+  gate_review: false # self-review for small changes

@@ -40,6 +40,7 @@ export const SKILL_NAMES = [
   'warpweave-translator',
   'warpweave-ponytail-minimal-output',
   'warpweave-superpowers-tdd',
+  'warpweave-security-scan',
 ] as const;
 
 export type SkillName = (typeof SKILL_NAMES)[number];
@@ -69,6 +70,7 @@ export const COMMAND_IDS = [
   'parallel-execute',
   'learn',
   'init-unified',
+  'security-scan',
 ] as const;
 
 export type CommandId = (typeof COMMAND_IDS)[number];

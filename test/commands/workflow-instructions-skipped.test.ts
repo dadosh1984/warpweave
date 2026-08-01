@@ -32,21 +32,21 @@ describe('printInstructionsText for skip_specs changes', () => {
     vi.restoreAllMocks();
   });
 
-  function capture(artifactId: string): string {
+  async function capture(artifactId: string): Promise<string> {
     const lines: string[] = [];
     vi.spyOn(console, 'log').mockImplementation((...args: unknown[]) => {
       lines.push(args.join(' '));
     });
     const context = loadChangeContext(tempDir, 'my-change');
-    const instructions = generateInstructions(context, artifactId);
+    const instructions = await generateInstructions(context, artifactId);
     const isBlocked = instructions.dependencies.some((d) => !d.done);
     printInstructionsText(instructions, isBlocked);
     vi.restoreAllMocks();
     return lines.join('\n');
   }
 
-  it('emits only the warning for a skipped artifact, no creation directive', () => {
-    const output = capture('specs');
+  it('emits only the warning for a skipped artifact, no creation directive', async () => {
+    const output = await capture('specs');
 
     expect(output).toContain('skip_specs: true');
     expect(output).toContain('Do not create spec files');
@@ -56,29 +56,29 @@ describe('printInstructionsText for skip_specs changes', () => {
     expect(output).not.toContain('Write to:');
   });
 
-  it('keeps the normal creation directive for non-skipped artifacts', () => {
-    const output = capture('design');
+  it('keeps the normal creation directive for non-skipped artifacts', async () => {
+    const output = await capture('design');
 
     expect(output).toContain('<task>');
     expect(output).toContain('Create the design artifact for change "my-change".');
     expect(output).not.toContain('this artifact is skipped');
   });
 
-  it('carries skipped and warning in the JSON-facing payload', () => {
+  it('carries skipped and warning in the JSON-facing payload', async () => {
     const context = loadChangeContext(tempDir, 'my-change');
-    const instructions = generateInstructions(context, 'specs');
+    const instructions = await generateInstructions(context, 'specs');
 
     expect(instructions.skipped).toBe(true);
     expect(instructions.warning).toContain('Do not create spec files');
   });
 
-  it('marks the specs dependency as skipped instead of done with files to read', () => {
+  it('marks the specs dependency as skipped instead of done with files to read', async () => {
     const context = loadChangeContext(tempDir, 'my-change');
-    const tasksInstructions = generateInstructions(context, 'tasks');
+    const tasksInstructions = await generateInstructions(context, 'tasks');
     const specsDep = tasksInstructions.dependencies.find((d) => d.id === 'specs');
     expect(specsDep?.skipped).toBe(true);
 
-    const output = capture('tasks');
+    const output = await capture('tasks');
     expect(output).toContain('<dependency id="specs" status="skipped">');
     expect(output).toContain('no files to read');
     // The skipped dependency must not point the agent at spec file paths.

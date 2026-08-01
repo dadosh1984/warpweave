@@ -26,6 +26,9 @@ import { loadUnifiedConfig, formatUnifiedConfigSummary } from '../core/unified-c
 import { hasProjectConfigDrift } from '../core/profile-sync-drift.js';
 import { UpdateCommand } from '../core/update.js';
 import { asErrorMessage, isPromptCancellationError } from './shared-output.js';
+import { readProjectConfig } from '../core/project-config.js';
+import { resolvePlanningDirName } from '../core/planning-home.js';
+import { resolveSkills, clearCache, getCacheDir, type TesslRegistryConfig, DEFAULT_REGISTRY_ENDPOINT } from '../core/tessl-registry/index.js';
 
 type ProfileAction = 'both' | 'delivery' | 'workflows' | 'keep';
 
@@ -89,6 +92,10 @@ const WORKFLOW_PROMPT_META: Record<string, WorkflowPromptMeta> = {
   onboard: {
     name: 'Onboard',
     description: 'Guided onboarding flow for Warpweave',
+  },
+  'security-scan': {
+    name: 'Security scan',
+    description: 'Run a security scan against the codebase',
   },
 };
 
@@ -671,5 +678,74 @@ export function registerConfigCommand(program: Command): void {
         }
         throw error;
       }
+    });
+
+  // config registry
+  configCmd
+    .command('registry')
+    .description('Configure Tessl Registry integration')
+    .option('--enable', 'Enable Tessl Registry integration')
+    .option('--disable', 'Disable Tessl Registry integration')
+    .option('--endpoint <url>', 'Set custom registry API endpoint')
+    .option('--auto-detect', 'Enable automatic dependency scanning')
+    .option('--no-auto-detect', 'Disable automatic dependency scanning')
+    .option('--status', 'Show current registry configuration')
+    .option('--clear-cache', 'Clear cached registry skills')
+    .action(async (options: {
+      enable?: boolean;
+      disable?: boolean;
+      endpoint?: string;
+      autoDetect?: boolean;
+      status?: boolean;
+      clearCache?: boolean;
+    }) => {
+      const projectRoot = process.cwd();
+      const config = readProjectConfig(projectRoot);
+      const tesslConfig = (config as Record<string, unknown>)?.tessl_registry as Record<string, unknown> | undefined;
+
+      if (options.status || (!options.enable && !options.disable && !options.endpoint && options.autoDetect === undefined && !options.clearCache)) {
+        const enabled = tesslConfig?.enabled ?? false;
+        const endpoint = tesslConfig?.endpoint ?? DEFAULT_REGISTRY_ENDPOINT;
+        const autoDetect = tesslConfig?.auto_detect ?? true;
+        console.log('Tessl Registry Configuration:');
+        console.log(`  Enabled: ${enabled ? 'yes' : 'no'}`);
+        console.log(`  Endpoint: ${endpoint}`);
+        console.log(`  Auto-detect: ${autoDetect ? 'yes' : 'no'}`);
+        return;
+      }
+
+      if (options.clearCache) {
+        clearCache(projectRoot);
+        console.log('Registry cache cleared.');
+        return;
+      }
+
+      const newTesslConfig: Record<string, unknown> = { ...(tesslConfig || {}) };
+
+      if (options.enable) {
+        newTesslConfig.enabled = true;
+      }
+      if (options.disable) {
+        newTesslConfig.enabled = false;
+      }
+      if (options.endpoint) {
+        newTesslConfig.endpoint = options.endpoint;
+      }
+      if (options.autoDetect !== undefined) {
+        newTesslConfig.auto_detect = options.autoDetect;
+      }
+
+      const configPath = path.join(projectRoot, resolvePlanningDirName(projectRoot), 'config.yaml');
+      let raw: Record<string, unknown> = {};
+      if (fs.existsSync(configPath)) {
+        try {
+          const { parse } = await import('yaml');
+          raw = parse(fs.readFileSync(configPath, 'utf-8')) as Record<string, unknown> || {};
+        } catch { /* use empty */ }
+      }
+      raw.tessl_registry = newTesslConfig;
+      const { stringify } = await import('yaml');
+      fs.writeFileSync(configPath, stringify(raw), 'utf-8');
+      console.log('Tessl Registry configuration updated.');
     });
 }

@@ -55,6 +55,28 @@ artifacts:
       | Stdlib? | yes/no, what |
       | Native platform? | yes/no, what |
       | New dependency? | yes/no, which, why necessary |
+
+      ## Complexity Detection (Fast Lane)
+
+      After exploring the codebase, classify the change's complexity:
+
+      | Signal | Complexity |
+      |--------|-----------|
+      | Touches ≤3 existing files, change is <30 lines | **minimal** |
+      | Pure style, config tweak, or typo fix | **minimal** |
+      | Touches 4+ files, or adds a new component/service | **normal** |
+      | Introduces new public behavior or API | **normal** |
+
+      If unclear, default to **normal**.
+
+      When complexity is **minimal**, the Fast Lane activates:
+      - `design.md` and `tasks.md` are auto-generated (skipped)
+      - The change goes straight from proposal → specs → apply
+      - Set `complexity: minimal` in `.warpweave.yaml` metadata
+
+      When complexity is **normal**, the full artifact chain is required:
+      - proposal → specs → design → tasks → apply
+      - Set `complexity: normal` or omit the field (defaults to normal)
     requires: []
 
   - id: specs
@@ -152,6 +174,8 @@ artifacts:
     generates: design.md
     description: Technical design document with implementation details
     template: design.md
+    autoGenerateWhen:
+      - minimal
     instruction: |
       Create the design document that explains HOW to implement the change.
 
@@ -199,6 +223,8 @@ artifacts:
     generates: tasks.md
     description: Implementation checklist with trackable tasks
     template: tasks.md
+    autoGenerateWhen:
+      - minimal
     instruction: |
       Create the task list that breaks down the implementation work.
 

@@ -257,7 +257,7 @@ Old instructions content
 
       await updateCommand.execute(testDir);
 
-      // Verify core profile skill files were created/updated (propose, explore, apply, update, sync, archive)
+      // Verify core profile skill files were created/updated (propose, explore, apply, update, sync, archive, translator, ponytail-minimal-output, superpowers-tdd, security-scan)
       const coreSkillNames = [
         'warpweave-explore',
         'warpweave-apply-change',
@@ -265,6 +265,10 @@ Old instructions content
         'warpweave-sync-specs',
         'warpweave-archive-change',
         'warpweave-propose',
+        'warpweave-translator',
+        'warpweave-ponytail-minimal-output',
+        'warpweave-superpowers-tdd',
+        'warpweave-security-scan',
       ];
 
       for (const skillName of coreSkillNames) {
@@ -489,8 +493,8 @@ Old instructions content
 
       await updateCommand.execute(testDir);
 
-      // Verify core profile commands were created (propose, explore, apply, update, sync, archive)
-      const coreCommandIds = ['explore', 'apply', 'update', 'sync', 'archive', 'propose'];
+      // Verify core profile commands were created (propose, explore, apply, update, sync, archive, security-scan)
+      const coreCommandIds = ['explore', 'apply', 'update', 'sync', 'archive', 'propose', 'security-scan'];
       const commandsDir = path.join(testDir, '.claude', 'commands', 'ww');
       for (const cmdId of coreCommandIds) {
         const cmdFile = path.join(commandsDir, `${cmdId}.md`);
@@ -2050,6 +2054,7 @@ More user content after markers.
         'warpweave-apply-change',
         'warpweave-sync-specs',
         'warpweave-archive-change',
+        'warpweave-security-scan',
       ];
 
       const skillsDir = path.join(testDir, '.claude', 'skills');
@@ -2170,7 +2175,7 @@ More user content after markers.
         call.map(arg => String(arg)).join(' ')
       );
       expect(calls.some(call =>
-        call.includes('Your custom profile is missing 5 core workflows: update, sync, translator, ponytail-minimal-output, superpowers-tdd')
+        call.includes('Your custom profile is missing 6 core workflows: update, sync, translator, ponytail-minimal-output, superpowers-tdd, security-scan')
       )).toBe(true);
       expect(calls.some(call =>
         call.includes('warpweave config profile core')
@@ -2205,7 +2210,7 @@ More user content after markers.
         call.map(arg => String(arg)).join(' ')
       );
       expect(calls.some(call =>
-        call.includes('Your custom profile is missing 4 core workflows: update, translator, ponytail-minimal-output, superpowers-tdd')
+        call.includes('Your custom profile is missing 5 core workflows: update, translator, ponytail-minimal-output, superpowers-tdd, security-scan')
       )).toBe(true);
       expect(calls.some(call =>
         call.includes('to add them, or')
@@ -2219,7 +2224,7 @@ More user content after markers.
         featureFlags: {},
         profile: 'custom',
         delivery: 'both',
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
       });
 
       const initCommand = new InitCommand({ tools: 'claude', force: true });
