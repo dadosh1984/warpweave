@@ -2170,7 +2170,7 @@ More user content after markers.
         call.map(arg => String(arg)).join(' ')
       );
       expect(calls.some(call =>
-        call.includes('Your custom profile is missing 2 core workflows: update, sync')
+        call.includes('Your custom profile is missing 3 core workflows: update, sync, translator')
       )).toBe(true);
       expect(calls.some(call =>
         call.includes('warpweave config profile core')
@@ -2186,7 +2186,7 @@ More user content after markers.
       consoleSpy.mockRestore();
     });
 
-    it('should list a single missing core workflow when custom profile lacks only update', async () => {
+    it('should list missing core workflows when custom profile lacks update and translator', async () => {
       setMockConfig({
         featureFlags: {},
         profile: 'custom',
@@ -2205,10 +2205,10 @@ More user content after markers.
         call.map(arg => String(arg)).join(' ')
       );
       expect(calls.some(call =>
-        call.includes('Your custom profile is missing 1 core workflow: update')
+        call.includes('Your custom profile is missing 2 core workflows: update, translator')
       )).toBe(true);
       expect(calls.some(call =>
-        call.includes('to add it, or')
+        call.includes('to add them, or')
       )).toBe(true);
 
       consoleSpy.mockRestore();
@@ -2219,7 +2219,7 @@ More user content after markers.
         featureFlags: {},
         profile: 'custom',
         delivery: 'both',
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify', 'translator'],
       });
 
       const initCommand = new InitCommand({ tools: 'claude', force: true });

@@ -34,6 +34,8 @@ Then use slash commands in your AI assistant:
 - `/ww:apply` — implement the change
 - `/ww:archive` — archive and update specs
 
+The Translator skill (`warpweave-translator`) ships by default with every install. It works like a secretary at the intake: when a request is underspecified, it asks 1–5 short multiple-choice clarifying questions (reply e.g. `1b 2a` or `defaults`) before implementation, so the AI never guesses wrong or over-asks.
+
 Full command list: `warpweave --help`
 
 ## Documentation

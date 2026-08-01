@@ -9,7 +9,7 @@ import {
 describe('profiles', () => {
   describe('CORE_WORKFLOWS', () => {
     it('should contain the default core workflows', () => {
-      expect(CORE_WORKFLOWS).toEqual(['propose', 'explore', 'apply', 'update', 'sync', 'archive']);
+      expect(CORE_WORKFLOWS).toEqual(['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator']);
     });
 
     it('should include update in the core profile (default install, not expanded-only)', () => {
@@ -24,8 +24,8 @@ describe('profiles', () => {
   });
 
   describe('ALL_WORKFLOWS', () => {
-    it('should contain all 21 workflows', () => {
-      expect(ALL_WORKFLOWS).toHaveLength(21);
+    it('should contain all 22 workflows', () => {
+      expect(ALL_WORKFLOWS).toHaveLength(22);
     });
 
     it('should contain expected workflow IDs', () => {
@@ -33,7 +33,7 @@ describe('profiles', () => {
         'propose', 'explore', 'new', 'continue', 'apply', 'update',
         'ff', 'sync', 'archive', 'bulk-archive', 'verify', 'onboard',
         'ladder-audit', 'guardrails', 'debt-ledger', 'token-budget', 'benchmark',
-        'dependency-check', 'parallel-execute', 'learn', 'init-unified',
+        'dependency-check', 'parallel-execute', 'learn', 'init-unified', 'translator',
       ];
       expect([...ALL_WORKFLOWS]).toEqual(expected);
     });

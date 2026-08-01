@@ -4,7 +4,7 @@ import { AI_TOOLS } from './config.js';
 import type { Delivery } from './global-config.js';
 import { ALL_WORKFLOWS } from './profiles.js';
 import { CommandAdapterRegistry } from './command-generation/index.js';
-import { getConfiguredTools } from './shared/index.js';
+import { COMMAND_IDS, getConfiguredTools } from './shared/index.js';
 import {
   shouldGenerateCommandsForTool,
   shouldGenerateSkillsForTool,
@@ -39,6 +39,7 @@ export const WORKFLOW_TO_SKILL_DIR: Record<WorkflowId, string> = {
   'parallel-execute': 'warpweave-parallel-execute',
   'learn': 'warpweave-learn',
   'init-unified': 'warpweave-init-unified',
+  'translator': 'warpweave-translator',
 };
 
 function toKnownWorkflows(workflows: readonly string[]): WorkflowId[] {
@@ -74,6 +75,7 @@ export function hasToolProfileOrDeliveryDrift(
 
   const knownDesiredWorkflows = toKnownWorkflows(desiredWorkflows);
   const desiredWorkflowSet = new Set<WorkflowId>(knownDesiredWorkflows);
+  const commandWorkflowSet = new Set<string>(COMMAND_IDS);
   const skillsDir = path.join(projectPath, tool.skillsDir, 'skills');
   const adapter = CommandAdapterRegistry.get(toolId);
   const shouldGenerateSkills = shouldGenerateSkillsForTool(toolId, delivery);
@@ -109,6 +111,7 @@ export function hasToolProfileOrDeliveryDrift(
 
   if (shouldGenerateCommands && adapter) {
     for (const workflow of knownDesiredWorkflows) {
+      if (!commandWorkflowSet.has(workflow)) continue;
       const cmdPath = adapter.getFilePath(workflow);
       const fullPath = path.isAbsolute(cmdPath) ? cmdPath : path.join(projectPath, cmdPath);
       if (!fs.existsSync(fullPath)) {

@@ -26,6 +26,7 @@ import {
   getParallelExecuteSkillTemplate,
   getLearnSkillTemplate,
   getInitUnifiedSkillTemplate,
+  getTranslatorSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -97,6 +98,7 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getParallelExecuteSkillTemplate(), dirName: 'warpweave-parallel-execute', workflowId: 'parallel-execute' },
     { template: getLearnSkillTemplate(), dirName: 'warpweave-learn', workflowId: 'learn' },
     { template: getInitUnifiedSkillTemplate(), dirName: 'warpweave-init-unified', workflowId: 'init-unified' },
+    { template: getTranslatorSkillTemplate(), dirName: 'warpweave-translator', workflowId: 'translator' },
   ];
 
   if (!workflowFilter) return all;

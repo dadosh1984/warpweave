@@ -43,6 +43,7 @@ import {
   getOpsxLearnCommandTemplate,
   getInitUnifiedSkillTemplate,
   getOpsxInitUnifiedCommandTemplate,
+  getTranslatorSkillTemplate,
   getSyncSpecsSkillTemplate,
   getUpdateChangeSkillTemplate,
   getVerifyChangeSkillTemplate,
@@ -57,15 +58,15 @@ import { STORE_SELECTION_GUIDANCE } from '../../../src/core/templates/workflows/
 const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getExploreSkillTemplate: 'b3a1ef1f595b84ba52d7188f990274b0048232d0f97cd50bbab133aba4f6bd39',
   getNewChangeSkillTemplate: '0f53db986a27557fcfb13d6cb2b5e9f34b00e5b1f6d8fa76c8ef828fa38be5fb',
-  getContinueChangeSkillTemplate: '94694da320fa45980ef01c3d900917d6c63ac0a1d901a6490037a52e3397fea8',
-  getApplyChangeSkillTemplate: '174c34fbbe4dd3f25f23adac90d59f85c364087bd912e39cfd78171cb7c31ec5',
+  getContinueChangeSkillTemplate: '30811ea3a5cfae4b06031d005667024e46a55d8ac1d86e4e09a9bae8d2ce9453',
+  getApplyChangeSkillTemplate: '5aebeb525ee3d10752224559ccadca4e42f880c07fb8256c93b16aa7d8bd39ae',
   getFfChangeSkillTemplate: '38ab4680e1d78266c54e1c9f4aa8ecdefaa6101c8521c9c1414fd67ce3cc197d',
   getSyncSpecsSkillTemplate: '72d3f60f964c6521c2d2fad1957ea8f35507e854b188a755f0e2b71b3555da6f',
   getOnboardSkillTemplate: '9fbe0e5e706060e611e55607ce909f7b673da28bd1aa3da6443f0f168bba6b8d',
   getOpsxExploreCommandTemplate: '4d5a50e3d05a00b74b4ec17efe13a0907e3fc8ee20c22da71327b2cef6980052',
   getOpsxNewCommandTemplate: 'ef994bab196a1ed4ddeb26b02b6b8f5aff2ccd9cf6e050beb023218726409f24',
   getOpsxContinueCommandTemplate: '348ec9a3bb5c2b018c1962d0f0a2445b5937d6725175f6a5b4ce7c57a1b417df',
-  getOpsxApplyCommandTemplate: '25f57b1a0560c6453ec7d4f17756aefe7b46431fb927bf90ad45e48728817106',
+  getOpsxApplyCommandTemplate: 'e55dd4551b6e22b4910ee323631ea6c9f27baeee368194a510b90aeb3b5d1654',
   getOpsxFfCommandTemplate: 'daf8a851ec37551a7c2328cf47265af46ab0cc539152adec3d6227cf0901e484',
   getArchiveChangeSkillTemplate: '2b505516059fa7ce44ea811f4b658a8a07536f203b5a044ed9894699c7dc7601',
   getBulkArchiveChangeSkillTemplate: '38600adf09cf4994511785fcae39eca4fd7343d9fd940168447dbd3a3af65e2a',
@@ -78,7 +79,7 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getOpsxProposeSkillTemplate: 'c4b51d950b537fdeab24492bc4790acdebb487a274ed4596b3bd7e112b07538c',
   getOpsxProposeCommandTemplate: '6d6d217c6d07b4422ecc495d64b2d4c42e78751a06f384ae9597476e8d05ff9e',
   getFeedbackSkillTemplate: '5a5409d71814e32ddf2f00c2364cb9bace1ef5dfb5aa85ac8ae2b71efcf5dd90',
-  getUpdateChangeSkillTemplate: '8fc0341891e3833e509c484605091d4f3862a7889d688671f372a21d667f6221',
+  getUpdateChangeSkillTemplate: '63708d0de3542e7c855ca1a770095960a565f2b7c1822faac8e2304154ab074f',
   getOpsxUpdateCommandTemplate: 'dfa9bbcf907c55b70f3a96cf95c6db0fc6f0c6120ccf620f35252660822be41c',
   getLadderAuditSkillTemplate: '1b1a4e5a0064634febd79aff34a11492eba703f75be97550b72a0881e08957ff',
   getOpsxLadderAuditCommandTemplate: '5fc4425114db7fb88408200ea7432561906e95744287af38b159b47ee3012ad2',
@@ -98,13 +99,14 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getOpsxLearnCommandTemplate: 'e9001eae85b9f541abc0d57969fbc0089b687eb2d554a3d9ba46e78af789e6e4',
   getInitUnifiedSkillTemplate: 'ad77be64880cd6da181d0b1ec9dcf3a126e0e320b2290a4857f5f04c01e3a6b8',
   getOpsxInitUnifiedCommandTemplate: 'b267fa884f1f4d594d110caf2e784a4c0d12e525a095b88e8c6fa8a28fc4fc21',
+  getTranslatorSkillTemplate: 'b5cd1c6c921758ddfb89a09f536613d49eeab03622ae5c5152f0396c24b0345e',
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'warpweave-explore': '12cf373fd4ecf50ddb239b2693e4d2713747f8368709a437faf064ace8fcf098',
   'warpweave-new-change': '72633ff954982862574971a99ce155245346ccd01d4a5f8678d9bd7174dad015',
-  'warpweave-continue-change': '1b236a6fae4eea0bed9f57f593a648d6360ae16d419c3d96ea725864a917f004',
-  'warpweave-apply-change': 'cfe8fd3d85a57efcc64a4e8ab1589affc9c20ba36315f4c3210cfe5403fd3433',
+  'warpweave-continue-change': '2fe5f69a7266e88ca4751602d14a6c3064b2098aaecf4f34267054bbd4788617',
+  'warpweave-apply-change': '7c245e7fa03c58ed51a31c0908cda90123ac7ff32e7139b766f9bbf69ae36449',
   'warpweave-ff-change': '190833c734ac35c8bafc9a9b70a41880569bdbbe7b2b203e2f68347807af2ff7',
   'warpweave-sync-specs': '0e683cde43e2a2183614345a96b80d9a540beff51f55feadeaaf64bf2a0575c2',
   'warpweave-archive-change': 'bdcb9240554422198cc1153711c4cd1ff625c5d9b5356ccbbc613a7e0a26ba9b',
@@ -112,7 +114,7 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'warpweave-verify-change': 'd3a73670a326b1ae24a7627b222bcb9207a084af51b6b8811d540e6c64692fbd',
   'warpweave-onboard': '068d466d8162e1fdfd8288e84f3a56f7d7cc25a0ddf81cc84a234d4ecedb58d0',
   'warpweave-propose': '5d983ab1f8ac37152de6b4ee5c6380a789da0840c12a804d03a9796e30309483',
-  'warpweave-update-change': '5c6050909f8423c6377c8c6fff276b154802a55b47d5da5dd83bed432dad5c5a',
+  'warpweave-update-change': 'deb45dea49abd22d3524a05c666b6828e954504681eb049eefcba1c9bfedbeec',
   'warpweave-ladder-audit': 'd51830228981414dbb3454fe1bbd6ed67a86909db13d4de4a4d1d618269197ca',
   'warpweave-guardrails': 'a203cf3e71dee602663dcdad970e818a17e69ff923adb25d1bcad54a4410c9df',
   'warpweave-debt-ledger': '23b66b7c86250114235dcda5246da935f7c173e82a0b01d1b20eb190868f3ae0',
@@ -122,6 +124,7 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'warpweave-parallel-execute': '046aca8af8104712a7f87ca6c3a7c36395bf751b57eea4c281f664572934dcac',
   'warpweave-learn': '6c8e88107bf4bca19e5daac19d5a3bc1abc9e60ce7a9f63e1932d59bd7b03463',
   'warpweave-init-unified': 'c98f1fd89fcbac88f6fadfbdaef3ab5e0877cbe0113973c1d43ebdc57a4d49c1',
+  'warpweave-translator': '05da878bb56300829ed356218eecd9d84e2639b548b917d0c06a3d5995a0a29f',
 };
 
 // Intentionally excludes getFeedbackSkillTemplate: this list only models templates
@@ -148,6 +151,7 @@ const GENERATED_SKILL_FACTORIES: Array<[string, () => SkillTemplate]> = [
   ['warpweave-parallel-execute', getParallelExecuteSkillTemplate],
   ['warpweave-learn', getLearnSkillTemplate],
   ['warpweave-init-unified', getInitUnifiedSkillTemplate],
+  ['warpweave-translator', getTranslatorSkillTemplate],
 ];
 
 function stableStringify(value: unknown): string {
@@ -216,6 +220,7 @@ describe('skill templates split parity', () => {
       getOpsxLearnCommandTemplate,
       getInitUnifiedSkillTemplate,
       getOpsxInitUnifiedCommandTemplate,
+      getTranslatorSkillTemplate,
     };
 
     const actualHashes = Object.fromEntries(

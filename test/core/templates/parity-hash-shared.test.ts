@@ -39,11 +39,11 @@ describe('parity hash rewriting', () => {
   });
 
   it('rewrites a stale generated-content pin and reports it moved', () => {
-    const src = `const M = {\n  'openspec-foo-bar': '${OLD}',\n};\n`;
-    const result = rewriteParityHashes(src, resolvers({}, { 'openspec-foo-bar': NEW }));
+    const src = `const M = {\n  'warpweave-foo-bar': '${OLD}',\n};\n`;
+    const result = rewriteParityHashes(src, resolvers({}, { 'warpweave-foo-bar': NEW }));
 
-    expect(result.source).toContain(`'openspec-foo-bar': '${NEW}',`);
-    expect(result.moved).toEqual(['openspec-foo-bar']);
+    expect(result.source).toContain(`'warpweave-foo-bar': '${NEW}',`);
+    expect(result.moved).toEqual(['warpweave-foo-bar']);
   });
 
   it('leaves an already-correct pin untouched and reports nothing moved', () => {
@@ -80,10 +80,10 @@ describe('parity hash rewriting', () => {
   // test/** carries no `text eol=lf` attribute, so a Windows checkout delivers
   // CRLF. Anchoring on $ alone matched nothing there and the run aborted.
   it('round-trips CRLF line endings unchanged', () => {
-    const src = `const M = {\r\n  getFooTemplate: '${OLD}',\r\n  'openspec-foo': '${OTHER}',\r\n};\r\n`;
+    const src = `const M = {\r\n  getFooTemplate: '${OLD}',\r\n  'warpweave-foo': '${OTHER}',\r\n};\r\n`;
     const result = rewriteParityHashes(
       src,
-      resolvers({ getFooTemplate: NEW }, { 'openspec-foo': OTHER })
+      resolvers({ getFooTemplate: NEW }, { 'warpweave-foo': OTHER })
     );
 
     expect(result.source).toContain(`getFooTemplate: '${NEW}',\r\n`);
@@ -98,9 +98,9 @@ describe('parity hash rewriting', () => {
   });
 
   it('throws when a generated-content pin names a directory that no longer exists', () => {
-    const src = `const M = {\n  'openspec-gone': '${OLD}',\n};\n`;
+    const src = `const M = {\n  'warpweave-gone': '${OLD}',\n};\n`;
 
-    expect(() => rewriteParityHashes(src, resolvers())).toThrow(/'openspec-gone' is pinned/);
+    expect(() => rewriteParityHashes(src, resolvers())).toThrow(/'warpweave-gone' is pinned/);
   });
 
   // The count is taken with a broader pattern than the rewriters on purpose:
@@ -127,38 +127,38 @@ describe('parity hash rewriting', () => {
   // compares only the entries it lists), so it would ship with no golden hash
   // while the run reported success.
   it('throws when the registry deploys a skill that is not pinned', () => {
-    const src = `const M = {\n  'openspec-foo': '${OLD}',\n};\n`;
+    const src = `const M = {\n  'warpweave-foo': '${OLD}',\n};\n`;
 
     expect(() =>
       rewriteParityHashes(
         src,
-        resolvers({}, { 'openspec-foo': OLD, 'openspec-brand-new': NEW }, [
-          'openspec-foo',
-          'openspec-brand-new',
+        resolvers({}, { 'warpweave-foo': OLD, 'warpweave-brand-new': NEW }, [
+          'warpweave-foo',
+          'warpweave-brand-new',
         ])
       )
-    ).toThrow(/openspec-brand-new/);
+    ).toThrow(/warpweave-brand-new/);
   });
 
   it('names every unpinned skill, not just the first', () => {
-    const src = `const M = {\n  'openspec-foo': '${OLD}',\n};\n`;
+    const src = `const M = {\n  'warpweave-foo': '${OLD}',\n};\n`;
 
     expect(() =>
       rewriteParityHashes(
         src,
-        resolvers({}, { 'openspec-foo': OLD }, ['openspec-foo', 'openspec-aaa', 'openspec-bbb'])
+        resolvers({}, { 'warpweave-foo': OLD }, ['warpweave-foo', 'warpweave-aaa', 'warpweave-bbb'])
       )
-    ).toThrow(/openspec-aaa[\s\S]*openspec-bbb/);
+    ).toThrow(/warpweave-aaa[\s\S]*warpweave-bbb/);
   });
 
   it('accepts a registry fully covered by pins', () => {
-    const src = `const M = {\n  'openspec-foo': '${OLD}',\n};\n`;
+    const src = `const M = {\n  'warpweave-foo': '${OLD}',\n};\n`;
     const result = rewriteParityHashes(
       src,
-      resolvers({}, { 'openspec-foo': NEW }, ['openspec-foo'])
+      resolvers({}, { 'warpweave-foo': NEW }, ['warpweave-foo'])
     );
 
-    expect(result.moved).toEqual(['openspec-foo']);
+    expect(result.moved).toEqual(['warpweave-foo']);
   });
 
   it('names both causes when the counts disagree, since either is possible', () => {
