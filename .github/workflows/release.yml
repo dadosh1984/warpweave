@@ -32,7 +32,20 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      # Version may already exist (e.g. first release published manually).
+      # Skip publishing in that case; the GitHub Release is still created.
+      - name: Check npm version existence
+        id: npm-version-check
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          if npm view warpweave@$VERSION version >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Publish to npm
+        if: steps.npm-version-check.outputs.exists == 'false'
         run: pnpm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
