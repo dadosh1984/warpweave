@@ -67,7 +67,7 @@
   - **Ladder rung**: 7 (verification)
   - **Test first**: n/a
   - **Verify**: `rtk vitest run` then `rtk npm run lint` then `rtk npm run build`
-- [ ] 5.3 Commit with task references and open a PR to `main`
+- [x] 5.3 Commit with task references and open a PR to `main`
   - **Spec scenario**: n/a (delivery)
   - **Ladder rung**: 7 (minimum)
   - **Test first**: n/a
