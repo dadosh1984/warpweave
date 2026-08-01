@@ -852,7 +852,7 @@ describe('displayCliUpdateNote', () => {
 
       const bin = isWindows
         ? path.join(prefix, 'warpweave.cmd')
-        : path.join(prefix, 'bin', 'openspec');
+        : path.join(prefix, 'bin', 'warpweave');
       fs.mkdirSync(path.dirname(bin), { recursive: true });
       fs.writeFileSync(bin, '');
 
