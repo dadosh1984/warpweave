@@ -4,6 +4,8 @@ import os from 'os';
 
 const require = createRequire(import.meta.url);
 
+const FEEDBACK_CHANNEL = 'https://discord.gg/RHpQMYfje';
+
 /**
  * Check if gh CLI is installed and available in PATH
  * Uses platform-appropriate command: 'where' on Windows, 'which' on Unix/macOS
@@ -150,6 +152,7 @@ function reportGhFailure(error: any, title: string, body: string): void {
   const manualUrl = generateManualSubmissionUrl(title, body);
   console.log('Please submit your feedback manually:');
   console.log(manualUrl);
+  console.log(`\nFor bug reports and feature requests, join us on Discord: ${FEEDBACK_CHANNEL}`);
 
   // Exit with the same code as gh CLI
   process.exit(error.status ?? 1);
@@ -231,6 +234,7 @@ function handleFallback(title: string, body: string, reason: 'missing' | 'unauth
   const manualUrl = generateManualSubmissionUrl(title, body);
   console.log('Please submit your feedback manually:');
   console.log(manualUrl);
+  console.log(`\nFor bug reports and feature requests, join us on Discord: ${FEEDBACK_CHANNEL}`);
 
   if (reason === 'unauthenticated') {
     console.log('\nTo auto-submit in the future: gh auth login');

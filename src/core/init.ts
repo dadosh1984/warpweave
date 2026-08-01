@@ -1037,7 +1037,7 @@ export class InitCommand {
     // Links
     console.log();
     console.log(`Learn more: ${chalk.cyan('https://github.com/dadosh1984/warpweave')}`);
-    console.log(`Feedback:   ${chalk.cyan('https://github.com/dadosh1984/warpweave/issues')}`);
+    console.log(`Feedback:   ${chalk.cyan('https://discord.gg/RHpQMYfje')}`);
 
     // Unified tool suggestions
     console.log();
