@@ -118,7 +118,7 @@ export class BashInstaller {
    */
   async configureBashrc(completionsDir: string): Promise<boolean> {
     // Check if auto-configuration is disabled
-    if (process.env.OPENSPEC_NO_AUTO_CONFIG === '1') {
+    if (process.env.WARPWEAVE_NO_AUTO_CONFIG === '1') {
       return false;
     }
 

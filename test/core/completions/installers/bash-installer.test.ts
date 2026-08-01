@@ -119,8 +119,8 @@ describe('BashInstaller', () => {
     });
 
     it('should include instructions when auto-config is disabled', async () => {
-      const originalEnv = process.env.OPENSPEC_NO_AUTO_CONFIG;
-      process.env.OPENSPEC_NO_AUTO_CONFIG = '1';
+      const originalEnv = process.env.WARPWEAVE_NO_AUTO_CONFIG;
+      process.env.WARPWEAVE_NO_AUTO_CONFIG = '1';
 
       const result = await installer.install(testScript);
 
@@ -130,9 +130,9 @@ describe('BashInstaller', () => {
 
       // Restore env
       if (originalEnv === undefined) {
-        delete process.env.OPENSPEC_NO_AUTO_CONFIG;
+        delete process.env.WARPWEAVE_NO_AUTO_CONFIG;
       } else {
-        process.env.OPENSPEC_NO_AUTO_CONFIG = originalEnv;
+        process.env.WARPWEAVE_NO_AUTO_CONFIG = originalEnv;
       }
     });
 
@@ -370,9 +370,9 @@ describe('BashInstaller', () => {
       expect(content).not.toContain('# Old Warpweave config');
     });
 
-    it('should return false when OPENSPEC_NO_AUTO_CONFIG is set', async () => {
-      const originalEnv = process.env.OPENSPEC_NO_AUTO_CONFIG;
-      process.env.OPENSPEC_NO_AUTO_CONFIG = '1';
+    it('should return false when WARPWEAVE_NO_AUTO_CONFIG is set', async () => {
+      const originalEnv = process.env.WARPWEAVE_NO_AUTO_CONFIG;
+      process.env.WARPWEAVE_NO_AUTO_CONFIG = '1';
 
       const result = await installer.configureBashrc(completionsDir);
 
@@ -384,9 +384,9 @@ describe('BashInstaller', () => {
 
       // Restore env
       if (originalEnv === undefined) {
-        delete process.env.OPENSPEC_NO_AUTO_CONFIG;
+        delete process.env.WARPWEAVE_NO_AUTO_CONFIG;
       } else {
-        process.env.OPENSPEC_NO_AUTO_CONFIG = originalEnv;
+        process.env.WARPWEAVE_NO_AUTO_CONFIG = originalEnv;
       }
     });
 

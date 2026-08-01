@@ -132,7 +132,7 @@ function canAnimate(): boolean {
 
   // Manual override for users who need reduced motion (#722). Presence is
   // what counts: even an empty value disables the animation.
-  if (process.env.OPENSPEC_NO_ANIMATION !== undefined) return false;
+  if (process.env.WARPWEAVE_NO_ANIMATION !== undefined) return false;
 
   // Check terminal width
   const columns = process.stdout.columns || 80;
@@ -191,7 +191,7 @@ export async function showWelcomeScreen(
     const staticLines = process.stdin.isTTY
       ? textLines
       : textLines.filter((line) => !line.includes('Press Enter'));
-    const frame = WELCOME_ANIMATION.frames[3]; // Peak frame
+    const frame = WELCOME_ANIMATION.frames[WELCOME_ANIMATION.frames.length - 1]; // Final frame (complete logo)
     process.stdout.write('\n' + renderFrame(frame, staticLines) + '\n\n');
     await waitForEnter();
     return;

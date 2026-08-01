@@ -8,7 +8,7 @@ import os from 'os';
 import { promises as fs } from 'fs';
 import chalk from 'chalk';
 import { FileSystemUtils, removeMarkerBlock as removeMarkerBlockUtil } from '../utils/file-system.js';
-import { OPENSPEC_MARKERS } from './config.js';
+import { WARPWEAVE_MARKERS } from './config.js';
 import type { WorkflowId } from './profiles.js';
 
 /**
@@ -483,7 +483,7 @@ export async function detectLegacyStructureFiles(
  */
 export function hasWarpweaveMarkers(content: string): boolean {
   return (
-    content.includes(OPENSPEC_MARKERS.start) && content.includes(OPENSPEC_MARKERS.end)
+    content.includes(WARPWEAVE_MARKERS.start) && content.includes(WARPWEAVE_MARKERS.end)
   );
 }
 
@@ -494,15 +494,15 @@ export function hasWarpweaveMarkers(content: string): boolean {
  * @returns True if content outside markers is only whitespace
  */
 export function isOnlyWarpweaveContent(content: string): boolean {
-  const startIndex = content.indexOf(OPENSPEC_MARKERS.start);
-  const endIndex = content.indexOf(OPENSPEC_MARKERS.end);
+  const startIndex = content.indexOf(WARPWEAVE_MARKERS.start);
+  const endIndex = content.indexOf(WARPWEAVE_MARKERS.end);
 
   if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
     return false;
   }
 
   const before = content.substring(0, startIndex);
-  const after = content.substring(endIndex + OPENSPEC_MARKERS.end.length);
+  const after = content.substring(endIndex + WARPWEAVE_MARKERS.end.length);
 
   return before.trim() === '' && after.trim() === '';
 }
@@ -516,7 +516,7 @@ export function isOnlyWarpweaveContent(content: string): boolean {
  * @returns Content with marker block removed
  */
 export function removeMarkerBlock(content: string): string {
-  return removeMarkerBlockUtil(content, OPENSPEC_MARKERS.start, OPENSPEC_MARKERS.end);
+  return removeMarkerBlockUtil(content, WARPWEAVE_MARKERS.start, WARPWEAVE_MARKERS.end);
 }
 
 /**

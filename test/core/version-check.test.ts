@@ -29,7 +29,7 @@ import {
 } from '../../src/core/version-check.js';
 
 const require = createRequire(import.meta.url);
-const { version: OPENSPEC_VERSION } = require('../../package.json');
+const { version: WARPWEAVE_VERSION } = require('../../package.json');
 
 // Resolved so the fixtures carry a drive letter on Windows, where an
 // unresolved POSIX path can never prefix-match a resolved one.
@@ -90,9 +90,9 @@ describe('getAvailableCliUpdate', () => {
   const ENV_KEYS = [
     'NODE_ENV',
     'CI',
-    'OPENSPEC_NO_UPDATE_CHECK',
+    'WARPWEAVE_NO_UPDATE_CHECK',
     'DO_NOT_TRACK',
-    'OPENSPEC_TELEMETRY',
+    'WARPWEAVE_TELEMETRY',
     'npm_config_registry',
   ] as const;
 
@@ -105,7 +105,7 @@ describe('getAvailableCliUpdate', () => {
 
   beforeEach(async () => {
     requests = [];
-    serveVersion(bumpMajor(OPENSPEC_VERSION));
+    serveVersion(bumpMajor(WARPWEAVE_VERSION));
 
     server = http.createServer((req, res) => {
       requests.push({ url: req.url ?? '', method: req.method ?? '', headers: req.headers });
@@ -133,7 +133,7 @@ describe('getAvailableCliUpdate', () => {
   });
 
   it('reports the published version when the installed CLI is behind', async () => {
-    await expect(getAvailableCliUpdate()).resolves.toBe(bumpMajor(OPENSPEC_VERSION));
+    await expect(getAvailableCliUpdate()).resolves.toBe(bumpMajor(WARPWEAVE_VERSION));
   });
 
   it('asks the dist-tag endpoint, and never with an Accept type it answers 406 for', async () => {
@@ -149,7 +149,7 @@ describe('getAvailableCliUpdate', () => {
   });
 
   it('returns null when the installed CLI is current', async () => {
-    serveVersion(OPENSPEC_VERSION);
+    serveVersion(WARPWEAVE_VERSION);
     await expect(getAvailableCliUpdate()).resolves.toBeNull();
   });
 
@@ -168,10 +168,10 @@ describe('getAvailableCliUpdate', () => {
         return;
       }
       res.writeHead(200, { 'content-type': 'application/json' });
-      res.end(JSON.stringify({ version: bumpMajor(OPENSPEC_VERSION) }));
+      res.end(JSON.stringify({ version: bumpMajor(WARPWEAVE_VERSION) }));
     };
 
-    await expect(getAvailableCliUpdate()).resolves.toBe(bumpMajor(OPENSPEC_VERSION));
+    await expect(getAvailableCliUpdate()).resolves.toBe(bumpMajor(WARPWEAVE_VERSION));
     expect(requests[1].url).toBe('/elsewhere/warpweave/latest');
   });
 
@@ -258,8 +258,8 @@ describe('getAvailableCliUpdate', () => {
 
   it('sends nothing at all when opted out', async () => {
     for (const [key, value] of [
-      ['OPENSPEC_NO_UPDATE_CHECK', '1'],
-      ['OPENSPEC_NO_UPDATE_CHECK', ''],
+      ['WARPWEAVE_NO_UPDATE_CHECK', '1'],
+      ['WARPWEAVE_NO_UPDATE_CHECK', ''],
       ['CI', 'true'],
       ['CI', '1'],
       ['CI', 'TRUE'],
@@ -268,7 +268,7 @@ describe('getAvailableCliUpdate', () => {
       ['CI', 'yes'],
       ['NODE_ENV', 'test'],
       ['DO_NOT_TRACK', '1'],
-      ['OPENSPEC_TELEMETRY', '0'],
+      ['WARPWEAVE_TELEMETRY', '0'],
     ] as const) {
       process.env[key] = value;
       await expect(getAvailableCliUpdate()).resolves.toBeNull();
@@ -281,7 +281,7 @@ describe('getAvailableCliUpdate', () => {
   it('still runs when CI is explicitly switched off', async () => {
     for (const value of ['false', '0', 'no', '']) {
       process.env.CI = value;
-      await expect(getAvailableCliUpdate()).resolves.toBe(bumpMajor(OPENSPEC_VERSION));
+      await expect(getAvailableCliUpdate()).resolves.toBe(bumpMajor(WARPWEAVE_VERSION));
     }
   });
 
@@ -694,8 +694,8 @@ describe('rerunUpdateWithUpgradedCli', () => {
     const log = path.join(dir, 'env.txt');
     const bin = writeFakeCli(
       isWindows
-        ? `@echo %OPENSPEC_NO_UPDATE_CHECK% > "${log}"\r\n@exit /b 0\r\n`
-        : `#!/bin/sh\necho "$OPENSPEC_NO_UPDATE_CHECK" > "${log}"\nexit 0\n`
+        ? `@echo %WARPWEAVE_NO_UPDATE_CHECK% > "${log}"\r\n@exit /b 0\r\n`
+        : `#!/bin/sh\necho "$WARPWEAVE_NO_UPDATE_CHECK" > "${log}"\nexit 0\n`
     );
 
     await rerunUpdateWithUpgradedCli('.', { binPath: bin });
@@ -745,7 +745,7 @@ describe('displayCliUpdateNote', () => {
   it('names the global install command and the copy that answered', () => {
     const output = capture(() => displayCliUpdateNote('9.9.9'));
 
-    expect(output).toContain(`v${OPENSPEC_VERSION} → v9.9.9`);
+    expect(output).toContain(`v${WARPWEAVE_VERSION} → v9.9.9`);
     expect(output).toContain('npm install -g warpweave@latest');
     expect(output).toContain('Then run "warpweave update" again');
     expect(output).toContain(`Running from: ${getInstallDir()}`);

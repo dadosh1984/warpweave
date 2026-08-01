@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { UpdateCommand, scanInstalledWorkflows } from '../../src/core/update.js';
 import { InitCommand } from '../../src/core/init.js';
 import { FileSystemUtils } from '../../src/utils/file-system.js';
-import { OPENSPEC_MARKERS } from '../../src/core/config.js';
+import { WARPWEAVE_MARKERS } from '../../src/core/config.js';
 import type { GlobalConfig } from '../../src/core/global-config.js';
 import path from 'path';
 import fs from 'fs/promises';
@@ -1367,11 +1367,11 @@ metadata:
       );
 
       // Create legacy CLAUDE.md with Warpweave markers
-      const legacyContent = `${OPENSPEC_MARKERS.start}
+      const legacyContent = `${WARPWEAVE_MARKERS.start}
 # Warpweave Instructions
 
 These instructions are for AI assistants.
-${OPENSPEC_MARKERS.end}
+${WARPWEAVE_MARKERS.end}
 `;
       await fs.writeFile(path.join(testDir, 'CLAUDE.md'), legacyContent);
 
@@ -1399,8 +1399,8 @@ ${OPENSPEC_MARKERS.end}
 
       // File should have markers removed
       const content = await fs.readFile(path.join(testDir, 'CLAUDE.md'), 'utf-8');
-      expect(content).not.toContain(OPENSPEC_MARKERS.start);
-      expect(content).not.toContain(OPENSPEC_MARKERS.end);
+      expect(content).not.toContain(WARPWEAVE_MARKERS.start);
+      expect(content).not.toContain(WARPWEAVE_MARKERS.end);
 
       consoleSpy.mockRestore();
     });
@@ -1606,9 +1606,9 @@ ${OPENSPEC_MARKERS.end}
       );
 
       // Create legacy CLAUDE.md with Warpweave markers
-      const legacyContent = `${OPENSPEC_MARKERS.start}
+      const legacyContent = `${WARPWEAVE_MARKERS.start}
 # Warpweave Instructions
-${OPENSPEC_MARKERS.end}
+${WARPWEAVE_MARKERS.end}
 `;
       await fs.writeFile(path.join(testDir, 'CLAUDE.md'), legacyContent);
 
@@ -1758,11 +1758,11 @@ ${OPENSPEC_MARKERS.end}
 
 Some user-defined instructions here.
 
-${OPENSPEC_MARKERS.start}
+${WARPWEAVE_MARKERS.start}
 # Warpweave Instructions
 
 These instructions are for AI assistants.
-${OPENSPEC_MARKERS.end}
+${WARPWEAVE_MARKERS.end}
 
 More user content after markers.
 `;
@@ -1793,8 +1793,8 @@ More user content after markers.
       expect(updatedContent).toContain('# My Project');
       expect(updatedContent).toContain('Some user-defined instructions here');
       expect(updatedContent).toContain('More user content after markers');
-      expect(updatedContent).not.toContain(OPENSPEC_MARKERS.start);
-      expect(updatedContent).not.toContain(OPENSPEC_MARKERS.end);
+      expect(updatedContent).not.toContain(WARPWEAVE_MARKERS.start);
+      expect(updatedContent).not.toContain(WARPWEAVE_MARKERS.end);
 
       consoleSpy.mockRestore();
     });

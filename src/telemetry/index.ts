@@ -4,7 +4,7 @@
  * Privacy-first design:
  * - Only tracks command name and version
  * - No arguments, file paths, or content
- * - Opt-out via OPENSPEC_TELEMETRY=0 or DO_NOT_TRACK=1
+ * - Opt-out via WARPWEAVE_TELEMETRY=0 or DO_NOT_TRACK=1
  * - Auto-disabled in CI environments
  * - Anonymous ID is a random UUID with no relation to the user
  *
@@ -61,13 +61,13 @@ async function safeTelemetryFetch(url: string, options: RequestInit): Promise<Re
  * Check if telemetry is enabled.
  *
  * Disabled when:
- * - OPENSPEC_TELEMETRY=0
+ * - WARPWEAVE_TELEMETRY=0
  * - DO_NOT_TRACK=1
  * - CI=true (any CI environment)
  */
 export function isTelemetryEnabled(): boolean {
   // Check explicit opt-out
-  if (process.env.OPENSPEC_TELEMETRY === '0') {
+  if (process.env.WARPWEAVE_TELEMETRY === '0') {
     return false;
   }
 
@@ -177,7 +177,7 @@ export async function maybeShowTelemetryNotice(): Promise<void> {
 
     // Display notice
     console.log(
-      'Note: Warpweave collects anonymous usage stats. Opt out: OPENSPEC_TELEMETRY=0'
+      'Note: Warpweave collects anonymous usage stats. Opt out: WARPWEAVE_TELEMETRY=0'
     );
 
     // Mark as seen

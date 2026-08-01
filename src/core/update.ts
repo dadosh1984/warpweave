@@ -70,7 +70,7 @@ import {
 } from './command-surface.js';
 
 const require = createRequire(import.meta.url);
-const { version: OPENSPEC_VERSION } = require('../../package.json');
+const { version: WARPWEAVE_VERSION } = require('../../package.json');
 
 /**
  * Captures legacy migration side effects so update can refresh newly configured
@@ -196,7 +196,7 @@ export class UpdateCommand {
     //    the generation loop below writes — otherwise a legacy-upgraded tool would be
     //    fingerprinted against commands it was never given.
     const toolStatuses = configuredTools.map((toolId) =>
-      getToolVersionStatus(resolvedProjectPath, toolId, OPENSPEC_VERSION, {
+      getToolVersionStatus(resolvedProjectPath, toolId, WARPWEAVE_VERSION, {
         workflows: legacyWorkflowOverrides[toolId] ?? desiredWorkflows,
       })
     );
@@ -282,7 +282,7 @@ export class UpdateCommand {
               resolveCommandSurfaceCapability(tool.value),
               resolveCommandInvocation(tool.value)
             );
-            const skillContent = generateSkillContent(template, OPENSPEC_VERSION, transformer);
+            const skillContent = generateSkillContent(template, WARPWEAVE_VERSION, transformer);
             await FileSystemUtils.writeFile(skillFile, skillContent);
           }
 
@@ -345,7 +345,7 @@ export class UpdateCommand {
     // 11. Summary
     console.log();
     if (updatedTools.length > 0) {
-      console.log(chalk.green(`✓ Updated: ${updatedTools.join(', ')} (v${OPENSPEC_VERSION})`));
+      console.log(chalk.green(`✓ Updated: ${updatedTools.join(', ')} (v${WARPWEAVE_VERSION})`));
     }
     if (failedTools.length > 0) {
       console.log(chalk.red(`✗ Failed: ${failedTools.map(f => `${f.name} (${f.error})`).join(', ')}`));
@@ -450,7 +450,7 @@ export class UpdateCommand {
    */
   private displayUpToDateMessage(toolStatuses: ToolVersionStatus[]): void {
     const toolNames = toolStatuses.map((s) => s.toolId);
-    console.log(chalk.green(`✓ All ${toolStatuses.length} tool(s) up to date (v${OPENSPEC_VERSION})`));
+    console.log(chalk.green(`✓ All ${toolStatuses.length} tool(s) up to date (v${WARPWEAVE_VERSION})`));
     console.log(chalk.dim(`  Tools: ${toolNames.join(', ')}`));
     console.log();
     console.log(chalk.dim('Use --force to refresh files anyway.'));
@@ -468,7 +468,7 @@ export class UpdateCommand {
       const status = statusByTool.get(toolId);
       if (status?.needsUpdate) {
         const fromVersion = status.generatedByVersion ?? 'unknown';
-        return `${status.toolId} (${fromVersion} → ${OPENSPEC_VERSION})`;
+        return `${status.toolId} (${fromVersion} → ${WARPWEAVE_VERSION})`;
       }
       return `${toolId} (config sync)`;
     });
@@ -1026,7 +1026,7 @@ export class UpdateCommand {
               resolveCommandSurfaceCapability(tool.value),
               resolveCommandInvocation(tool.value)
             );
-            const skillContent = generateSkillContent(template, OPENSPEC_VERSION, transformer);
+            const skillContent = generateSkillContent(template, WARPWEAVE_VERSION, transformer);
             await FileSystemUtils.writeFile(skillFile, skillContent);
           }
         }

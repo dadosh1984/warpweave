@@ -28,7 +28,7 @@ vi.mock('@inquirer/core', () => ({
 
 describe('welcome screen', () => {
   const originalNoColor = process.env.NO_COLOR;
-  const originalNoAnimation = process.env.OPENSPEC_NO_ANIMATION;
+  const originalNoAnimation = process.env.WARPWEAVE_NO_ANIMATION;
   const originalStdinIsTTY = process.stdin.isTTY;
   const originalStdoutIsTTY = process.stdout.isTTY;
   const originalColumns = process.stdout.columns;
@@ -44,7 +44,7 @@ describe('welcome screen', () => {
 
   beforeEach(() => {
     delete process.env.NO_COLOR;
-    delete process.env.OPENSPEC_NO_ANIMATION;
+    delete process.env.WARPWEAVE_NO_ANIMATION;
     Object.defineProperty(process.stdin, 'isTTY', { value: true, configurable: true });
     Object.defineProperty(process.stdout, 'isTTY', { value: true, configurable: true });
     Object.defineProperty(process.stdout, 'columns', { value: 100, configurable: true });
@@ -65,9 +65,9 @@ describe('welcome screen', () => {
       process.env.NO_COLOR = originalNoColor;
     }
     if (originalNoAnimation === undefined) {
-      delete process.env.OPENSPEC_NO_ANIMATION;
+      delete process.env.WARPWEAVE_NO_ANIMATION;
     } else {
-      process.env.OPENSPEC_NO_ANIMATION = originalNoAnimation;
+      process.env.WARPWEAVE_NO_ANIMATION = originalNoAnimation;
     }
     Object.defineProperty(process.stdin, 'isTTY', { value: originalStdinIsTTY, configurable: true });
     Object.defineProperty(process.stdout, 'isTTY', { value: originalStdoutIsTTY, configurable: true });
@@ -178,9 +178,9 @@ describe('welcome screen', () => {
     }
   });
 
-  it('renders statically when OPENSPEC_NO_ANIMATION is set', async () => {
+  it('renders statically when WARPWEAVE_NO_ANIMATION is set', async () => {
     const { showWelcomeScreen } = await import('../../src/ui/welcome-screen.js');
-    process.env.OPENSPEC_NO_ANIMATION = '1';
+    process.env.WARPWEAVE_NO_ANIMATION = '1';
 
     await showWelcomeScreen(CORE_WORKFLOWS);
 
@@ -194,9 +194,9 @@ describe('welcome screen', () => {
     expect(output).not.toMatch(/\x1b\[\d+A/);
   });
 
-  it('honors OPENSPEC_NO_ANIMATION even when set to an empty value', async () => {
+  it('honors WARPWEAVE_NO_ANIMATION even when set to an empty value', async () => {
     const { showWelcomeScreen } = await import('../../src/ui/welcome-screen.js');
-    process.env.OPENSPEC_NO_ANIMATION = '';
+    process.env.WARPWEAVE_NO_ANIMATION = '';
 
     await showWelcomeScreen(CORE_WORKFLOWS);
 

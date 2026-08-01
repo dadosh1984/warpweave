@@ -50,7 +50,7 @@ import {
   type SkillTemplate,
 } from '../templates/skill-templates.js';
 import type { CommandContent } from '../command-generation/index.js';
-import { OPENSPEC_CLI_ALLOWED_TOOLS } from './allowed-tools.js';
+import { WARPWEAVE_CLI_ALLOWED_TOOLS } from './allowed-tools.js';
 
 /**
  * Skill template with directory name and workflow ID mapping.
@@ -177,7 +177,7 @@ export function generateSkillContent(
   return `---
 name: ${template.name}
 description: ${template.description}
-allowed-tools: ${OPENSPEC_CLI_ALLOWED_TOOLS}
+allowed-tools: ${WARPWEAVE_CLI_ALLOWED_TOOLS}
 license: ${template.license || 'MIT'}
 compatibility: ${template.compatibility || 'Requires warpweave CLI.'}
 metadata:

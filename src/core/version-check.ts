@@ -6,7 +6,7 @@ import { createRequire } from 'module';
 import chalk from 'chalk';
 
 const require = createRequire(import.meta.url);
-const { name: PACKAGE_NAME, version: OPENSPEC_VERSION } = require('../../package.json');
+const { name: PACKAGE_NAME, version: WARPWEAVE_VERSION } = require('../../package.json');
 
 const DEFAULT_REGISTRY = 'https://registry.npmjs.org';
 const REQUEST_TIMEOUT_MS = 1500;
@@ -41,9 +41,9 @@ const SAFE_VERSION = /^\d{1,10}\.\d{1,10}\.\d{1,10}(?:-[0-9A-Za-z.-]{1,64})?(?:\
  * did not agree to a different outbound request.
  */
 function isCheckEnabled(): boolean {
-  if (process.env.OPENSPEC_NO_UPDATE_CHECK !== undefined) return false;
+  if (process.env.WARPWEAVE_NO_UPDATE_CHECK !== undefined) return false;
   if (process.env.DO_NOT_TRACK === '1') return false;
-  if (process.env.OPENSPEC_TELEMETRY === '0') return false;
+  if (process.env.WARPWEAVE_TELEMETRY === '0') return false;
   if (isCiEnvironment()) return false;
   if (process.env.NODE_ENV === 'test') return false;
   return true;
@@ -257,7 +257,7 @@ export async function getAvailableCliUpdate(): Promise<string | null> {
   try {
     const latest = await fetchLatestVersion();
     if (!latest) return null;
-    return compareVersions(latest, OPENSPEC_VERSION) > 0 ? latest : null;
+    return compareVersions(latest, WARPWEAVE_VERSION) > 0 ? latest : null;
   } catch {
     return null;
   }
@@ -481,7 +481,7 @@ export function buildCliUpdateLines(
   projectPath: string,
   options: { withCommand?: boolean } = {}
 ): string[] {
-  const lines = [`A newer Warpweave CLI is available (v${OPENSPEC_VERSION} → v${latestVersion}).`];
+  const lines = [`A newer Warpweave CLI is available (v${WARPWEAVE_VERSION} → v${latestVersion}).`];
 
   // Omitted when we are about to offer to run it — printing a command and then
   // asking to run that same command reads like the user has to do both.
@@ -720,7 +720,7 @@ export async function offerCliUpgrade(latestVersion: string): Promise<UpgradeOut
     console.log(chalk.yellow('Upgrade finished, but no "warpweave" could be run to confirm it.'));
     return 'not-on-path';
   }
-  if (compareVersions(version, OPENSPEC_VERSION) <= 0) {
+  if (compareVersions(version, WARPWEAVE_VERSION) <= 0) {
     console.log(chalk.yellow(`Upgrade finished, but "warpweave" still reports v${version}.`));
     console.log(
       chalk.dim(
@@ -764,10 +764,10 @@ export async function rerunUpdateWithUpgradedCli(
         ...process.env,
         // The child must not offer the upgrade again: if PATH still resolves
         // to the old binary, prompting would loop forever.
-        OPENSPEC_NO_UPDATE_CHECK: '1',
+        WARPWEAVE_NO_UPDATE_CHECK: '1',
         // This is a continuation of the command the user already ran, and the
         // parent recorded it; counting it twice would overstate usage.
-        OPENSPEC_TELEMETRY: '0',
+        WARPWEAVE_TELEMETRY: '0',
       },
     });
     child.on('error', () => {
