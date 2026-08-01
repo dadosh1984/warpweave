@@ -317,6 +317,37 @@ artifacts:
       expect(fs.existsSync(path.join(schemaDir, 'templates', 'tasks.md'))).toBe(true);
     });
 
+    it('should honor --default by writing defaultSchema to config.yaml', async () => {
+      await runSchemaCommand([
+        'init',
+        'default-schema',
+        '--artifacts',
+        'proposal',
+        '--default',
+        '--json',
+      ]);
+
+      expect(process.exitCode).toBeUndefined();
+      const configPath = path.join(tempDir, 'openspec', 'config.yaml');
+      expect(fs.existsSync(configPath)).toBe(true);
+      expect(fs.readFileSync(configPath, 'utf-8')).toContain('defaultSchema: default-schema');
+    });
+
+    it('should honor --no-default by not writing defaultSchema to config.yaml', async () => {
+      await runSchemaCommand([
+        'init',
+        'no-default-schema',
+        '--artifacts',
+        'proposal',
+        '--no-default',
+        '--json',
+      ]);
+
+      expect(process.exitCode).toBeUndefined();
+      const configPath = path.join(tempDir, 'openspec', 'config.yaml');
+      expect(fs.existsSync(configPath)).toBe(false);
+    });
+
     it('should create schema directory with schema.yaml', async () => {
       const schemaDir = path.join(tempDir, 'openspec', 'schemas', 'new-schema');
       fs.mkdirSync(schemaDir, { recursive: true });
