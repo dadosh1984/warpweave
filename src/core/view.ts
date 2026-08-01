@@ -15,7 +15,7 @@ export class ViewCommand {
       process.exit(1);
     }
 
-    console.log(chalk.bold('\nSpectrix Dashboard\n'));
+    console.log(chalk.bold('\nWarpweave Dashboard\n'));
     console.log('═'.repeat(60));
 
     // Get changes and specs data

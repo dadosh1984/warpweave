@@ -269,23 +269,23 @@ Register-ArgumentCompleter -CommandName warpweave -ScriptBlock $warpweaveComplet
 
     switch (positionalType) {
       case 'change-id':
-        lines.push(`${indent}Get-SpectrixChanges | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`);
+        lines.push(`${indent}Get-WarpweaveChanges | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`);
         lines.push(`${indent}    [System.Management.Automation.CompletionResult]::new($_, $_, "ParameterValue", "Change: $_")`);
         lines.push(`${indent}}`);
         break;
       case 'spec-id':
-        lines.push(`${indent}Get-SpectrixSpecs | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`);
+        lines.push(`${indent}Get-WarpweaveSpecs | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`);
         lines.push(`${indent}    [System.Management.Automation.CompletionResult]::new($_, $_, "ParameterValue", "Spec: $_")`);
         lines.push(`${indent}}`);
         break;
       case 'change-or-spec-id':
-        lines.push(`${indent}$items = @(Get-SpectrixChanges) + @(Get-SpectrixSpecs)`);
+        lines.push(`${indent}$items = @(Get-WarpweaveChanges) + @(Get-WarpweaveSpecs)`);
         lines.push(`${indent}$items | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`);
         lines.push(`${indent}    [System.Management.Automation.CompletionResult]::new($_, $_, "ParameterValue", $_)`);
         lines.push(`${indent}}`);
         break;
       case 'schema-name':
-        lines.push(`${indent}Get-SpectrixSchemas | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`);
+        lines.push(`${indent}Get-WarpweaveSchemas | Where-Object { $_ -like "$wordToComplete*" } | ForEach-Object {`);
         lines.push(`${indent}    [System.Management.Automation.CompletionResult]::new($_, $_, "ParameterValue", "Schema: $_")`);
         lines.push(`${indent}}`);
         break;

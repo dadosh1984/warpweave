@@ -5,7 +5,7 @@
 
 export const POWERSHELL_DYNAMIC_HELPERS = `# Dynamic completion helpers
 
-function Get-SpectrixChanges {
+function Get-WarpweaveChanges {
     $output = warpweave __complete changes 2>$null
     if ($output) {
         $output | ForEach-Object {
@@ -14,7 +14,7 @@ function Get-SpectrixChanges {
     }
 }
 
-function Get-SpectrixSpecs {
+function Get-WarpweaveSpecs {
     $output = warpweave __complete specs 2>$null
     if ($output) {
         $output | ForEach-Object {
@@ -23,7 +23,7 @@ function Get-SpectrixSpecs {
     }
 }
 
-function Get-SpectrixSchemas {
+function Get-WarpweaveSchemas {
     $output = warpweave __complete schemas 2>$null
     if ($output) {
         $output | ForEach-Object {

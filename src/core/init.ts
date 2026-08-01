@@ -12,7 +12,7 @@ import * as fs from 'fs';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { FileSystemUtils } from '../utils/file-system.js';
-import { classifySpectrixDir, storePointerProblem } from './project-config.js';
+import { classifyWarpweaveDir, storePointerProblem } from './project-config.js';
 import { findRepoPlanningRootSync } from './planning-home.js';
 import { getSkillReferenceTransformer, getTransformerForTool } from '../utils/command-references.js';
 import {
@@ -157,7 +157,7 @@ export class InitCommand {
     // refuse exactly where a normal command would resolve the pointer).
     const guardRoot = findRepoPlanningRootSync(projectPath);
     if (guardRoot) {
-      const { hasPlanningShape, pointer } = classifySpectrixDir(guardRoot);
+      const { hasPlanningShape, pointer } = classifyWarpweaveDir(guardRoot);
       if (!hasPlanningShape) {
         if (pointer.malformed) {
           throw new Error(

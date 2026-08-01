@@ -1,6 +1,6 @@
-# OpenSpec Scripts
+# Warpweave Scripts
 
-Utility scripts for OpenSpec maintenance and development.
+Utility scripts for Warpweave maintenance and development.
 
 ## update-flake.sh
 

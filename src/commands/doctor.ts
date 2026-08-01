@@ -12,7 +12,7 @@ import {
 import { readOptionalStoreMetadataState } from '../core/store/foundation.js';
 import { gitOriginUrl, gitTrackingDrift, isGitRepositoryAtRoot } from '../core/store/git.js';
 import {
-  classifySpectrixDir,
+  classifyWarpweaveDir,
   readProjectConfig,
   resolveConfigFilePath,
 } from '../core/project-config.js';
@@ -78,7 +78,7 @@ async function gatherHealth(
   // pointer value, which the resolver is silent about on planning-shaped
   // roots.
   if (root.source === 'nearest') {
-    const { hasPlanningShape, pointer } = classifySpectrixDir(root.path);
+    const { hasPlanningShape, pointer } = classifyWarpweaveDir(root.path);
     if (hasPlanningShape && pointer.filePath) {
       if (pointer.value !== undefined) {
         input.bothShapesPointer = { value: pointer.value, filePath: pointer.filePath };

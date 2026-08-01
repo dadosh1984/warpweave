@@ -6,7 +6,7 @@ import { promisify } from 'node:util';
 
 import { FileSystemUtils } from '../../utils/file-system.js';
 import {
-  classifySpectrixDir,
+  classifyWarpweaveDir,
   storePointerProblem,
 } from '../project-config.js';
 import {
@@ -225,7 +225,7 @@ function alreadyRegisteredDiagnostic(id: string): StoreDiagnostic {
 }
 
 function assertNotConfigOnlyPointerRoot(storeRoot: string): void {
-  const { hasPlanningShape, pointer } = classifySpectrixDir(storeRoot);
+  const { hasPlanningShape, pointer } = classifyWarpweaveDir(storeRoot);
   if (hasPlanningShape || pointer.filePath === null) return;
 
   if (pointer.malformed) {

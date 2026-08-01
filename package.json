@@ -34,7 +34,8 @@
     }
   },
   "bin": {
-    "ww": "bin/ww.js"
+    "ww": "bin/ww.js",
+    "warpweave": "bin/ww.js"
   },
   "files": [
     "dist",
@@ -54,7 +55,7 @@
     "generate:skills": "node scripts/generate-skillssh.mjs",
     "regen:parity-hashes": "node scripts/regen-parity-hashes.mjs",
     "dev": "tsc --watch",
-    "dev:cli": "pnpm build && node bin/warpweave.js",
+    "dev:cli": "pnpm build && node bin/ww.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
@@ -65,7 +66,7 @@
     "postinstall": "node scripts/postinstall.js",
     "check:pack-version": "node scripts/pack-version-check.mjs",
     "release": "pnpm run release:ci",
-    "release:ci": "pnpm run check:pack-version && pnpm exec changeset publish",
+    "release:ci": "pnpm run check:pack-version && pnpm publish --access public",
     "changeset": "changeset"
   },
   "engines": {

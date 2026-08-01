@@ -1,8 +1,11 @@
 export const WARPWEAVE_DIR_NAME = 'warpweave';
-/** Directory name used by upstream Warpweave and by pre-rename Warpweave installs. */
-export const LEGACY_WARPWEAVE_DIR_NAME = 'warpweave';
+/** Directory name used by upstream OpenSpec and by pre-rename installs. Kept so
+ * projects created with OpenSpec/spectrix (which used `openspec/`) keep working
+ * after switching to warpweave: the CLI reads either name, and creates
+ * `warpweave/` on new installs. */
+export const LEGACY_WARPWEAVE_DIR_NAME = 'openspec';
 /** @deprecated Use WARPWEAVE_DIR_NAME instead. OPENSPEC_DIR_NAME is kept for backward compatibility. */
-export const OPENSPEC_DIR_NAME = WARPWEAVE_DIR_NAME;
+export const OPENSPEC_DIR_NAME = 'openspec';
 
 export const WARPWEAVE_MARKERS = {
   start: '<!-- WARPWEAVE:START -->',
@@ -11,7 +14,7 @@ export const WARPWEAVE_MARKERS = {
 /** @deprecated Use WARPWEAVE_MARKERS instead. OPENSPEC_MARKERS is kept for backward compatibility. */
 export const OPENSPEC_MARKERS = WARPWEAVE_MARKERS;
 
-export interface SpectrixConfig {
+export interface WarpweaveConfig {
   aiTools: string[];
 }
 

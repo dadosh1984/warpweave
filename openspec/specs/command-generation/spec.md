@@ -1,7 +1,7 @@
 # command-generation Specification
 
 ## Purpose
-Define tool-agnostic command content and adapter contracts for generating tool-specific Spectrix command files.
+Define tool-agnostic command content and adapter contracts for generating tool-specific Warpweave command files.
 
 ## Requirements
 ### Requirement: CommandContent interface
@@ -13,9 +13,9 @@ The system SHALL define a tool-agnostic `CommandContent` interface for command d
 - **WHEN** defining a command to generate
 - **THEN** `CommandContent` SHALL include:
   - `id`: string identifier (e.g., 'explore', 'apply')
-  - `name`: human-readable name (e.g., 'Spectrix Explore')
+  - `name`: human-readable name (e.g., 'Warpweave Explore')
   - `description`: brief description of command purpose
-  - `category`: grouping category (e.g., 'Spectrix')
+  - `category`: grouping category (e.g., 'Warpweave')
   - `tags`: array of tag strings
   - `body`: the command instruction content
 

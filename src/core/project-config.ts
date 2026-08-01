@@ -546,7 +546,7 @@ export function storePointerProblem(reason: 'unparseable' | 'non_string'): strin
     : 'the store key must be a single store id string';
 }
 
-export interface SpectrixDirClassification {
+export interface WarpweaveDirClassification {
   /** True when warpweave/specs or warpweave/changes exists as a directory. */
   hasPlanningShape: boolean;
   pointer: StorePointerRead;
@@ -557,7 +557,7 @@ export interface SpectrixDirClassification {
  * by root resolution and the init pointer guard so they can never
  * disagree (slice 3.2).
  */
-export function classifySpectrixDir(projectRoot: string): SpectrixDirClassification {
+export function classifyWarpweaveDir(projectRoot: string): WarpweaveDirClassification {
   const planningDir = resolvePlanningDirName(projectRoot);
   const warpweaveDir = path.join(projectRoot, planningDir);
   const hasPlanningShape =

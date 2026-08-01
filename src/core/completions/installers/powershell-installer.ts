@@ -120,7 +120,7 @@ export class PowerShellInstaller {
   getInstallationPath(): string {
     const profilePath = this.getProfilePath();
     const profileDir = path.dirname(profilePath);
-    return path.join(profileDir, 'SpectrixCompletion.ps1');
+    return path.join(profileDir, 'WarpweaveCompletion.ps1');
   }
 
   /**

@@ -36,7 +36,7 @@ import {
 import { getStoreRootForBackend } from './store/registry.js';
 import { inspectWarpweaveRoot } from './warpweave-root.js';
 import { findRepoPlanningRootSync, resolvePlanningDirName, type PlanningHome } from './planning-home.js';
-import { classifySpectrixDir, storePointerProblem } from './project-config.js';
+import { classifyWarpweaveDir, storePointerProblem } from './project-config.js';
 import { getGlobalConfig } from './global-config.js';
 import { FileSystemUtils } from '../utils/file-system.js';
 
@@ -284,7 +284,7 @@ export async function inspectRegisteredStore(
 function findQualifyingRootSync(startPath: string): string | null {
   let candidate = findRepoPlanningRootSync(startPath);
   while (candidate) {
-    const { hasPlanningShape, pointer } = classifySpectrixDir(candidate);
+    const { hasPlanningShape, pointer } = classifyWarpweaveDir(candidate);
     if (hasPlanningShape || pointer.filePath) {
       return candidate;
     }
@@ -301,7 +301,7 @@ async function resolveNearestOrDeclaredRoot(
   nearestRoot: string,
   globalDataDir?: string
 ): Promise<ResolvedWarpweaveRoot> {
-  const { hasPlanningShape, pointer } = classifySpectrixDir(nearestRoot);
+  const { hasPlanningShape, pointer } = classifyWarpweaveDir(nearestRoot);
 
   if (hasPlanningShape) {
     if (pointer.value !== undefined) {

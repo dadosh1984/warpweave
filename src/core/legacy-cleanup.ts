@@ -32,51 +32,46 @@ export const LEGACY_CONFIG_FILES = [
  * Some tools used a directory structure, others used individual files.
  */
 export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPattern> = {
-  // Directory-based: .tooldir/commands/warpweave/ or .tooldir/commands/warpweave/*.md
-  // (pre-otrix, from the openspec-era naming). The otrix/ directories from the
-  // spectrix 1.10.x generation are cleaned up by the matching otrix entries
-  // below; the current generation writes ww/ directories and ww-* files, which
-  // are NOT listed here and are therefore never treated as legacy.
-  'claude': { type: 'directory', path: '.claude/commands/warpweave' },
-  'codebuddy': { type: 'directory', path: '.codebuddy/commands/warpweave' },
-  'qoder': { type: 'directory', path: '.qoder/commands/warpweave' },
-  'lingma': { type: 'directory', path: '.lingma/commands/warpweave' },
-  'crush': { type: 'directory', path: '.crush/commands/warpweave' },
-  'gemini': { type: 'directory', path: '.gemini/commands/warpweave' },
-  'costrict': { type: 'directory', path: '.cospec/warpweave/commands' },
+  // Directory-based commands. Three legacy generations are cleaned per tool:
+  // `openspec/` (upstream OpenSpec era), `warpweave/` (post-rename era), and
+  // `otrix/` (spectrix 1.10.x era). The current generation writes `ww/`
+  // directories and `ww-*` files, which are NOT listed here and are therefore
+  // never treated as legacy.
+  'claude': { type: 'directory', path: ['.claude/commands/openspec', '.claude/commands/warpweave', '.claude/commands/otrix'] },
+  'codebuddy': { type: 'directory', path: ['.codebuddy/commands/openspec', '.codebuddy/commands/warpweave', '.codebuddy/commands/otrix'] },
+  'qoder': { type: 'directory', path: ['.qoder/commands/openspec', '.qoder/commands/warpweave', '.qoder/commands/otrix'] },
+  'lingma': { type: 'directory', path: ['.lingma/commands/openspec', '.lingma/commands/warpweave', '.lingma/commands/otrix'] },
+  'crush': { type: 'directory', path: ['.crush/commands/openspec', '.crush/commands/warpweave', '.crush/commands/otrix'] },
+  'gemini': { type: 'directory', path: ['.gemini/commands/openspec', '.gemini/commands/warpweave', '.gemini/commands/otrix'] },
+  'costrict': { type: 'directory', path: ['.cospec/openspec/commands', '.cospec/warpweave/commands'] },
+  'zcode': { type: 'directory', path: '.zcode/commands/otrix' },
 
-  // spectrix-era otrix/ directories — the generation between warpweave/ and ww/
-  'claude-otrix': { type: 'directory', path: '.claude/commands/otrix' },
-  'codebuddy-otrix': { type: 'directory', path: '.codebuddy/commands/otrix' },
-  'qoder-otrix': { type: 'directory', path: '.qoder/commands/otrix' },
-  'lingma-otrix': { type: 'directory', path: '.lingma/commands/otrix' },
-  'crush-otrix': { type: 'directory', path: '.crush/commands/otrix' },
-  'gemini-otrix': { type: 'directory', path: '.gemini/commands/otrix' },
-
-  // File-based: individual warpweave-*.md files in a commands/workflows/prompts folder
-  'cursor': { type: 'files', pattern: ['.cursor/commands/warpweave-*.md', '.cursor/commands/otrix-*.md'] },
+  // File-based: individual openspec-*/warpweave-*/otrix-*.md files in a commands/workflows/prompts folder
+  'cursor': { type: 'files', pattern: ['.cursor/commands/openspec-*.md', '.cursor/commands/warpweave-*.md', '.cursor/commands/otrix-*.md'] },
   // Keyed by the tool id these map back to, so the pre-otrix Windsurf files
   // belong to `devin` — the id Windsurf became. Only `.windsurf/` is listed:
-  // `.devin/` postdates the otrix rename and never held `warpweave-*` files.
-  'devin': { type: 'files', pattern: ['.windsurf/workflows/warpweave-*.md', '.windsurf/workflows/otrix-*.md'] },
-  'kilocode': { type: 'files', pattern: ['.kilocode/workflows/warpweave-*.md', '.kilocode/workflows/otrix-*.md'] },
-  'kiro': { type: 'files', pattern: ['.kiro/prompts/warpweave-*.prompt.md', '.kiro/prompts/otrix-*.prompt.md'] },
-  'github-copilot': { type: 'files', pattern: ['.github/prompts/warpweave-*.prompt.md', '.github/prompts/otrix-*.prompt.md'] },
-  'amazon-q': { type: 'files', pattern: ['.amazonq/prompts/warpweave-*.md', '.amazonq/prompts/otrix-*.md'] },
-  'cline': { type: 'files', pattern: ['.clinerules/workflows/warpweave-*.md', '.clinerules/workflows/otrix-*.md'] },
-  'roocode': { type: 'files', pattern: ['.roo/commands/warpweave-*.md', '.roo/commands/otrix-*.md'] },
-  'auggie': { type: 'files', pattern: ['.augment/commands/warpweave-*.md', '.augment/commands/otrix-*.md'] },
-  'factory': { type: 'files', pattern: ['.factory/commands/warpweave-*.md', '.factory/commands/otrix-*.md'] },
-  'opencode': { type: 'files', pattern: ['.opencode/command/otrix-*.md', '.opencode/command/warpweave-*.md'] },
-  'continue': { type: 'files', pattern: ['.continue/prompts/warpweave-*.prompt', '.continue/prompts/otrix-*.prompt'] },
-  'antigravity': { type: 'files', pattern: ['.agent/workflows/warpweave-*.md', '.agent/workflows/otrix-*.md'] },
-  'iflow': { type: 'files', pattern: ['.iflow/commands/warpweave-*.md', '.iflow/commands/otrix-*.md'] },
-  'junie': { type: 'files', pattern: ['.junie/commands/otrix-*.md', '.junie/commands/warpweave-*.md'] },
-  'qwen': { type: 'files', pattern: ['.qwen/commands/otrix-*.toml', '.qwen/commands/warpweave-*.toml'] },
-  'codex': { type: 'files', pattern: ['.codex/prompts/warpweave-*.md', '.codex/prompts/otrix-*.md'] },
+  // `.devin/` postdates the otrix rename and never held legacy files.
+  'devin': { type: 'files', pattern: ['.windsurf/workflows/openspec-*.md', '.windsurf/workflows/warpweave-*.md', '.windsurf/workflows/otrix-*.md'] },
+  'kilocode': { type: 'files', pattern: ['.kilocode/workflows/openspec-*.md', '.kilocode/workflows/warpweave-*.md', '.kilocode/workflows/otrix-*.md'] },
+  'kiro': { type: 'files', pattern: ['.kiro/prompts/openspec-*.prompt.md', '.kiro/prompts/warpweave-*.prompt.md', '.kiro/prompts/otrix-*.prompt.md'] },
+  'github-copilot': { type: 'files', pattern: ['.github/prompts/openspec-*.prompt.md', '.github/prompts/warpweave-*.prompt.md', '.github/prompts/otrix-*.prompt.md'] },
+  'amazon-q': { type: 'files', pattern: ['.amazonq/prompts/openspec-*.md', '.amazonq/prompts/warpweave-*.md', '.amazonq/prompts/otrix-*.md'] },
+  'cline': { type: 'files', pattern: ['.clinerules/workflows/openspec-*.md', '.clinerules/workflows/warpweave-*.md', '.clinerules/workflows/otrix-*.md'] },
+  'roocode': { type: 'files', pattern: ['.roo/commands/openspec-*.md', '.roo/commands/warpweave-*.md', '.roo/commands/otrix-*.md'] },
+  'auggie': { type: 'files', pattern: ['.augment/commands/openspec-*.md', '.augment/commands/warpweave-*.md', '.augment/commands/otrix-*.md'] },
+  'factory': { type: 'files', pattern: ['.factory/commands/openspec-*.md', '.factory/commands/warpweave-*.md', '.factory/commands/otrix-*.md'] },
+  // OpenCode moved from the singular .opencode/command/ dir to .opencode/commands/;
+  // all legacy generations in the old dir are cleaned, current files live in the plural dir.
+  'opencode': { type: 'files', pattern: ['.opencode/command/openspec-*.md', '.opencode/command/warpweave-*.md', '.opencode/command/otrix-*.md', '.opencode/command/ww-*.md'] },
+  'continue': { type: 'files', pattern: ['.continue/prompts/openspec-*.prompt', '.continue/prompts/warpweave-*.prompt', '.continue/prompts/otrix-*.prompt'] },
+  'antigravity': { type: 'files', pattern: ['.agent/workflows/openspec-*.md', '.agent/workflows/warpweave-*.md', '.agent/workflows/otrix-*.md'] },
+  'iflow': { type: 'files', pattern: ['.iflow/commands/openspec-*.md', '.iflow/commands/warpweave-*.md', '.iflow/commands/otrix-*.md'] },
+  'junie': { type: 'files', pattern: ['.junie/commands/openspec-*.md', '.junie/commands/otrix-*.md', '.junie/commands/warpweave-*.md'] },
+  // Qwen moved from TOML to Markdown for the same ww-* commands; the .toml
+  // files are legacy, the .md files are current.
+  'qwen': { type: 'files', pattern: ['.qwen/commands/openspec-*.toml', '.qwen/commands/otrix-*.toml', '.qwen/commands/warpweave-*.toml', '.qwen/commands/ww-*.toml'] },
+  'codex': { type: 'files', pattern: ['.codex/prompts/openspec-*.md', '.codex/prompts/warpweave-*.md', '.codex/prompts/otrix-*.md'] },
   'oh-my-pi': { type: 'files', pattern: '.omp/commands/otrix-*.md' },
-  'pi': { type: 'files', pattern: '.pi/prompts/otrix-*.md' },
-  'zcode-otrix': { type: 'directory', path: '.zcode/commands/otrix' },
 };
 
 /**
@@ -96,6 +91,20 @@ const LEGACY_GLOBAL_CODEX_WORKFLOWS: Record<string, readonly WorkflowId[]> = {
   'otrix-bulk-archive.md': ['bulk-archive'],
   'otrix-verify.md': ['verify'],
   'otrix-onboard.md': ['onboard'],
+  // The ww-* generation: Codex's last file-based prompts before it moved to
+  // skills-only delivery. Same workflow ids, new prefix.
+  'ww-propose.md': ['propose'],
+  'ww-explore.md': ['explore'],
+  'ww-new.md': ['new'],
+  'ww-continue.md': ['continue'],
+  'ww-apply.md': ['apply'],
+  'ww-update.md': ['update'],
+  'ww-ff.md': ['ff'],
+  'ww-sync.md': ['sync'],
+  'ww-archive.md': ['archive'],
+  'ww-bulk-archive.md': ['bulk-archive'],
+  'ww-verify.md': ['verify'],
+  'ww-onboard.md': ['onboard'],
 };
 
 /**
@@ -116,7 +125,7 @@ export const LEGACY_GLOBAL_SLASH_COMMAND_PATHS: Record<string, LegacyGlobalPromp
  */
 export interface LegacySlashCommandPattern {
   type: 'directory' | 'files';
-  path?: string; // For directory type
+  path?: string | string[]; // For directory type (one or more legacy dirs per tool)
   pattern?: string | string[]; // For files type (glob pattern or array of patterns)
 }
 
@@ -299,7 +308,7 @@ export async function detectLegacyConfigFiles(
     if (await FileSystemUtils.fileExists(filePath)) {
       const content = await FileSystemUtils.readFile(filePath);
 
-      if (hasSpectrixMarkers(content)) {
+      if (hasWarpweaveMarkers(content)) {
         allFiles.push(fileName);
         filesToUpdate.push(fileName); // Always update, never delete config files
       }
@@ -326,9 +335,12 @@ export async function detectLegacySlashCommands(
 
   for (const pattern of Object.values(LEGACY_SLASH_COMMAND_PATHS)) {
     if (pattern.type === 'directory' && pattern.path) {
-      const dirPath = FileSystemUtils.joinPath(projectPath, pattern.path);
-      if (await FileSystemUtils.directoryExists(dirPath)) {
-        directories.push(pattern.path);
+      const dirPaths = Array.isArray(pattern.path) ? pattern.path : [pattern.path];
+      for (const dir of dirPaths) {
+        const dirPath = FileSystemUtils.joinPath(projectPath, dir);
+        if (await FileSystemUtils.directoryExists(dirPath)) {
+          directories.push(dir);
+        }
       }
     } else if (pattern.type === 'files' && pattern.pattern) {
       const patterns = Array.isArray(pattern.pattern) ? pattern.pattern : [pattern.pattern];
@@ -439,19 +451,25 @@ export async function detectLegacyStructureFiles(
   let hasProjectMd = false;
   let hasRootAgentsWithMarkers = false;
 
-  // Check for warpweave/AGENTS.md
+  // Check for warpweave/AGENTS.md (or legacy openspec/AGENTS.md from upstream OpenSpec)
   const warpweaveAgentsPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'AGENTS.md');
-  hasOpenspecAgents = await FileSystemUtils.fileExists(warpweaveAgentsPath);
+  const legacyOpenspecAgentsPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'AGENTS.md');
+  hasOpenspecAgents =
+    (await FileSystemUtils.fileExists(warpweaveAgentsPath)) ||
+    (await FileSystemUtils.fileExists(legacyOpenspecAgentsPath));
 
   // Check for warpweave/project.md (for migration messaging, not deleted)
   const projectMdPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'project.md');
-  hasProjectMd = await FileSystemUtils.fileExists(projectMdPath);
+  const legacyOpenspecProjectMdPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'project.md');
+  hasProjectMd =
+    (await FileSystemUtils.fileExists(projectMdPath)) ||
+    (await FileSystemUtils.fileExists(legacyOpenspecProjectMdPath));
 
   // Check for root AGENTS.md with Warpweave markers
   const rootAgentsPath = FileSystemUtils.joinPath(projectPath, 'AGENTS.md');
   if (await FileSystemUtils.fileExists(rootAgentsPath)) {
     const content = await FileSystemUtils.readFile(rootAgentsPath);
-    hasRootAgentsWithMarkers = hasSpectrixMarkers(content);
+    hasRootAgentsWithMarkers = hasWarpweaveMarkers(content);
   }
 
   return { hasOpenspecAgents, hasProjectMd, hasRootAgentsWithMarkers };
@@ -463,7 +481,7 @@ export async function detectLegacyStructureFiles(
  * @param content - File content to check
  * @returns True if both start and end markers are present
  */
-export function hasSpectrixMarkers(content: string): boolean {
+export function hasWarpweaveMarkers(content: string): boolean {
   return (
     content.includes(OPENSPEC_MARKERS.start) && content.includes(OPENSPEC_MARKERS.end)
   );
@@ -475,7 +493,7 @@ export function hasSpectrixMarkers(content: string): boolean {
  * @param content - File content to check
  * @returns True if content outside markers is only whitespace
  */
-export function isOnlySpectrixContent(content: string): boolean {
+export function isOnlyWarpweaveContent(content: string): boolean {
   const startIndex = content.indexOf(OPENSPEC_MARKERS.start);
   const endIndex = content.indexOf(OPENSPEC_MARKERS.end);
 
@@ -600,14 +618,17 @@ export async function cleanupLegacyArtifacts(
   }
 
   // Delete warpweave/AGENTS.md (this is inside warpweave/, it's Warpweave-managed)
+  // and its upstream legacy sibling openspec/AGENTS.md.
   if (detection.hasOpenspecAgents) {
-    const agentsPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'AGENTS.md');
-    if (await FileSystemUtils.fileExists(agentsPath)) {
-      try {
-        await fs.unlink(agentsPath);
-        result.deletedFiles.push('warpweave/AGENTS.md');
-      } catch (error: any) {
-        result.errors.push(`Failed to delete warpweave/AGENTS.md: ${error.message}`);
+    for (const agentsRelative of ['warpweave/AGENTS.md', 'openspec/AGENTS.md']) {
+      const agentsPath = FileSystemUtils.joinPath(projectPath, ...agentsRelative.split('/'));
+      if (await FileSystemUtils.fileExists(agentsPath)) {
+        try {
+          await fs.unlink(agentsPath);
+          result.deletedFiles.push(agentsRelative);
+        } catch (error: any) {
+          result.errors.push(`Failed to delete ${agentsRelative}: ${error.message}`);
+        }
       }
     }
   }
@@ -700,9 +721,11 @@ function buildRemovalsList(detection: LegacyDetectionResult): Array<{ path: stri
     removals.push({ path: prompt.path, explanation });
   }
 
-  // warpweave/AGENTS.md (inside warpweave/, it's Warpweave-managed)
+  // warpweave/AGENTS.md and legacy openspec/AGENTS.md (inside their dirs,
+  // Warpweave-managed, always removed together)
   if (detection.hasOpenspecAgents) {
     removals.push({ path: 'warpweave/AGENTS.md', explanation: 'obsolete workflow file' });
+    removals.push({ path: 'openspec/AGENTS.md', explanation: 'obsolete workflow file' });
   }
 
   // Note: Config files (CLAUDE.md, AGENTS.md, etc.) are NEVER in the removals list
@@ -817,9 +840,12 @@ export function getToolsFromLegacyArtifacts(detection: LegacyDetectionResult): s
   // Match directories to tool IDs
   for (const dir of detection.slashCommandDirs) {
     for (const [toolId, pattern] of Object.entries(LEGACY_SLASH_COMMAND_PATHS)) {
-      if (pattern.type === 'directory' && pattern.path === dir) {
-        tools.add(toolId);
-        break;
+      if (pattern.type === 'directory' && pattern.path) {
+        const dirPaths = Array.isArray(pattern.path) ? pattern.path : [pattern.path];
+        if (dirPaths.includes(dir)) {
+          tools.add(toolId);
+          break;
+        }
       }
     }
   }
@@ -951,6 +977,7 @@ export function formatProjectMdMigrationHint(): string {
   const lines: string[] = [];
   lines.push(chalk.yellow.bold('Needs your attention'));
   lines.push('  • warpweave/project.md');
+  lines.push('  • openspec/project.md');
   lines.push(chalk.dim('    We won\'t delete this file. It may contain useful project context.'));
   lines.push('');
   lines.push(chalk.dim('    The new warpweave/config.yaml has a "context:" section for planning'));
