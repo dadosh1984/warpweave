@@ -1,12 +1,29 @@
 name: Release
 
+# Publishes to npm and creates GitHub Releases, keeping npmjs and GitHub in sync.
+#
+# Two triggers:
+#   1. push to main  -> if package.json version is not yet on npm, publish it,
+#                       then tag v<version> and create a GitHub Release.
+#   2. push tag v*   -> re-validates (build + tests), skips publish if the
+#                       version already exists, and creates/updates the
+#                       GitHub Release (used for manual tagging).
+#
+# Versioning: bump `version` in package.json in your PR; the merge to main
+# triggers the publish automatically.
+
 on:
   push:
+    branches: [main]
     tags:
       - 'v*'
 
 permissions:
   contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
@@ -54,7 +71,24 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      # On a main push with a new version: tag v<version> and create the
+      # GitHub Release right away (gh API-created tags do not re-trigger this
+      # workflow, so no infinite loop).
+      - name: Tag version and create GitHub Release
+        if: github.ref == 'refs/heads/main' && steps.npm-version-check.outputs.exists == 'false'
+        shell: bash
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          gh release create "v$VERSION" \
+            --title "warpweave v$VERSION" \
+            --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Manual tag push (v*): create/update the GitHub Release with
+      # auto-generated notes.
       - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
