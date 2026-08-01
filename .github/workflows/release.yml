@@ -67,7 +67,9 @@ jobs:
 
       - name: Publish to npm
         if: steps.npm-version-check.outputs.exists == 'false'
-        run: pnpm publish --access public
+        # --no-git-checks: on a tag push the checkout is on a detached HEAD,
+        # which pnpm would otherwise reject against its publish-branch default.
+        run: pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
