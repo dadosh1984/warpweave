@@ -174,7 +174,7 @@ warpweave update [path] [options]
 
 ```bash
 # Update instruction files after npm upgrade
-npm install -g @dadosh1984/warpweave@latest
+npm install -g warpweave@latest
 warpweave update
 ```
 
@@ -184,11 +184,11 @@ To make that visible, `warpweave update` asks the npm registry whether a newer C
 
 ```text
 A newer Warpweave CLI is available (v1.6.0 → v1.7.0).
-  Running from: /usr/local/lib/node_modules/@dadosh1984/warpweave
+  Running from: /usr/local/lib/node_modules/warpweave
 ? Upgrade to v1.7.0 now? (Y/n)
 ```
 
-Answer yes and it runs `npm install -g @dadosh1984/warpweave@latest`, then re-runs the update with the new CLI so the new workflows land in the same command. It confirms the upgrade by asking the installed binary its version rather than trusting npm's exit code, so if another install earlier on your `PATH` is still answering, it tells you instead of claiming success. Answer no and it prints the command and updates with the CLI you have. Ctrl-C stops the command.
+Answer yes and it runs `npm install -g warpweave@latest`, then re-runs the update with the new CLI so the new workflows land in the same command. It confirms the upgrade by asking the installed binary its version rather than trusting npm's exit code, so if another install earlier on your `PATH` is still answering, it tells you instead of claiming success. Answer no and it prints the command and updates with the CLI you have. Ctrl-C stops the command.
 
 The offer appears only in an interactive terminal, and only when npm owns the install — the one case `npm install -g` actually fixes. Everything else gets the command that matches how it was installed instead:
 
@@ -197,7 +197,7 @@ The offer appears only in an interactive terminal, and only when npm owns the in
 | Global npm install | The prompt, and the upgrade run for you — in an interactive terminal; piped output gets the printed command instead |
 | Global pnpm, bun, yarn, or volta install | That manager's own command: `pnpm add -g …@latest`, `bun add -g …@latest`, `yarn global add …@latest`, or `volta install …@latest` |
 | A dependency of the project | A note to update the dependency, since its package manager owns the lockfile |
-| An `npx` / `dlx` cache | `npx @dadosh1984/warpweave@latest update` — that command is the update, so there is no second step |
+| An `npx` / `dlx` cache | `npx warpweave@latest update` — that command is the update, so there is no second step |
 | A git clone | Nothing — your version is whatever the branch says |
 
 Whenever anything is printed, it names the directory the running CLI was loaded from — the thing to check when you did upgrade but a stale shim still owns your `PATH`.
@@ -1065,7 +1065,7 @@ warpweave schema which spec-driven
 
 ```
 spec-driven resolves from: package
-  Source: /usr/local/lib/node_modules/@dadosh1984/warpweave/schemas/spec-driven
+  Source: /usr/local/lib/node_modules/warpweave/schemas/spec-driven
 ```
 
 **Schema precedence:**

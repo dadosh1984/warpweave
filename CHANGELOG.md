@@ -1,4 +1,16 @@
-# @dadosh1984/spectrix
+# warpweave
+
+## 1.0.0
+
+### Major Changes
+
+- Public release: the project is now **warpweave** (binary `ww`, program `warpweave`), replacing the `spectrix` / `otrix` / `openspec` lineage.
+- Unified spec-driven development toolkit: OpenSpec workflows + Superpowers methodology + Ponytail output discipline + RTK feedback loop. One CLI (`ww`) and one skill set (`/ww:*`) across supported AI tools.
+- Project structure rebranded: planning root `warpweave/`, change metadata `.warpweave.yaml`, store directory `.warpweave-store`, unified config section `[warpweave]`.
+- Environment variables renamed `OPENSPEC_*` → `WARPWEAVE_*` (`WARPWEAVE_NO_ANIMATION`, `WARPWEAVE_TELEMETRY`, `WARPWEAVE_CONCURRENCY`, ...). The old `OPENSPEC_DIR_NAME` / `OPENSPEC_MARKERS` constants remain as deprecated aliases for backward compatibility.
+- Legacy cleanup detects three generations of planning roots (`openspec-*`, `warpweave-*`, `otrix-*`) plus per-tool format quirks; current `ww/*` and `ww-*` are not treated as legacy.
+- Full test suite restored and green: 3453 passed | 24 skipped, build, lint, and typecheck all passing.
+- npm package published unscoped as `warpweave` (binaries `ww` and `warpweave`).
 
 ## 1.10.0
 

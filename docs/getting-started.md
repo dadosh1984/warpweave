@@ -14,7 +14,7 @@ This guide explains how Warpweave works after you've installed and initialized i
 The whole loop, with each step labeled by where it happens:
 
 ```text
-TERMINAL   $ npm install -g @dadosh1984/warpweave@latest
+TERMINAL   $ npm install -g warpweave@latest
 TERMINAL   $ cd your-project && warpweave init
 AI CHAT      /ww:explore                    (optional: think it through first)
 AI CHAT      /ww:propose add-dark-mode      (AI drafts the plan; you review it)

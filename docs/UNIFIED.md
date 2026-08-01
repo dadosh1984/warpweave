@@ -120,7 +120,7 @@ Select a profile with the `UNIFIED_PROFILE` environment variable (see `.env.exam
 ## Installation
 
 ```bash
-npm install -g @dadosh1984/warpweave@latest
+npm install -g warpweave@latest
 brew install rtk
 cd your-project
 warpweave init

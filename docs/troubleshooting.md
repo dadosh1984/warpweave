@@ -9,7 +9,7 @@ Concrete fixes for concrete problems. Each entry names a symptom, explains the l
 The CLI isn't installed, or your shell can't find it. Install it globally and check:
 
 ```bash
-npm install -g @dadosh1984/warpweave@latest
+npm install -g warpweave@latest
 warpweave --version
 ```
 

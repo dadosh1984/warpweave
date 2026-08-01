@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/dadosh1984/warpweave/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/dadosh1984/warpweave/actions/workflows/ci.yml/badge.svg" /></a>
-  <a href="https://www.npmjs.com/package/@dadosh1984/warpweave"><img alt="npm version" src="https://img.shields.io/npm/v/@dadosh1984/warpweave?style=flat-square" /></a>
+  <a href="https://www.npmjs.com/package/warpweave"><img alt="npm version" src="https://img.shields.io/npm/v/warpweave?style=flat-square" /></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" /></a>
 </p>
 
@@ -24,7 +24,7 @@ Warpweave integrates four systems into one workflow:
 ## Quick Start
 
 ```bash
-npm install -g @dadosh1984/warpweave@latest
+npm install -g warpweave@latest
 cd your-project
 warpweave init
 ```
@@ -66,6 +66,6 @@ Modifications Copyright (c) 2026 dadosh1984.
 
 <p align="center">
   <a href="https://github.com/dadosh1984/warpweave">GitHub</a> ·
-  <a href="https://npmjs.com/package/@dadosh1984/warpweave">npm</a> ·
+  <a href="https://npmjs.com/package/warpweave">npm</a> ·
   <a href="https://discord.gg/YctCnvvshC">Discord</a>
 </p>

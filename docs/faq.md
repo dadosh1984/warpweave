@@ -136,11 +136,11 @@ It collects anonymous usage stats: command names and version only. No arguments,
 
 ### How do I upgrade?
 
-Two steps. Upgrade the package (`npm install -g @dadosh1984/warpweave@latest`), then run `warpweave update` inside each project to refresh the generated skills and commands.
+Two steps. Upgrade the package (`npm install -g warpweave@latest`), then run `warpweave update` inside each project to refresh the generated skills and commands.
 
 ### How do I uninstall Warpweave?
 
-There's no uninstall command, because it's just a global package plus files in your project. Remove the package (`npm uninstall -g @dadosh1984/warpweave`), and optionally delete the `warpweave/` directory and the generated tool files. Step-by-step, including what's safe to keep, is in [Installation: Uninstalling](installation.md#uninstalling).
+There's no uninstall command, because it's just a global package plus files in your project. Remove the package (`npm uninstall -g warpweave`), and optionally delete the `warpweave/` directory and the generated tool files. Step-by-step, including what's safe to keep, is in [Installation: Uninstalling](installation.md#uninstalling).
 
 ## Getting help
 

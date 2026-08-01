@@ -95,7 +95,7 @@ That second one matters more than it looks. Warpweave has two halves: a command 
 ## The thirty-second version
 
 ```text
-1. Install        npm install -g @dadosh1984/warpweave@latest
+1. Install        npm install -g warpweave@latest
 2. Initialize     cd your-project && warpweave init
 3. Explore        (in your AI chat)  /ww:explore           ← optional, but a great habit
 4. Propose        (in your AI chat)  /ww:propose add-dark-mode

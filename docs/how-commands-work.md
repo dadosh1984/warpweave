@@ -143,7 +143,7 @@ For what each command does in detail, see [Commands](commands.md). For when to r
 Putting it together, here is the whole sequence with each step labeled by where it happens.
 
 ```text
-TERMINAL   $ npm install -g @dadosh1984/warpweave@latest
+TERMINAL   $ npm install -g warpweave@latest
 TERMINAL   $ cd your-project
 TERMINAL   $ warpweave init
               (installs slash commands into your AI tool)

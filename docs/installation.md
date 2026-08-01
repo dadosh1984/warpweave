@@ -19,10 +19,10 @@ order, and stop where a step tells you to stop.
    versions, or reconfigure my version manager for me.
 
 2. INSTALL. Use whichever package manager is already on my PATH, preferring npm:
-     npm install -g @dadosh1984/warpweave@latest
-     pnpm add -g @dadosh1984/warpweave@latest
-     bun add -g @dadosh1984/warpweave@latest
-     yarn global add @dadosh1984/warpweave@latest   (Yarn 1.x only)
+     npm install -g warpweave@latest
+     pnpm add -g warpweave@latest
+     bun add -g warpweave@latest
+     yarn global add warpweave@latest   (Yarn 1.x only)
    Don't pick based on this project's lockfile — a global install has nothing to
    do with how this repo's own dependencies are installed. If none of those four
    is available, stop and tell me — don't improvise an install. (If I'm on Nix,
@@ -81,19 +81,19 @@ Nothing in the prompt is vendor-specific: it's plain instructions plus the same 
 ### npm
 
 ```bash
-npm install -g @dadosh1984/warpweave@latest
+npm install -g warpweave@latest
 ```
 
 ### pnpm
 
 ```bash
-pnpm add -g @dadosh1984/warpweave@latest
+pnpm add -g warpweave@latest
 ```
 
 ### yarn
 
 ```bash
-yarn global add @dadosh1984/warpweave@latest
+yarn global add warpweave@latest
 ```
 
 Yarn 2 and later (Berry) removed the `global` command. On those versions, install Warpweave with npm, pnpm, or bun instead — a global CLI doesn't need to share your project's package manager.
@@ -106,11 +106,11 @@ If that happens, you could try to change the @latest tag with the version, somet
 ```bash
 deno install --global \
   --allow-read --allow-write --allow-env --allow-sys=cpus,homedir --allow-net=edge.warpweave.dev \
-  npm:@dadosh1984/warpweave@latest
+  npm:warpweave@latest
 # or
 deno install --global \
   --allow-read --allow-write --allow-env --allow-sys=cpus,homedir --allow-net=edge.warpweave.dev \
-  npm:@dadosh1984/warpweave@^1.3.1
+  npm:warpweave@^1.3.1
 ```
 
 Note: If your subcommands launch external tools, like config edit, feedback, or workspace open, you may need a scoped --allow-run=<program>.
@@ -121,7 +121,7 @@ Bun can install Warpweave globally, but Warpweave currently runs on Node.js.
 You still need Node.js 20.19.0 or higher available on `PATH`.
 
 ```bash
-bun add -g @dadosh1984/warpweave@latest
+bun add -g warpweave@latest
 ```
 
 ## Nix
@@ -166,7 +166,7 @@ warpweave --version
 Upgrade the package, then refresh each project's generated files:
 
 ```bash
-npm install -g @dadosh1984/warpweave@latest   # or pnpm/yarn/bun equivalent
+npm install -g warpweave@latest   # or pnpm/yarn/bun equivalent
 warpweave update                              # run inside each project
 ```
 
@@ -179,7 +179,7 @@ There's no `warpweave uninstall` command, because Warpweave is just a global pac
 **1. Remove the global package:**
 
 ```bash
-npm uninstall -g @dadosh1984/warpweave   # or: pnpm rm -g / yarn global remove / bun rm -g
+npm uninstall -g warpweave   # or: pnpm rm -g / yarn global remove / bun rm -g
 ```
 
 **2. Remove Warpweave from a project (optional).** Delete the `warpweave/` directory if you no longer want its specs and changes:
