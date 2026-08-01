@@ -10,8 +10,8 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getApplyChangeSkillTemplate(): SkillTemplate {
   return {
     name: 'warpweave-apply-change',
-    description: 'Implement tasks from an Warpweave change. Use when the user wants to start implementing, continue implementation, or work through tasks.',
-    instructions: `Implement tasks from an Warpweave change.
+    description: 'Implement tasks from a Warpweave change. Use when the user wants to start implementing, continue implementation, or work through tasks.',
+    instructions: `Implement tasks from a Warpweave change.
 
 ${STORE_SELECTION_GUIDANCE}
 
@@ -224,10 +224,10 @@ On command failure, read RTK tee log at \`~/.local/share/rtk/tee/\`.
 export function getOpsxApplyCommandTemplate(): CommandTemplate {
   return {
     name: 'WW: Apply',
-    description: 'Implement tasks from an Warpweave change (Experimental)',
+    description: 'Implement tasks from a Warpweave change (Experimental)',
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
-    content: `Implement tasks from an Warpweave change.
+    content: `Implement tasks from a Warpweave change.
 
 ${STORE_SELECTION_GUIDANCE}
 
