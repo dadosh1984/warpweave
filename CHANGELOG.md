@@ -1,5 +1,11 @@
 # warpweave
 
+## 1.2.0
+
+### Minor Changes
+
+- Two new quality skills ship by default with every install and are generated for every supported agent, so no manual configuration is needed: `warpweave-superpowers-tdd` (RED-GREEN-REFACTOR, subagent-driven development, two-stage review) and `warpweave-ponytail-minimal-output` (the YAGNI ladder — skip → reuse → stdlib → native → dependency → one-liner → minimum — plus `// ponytail:` debt markers). Both are part of the core workflow set and the skills.sh distribution, and `warpweave init` now reports them as installed skills instead of external "add to opencode.json" suggestions.
+
 ## 1.1.0
 
 ### Minor Changes

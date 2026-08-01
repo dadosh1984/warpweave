@@ -36,6 +36,10 @@ Then use slash commands in your AI assistant:
 
 The Translator skill (`warpweave-translator`) ships by default with every install. It works like a secretary at the intake: when a request is underspecified, it asks 1–5 short multiple-choice clarifying questions (reply e.g. `1b 2a` or `defaults`) before implementation, so the AI never guesses wrong or over-asks.
 
+Two more quality skills ship by default and are installed for every supported agent, so no manual configuration is needed:
+- `warpweave-superpowers-tdd` — RED-GREEN-REFACTOR, subagent-driven development, and two-stage review (spec compliance, then code quality)
+- `warpweave-ponytail-minimal-output` — the YAGNI ladder (skip → reuse → stdlib → native → dependency → one-liner → minimum) and `// ponytail:` debt markers, so every line earns its place
+
 Full command list: `warpweave --help`
 
 ## Documentation

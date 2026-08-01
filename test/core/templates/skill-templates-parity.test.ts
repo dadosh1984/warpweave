@@ -44,6 +44,8 @@ import {
   getInitUnifiedSkillTemplate,
   getOpsxInitUnifiedCommandTemplate,
   getTranslatorSkillTemplate,
+  getPonytailMinimalOutputSkillTemplate,
+  getSuperpowersTddSkillTemplate,
   getSyncSpecsSkillTemplate,
   getUpdateChangeSkillTemplate,
   getVerifyChangeSkillTemplate,
@@ -100,6 +102,8 @@ const EXPECTED_FUNCTION_HASHES: Record<string, string> = {
   getInitUnifiedSkillTemplate: 'ad77be64880cd6da181d0b1ec9dcf3a126e0e320b2290a4857f5f04c01e3a6b8',
   getOpsxInitUnifiedCommandTemplate: 'b267fa884f1f4d594d110caf2e784a4c0d12e525a095b88e8c6fa8a28fc4fc21',
   getTranslatorSkillTemplate: 'b5cd1c6c921758ddfb89a09f536613d49eeab03622ae5c5152f0396c24b0345e',
+  getPonytailMinimalOutputSkillTemplate: '2654f74f6ad5be6a3269c646460a9282301868d9500bbe7faf4bd09a704f0080',
+  getSuperpowersTddSkillTemplate: '83ef6743035402052749c52a6a9ad089ffd5fd221e261f6ff6bd37f1942f2293',
 };
 
 const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
@@ -125,6 +129,8 @@ const EXPECTED_GENERATED_SKILL_CONTENT_HASHES: Record<string, string> = {
   'warpweave-learn': '6c8e88107bf4bca19e5daac19d5a3bc1abc9e60ce7a9f63e1932d59bd7b03463',
   'warpweave-init-unified': 'c98f1fd89fcbac88f6fadfbdaef3ab5e0877cbe0113973c1d43ebdc57a4d49c1',
   'warpweave-translator': '05da878bb56300829ed356218eecd9d84e2639b548b917d0c06a3d5995a0a29f',
+  'warpweave-ponytail-minimal-output': '0f96e500e3a63faa709b26383da61a24038fc2d03aec4da58fa22adce1c2e032',
+  'warpweave-superpowers-tdd': 'c5ce3134257014a6892ca78fa8099751a5c446ab407cbbb10b71ff7aaa01f971',
 };
 
 // Intentionally excludes getFeedbackSkillTemplate: this list only models templates
@@ -152,6 +158,8 @@ const GENERATED_SKILL_FACTORIES: Array<[string, () => SkillTemplate]> = [
   ['warpweave-learn', getLearnSkillTemplate],
   ['warpweave-init-unified', getInitUnifiedSkillTemplate],
   ['warpweave-translator', getTranslatorSkillTemplate],
+  ['warpweave-ponytail-minimal-output', getPonytailMinimalOutputSkillTemplate],
+  ['warpweave-superpowers-tdd', getSuperpowersTddSkillTemplate],
 ];
 
 function stableStringify(value: unknown): string {
@@ -221,6 +229,8 @@ describe('skill templates split parity', () => {
       getInitUnifiedSkillTemplate,
       getOpsxInitUnifiedCommandTemplate,
       getTranslatorSkillTemplate,
+      getPonytailMinimalOutputSkillTemplate,
+      getSuperpowersTddSkillTemplate,
     };
 
     const actualHashes = Object.fromEntries(

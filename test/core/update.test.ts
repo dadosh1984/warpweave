@@ -2170,7 +2170,7 @@ More user content after markers.
         call.map(arg => String(arg)).join(' ')
       );
       expect(calls.some(call =>
-        call.includes('Your custom profile is missing 3 core workflows: update, sync, translator')
+        call.includes('Your custom profile is missing 5 core workflows: update, sync, translator, ponytail-minimal-output, superpowers-tdd')
       )).toBe(true);
       expect(calls.some(call =>
         call.includes('warpweave config profile core')
@@ -2205,7 +2205,7 @@ More user content after markers.
         call.map(arg => String(arg)).join(' ')
       );
       expect(calls.some(call =>
-        call.includes('Your custom profile is missing 2 core workflows: update, translator')
+        call.includes('Your custom profile is missing 4 core workflows: update, translator, ponytail-minimal-output, superpowers-tdd')
       )).toBe(true);
       expect(calls.some(call =>
         call.includes('to add them, or')
@@ -2219,7 +2219,7 @@ More user content after markers.
         featureFlags: {},
         profile: 'custom',
         delivery: 'both',
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify', 'translator'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'],
       });
 
       const initCommand = new InitCommand({ tools: 'claude', force: true });
