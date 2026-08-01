@@ -4,7 +4,7 @@
  * Generate the static skills.sh distribution of the warpweave workflow skills.
  *
  * skills.sh installs skills by reading committed `SKILL.md` files straight from
- * a GitHub repo (`npx skills add Fission-AI/warpweave`). warpweave normally
+ * a GitHub repo (`npx skills add dadosh1984/warpweave`). warpweave normally
  * *generates* these skills into a user's project via `warpweave init`, so this
  * script mirrors that same output into a committed `skills/<name>/SKILL.md`
  * tree that skills.sh can discover.

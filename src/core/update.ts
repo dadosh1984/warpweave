@@ -422,7 +422,7 @@ export class UpdateCommand {
         }
         console.log();
       }
-      console.log(`Learn more: ${chalk.cyan('https://github.com/Fission-AI/Warpweave')}`);
+      console.log(`Learn more: ${chalk.cyan('https://github.com/dadosh1984/warpweave')}`);
     }
 
     const configuredAndNewTools = [...new Set([...configuredTools, ...newlyConfiguredTools])];
