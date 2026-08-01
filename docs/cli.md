@@ -1,6 +1,6 @@
 # CLI Reference
 
-The Warpweave CLI (`warpweave`) provides terminal commands for project setup, validation, status inspection, and management. These commands complement the AI slash commands (like `/otrix:propose`) documented in [Commands](commands.md).
+The Warpweave CLI (`warpweave`) provides terminal commands for project setup, validation, status inspection, and management. These commands complement the AI slash commands (like `/ww:propose`) documented in [Commands](commands.md).
 
 ## Summary
 
@@ -143,7 +143,7 @@ warpweave/
 
 .claude/skills/         # Claude Code skills (if claude selected)
 .cursor/skills/         # Cursor skills (if cursor selected)
-.cursor/commands/       # Cursor OTRIX commands (if delivery includes commands)
+.cursor/commands/       # Cursor WW commands (if delivery includes commands)
 .agents/skills/         # Shared skills for AGENTS.md-compatible tools (if agents selected)
 ... (other tool configs)
 ```
@@ -664,7 +664,7 @@ you passed. Pass `--yes` (and the change name) up front to skip the round trip.
 
 ## Workflow Commands
 
-These commands support the artifact-driven OTRIX workflow. They're useful for both humans checking progress and agents determining next steps.
+These commands support the artifact-driven WW workflow. They're useful for both humans checking progress and agents determining next steps.
 
 ### `warpweave new change`
 
@@ -1259,7 +1259,7 @@ warpweave completion uninstall
 
 ## Related Documentation
 
-- [Commands](commands.md) - AI slash commands (`/otrix:propose`, `/otrix:apply`, etc.)
+- [Commands](commands.md) - AI slash commands (`/ww:propose`, `/ww:apply`, etc.)
 - [Workflows](workflows.md) - Common patterns and when to use each command
 - [Customization](customization.md) - Create custom schemas and templates
 - [Getting Started](getting-started.md) - First-time setup guide

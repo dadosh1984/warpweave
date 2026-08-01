@@ -10,14 +10,14 @@ import { escapeYamlValue, formatTagsArray } from '../yaml.js';
 
 /**
  * Lingma adapter for command generation.
- * File path: .lingma/commands/otrix/<id>.md
+ * File path: .lingma/commands/ww/<id>.md
  * Frontmatter: name, description, category, tags
  */
 export const lingmaAdapter: ToolCommandAdapter = {
   toolId: 'lingma',
 
   getFilePath(commandId: string): string {
-    return path.join('.lingma', 'commands', 'otrix', `${commandId}.md`);
+    return path.join('.lingma', 'commands', 'ww', `${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

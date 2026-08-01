@@ -88,7 +88,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxParallelExecuteCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Parallel Execute',
+    name: 'WW: Parallel Execute',
     description: 'Run independent tasks in parallel via subagents',
     category: 'Execution',
     tags: ['execution', 'parallel', 'subagent', 'speed', 'tasks'],
@@ -96,7 +96,7 @@ export function getOpsxParallelExecuteCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: A change name after \`/otrix:parallel-execute\` (e.g., \`/otrix:parallel-execute add-auth\`). If omitted, infer from conversation context; if ambiguous, prompt for available changes.
+**Input**: A change name after \`/ww:parallel-execute\` (e.g., \`/ww:parallel-execute add-auth\`). If omitted, infer from conversation context; if ambiguous, prompt for available changes.
 
 **Steps**
 

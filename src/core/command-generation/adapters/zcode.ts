@@ -3,7 +3,7 @@
  *
  * Formats commands for ZCode following its frontmatter specification.
  * ZCode shares Claude Code's command format conventions.
- * File path: .zcode/commands/otrix/<id>.md
+ * File path: .zcode/commands/ww/<id>.md
  * Frontmatter: name, description, category, tags
  */
 
@@ -13,14 +13,14 @@ import { escapeYamlValue, formatTagsArray } from '../yaml.js';
 
 /**
  * ZCode adapter for command generation.
- * File path: .zcode/commands/otrix/<id>.md
+ * File path: .zcode/commands/ww/<id>.md
  * Frontmatter: name, description, category, tags
  */
 export const zcodeAdapter: ToolCommandAdapter = {
   toolId: 'zcode',
 
   getFilePath(commandId: string): string {
-    return path.join('.zcode', 'commands', 'otrix', `${commandId}.md`);
+    return path.join('.zcode', 'commands', 'ww', `${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

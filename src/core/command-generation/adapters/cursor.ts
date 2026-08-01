@@ -11,20 +11,20 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Cursor adapter for command generation.
- * File path: .cursor/commands/otrix-<id>.md
- * Frontmatter: name (as /otrix-<id>), id, category, description
+ * File path: .cursor/commands/ww-<id>.md
+ * Frontmatter: name (as /ww-<id>), id, category, description
  */
 export const cursorAdapter: ToolCommandAdapter = {
   toolId: 'cursor',
 
   getFilePath(commandId: string): string {
-    return path.join('.cursor', 'commands', `otrix-${commandId}.md`);
+    return path.join('.cursor', 'commands', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {
     return `---
-name: ${escapeYamlValue(`/otrix-${content.id}`)}
-id: ${escapeYamlValue(`otrix-${content.id}`)}
+name: ${escapeYamlValue(`/ww-${content.id}`)}
+id: ${escapeYamlValue(`ww-${content.id}`)}
 category: ${escapeYamlValue(content.category)}
 description: ${escapeYamlValue(content.description)}
 ---

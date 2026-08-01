@@ -17,14 +17,14 @@ import {
 } from '../core/command-generation/invocation.js';
 
 /**
- * Rewrites the canonical `/otrix:<command>` references that command bodies and
+ * Rewrites the canonical `/ww:<command>` references that command bodies and
  * skill templates are authored with into the form one tool actually registers
- * — `/otrix-<command>` for tools that name the command by filename,
- * `@otrix-<command>` for Amazon Q's prompt library.
+ * — `/ww-<command>` for tools that name the command by filename,
+ * `@ww-<command>` for Amazon Q's prompt library.
  *
  * Only known command ids are rewritten, matching how
  * `transformToSkillReferences` leaves unrecognized references alone, so a
- * mistyped or invented `/otrix:<something>` is left as written rather than
+ * mistyped or invented `/ww:<something>` is left as written rather than
  * silently reshaped into a command that does not exist either.
  *
  * @param text - The text containing command references
@@ -32,14 +32,14 @@ import {
  * @returns Text with command references spelled the tool's way
  *
  * @example
- * transformCommandInvocations('/otrix:new', { style: 'flat', prefix: '/' }) // '/otrix-new'
- * transformCommandInvocations('/otrix:new', { style: 'flat', prefix: '@' }) // '@otrix-new'
+ * transformCommandInvocations('/ww:new', { style: 'flat', prefix: '/' }) // '/ww-new'
+ * transformCommandInvocations('/ww:new', { style: 'flat', prefix: '@' }) // '@ww-new'
  */
 export function transformCommandInvocations(
   text: string,
   invocation: CommandInvocation
 ): string {
-  return text.replace(/\/otrix:([a-z-]+)/g, (match, commandId: string) =>
+  return text.replace(/\/ww:([a-z-]+)/g, (match, commandId: string) =>
     commandId in COMMAND_TO_SKILL_NAME
       ? formatCommandInvocation(invocation, commandId)
       : match
@@ -87,7 +87,7 @@ const SKILL_INVOCATION_PREFIX: Record<string, string> = {
 };
 
 function replaceCommandsWithSkillReferences(text: string, prefix: string): string {
-  return text.replace(/\/otrix:([a-z-]+)/g, (match, commandId: string) => {
+  return text.replace(/\/ww:([a-z-]+)/g, (match, commandId: string) => {
     const skillName = COMMAND_TO_SKILL_NAME[commandId];
     return skillName === undefined ? match : `${prefix}${skillName}`;
   });
@@ -95,7 +95,7 @@ function replaceCommandsWithSkillReferences(text: string, prefix: string): strin
 
 /**
  * Transforms command references to skill references using the default `/`
- * invocation prefix. Converts `/otrix:<command>` patterns to
+ * invocation prefix. Converts `/ww:<command>` patterns to
  * `/warpweave-<skill>` so that generated skills do not reference commands
  * that were never generated. Used for channels that are not tied to one
  * tool (e.g. the skills.sh distribution); tool-targeted generation should
@@ -107,8 +107,8 @@ function replaceCommandsWithSkillReferences(text: string, prefix: string): strin
  * @returns Text with command references transformed to skill references
  *
  * @example
- * transformToSkillReferences('/otrix:apply') // returns '/warpweave-apply-change'
- * transformToSkillReferences('Use /otrix:archive next') // returns 'Use /warpweave-archive-change next'
+ * transformToSkillReferences('/ww:apply') // returns '/warpweave-apply-change'
+ * transformToSkillReferences('Use /ww:archive next') // returns 'Use /warpweave-archive-change next'
  */
 export function transformToSkillReferences(text: string): string {
   return replaceCommandsWithSkillReferences(text, '/');
@@ -120,7 +120,7 @@ export function transformToSkillReferences(text: string): string {
  * `/skill:warpweave-propose`). Falls back to the default `/warpweave-*` form.
  *
  * @param toolId - The AI tool identifier (e.g. 'kimi', 'vibe')
- * @returns A transformer converting `/otrix:*` references to skill invocations
+ * @returns A transformer converting `/ww:*` references to skill invocations
  */
 export function getSkillReferenceTransformer(toolId: string): (text: string) => string {
   const prefix = SKILL_INVOCATION_PREFIX[toolId];
@@ -133,7 +133,7 @@ export function getSkillReferenceTransformer(toolId: string): (text: string) => 
 /**
  * Selects the command-reference transformer for a skill generation target.
  *
- * Skill references are used whenever the tool ends up without `/otrix:*`
+ * Skill references are used whenever the tool ends up without `/ww:*`
  * commands — because delivery is skills-only, because the tool has no command
  * surface at all (capability 'none', e.g. Kimi Code or Mistral Vibe), or
  * because the tool invokes skills directly and Warpweave generates no command
@@ -141,10 +141,10 @@ export function getSkillReferenceTransformer(toolId: string): (text: string) => 
  * never point at commands that were not generated.
  *
  * When commands are generated, the spelling follows the tool's invocation: a
- * `flat` adapter names the command by filename (`.cursor/commands/otrix-apply.md`
- * → `/otrix-apply`), a `namespaced` adapter puts it in an `otrix/` directory
- * (`.claude/commands/otrix/apply.md` → `/otrix:apply`), and a non-slash prefix
- * wraps it further (`.amazonq/prompts/otrix-apply.md` → `@otrix-apply`). Passing
+ * `flat` adapter names the command by filename (`.cursor/commands/ww-apply.md`
+ * → `/ww-apply`), a `namespaced` adapter puts it in an `ww/` directory
+ * (`.claude/commands/ww/apply.md` → `/ww:apply`), and a non-slash prefix
+ * wraps it further (`.amazonq/prompts/ww-apply.md` → `@ww-apply`). Passing
  * the invocation in keeps this module free of a hand-maintained tool list —
  * the list drifted and left 16 tools advertising commands their palettes never
  * registered (#727, #1307).
@@ -154,7 +154,7 @@ export function getSkillReferenceTransformer(toolId: string): (text: string) => 
  * reference is dead text for anyone on Devin Local, while the `/warpweave-*`
  * skills work on both agents. Under commands-only delivery there are no Devin
  * skills to point at, so it falls through to the invocation rewrite below and
- * gets the `/otrix-<id>` form its workflow filenames register.
+ * gets the `/ww-<id>` form its workflow filenames register.
  *
  * @param toolId - The AI tool identifier (e.g. 'claude', 'opencode', 'pi')
  * @param delivery - The configured delivery mode
@@ -164,7 +164,7 @@ export function getSkillReferenceTransformer(toolId: string): (text: string) => 
  *        adapter. Required rather than optional so a caller that forgets it
  *        fails to compile instead of silently getting the canonical form.
  * @returns The transformer to pass to generateSkillContent, or undefined when
- *          the tool already answers to the canonical `/otrix:<id>`
+ *          the tool already answers to the canonical `/ww:<id>`
  */
 export function getTransformerForTool(
   toolId: string,

@@ -7,7 +7,7 @@ Warpweave works with many AI coding assistants. When you run `warpweave init`, W
 For each selected tool, Warpweave can install:
 
 1. **Skills** (if delivery includes skills): `.../skills/warpweave-*/SKILL.md`
-2. **Commands** (if delivery includes commands): tool-specific `otrix-*` command files
+2. **Commands** (if delivery includes commands): tool-specific `ww-*` command files
 
 Codex is skills-only: Warpweave installs `.codex/skills/warpweave-*/SKILL.md` for Codex even when delivery is set to `commands`, and it does not generate Codex custom prompt files.
 
@@ -23,33 +23,33 @@ You can enable expanded workflows (`new`, `continue`, `ff`, `verify`, `bulk-arch
 
 ## How To Invoke
 
-These docs use `/otrix:propose` as the canonical name, but each tool spells it the
+These docs use `/ww:propose` as the canonical name, but each tool spells it the
 way it loads the file Warpweave wrote. Find your tool's command path in the
 [Tool Directory Reference](#tool-directory-reference) below, then match its shape here.
 
 | Command file Warpweave writes | You type | Tools |
 |------------------------------|----------|-------|
-| `.../commands/otrix/<id>.*` — an `otrix/` folder namespaces it | `/otrix:<id>` | Claude Code, CodeBuddy, Crush, Gemini CLI, Lingma, Qoder, ZCode |
-| `.../otrix-<id>.*` — the filename is the command | `/otrix-<id>` | Every other tool with generated command files, except Amazon Q and Devin |
-| `.devin/workflows/otrix-<id>.md` — read by only one of Devin's two agents | `/otrix-<id>` on Devin Desktop, `/warpweave-<skill>` on Devin Local | Devin Desktop\*\*\*\* |
-| `.amazonq/prompts/otrix-<id>.md` — a prompt, not a command | `@otrix-<id>` | Amazon Q Developer |
+| `.../commands/ww/<id>.*` — an `ww/` folder namespaces it | `/ww:<id>` | Claude Code, CodeBuddy, Crush, Gemini CLI, Lingma, Qoder, ZCode |
+| `.../ww-<id>.*` — the filename is the command | `/ww-<id>` | Every other tool with generated command files, except Amazon Q and Devin |
+| `.devin/workflows/ww-<id>.md` — read by only one of Devin's two agents | `/ww-<id>` on Devin Desktop, `/warpweave-<skill>` on Devin Local | Devin Desktop\*\*\*\* |
+| `.amazonq/prompts/ww-<id>.md` — a prompt, not a command | `@ww-<id>` | Amazon Q Developer |
 | none — skills only | `/warpweave-<skill>` | CodeArts, ForgeCode, Hermes, Mistral Vibe, shared `.agents` |
 | none — Kimi Code | `/skill:warpweave-<skill>` | Kimi Code |
 | none — Codex CLI | `$warpweave-<skill>` | Codex ([`/warpweave-<skill>` is not recognized](https://github.com/openai/codex/issues/11817)) |
 
-So `/otrix:propose` is `/otrix-propose` in Cursor, `@otrix-propose` in Amazon Q, and
+So `/ww:propose` is `/ww-propose` in Cursor, `@ww-propose` in Amazon Q, and
 `$warpweave-propose` in Codex.
 
 Two things vary independently, which is why the rows do not collapse:
 
 - **The name.** Rows 1–2 differ only in how the file names the command, and the
-  `otrix-<id>` / `otrix:<id>` stem is the same for every tool with generated
+  `ww-<id>` / `ww:<id>` stem is the same for every tool with generated
   command files.
 - **The wrapper.** Amazon Q loads its files into a prompt library invoked with
   `@`. Skills-only tools generate no command files at all, so their last three
   rows use *skill* names — listed under
   [Generated Skill Names](#generated-skill-names) — which do not map one-to-one
-  onto command ids (`/otrix:apply` is the `warpweave-apply-change` skill).
+  onto command ids (`/ww:apply` is the `warpweave-apply-change` skill).
 
 The command path patterns above are extension-neutral (`.*`) on purpose: the
 extension is the tool's (`.toml` for Gemini CLI, `.prompt` for Continue,
@@ -64,47 +64,47 @@ to read the hint.
 
 | Tool (ID) | Skills path pattern | Command path pattern |
 |-----------|---------------------|----------------------|
-| Amazon Q Developer (`amazon-q`) | `.amazonq/skills/warpweave-*/SKILL.md` | `.amazonq/prompts/otrix-<id>.md` |
-| Antigravity (`antigravity`) | `.agent/skills/warpweave-*/SKILL.md` | `.agent/workflows/otrix-<id>.md` |
-| Auggie (`auggie`) | `.augment/skills/warpweave-*/SKILL.md` | `.augment/commands/otrix-<id>.md` |
-| IBM Bob Shell (`bob`) | `.bob/skills/warpweave-*/SKILL.md` | `.bob/commands/otrix-<id>.md` |
-| Claude Code (`claude`) | `.claude/skills/warpweave-*/SKILL.md` | `.claude/commands/otrix/<id>.md` |
-| Cline (`cline`) | `.cline/skills/warpweave-*/SKILL.md` | `.clinerules/workflows/otrix-<id>.md` |
+| Amazon Q Developer (`amazon-q`) | `.amazonq/skills/warpweave-*/SKILL.md` | `.amazonq/prompts/ww-<id>.md` |
+| Antigravity (`antigravity`) | `.agent/skills/warpweave-*/SKILL.md` | `.agent/workflows/ww-<id>.md` |
+| Auggie (`auggie`) | `.augment/skills/warpweave-*/SKILL.md` | `.augment/commands/ww-<id>.md` |
+| IBM Bob Shell (`bob`) | `.bob/skills/warpweave-*/SKILL.md` | `.bob/commands/ww-<id>.md` |
+| Claude Code (`claude`) | `.claude/skills/warpweave-*/SKILL.md` | `.claude/commands/ww/<id>.md` |
+| Cline (`cline`) | `.cline/skills/warpweave-*/SKILL.md` | `.clinerules/workflows/ww-<id>.md` |
 | CodeArts (`codeartsagent`) | `.codeartsdoer/skills/warpweave-*/SKILL.md` | Not generated (no command adapter; use skill-based `/warpweave-*` invocations) |
-| CodeBuddy (`codebuddy`) | `.codebuddy/skills/warpweave-*/SKILL.md` | `.codebuddy/commands/otrix/<id>.md` |
+| CodeBuddy (`codebuddy`) | `.codebuddy/skills/warpweave-*/SKILL.md` | `.codebuddy/commands/ww/<id>.md` |
 | Codex (`codex`) | `.codex/skills/warpweave-*/SKILL.md` | Not generated (skills-only; use `.codex/skills/warpweave-*`) |
-| Devin Desktop, formerly Windsurf (`devin`) | `.devin/skills/warpweave-*/SKILL.md` | `.devin/workflows/otrix-<id>.md`\*\*\*\* |
+| Devin Desktop, formerly Windsurf (`devin`) | `.devin/skills/warpweave-*/SKILL.md` | `.devin/workflows/ww-<id>.md`\*\*\*\* |
 | ForgeCode (`forgecode`) | `.forge/skills/warpweave-*/SKILL.md` | Not generated (no command adapter; use skill-based `/warpweave-*` invocations) |
-| Continue (`continue`) | `.continue/skills/warpweave-*/SKILL.md` | `.continue/prompts/otrix-<id>.prompt` |
-| CoStrict (`costrict`) | `.cospec/skills/warpweave-*/SKILL.md` | `.cospec/warpweave/commands/otrix-<id>.md` |
-| Crush (`crush`) | `.crush/skills/warpweave-*/SKILL.md` | `.crush/commands/otrix/<id>.md` |
-| Cursor (`cursor`) | `.cursor/skills/warpweave-*/SKILL.md` | `.cursor/commands/otrix-<id>.md` |
-| Factory Droid (`factory`) | `.factory/skills/warpweave-*/SKILL.md` | `.factory/commands/otrix-<id>.md` |
-| Gemini CLI (`gemini`) | `.gemini/skills/warpweave-*/SKILL.md` | `.gemini/commands/otrix/<id>.toml` |
-| GitHub Copilot (`github-copilot`) | `.github/skills/warpweave-*/SKILL.md` | `.github/prompts/otrix-<id>.prompt.md`\*\* |
+| Continue (`continue`) | `.continue/skills/warpweave-*/SKILL.md` | `.continue/prompts/ww-<id>.prompt` |
+| CoStrict (`costrict`) | `.cospec/skills/warpweave-*/SKILL.md` | `.cospec/warpweave/commands/ww-<id>.md` |
+| Crush (`crush`) | `.crush/skills/warpweave-*/SKILL.md` | `.crush/commands/ww/<id>.md` |
+| Cursor (`cursor`) | `.cursor/skills/warpweave-*/SKILL.md` | `.cursor/commands/ww-<id>.md` |
+| Factory Droid (`factory`) | `.factory/skills/warpweave-*/SKILL.md` | `.factory/commands/ww-<id>.md` |
+| Gemini CLI (`gemini`) | `.gemini/skills/warpweave-*/SKILL.md` | `.gemini/commands/ww/<id>.toml` |
+| GitHub Copilot (`github-copilot`) | `.github/skills/warpweave-*/SKILL.md` | `.github/prompts/ww-<id>.prompt.md`\*\* |
 | Hermes Agent (`hermes`) | `.hermes/skills/warpweave-*/SKILL.md`\*\*\* | Not generated (no command adapter; use skill-based `/warpweave-*` invocations) |
-| iFlow (`iflow`) | `.iflow/skills/warpweave-*/SKILL.md` | `.iflow/commands/otrix-<id>.md` |
-| Junie (`junie`) | `.junie/skills/warpweave-*/SKILL.md` | `.junie/commands/otrix-<id>.md` |
-| Kilo Code (`kilocode`) | `.kilocode/skills/warpweave-*/SKILL.md` | `.kilocode/workflows/otrix-<id>.md` |
+| iFlow (`iflow`) | `.iflow/skills/warpweave-*/SKILL.md` | `.iflow/commands/ww-<id>.md` |
+| Junie (`junie`) | `.junie/skills/warpweave-*/SKILL.md` | `.junie/commands/ww-<id>.md` |
+| Kilo Code (`kilocode`) | `.kilocode/skills/warpweave-*/SKILL.md` | `.kilocode/workflows/ww-<id>.md` |
 | Kimi Code (`kimi`) | `.kimi-code/skills/warpweave-*/SKILL.md` | Not generated (no command adapter; use skill-based `/skill:warpweave-*` invocations) |
-| Kiro (`kiro`) | `.kiro/skills/warpweave-*/SKILL.md` | `.kiro/prompts/otrix-<id>.prompt.md` |
-| Lingma (`lingma`) | `.lingma/skills/warpweave-*/SKILL.md` | `.lingma/commands/otrix/<id>.md` |
+| Kiro (`kiro`) | `.kiro/skills/warpweave-*/SKILL.md` | `.kiro/prompts/ww-<id>.prompt.md` |
+| Lingma (`lingma`) | `.lingma/skills/warpweave-*/SKILL.md` | `.lingma/commands/ww/<id>.md` |
 | Mistral Vibe (`vibe`) | `.vibe/skills/warpweave-*/SKILL.md` | Not generated (no command adapter; use skill-based `/warpweave-*` invocations) |
-| Oh My Pi (`oh-my-pi`) | `.omp/skills/warpweave-*/SKILL.md` | `.omp/commands/otrix-<id>.md` |
-| OpenCode (`opencode`) | `.opencode/skills/warpweave-*/SKILL.md` | `.opencode/commands/otrix-<id>.md` |
-| Pi (`pi`) | `.pi/skills/warpweave-*/SKILL.md` | `.pi/prompts/otrix-<id>.md` |
-| Qoder (`qoder`) | `.qoder/skills/warpweave-*/SKILL.md` | `.qoder/commands/otrix/<id>.md` |
-| Qwen Code (`qwen`) | `.qwen/skills/warpweave-*/SKILL.md` | `.qwen/commands/otrix-<id>.md` |
-| [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) (`roocode`) | `.roo/skills/warpweave-*/SKILL.md` | `.roo/commands/otrix-<id>.md` |
-| Trae (`trae`) | `.trae/skills/warpweave-*/SKILL.md` | `.trae/commands/otrix-<id>.md` |
-| ZCode (`zcode`) | `.zcode/skills/warpweave-*/SKILL.md` | `.zcode/commands/otrix/<id>.md` |
+| Oh My Pi (`oh-my-pi`) | `.omp/skills/warpweave-*/SKILL.md` | `.omp/commands/ww-<id>.md` |
+| OpenCode (`opencode`) | `.opencode/skills/warpweave-*/SKILL.md` | `.opencode/commands/ww-<id>.md` |
+| Pi (`pi`) | `.pi/skills/warpweave-*/SKILL.md` | `.pi/prompts/ww-<id>.md` |
+| Qoder (`qoder`) | `.qoder/skills/warpweave-*/SKILL.md` | `.qoder/commands/ww/<id>.md` |
+| Qwen Code (`qwen`) | `.qwen/skills/warpweave-*/SKILL.md` | `.qwen/commands/ww-<id>.md` |
+| [Zoo Code](https://github.com/Zoo-Code-Org/Zoo-Code) (`roocode`) | `.roo/skills/warpweave-*/SKILL.md` | `.roo/commands/ww-<id>.md` |
+| Trae (`trae`) | `.trae/skills/warpweave-*/SKILL.md` | `.trae/commands/ww-<id>.md` |
+| ZCode (`zcode`) | `.zcode/skills/warpweave-*/SKILL.md` | `.zcode/commands/ww/<id>.md` |
 | Shared `.agents` skills (`agents`) | `.agents/skills/warpweave-*/SKILL.md` | Not generated (no command adapter; use skill-based `/warpweave-*` invocations) |
 
 \*\* GitHub Copilot prompt files are recognized as custom slash commands in IDE extensions (VS Code, JetBrains, Visual Studio). Copilot CLI does not currently consume `.github/prompts/*.prompt.md` directly.
 
 \*\*\* Hermes loads skills from `~/.hermes/skills/` by default. To use project-local Warpweave skills, add the project `.hermes/skills/` directory to `skills.external_dirs` in `~/.hermes/config.yaml`; Hermes then exposes skills with user-facing slash invocations such as `/warpweave-propose`.
 
-\*\*\*\* Windsurf was [rebranded to Devin Desktop](https://docs.devin.ai/desktop/devin-desktop-faq) on June 2, 2026, and its config directory moved: `.devin/` is the preferred read + write location, `.windsurf/` a legacy read-only fallback. Warpweave follows the rename — the tool id is `devin`, and `--tools windsurf` still resolves to it so existing setup scripts keep working. A project still holding Warpweave files in `.windsurf/` is offered the move on the next `warpweave update`; declining leaves them in place, and files you wrote yourself are never touched. Workflows are invoked by filename, so `.devin/workflows/otrix-apply.md` is `/otrix-apply`. The [Devin Local agent does not support workflows](https://docs.devin.ai/desktop/devin-local) — only skills, and it does not read `.windsurf/` at all — so whenever Warpweave writes Devin skills it keeps their bodies, and the getting-started hint, on `/warpweave-*` skill invocations, which work on both agents. Under commands-only delivery no skills are written and both fall back to `/otrix-*`.
+\*\*\*\* Windsurf was [rebranded to Devin Desktop](https://docs.devin.ai/desktop/devin-desktop-faq) on June 2, 2026, and its config directory moved: `.devin/` is the preferred read + write location, `.windsurf/` a legacy read-only fallback. Warpweave follows the rename — the tool id is `devin`, and `--tools windsurf` still resolves to it so existing setup scripts keep working. A project still holding Warpweave files in `.windsurf/` is offered the move on the next `warpweave update`; declining leaves them in place, and files you wrote yourself are never touched. Workflows are invoked by filename, so `.devin/workflows/ww-apply.md` is `/ww-apply`. The [Devin Local agent does not support workflows](https://docs.devin.ai/desktop/devin-local) — only skills, and it does not read `.windsurf/` at all — so whenever Warpweave writes Devin skills it keeps their bodies, and the getting-started hint, on `/warpweave-*` skill invocations, which work on both agents. Under commands-only delivery no skills are written and both fall back to `/ww-*`.
 
 ### When to pick the shared `.agents` target
 
@@ -125,7 +125,7 @@ directory belongs to Antigravity.
 
 Two things to know:
 
-- **Skills only.** No command adapter exists, so no `otrix-*` command files are
+- **Skills only.** No command adapter exists, so no `ww-*` command files are
   written; with a commands-inclusive delivery mode `warpweave init` lists `agents`
   among the tools it reports under `Commands skipped for: … (no adapter)`.
   Invoke the workflows by skill name —

@@ -33,6 +33,10 @@ export const LEGACY_CONFIG_FILES = [
  */
 export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPattern> = {
   // Directory-based: .tooldir/commands/warpweave/ or .tooldir/commands/warpweave/*.md
+  // (pre-otrix, from the openspec-era naming). The otrix/ directories from the
+  // spectrix 1.10.x generation are cleaned up by the matching otrix entries
+  // below; the current generation writes ww/ directories and ww-* files, which
+  // are NOT listed here and are therefore never treated as legacy.
   'claude': { type: 'directory', path: '.claude/commands/warpweave' },
   'codebuddy': { type: 'directory', path: '.codebuddy/commands/warpweave' },
   'qoder': { type: 'directory', path: '.qoder/commands/warpweave' },
@@ -41,27 +45,38 @@ export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPatter
   'gemini': { type: 'directory', path: '.gemini/commands/warpweave' },
   'costrict': { type: 'directory', path: '.cospec/warpweave/commands' },
 
+  // spectrix-era otrix/ directories — the generation between warpweave/ and ww/
+  'claude-otrix': { type: 'directory', path: '.claude/commands/otrix' },
+  'codebuddy-otrix': { type: 'directory', path: '.codebuddy/commands/otrix' },
+  'qoder-otrix': { type: 'directory', path: '.qoder/commands/otrix' },
+  'lingma-otrix': { type: 'directory', path: '.lingma/commands/otrix' },
+  'crush-otrix': { type: 'directory', path: '.crush/commands/otrix' },
+  'gemini-otrix': { type: 'directory', path: '.gemini/commands/otrix' },
+
   // File-based: individual warpweave-*.md files in a commands/workflows/prompts folder
-  'cursor': { type: 'files', pattern: '.cursor/commands/warpweave-*.md' },
+  'cursor': { type: 'files', pattern: ['.cursor/commands/warpweave-*.md', '.cursor/commands/otrix-*.md'] },
   // Keyed by the tool id these map back to, so the pre-otrix Windsurf files
   // belong to `devin` — the id Windsurf became. Only `.windsurf/` is listed:
   // `.devin/` postdates the otrix rename and never held `warpweave-*` files.
-  'devin': { type: 'files', pattern: '.windsurf/workflows/warpweave-*.md' },
-  'kilocode': { type: 'files', pattern: '.kilocode/workflows/warpweave-*.md' },
-  'kiro': { type: 'files', pattern: '.kiro/prompts/warpweave-*.prompt.md' },
-  'github-copilot': { type: 'files', pattern: '.github/prompts/warpweave-*.prompt.md' },
-  'amazon-q': { type: 'files', pattern: '.amazonq/prompts/warpweave-*.md' },
-  'cline': { type: 'files', pattern: '.clinerules/workflows/warpweave-*.md' },
-  'roocode': { type: 'files', pattern: '.roo/commands/warpweave-*.md' },
-  'auggie': { type: 'files', pattern: '.augment/commands/warpweave-*.md' },
-  'factory': { type: 'files', pattern: '.factory/commands/warpweave-*.md' },
+  'devin': { type: 'files', pattern: ['.windsurf/workflows/warpweave-*.md', '.windsurf/workflows/otrix-*.md'] },
+  'kilocode': { type: 'files', pattern: ['.kilocode/workflows/warpweave-*.md', '.kilocode/workflows/otrix-*.md'] },
+  'kiro': { type: 'files', pattern: ['.kiro/prompts/warpweave-*.prompt.md', '.kiro/prompts/otrix-*.prompt.md'] },
+  'github-copilot': { type: 'files', pattern: ['.github/prompts/warpweave-*.prompt.md', '.github/prompts/otrix-*.prompt.md'] },
+  'amazon-q': { type: 'files', pattern: ['.amazonq/prompts/warpweave-*.md', '.amazonq/prompts/otrix-*.md'] },
+  'cline': { type: 'files', pattern: ['.clinerules/workflows/warpweave-*.md', '.clinerules/workflows/otrix-*.md'] },
+  'roocode': { type: 'files', pattern: ['.roo/commands/warpweave-*.md', '.roo/commands/otrix-*.md'] },
+  'auggie': { type: 'files', pattern: ['.augment/commands/warpweave-*.md', '.augment/commands/otrix-*.md'] },
+  'factory': { type: 'files', pattern: ['.factory/commands/warpweave-*.md', '.factory/commands/otrix-*.md'] },
   'opencode': { type: 'files', pattern: ['.opencode/command/otrix-*.md', '.opencode/command/warpweave-*.md'] },
-  'continue': { type: 'files', pattern: '.continue/prompts/warpweave-*.prompt' },
-  'antigravity': { type: 'files', pattern: '.agent/workflows/warpweave-*.md' },
-  'iflow': { type: 'files', pattern: '.iflow/commands/warpweave-*.md' },
+  'continue': { type: 'files', pattern: ['.continue/prompts/warpweave-*.prompt', '.continue/prompts/otrix-*.prompt'] },
+  'antigravity': { type: 'files', pattern: ['.agent/workflows/warpweave-*.md', '.agent/workflows/otrix-*.md'] },
+  'iflow': { type: 'files', pattern: ['.iflow/commands/warpweave-*.md', '.iflow/commands/otrix-*.md'] },
   'junie': { type: 'files', pattern: ['.junie/commands/otrix-*.md', '.junie/commands/warpweave-*.md'] },
   'qwen': { type: 'files', pattern: ['.qwen/commands/otrix-*.toml', '.qwen/commands/warpweave-*.toml'] },
-  'codex': { type: 'files', pattern: '.codex/prompts/warpweave-*.md' },
+  'codex': { type: 'files', pattern: ['.codex/prompts/warpweave-*.md', '.codex/prompts/otrix-*.md'] },
+  'oh-my-pi': { type: 'files', pattern: '.omp/commands/otrix-*.md' },
+  'pi': { type: 'files', pattern: '.pi/prompts/otrix-*.md' },
+  'zcode-otrix': { type: 'directory', path: '.zcode/commands/otrix' },
 };
 
 /**

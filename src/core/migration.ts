@@ -478,8 +478,8 @@ export function migrateIfNeeded(projectPath: string, tools: AIToolOption[]): voi
   console.log(`Migrated: custom profile with ${installedWorkflows.length} workflows`);
   // Each detected tool resolves to a propose reference for its surface: the
   // command name its generated files answer to when commands will exist for it
-  // under the effective delivery (/otrix:propose when namespaced under otrix/,
-  // /otrix-propose when the filename is the command), its documented skill
+  // under the effective delivery (/ww:propose when namespaced under ww/,
+  // /ww-propose when the filename is the command), its documented skill
   // invocation otherwise. When the tools disagree — including command tools
   // mixed with skill-only tools — stay syntax-neutral rather than advertise a
   // form that is wrong for one of them.
@@ -493,9 +493,9 @@ export function migrateIfNeeded(projectPath: string, tools: AIToolOption[]): voi
           resolveCommandSurfaceCapability(tool.value),
           resolveCommandInvocation(tool.value)
         );
-        return transformer ? transformer('/otrix:propose') : '/otrix:propose';
+        return transformer ? transformer('/ww:propose') : '/ww:propose';
       }
-      return getSkillReferenceTransformer(tool.value)('/otrix:propose');
+      return getSkillReferenceTransformer(tool.value)('/ww:propose');
     })
   );
   const proposeReference =

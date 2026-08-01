@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * CodeBuddy adapter for command generation.
- * File path: .codebuddy/commands/otrix/<id>.md
+ * File path: .codebuddy/commands/ww/<id>.md
  * Frontmatter: name, description, argument-hint
  */
 export const codebuddyAdapter: ToolCommandAdapter = {
   toolId: 'codebuddy',
 
   getFilePath(commandId: string): string {
-    return path.join('.codebuddy', 'commands', 'otrix', `${commandId}.md`);
+    return path.join('.codebuddy', 'commands', 'ww', `${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

@@ -82,7 +82,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxTokenBudgetCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Token Budget',
+    name: 'WW: Token Budget',
     description: 'Track token consumption against a per-change budget',
     category: 'Metrics',
     tags: ['metrics', 'rtk', 'tokens', 'budget', 'cost'],
@@ -90,7 +90,7 @@ export function getOpsxTokenBudgetCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: A change name after \`/otrix:token-budget\` (e.g., \`/otrix:token-budget add-auth 50000\`), plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[warpweave]\` / budget section) or default to a sensible limit.
+**Input**: A change name after \`/ww:token-budget\` (e.g., \`/ww:token-budget add-auth 50000\`), plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[warpweave]\` / budget section) or default to a sensible limit.
 
 **Steps**
 

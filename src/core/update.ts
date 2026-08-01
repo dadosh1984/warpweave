@@ -139,7 +139,7 @@ export class UpdateCommand {
     }
     const declinedMigrations = await this.offerConsentedLegacyMigrations(resolvedProjectPath);
 
-    // Use detected tool directories to preserve existing otrix skills/commands.
+    // Use detected tool directories to preserve existing ww skills/commands.
     const detectedTools = getAvailableTools(resolvedProjectPath);
     migrateIfNeededShared(resolvedProjectPath, detectedTools);
 
@@ -387,7 +387,7 @@ export class UpdateCommand {
           newlyConfiguredTools.map((toolId) => {
             if (shouldGenerateCommandsForTool(toolId, delivery)) {
               // Name the command the tool's files actually answer to:
-              // /otrix-<id> where the filename is the command name.
+              // /ww-<id> where the filename is the command name.
               const transformer = getTransformerForTool(
                 toolId,
                 delivery,

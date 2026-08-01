@@ -32,10 +32,10 @@ export const DESCRIPTION_BUDGET = 17;
  * then implement.
  */
 const ONBOARDING_COMMANDS: readonly OnboardingCommand[] = [
-  { workflow: 'propose', command: '/otrix:propose', description: 'Start a change' },
-  { workflow: 'new', command: '/otrix:new', description: 'Scaffold a change' },
-  { workflow: 'continue', command: '/otrix:continue', description: 'Next artifact' },
-  { workflow: 'apply', command: '/otrix:apply', description: 'Implement tasks' },
+  { workflow: 'propose', command: '/ww:propose', description: 'Start a change' },
+  { workflow: 'new', command: '/ww:new', description: 'Scaffold a change' },
+  { workflow: 'continue', command: '/ww:continue', description: 'Next artifact' },
+  { workflow: 'apply', command: '/ww:apply', description: 'Implement tasks' },
 ];
 
 /**

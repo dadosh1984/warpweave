@@ -5,7 +5,7 @@ This guide explains how Warpweave works after you've installed and initialized i
 > **Where do I type these commands?** Two places, and mixing them up is the most common early stumble.
 >
 > - `warpweave ...` commands (like `warpweave init`) run in your **terminal**.
-> - `/otrix:...` commands (like `/otrix:propose`) run in your **AI assistant's chat**, the same box where you'd ask it to write code.
+> - `/ww:...` commands (like `/ww:propose`) run in your **AI assistant's chat**, the same box where you'd ask it to write code.
 >
 > There's no separate "interactive mode" to start. You just type the slash command in chat and your assistant takes it from there. Full explanation: [How Commands Work](how-commands-work.md).
 
@@ -16,17 +16,17 @@ The whole loop, with each step labeled by where it happens:
 ```text
 TERMINAL   $ npm install -g @dadosh1984/warpweave@latest
 TERMINAL   $ cd your-project && warpweave init
-AI CHAT      /otrix:explore                    (optional: think it through first)
-AI CHAT      /otrix:propose add-dark-mode      (AI drafts the plan; you review it)
-AI CHAT      /otrix:apply                      (AI builds it)
-AI CHAT      /otrix:archive                    (specs updated, change filed away)
+AI CHAT      /ww:explore                    (optional: think it through first)
+AI CHAT      /ww:propose add-dark-mode      (AI drafts the plan; you review it)
+AI CHAT      /ww:apply                      (AI builds it)
+AI CHAT      /ww:archive                    (specs updated, change filed away)
 ```
 
 Two terminal steps to set up, then you live in chat. The rest of this guide unpacks what each step does and what you'll see.
 
 **Don't want to do the terminal part yourself?** Paste the [setup prompt](installation.md#install-with-your-ai-assistant) into your assistant and it handles both lines, then reports what it created.
 
-> **Not sure what to build yet? Start with `/otrix:explore`.** It's a no-stakes thinking partner that reads your codebase, weighs options, and sharpens a fuzzy idea into a concrete plan, all before any artifact or code exists. When the picture is clear, it hands off to `/otrix:propose`. This is the single best habit for working with an AI that will otherwise confidently build the wrong thing. See the [Explore guide](explore.md).
+> **Not sure what to build yet? Start with `/ww:explore`.** It's a no-stakes thinking partner that reads your codebase, weighs options, and sharpens a fuzzy idea into a concrete plan, all before any artifact or code exists. When the picture is clear, it hands off to `/ww:propose`. This is the single best habit for working with an AI that will otherwise confidently build the wrong thing. See the [Explore guide](explore.md).
 
 ## How It Works
 
@@ -35,16 +35,16 @@ Warpweave helps you and your AI coding assistant agree on what to build before a
 **Default quick path (core profile):**
 
 ```text
-/otrix:explore ──► /otrix:propose ──► /otrix:apply ──► /otrix:sync ──► /otrix:archive
+/ww:explore ──► /ww:propose ──► /ww:apply ──► /ww:sync ──► /ww:archive
    (optional)
 ```
 
-Start with `/otrix:explore` when you're figuring out what to do, or jump straight to `/otrix:propose` when you already know. Explore is in the default profile, so it's always there when you want it.
+Start with `/ww:explore` when you're figuring out what to do, or jump straight to `/ww:propose` when you already know. Explore is in the default profile, so it's always there when you want it.
 
 **Expanded path (custom workflow selection):**
 
 ```text
-/otrix:new ──► /otrix:ff or /otrix:continue ──► /otrix:apply ──► /otrix:verify ──► /otrix:archive
+/ww:new ──► /ww:ff or /ww:continue ──► /ww:apply ──► /ww:verify ──► /ww:archive
 ```
 
 The default global profile is `core`, which includes `propose`, `explore`, `apply`, `update`, `sync`, and `archive`. You can enable the expanded workflow commands with `warpweave config profile` and then `warpweave update`.
@@ -152,7 +152,7 @@ Let's walk through adding dark mode to an application.
 ### 1. Start the Change (Default)
 
 ```text
-You: /otrix:propose add-dark-mode
+You: /ww:propose add-dark-mode
 
 AI:  Created warpweave/changes/add-dark-mode/
      ✓ proposal.md — why we're doing this, what's changing
@@ -162,7 +162,7 @@ AI:  Created warpweave/changes/add-dark-mode/
      Ready for implementation!
 ```
 
-If you've enabled the expanded workflow profile, you can also do this as two steps: `/otrix:new` then `/otrix:ff` (or `/otrix:continue` incrementally).
+If you've enabled the expanded workflow profile, you can also do this as two steps: `/ww:new` then `/ww:ff` (or `/ww:continue` incrementally).
 
 ### 2. What Gets Created
 
@@ -230,7 +230,7 @@ The system SHALL allow users to choose between light and dark themes.
 ### 3. Implement
 
 ```
-You: /otrix:apply
+You: /ww:apply
 
 AI:  Working through tasks...
      ✓ 1.1 Created ThemeContext with light/dark state
@@ -246,7 +246,7 @@ During implementation, if you discover the design needs adjustment, just update 
 ### 4. Archive
 
 ```
-You: /otrix:archive
+You: /ww:archive
 
 AI:  Archiving add-dark-mode...
      ✓ Merged specs into warpweave/specs/ui/spec.md
@@ -276,7 +276,7 @@ warpweave view
 
 ## Next Steps
 
-- [Explore First](explore.md) - Use `/otrix:explore` to think through an idea before you commit
+- [Explore First](explore.md) - Use `/ww:explore` to think through an idea before you commit
 - [Reviewing a Change](reviewing-changes.md) - What to check in the plan the AI drafts, before any code
 - [Writing Good Specs](writing-specs.md) - What a strong requirement and scenario look like
 - [Using Warpweave in an Existing Project](existing-projects.md) - Start on a large brownfield codebase

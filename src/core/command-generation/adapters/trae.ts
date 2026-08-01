@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Trae adapter for command generation.
- * File path: .trae/commands/otrix-<id>.md
+ * File path: .trae/commands/ww-<id>.md
  * Frontmatter: name, description
  */
 export const traeAdapter: ToolCommandAdapter = {
   toolId: 'trae',
 
   getFilePath(commandId: string): string {
-    return path.join('.trae', 'commands', `otrix-${commandId}.md`);
+    return path.join('.trae', 'commands', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Auggie adapter for command generation.
- * File path: .augment/commands/otrix-<id>.md
+ * File path: .augment/commands/ww-<id>.md
  * Frontmatter: description, argument-hint
  */
 export const auggieAdapter: ToolCommandAdapter = {
   toolId: 'auggie',
 
   getFilePath(commandId: string): string {
-    return path.join('.augment', 'commands', `otrix-${commandId}.md`);
+    return path.join('.augment', 'commands', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

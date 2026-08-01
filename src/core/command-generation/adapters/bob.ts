@@ -11,18 +11,18 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Bob Shell adapter for command generation.
- * File path: .bob/commands/otrix-<id>.md
+ * File path: .bob/commands/ww-<id>.md
  * Frontmatter: description
  *
  * Bob uses the filename (minus .md) as the slash command name, so
- * otrix-propose.md → /otrix-propose. generateCommand rewrites the body's
+ * ww-propose.md → /ww-propose. generateCommand rewrites the body's
  * command references to that form before this adapter formats it.
  */
 export const bobAdapter: ToolCommandAdapter = {
   toolId: 'bob',
 
   getFilePath(commandId: string): string {
-    return path.join('.bob', 'commands', `otrix-${commandId}.md`);
+    return path.join('.bob', 'commands', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

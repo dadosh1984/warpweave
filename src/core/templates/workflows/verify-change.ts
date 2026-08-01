@@ -30,7 +30,7 @@ ${STORE_SELECTION_GUIDANCE}
    Include the schema used for each change if available.
    Mark changes with incomplete tasks as "(In Progress)".
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:verify <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/ww:verify <other>\`).
 
 2. **Check status to understand the schema**
    \`\`\`bash
@@ -194,7 +194,7 @@ During verification, also check:
 
 export function getOpsxVerifyCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Verify',
+    name: 'WW: Verify',
     description: 'Verify implementation matches change artifacts before archiving',
     category: 'Workflow',
     tags: ['workflow', 'verify', 'experimental'],
@@ -202,7 +202,7 @@ export function getOpsxVerifyCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a change name after \`/otrix:verify\` (e.g., \`/otrix:verify add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
+**Input**: Optionally specify a change name after \`/ww:verify\` (e.g., \`/ww:verify add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
 
@@ -217,7 +217,7 @@ ${STORE_SELECTION_GUIDANCE}
    Include the schema used for each change if available.
    Mark changes with incomplete tasks as "(In Progress)".
 
-   Always announce: "Using change: <name>" and how to override (e.g., \`/otrix:verify <other>\`).
+   Always announce: "Using change: <name>" and how to override (e.g., \`/ww:verify <other>\`).
 
 2. **Check status to understand the schema**
    \`\`\`bash

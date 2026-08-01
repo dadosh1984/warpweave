@@ -1,20 +1,20 @@
-# Migrating to OTRIX
+# Migrating to WW
 
-This guide helps you transition from the legacy Warpweave workflow to OTRIX. The migration is designed to be smooth—your existing work is preserved, and the new system offers more flexibility.
+This guide helps you transition from the legacy Warpweave workflow to WW. The migration is designed to be smooth—your existing work is preserved, and the new system offers more flexibility.
 
 ## What's Changing?
 
-OTRIX replaces the old phase-locked workflow with a fluid, action-based approach. Here's the key shift:
+WW replaces the old phase-locked workflow with a fluid, action-based approach. Here's the key shift:
 
-| Aspect | Legacy | OTRIX |
+| Aspect | Legacy | WW |
 |--------|--------|------|
-| **Commands** | `/warpweave:proposal`, `/warpweave:apply`, `/warpweave:archive` | Default: `/otrix:propose`, `/otrix:explore`, `/otrix:apply`, `/otrix:update`, `/otrix:sync`, `/otrix:archive` (expanded workflow commands optional) |
+| **Commands** | `/warpweave:proposal`, `/warpweave:apply`, `/warpweave:archive` | Default: `/ww:propose`, `/ww:explore`, `/ww:apply`, `/ww:update`, `/ww:sync`, `/ww:archive` (expanded workflow commands optional) |
 | **Workflow** | Create all artifacts at once | Create incrementally or all at once—your choice |
 | **Going back** | Awkward phase gates | Natural—update any artifact anytime |
 | **Customization** | Fixed structure | Schema-driven, fully hackable |
 | **Configuration** | `CLAUDE.md` with markers + `project.md` | Clean config in `warpweave/config.yaml` |
 
-**The philosophy change:** Work isn't linear. OTRIX stops pretending it is.
+**The philosophy change:** Work isn't linear. WW stops pretending it is.
 
 ---
 
@@ -24,7 +24,7 @@ OTRIX replaces the old phase-locked workflow with a fluid, action-based approach
 
 The migration process is designed with preservation in mind:
 
-- **Active changes in `warpweave/changes/`** — Completely preserved. You can continue them with OTRIX commands.
+- **Active changes in `warpweave/changes/`** — Completely preserved. You can continue them with WW commands.
 - **Archived changes** — Untouched. Your history remains intact.
 - **Main specs in `warpweave/specs/`** — Untouched. These are your source of truth.
 - **Your content in CLAUDE.md, AGENTS.md, etc.** — Preserved. Only the Warpweave marker blocks are removed; everything you wrote stays.
@@ -287,33 +287,33 @@ Command availability is profile-dependent:
 
 | Command | Purpose |
 |---------|---------|
-| `/otrix:propose` | Create a change and generate planning artifacts in one step |
-| `/otrix:explore` | Think through ideas with no structure |
-| `/otrix:apply` | Implement tasks from tasks.md |
-| `/otrix:update` | Revise a change's planning artifacts and keep them coherent |
-| `/otrix:sync` | Merge delta specs into main specs |
-| `/otrix:archive` | Finalize and archive the change |
+| `/ww:propose` | Create a change and generate planning artifacts in one step |
+| `/ww:explore` | Think through ideas with no structure |
+| `/ww:apply` | Implement tasks from tasks.md |
+| `/ww:update` | Revise a change's planning artifacts and keep them coherent |
+| `/ww:sync` | Merge delta specs into main specs |
+| `/ww:archive` | Finalize and archive the change |
 
 **Expanded workflow (custom selection):**
 
 | Command | Purpose |
 |---------|---------|
-| `/otrix:new` | Start a new change scaffold |
-| `/otrix:continue` | Create the next artifact (one at a time) |
-| `/otrix:ff` | Fast-forward—create planning artifacts at once |
-| `/otrix:verify` | Validate implementation matches specs |
-| `/otrix:bulk-archive` | Archive multiple changes at once |
-| `/otrix:onboard` | Guided end-to-end onboarding workflow |
+| `/ww:new` | Start a new change scaffold |
+| `/ww:continue` | Create the next artifact (one at a time) |
+| `/ww:ff` | Fast-forward—create planning artifacts at once |
+| `/ww:verify` | Validate implementation matches specs |
+| `/ww:bulk-archive` | Archive multiple changes at once |
+| `/ww:onboard` | Guided end-to-end onboarding workflow |
 
 Enable expanded commands with `warpweave config profile`, then run `warpweave update`.
 
 ### Command Mapping from Legacy
 
-| Legacy | OTRIX Equivalent |
+| Legacy | WW Equivalent |
 |--------|-----------------|
-| `/warpweave:proposal` | `/otrix:propose` (default) or `/otrix:new` then `/otrix:ff` (expanded) |
-| `/warpweave:apply` | `/otrix:apply` |
-| `/warpweave:archive` | `/otrix:archive` |
+| `/warpweave:proposal` | `/ww:propose` (default) or `/ww:new` then `/ww:ff` (expanded) |
+| `/warpweave:apply` | `/ww:apply` |
+| `/warpweave:archive` | `/ww:archive` |
 
 ### New Capabilities
 
@@ -321,13 +321,13 @@ These capabilities are part of the expanded workflow command set.
 
 **Granular artifact creation:**
 ```
-/otrix:continue
+/ww:continue
 ```
 Creates one artifact at a time based on dependencies. Use this when you want to review each step.
 
 **Exploration mode:**
 ```
-/otrix:explore
+/ww:explore
 ```
 Think through ideas with a partner before committing to a change.
 
@@ -349,7 +349,7 @@ If you're in implementation and realize the design is wrong?
 Too bad. Phase gates don't let you go back easily.
 ```
 
-OTRIX uses actions, not phases:
+WW uses actions, not phases:
 
 ```
          ┌───────────────────────────────────────────────┐
@@ -385,7 +385,7 @@ Artifacts form a directed graph. Dependencies are enablers, not gates:
                      specs, design)
 ```
 
-When you run `/otrix:continue`, it checks what's ready and offers the next artifact. You can also create multiple ready artifacts in any order.
+When you run `/ww:continue`, it checks what's ready and offers the next artifact. You can also create multiple ready artifacts in any order.
 
 ### Skills vs Commands
 
@@ -398,7 +398,7 @@ The legacy system used tool-specific command files:
 └── archive.md
 ```
 
-OTRIX uses the emerging **skills** standard:
+WW uses the emerging **skills** standard:
 
 ```
 .claude/skills/
@@ -411,26 +411,26 @@ OTRIX uses the emerging **skills** standard:
 
 Skills are recognized across multiple AI coding tools and provide richer metadata.
 
-Codex is skills-only in OTRIX. Warpweave no longer generates Codex custom prompt files; use the generated `.codex/skills/warpweave-*` directories instead.
+Codex is skills-only in WW. Warpweave no longer generates Codex custom prompt files; use the generated `.codex/skills/warpweave-*` directories instead.
 
 ---
 
 ## Continuing Existing Changes
 
-Your in-progress changes work seamlessly with OTRIX commands.
+Your in-progress changes work seamlessly with WW commands.
 
 **Have an active change from the legacy workflow?**
 
 ```
-/otrix:apply add-my-feature
+/ww:apply add-my-feature
 ```
 
-OTRIX reads the existing artifacts and continues from where you left off.
+WW reads the existing artifacts and continues from where you left off.
 
 **Want to add more artifacts to an existing change?**
 
 ```
-/otrix:continue add-my-feature
+/ww:continue add-my-feature
 ```
 
 Shows what's ready to create based on what already exists.
@@ -472,7 +472,7 @@ rules:
 
 ### Schema Resolution
 
-When determining which schema to use, OTRIX checks in order:
+When determining which schema to use, WW checks in order:
 
 1. **CLI flag**: `--schema <name>` (highest priority)
 2. **Change metadata**: `.warpweave.yaml` in the change directory
@@ -563,7 +563,7 @@ project/
 │   │   └── archive/              # Unchanged
 │   └── config.yaml               # NEW: Project configuration
 ├── .claude/
-│   └── skills/                   # NEW: OTRIX skills
+│   └── skills/                   # NEW: WW skills
 │       ├── warpweave-propose/     # default core profile
 │       ├── warpweave-explore/
 │       ├── warpweave-apply-change/
@@ -585,14 +585,14 @@ project/
 ### Command Cheatsheet
 
 ```text
-/otrix:propose      Start quickly (default core profile)
-/otrix:apply        Implement tasks
-/otrix:archive      Finish and archive
+/ww:propose      Start quickly (default core profile)
+/ww:apply        Implement tasks
+/ww:archive      Finish and archive
 
 # Expanded workflow (if enabled):
-/otrix:new          Scaffold a change
-/otrix:continue     Create next artifact
-/otrix:ff           Create planning artifacts
+/ww:new          Scaffold a change
+/ww:continue     Create next artifact
+/ww:ff           Create planning artifacts
 ```
 
 ---
@@ -601,4 +601,4 @@ project/
 
 - **Discord**: [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
 - **GitHub Issues**: [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
-- **Documentation**: [docs/otrix.md](otrix.md) for the full OTRIX reference
+- **Documentation**: [docs/ww.md](ww.md) for the full WW reference

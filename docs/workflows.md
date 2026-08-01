@@ -6,7 +6,7 @@ This guide covers common workflow patterns for Warpweave and when to use each on
 
 Traditional workflows force you through phases: planning, then implementation, then done. But real work doesn't fit neatly into boxes.
 
-OTRIX takes a different approach:
+WW takes a different approach:
 
 ```text
 Traditional (phase-locked):
@@ -16,7 +16,7 @@ Traditional (phase-locked):
       │   "Can't go back"  │
       └────────────────────┘
 
-OTRIX (fluid actions):
+WW (fluid actions):
 
   proposal ──► specs ──► design ──► tasks ──► implement
 ```
@@ -26,33 +26,33 @@ OTRIX (fluid actions):
 - **Actions, not phases** - Commands are things you can do, not stages you're stuck in
 - **Dependencies are enablers** - They show what's possible, not what's required next
 
-> **Customization:** OTRIX workflows are driven by schemas that define artifact sequences. See [Customization](customization.md) for details on creating custom schemas.
+> **Customization:** WW workflows are driven by schemas that define artifact sequences. See [Customization](customization.md) for details on creating custom schemas.
 
 ## Two Modes
 
 ### Default Quick Path (`core` profile)
 
 New installs default to `core`, which provides:
-- `/otrix:explore`
-- `/otrix:propose`
-- `/otrix:apply`
-- `/otrix:update`
-- `/otrix:sync`
-- `/otrix:archive`
+- `/ww:explore`
+- `/ww:propose`
+- `/ww:apply`
+- `/ww:update`
+- `/ww:sync`
+- `/ww:archive`
 
 Typical flow:
 
 ```text
-/otrix:explore ──► /otrix:propose ──► /otrix:apply ──► /otrix:sync ──► /otrix:archive
+/ww:explore ──► /ww:propose ──► /ww:apply ──► /ww:sync ──► /ww:archive
   (optional)
 ```
 
 #### Start by exploring (the habit worth forming)
 
-`/otrix:explore` is part of the default profile, not an advanced add-on. It's the move to make whenever you have a problem but not yet a plan, which, with an AI assistant, is most of the time.
+`/ww:explore` is part of the default profile, not an advanced add-on. It's the move to make whenever you have a problem but not yet a plan, which, with an AI assistant, is most of the time.
 
 ```text
-You: /otrix:explore
+You: /ww:explore
 
 AI:  What would you like to explore?
 
@@ -68,14 +68,14 @@ AI:  Let me look... [reads the search service and cache layer]
 
 You: Yes.
 
-You: /otrix:propose rebuild-search-index-on-write
+You: /ww:propose rebuild-search-index-on-write
 ```
 
-Explore creates no artifacts and writes no code. It's a free, no-stakes conversation that turns a vague worry into a precise change, so the proposal that follows is sharp. Already know exactly what you want? Skip it and go straight to `/otrix:propose`. Full guide: [Explore First](explore.md).
+Explore creates no artifacts and writes no code. It's a free, no-stakes conversation that turns a vague worry into a precise change, so the proposal that follows is sharp. Already know exactly what you want? Skip it and go straight to `/ww:propose`. Full guide: [Explore First](explore.md).
 
 ### Expanded/Full Workflow (custom selection)
 
-If you want explicit scaffold-and-build commands (`/otrix:new`, `/otrix:continue`, `/otrix:ff`, `/otrix:verify`, `/otrix:bulk-archive`, `/otrix:onboard`), enable them with:
+If you want explicit scaffold-and-build commands (`/ww:new`, `/ww:continue`, `/ww:ff`, `/ww:verify`, `/ww:bulk-archive`, `/ww:onboard`), enable them with:
 
 ```bash
 warpweave config profile
@@ -89,18 +89,18 @@ warpweave update
 When you know what you want to build and just need to execute:
 
 ```text
-/otrix:new ──► /otrix:ff ──► /otrix:apply ──► /otrix:verify ──► /otrix:archive
+/ww:new ──► /ww:ff ──► /ww:apply ──► /ww:verify ──► /ww:archive
 ```
 
 **Example conversation:**
 
 ```text
-You: /otrix:new add-logout-button
+You: /ww:new add-logout-button
 
 AI:  Created warpweave/changes/add-logout-button/
      Ready to create: proposal
 
-You: /otrix:ff
+You: /ww:ff
 
 AI:  Creating all planning artifacts...
      ✓ proposal.md
@@ -109,7 +109,7 @@ AI:  Creating all planning artifacts...
      ✓ tasks.md
      Ready for implementation!
 
-You: /otrix:apply
+You: /ww:apply
 
 AI:  Working through tasks...
      ✓ Added logout button to header
@@ -117,7 +117,7 @@ AI:  Working through tasks...
      ✓ Added confirmation dialog
      All tasks complete!
 
-You: /otrix:archive
+You: /ww:archive
 
 AI:  ✓ Merged specs
      ✓ Archived change
@@ -130,13 +130,13 @@ AI:  ✓ Merged specs
 When requirements are unclear or you need to investigate first:
 
 ```text
-/otrix:explore ──► /otrix:new ──► /otrix:continue ──► ... ──► /otrix:apply
+/ww:explore ──► /ww:new ──► /ww:continue ──► ... ──► /ww:apply
 ```
 
 **Example conversation:**
 
 ```text
-You: /otrix:explore
+You: /ww:explore
 
 AI:  What would you like to explore?
 
@@ -156,11 +156,11 @@ AI:  Let me help investigate...
 
 You: Let's tackle the data fetching issue.
 
-You: /otrix:new optimize-product-list-fetching
+You: /ww:new optimize-product-list-fetching
 
 AI:  Created change. Ready to create: proposal
 
-You: /otrix:continue
+You: /ww:continue
 
 AI:  Creating proposal based on our exploration...
      [Writes proposal incorporating investigation insights]
@@ -168,7 +168,7 @@ AI:  Creating proposal based on our exploration...
      Ready to create: specs, design
      Which would you like next?
 
-You: /otrix:continue
+You: /ww:continue
 
 AI:  Creating specs...
 ```
@@ -180,11 +180,11 @@ AI:  Creating specs...
 Work on multiple changes at once:
 
 ```text
-Change A: /otrix:new ──► /otrix:ff ──► /otrix:apply (in progress)
+Change A: /ww:new ──► /ww:ff ──► /ww:apply (in progress)
                                          │
                                     context switch
                                          │
-Change B: /otrix:new ──► /otrix:ff ──────► /otrix:apply
+Change B: /ww:new ──► /ww:ff ──────► /ww:apply
 ```
 
 **Example conversation:**
@@ -192,27 +192,27 @@ Change B: /otrix:new ──► /otrix:ff ──────► /otrix:apply
 ```text
 You: I'm working on add-dark-mode but got pulled into a bug fix
 
-You: /otrix:new fix-login-redirect
+You: /ww:new fix-login-redirect
 
 AI:  Created warpweave/changes/fix-login-redirect/
 
-You: /otrix:ff
+You: /ww:ff
 
 AI:  ✓ Created planning artifacts
 
-You: /otrix:apply
+You: /ww:apply
 
 AI:  Working on fix-login-redirect...
      [Implements the fix]
      All tasks complete!
 
-You: /otrix:archive
+You: /ww:archive
 
 AI:  ✓ Archived fix-login-redirect
 
 You: Let's get back to dark mode
 
-You: /otrix:apply add-dark-mode
+You: /ww:apply add-dark-mode
 
 AI:  Resuming add-dark-mode...
      Picking up at task 2.3: Update Header...
@@ -220,10 +220,10 @@ AI:  Resuming add-dark-mode...
 
 **Best for:** Parallel work streams, urgent interrupts, team collaboration.
 
-When you have multiple completed changes, use `/otrix:bulk-archive`:
+When you have multiple completed changes, use `/ww:bulk-archive`:
 
 ```text
-You: /otrix:bulk-archive
+You: /ww:bulk-archive
 
 AI:  Found 3 completed changes:
      - add-dark-mode (all tasks done)
@@ -253,7 +253,7 @@ Bulk archive detects when multiple changes touch the same specs and resolves con
 The recommended completion flow:
 
 ```text
-/otrix:apply ──► /otrix:verify ──► /otrix:archive
+/ww:apply ──► /ww:verify ──► /ww:archive
                     │                 │
               validates          prompts to sync
               implementation     if needed
@@ -261,10 +261,10 @@ The recommended completion flow:
 
 #### Verify: Check Your Work
 
-`/otrix:verify` validates implementation against your artifacts across three dimensions:
+`/ww:verify` validates implementation against your artifacts across three dimensions:
 
 ```text
-You: /otrix:verify
+You: /ww:verify
 
 AI:  Verifying add-auth...
 
@@ -306,10 +306,10 @@ Verify won't block archive, but it surfaces issues you might want to address fir
 
 #### Archive: Finalize the Change
 
-`/otrix:archive` completes the change and moves it to the archive:
+`/ww:archive` completes the change and moves it to the archive:
 
 ```text
-You: /otrix:archive
+You: /ww:archive
 
 AI:  Archiving add-auth...
 
@@ -334,17 +334,17 @@ Archive will prompt if specs aren't synced. It won't block on incomplete tasks, 
 
 ## When to Use What
 
-### `/otrix:ff` vs `/otrix:continue`
+### `/ww:ff` vs `/ww:continue`
 
 | Situation | Use |
 |-----------|-----|
-| Clear requirements, ready to build | `/otrix:ff` |
-| Exploring, want to review each step | `/otrix:continue` |
-| Want to iterate on proposal before specs | `/otrix:continue` |
-| Time pressure, need to move fast | `/otrix:ff` |
-| Complex change, want control | `/otrix:continue` |
+| Clear requirements, ready to build | `/ww:ff` |
+| Exploring, want to review each step | `/ww:continue` |
+| Want to iterate on proposal before specs | `/ww:continue` |
+| Time pressure, need to move fast | `/ww:ff` |
+| Complex change, want control | `/ww:continue` |
 
-**Rule of thumb:** If you can describe the full scope upfront, use `/otrix:ff`. If you're figuring it out as you go, use `/otrix:continue`.
+**Rule of thumb:** If you can describe the full scope upfront, use `/ww:ff`. If you're figuring it out as you go, use `/ww:continue`.
 
 ### When to Update vs Start Fresh
 
@@ -402,12 +402,12 @@ One logical unit of work per change. If you're doing "add feature X and also ref
 - Can ship independently
 - Simpler rollback if needed
 
-### Use `/otrix:explore` for Unclear Requirements
+### Use `/ww:explore` for Unclear Requirements
 
 Before committing to a change, explore the problem space:
 
 ```text
-You: /otrix:explore
+You: /ww:explore
 
 AI:  What would you like to explore?
 
@@ -428,10 +428,10 @@ Exploration clarifies thinking before you create artifacts.
 
 ### Verify Before Archiving
 
-Use `/otrix:verify` to check implementation matches artifacts:
+Use `/ww:verify` to check implementation matches artifacts:
 
 ```text
-You: /otrix:verify
+You: /ww:verify
 
 AI:  Verifying add-dark-mode...
 
@@ -462,16 +462,16 @@ For full command details and options, see [Commands](commands.md).
 
 | Command | Purpose | When to Use |
 |---------|---------|-------------|
-| `/otrix:propose` | Create change + planning artifacts | Fast default path (`core` profile) |
-| `/otrix:explore` | Think through ideas with the AI | Start here when unsure: unclear requirements, investigation, comparing options |
-| `/otrix:new` | Start a change scaffold | Expanded mode, explicit artifact control |
-| `/otrix:continue` | Create next artifact | Expanded mode, step-by-step artifact creation |
-| `/otrix:ff` | Create all planning artifacts | Expanded mode, clear scope |
-| `/otrix:apply` | Implement tasks | Ready to write code |
-| `/otrix:verify` | Validate implementation | Expanded mode, before archiving |
-| `/otrix:sync` | Merge delta specs | Expanded mode, optional |
-| `/otrix:archive` | Complete the change | All work finished |
-| `/otrix:bulk-archive` | Archive multiple changes | Expanded mode, parallel work |
+| `/ww:propose` | Create change + planning artifacts | Fast default path (`core` profile) |
+| `/ww:explore` | Think through ideas with the AI | Start here when unsure: unclear requirements, investigation, comparing options |
+| `/ww:new` | Start a change scaffold | Expanded mode, explicit artifact control |
+| `/ww:continue` | Create next artifact | Expanded mode, step-by-step artifact creation |
+| `/ww:ff` | Create all planning artifacts | Expanded mode, clear scope |
+| `/ww:apply` | Implement tasks | Ready to write code |
+| `/ww:verify` | Validate implementation | Expanded mode, before archiving |
+| `/ww:sync` | Merge delta specs | Expanded mode, optional |
+| `/ww:archive` | Complete the change | All work finished |
+| `/ww:bulk-archive` | Archive multiple changes | Expanded mode, parallel work |
 
 ## Next Steps
 

@@ -77,7 +77,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxDependencyCheckCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Dependency Check',
+    name: 'WW: Dependency Check',
     description: 'Check a proposed dependency against the Ponytail ladder',
     category: 'Quality',
     tags: ['quality', 'ponytail', 'ladder', 'dependency', 'deps'],
@@ -85,7 +85,7 @@ export function getOpsxDependencyCheckCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: A proposed dependency after \`/otrix:dependency-check\` (e.g., \`/otrix:dependency-check lodash\`). If omitted, check the last dependency added or asked about in context.
+**Input**: A proposed dependency after \`/ww:dependency-check\` (e.g., \`/ww:dependency-check lodash\`). If omitted, check the last dependency added or asked about in context.
 
 **Steps**
 

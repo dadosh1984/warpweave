@@ -37,7 +37,7 @@ warpweave --version 2>&1 || echo "CLI_NOT_INSTALLED"
 \`\`\`
 
 **If CLI not installed:**
-> Warpweave CLI is not installed. Install it first, then come back to \`/otrix:onboard\`.
+> Warpweave CLI is not installed. Install it first, then come back to \`/ww:onboard\`.
 
 Stop here if not installed.
 
@@ -164,7 +164,7 @@ Spend 1-2 minutes investigating the relevant code:
 │   [Optional: ASCII diagram if helpful]  │
 └─────────────────────────────────────────┘
 
-Explore mode (\`/otrix:explore\`) is for this kind of thinking—investigating before implementing. You can use it anytime you need to think through a problem.
+Explore mode (\`/ww:explore\`) is for this kind of thinking—investigating before implementing. You can use it anytime you need to think through a problem.
 
 Now let's create a change to hold our work.
 \`\`\`
@@ -480,25 +480,25 @@ This same rhythm works for any size change—a small fix or a major feature.
 
  | Command           | What it does                               |
  |-------------------|--------------------------------------------|
- | \`/otrix:propose\` | Create a change and generate all artifacts |
- | \`/otrix:explore\` | Think through problems before/during work  |
- | \`/otrix:apply\`   | Implement tasks from a change              |
- | \`/otrix:archive\` | Archive a completed change                 |
+ | \`/ww:propose\` | Create a change and generate all artifacts |
+ | \`/ww:explore\` | Think through problems before/during work  |
+ | \`/ww:apply\`   | Implement tasks from a change              |
+ | \`/ww:archive\` | Archive a completed change                 |
 
 **Additional commands** (only if installed - availability depends on your profile):
 
  | Command            | What it does                                             |
  |--------------------|----------------------------------------------------------|
- | \`/otrix:new\`      | Start a new change, step through artifacts one at a time |
- | \`/otrix:continue\` | Continue working on an existing change                   |
- | \`/otrix:ff\`       | Fast-forward: create all artifacts at once               |
- | \`/otrix:verify\`   | Verify implementation matches artifacts                  |
+ | \`/ww:new\`      | Start a new change, step through artifacts one at a time |
+ | \`/ww:continue\` | Continue working on an existing change                   |
+ | \`/ww:ff\`       | Fast-forward: create all artifacts at once               |
+ | \`/ww:verify\`   | Verify implementation matches artifacts                  |
 
 ---
 
 ## What's Next?
 
-Try \`/otrix:propose\` on something you actually want to build. You've got the rhythm now!
+Try \`/ww:propose\` on something you actually want to build. You've got the rhythm now!
 \`\`\`
 
 ---
@@ -513,8 +513,8 @@ If the user says they need to stop, want to pause, or seem disengaged:
 No problem! Your change is saved at the \`changeRoot\` reported by \`warpweave status --change "<name>" --json\`.
 
 To pick up where we left off later:
-- \`/otrix:continue <name>\` - Resume artifact creation (if installed; otherwise \`warpweave status --change "<name>" --json\` shows the next artifact)
-- \`/otrix:apply <name>\` - Jump to implementation (if tasks exist)
+- \`/ww:continue <name>\` - Resume artifact creation (if installed; otherwise \`warpweave status --change "<name>" --json\` shows the next artifact)
+- \`/ww:apply <name>\` - Jump to implementation (if tasks exist)
 
 The work won't be lost. Come back whenever you're ready.
 \`\`\`
@@ -532,21 +532,21 @@ If the user says they just want to see the commands or skip the tutorial:
 
  | Command                  | What it does                               |
  |--------------------------|--------------------------------------------|
- | \`/otrix:propose <name>\` | Create a change and generate all artifacts |
- | \`/otrix:explore\`        | Think through problems (no code changes)   |
- | \`/otrix:apply <name>\`   | Implement tasks                            |
- | \`/otrix:archive <name>\` | Archive when done                          |
+ | \`/ww:propose <name>\` | Create a change and generate all artifacts |
+ | \`/ww:explore\`        | Think through problems (no code changes)   |
+ | \`/ww:apply <name>\`   | Implement tasks                            |
+ | \`/ww:archive <name>\` | Archive when done                          |
 
 **Additional commands** (only if installed - availability depends on your profile):
 
  | Command                   | What it does                        |
  |---------------------------|-------------------------------------|
- | \`/otrix:new <name>\`      | Start a new change, step by step    |
- | \`/otrix:continue <name>\` | Continue an existing change         |
- | \`/otrix:ff <name>\`       | Fast-forward: all artifacts at once |
- | \`/otrix:verify <name>\`   | Verify implementation               |
+ | \`/ww:new <name>\`      | Start a new change, step by step    |
+ | \`/ww:continue <name>\` | Continue an existing change         |
+ | \`/ww:ff <name>\`       | Fast-forward: all artifacts at once |
+ | \`/ww:verify <name>\`   | Verify implementation               |
 
-Try \`/otrix:propose\` to start your first change.
+Try \`/ww:propose\` to start your first change.
 \`\`\`
 
 Exit gracefully.
@@ -566,7 +566,7 @@ Exit gracefully.
 
 export function getOpsxOnboardCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Onboard',
+    name: 'WW: Onboard',
     description: 'Guided onboarding - walk through a complete Warpweave workflow cycle with narration',
     category: 'Workflow',
     tags: ['workflow', 'onboarding', 'tutorial', 'learning'],

@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * GitHub Copilot adapter for command generation.
- * File path: .github/prompts/otrix-<id>.prompt.md
+ * File path: .github/prompts/ww-<id>.prompt.md
  * Frontmatter: description
  */
 export const githubCopilotAdapter: ToolCommandAdapter = {
   toolId: 'github-copilot',
 
   getFilePath(commandId: string): string {
-    return path.join('.github', 'prompts', `otrix-${commandId}.prompt.md`);
+    return path.join('.github', 'prompts', `ww-${commandId}.prompt.md`);
   },
 
   formatFile(content: CommandContent): string {

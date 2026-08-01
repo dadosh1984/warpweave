@@ -4,8 +4,8 @@ This is the reference for Warpweave's slash commands. These commands are invoked
 
 For workflow patterns and when to use each command, see [Workflows](workflows.md). For CLI commands, see [CLI](cli.md).
 
-These pages use `/otrix:<command>` as the canonical name. Some tools spell it
-differently — Cursor and GitHub Copilot register `/otrix-propose`, Codex uses
+These pages use `/ww:<command>` as the canonical name. Some tools spell it
+differently — Cursor and GitHub Copilot register `/ww-propose`, Codex uses
 `$warpweave-propose` — so check [How To Invoke](supported-tools.md#how-to-invoke)
 for your tool. The files Warpweave generates already use the right form.
 
@@ -15,23 +15,23 @@ for your tool. The files Warpweave generates already use the right form.
 
 | Command | Purpose |
 |---------|---------|
-| `/otrix:propose` | Create a change and generate planning artifacts in one step |
-| `/otrix:explore` | Think through ideas before committing to a change |
-| `/otrix:apply` | Implement tasks from the change |
-| `/otrix:update` | Revise a change's planning artifacts and keep them coherent |
-| `/otrix:sync` | Merge delta specs into main specs |
-| `/otrix:archive` | Archive a completed change |
+| `/ww:propose` | Create a change and generate planning artifacts in one step |
+| `/ww:explore` | Think through ideas before committing to a change |
+| `/ww:apply` | Implement tasks from the change |
+| `/ww:update` | Revise a change's planning artifacts and keep them coherent |
+| `/ww:sync` | Merge delta specs into main specs |
+| `/ww:archive` | Archive a completed change |
 
 ### Expanded Workflow Commands (custom workflow selection)
 
 | Command | Purpose |
 |---------|---------|
-| `/otrix:new` | Start a new change scaffold |
-| `/otrix:continue` | Create the next artifact based on dependencies |
-| `/otrix:ff` | Fast-forward: create all planning artifacts at once |
-| `/otrix:verify` | Validate implementation matches artifacts |
-| `/otrix:bulk-archive` | Archive multiple changes at once |
-| `/otrix:onboard` | Guided tutorial through the complete workflow |
+| `/ww:new` | Start a new change scaffold |
+| `/ww:continue` | Create the next artifact based on dependencies |
+| `/ww:ff` | Fast-forward: create all planning artifacts at once |
+| `/ww:verify` | Validate implementation matches artifacts |
+| `/ww:bulk-archive` | Archive multiple changes at once |
+| `/ww:onboard` | Guided tutorial through the complete workflow |
 
 The default global profile is `core`. To enable expanded workflow commands, run `warpweave config profile`, select workflows, then run `warpweave update` in your project.
 
@@ -39,13 +39,13 @@ The default global profile is `core`. To enable expanded workflow commands, run 
 
 ## Command Reference
 
-### `/otrix:propose`
+### `/ww:propose`
 
 Create a new change and generate planning artifacts in one step. This is the default start command in the `core` profile.
 
 **Syntax:**
 ```text
-/otrix:propose [change-name-or-description]
+/ww:propose [change-name-or-description]
 ```
 
 **Arguments:**
@@ -56,27 +56,27 @@ Create a new change and generate planning artifacts in one step. This is the def
 **What it does:**
 - Creates `warpweave/changes/<change-name>/`
 - Generates artifacts needed before implementation (for `spec-driven`: proposal, specs, design, tasks)
-- Stops when the change is ready for `/otrix:apply`
+- Stops when the change is ready for `/ww:apply`
 
 **Example:**
 ```text
-You: /otrix:propose add-dark-mode
+You: /ww:propose add-dark-mode
 
 AI:  Created warpweave/changes/add-dark-mode/
      ✓ proposal.md
      ✓ specs/ui/spec.md
      ✓ design.md
      ✓ tasks.md
-     Ready for implementation. Run /otrix:apply.
+     Ready for implementation. Run /ww:apply.
 ```
 
 **Tips:**
 - Use this for the fastest end-to-end path
-- If you want step-by-step artifact control, enable expanded workflows and use `/otrix:new` + `/otrix:continue`
+- If you want step-by-step artifact control, enable expanded workflows and use `/ww:new` + `/ww:continue`
 
 ---
 
-### `/otrix:explore`
+### `/ww:explore`
 
 > **Start here when you're unsure.** Explore is a no-stakes thinking partner: it reads your codebase, compares options, and sharpens a fuzzy idea into a concrete plan before any change exists. It ships in the default profile. For the full case and more examples, see the [Explore First](explore.md) guide.
 
@@ -84,7 +84,7 @@ Think through ideas, investigate problems, and clarify requirements before commi
 
 **Syntax:**
 ```
-/otrix:explore [topic]
+/ww:explore [topic]
 ```
 
 **Arguments:**
@@ -97,11 +97,11 @@ Think through ideas, investigate problems, and clarify requirements before commi
 - Investigates the codebase to answer questions
 - Compares options and approaches
 - Creates visual diagrams to clarify thinking
-- Can transition to `/otrix:propose` (default) or `/otrix:new` (expanded workflow) when insights crystallize
+- Can transition to `/ww:propose` (default) or `/ww:new` (expanded workflow) when insights crystallize
 
 **Example:**
 ```text
-You: /otrix:explore
+You: /ww:explore
 
 AI:  What would you like to explore?
 
@@ -121,7 +121,7 @@ AI:  Let me investigate your current auth setup...
 
 You: Let's go with JWT. Can we start a change for that?
 
-AI:  Ready when you are. Run /otrix:propose add-jwt-auth to begin.
+AI:  Ready when you are. Run /ww:propose add-jwt-auth to begin.
 ```
 
 **Tips:**
@@ -132,15 +132,15 @@ AI:  Ready when you are. Run /otrix:propose add-jwt-auth to begin.
 
 ---
 
-### `/otrix:new`
+### `/ww:new`
 
-Start a new change scaffold. Creates the change folder and waits for you to generate artifacts with `/otrix:continue` or `/otrix:ff`.
+Start a new change scaffold. Creates the change folder and waits for you to generate artifacts with `/ww:continue` or `/ww:ff`.
 
 This command is part of the expanded workflow set (not included in the default `core` profile).
 
 **Syntax:**
 ```
-/otrix:new [change-name] [--schema <schema-name>]
+/ww:new [change-name] [--schema <schema-name>]
 ```
 
 **Arguments:**
@@ -163,13 +163,13 @@ warpweave/changes/<change-name>/
 
 **Example:**
 ```
-You: /otrix:new add-dark-mode
+You: /ww:new add-dark-mode
 
 AI:  Created warpweave/changes/add-dark-mode/
      Schema: spec-driven
 
      Ready to create: proposal
-     Use /otrix:continue to create it, or /otrix:ff to create all artifacts.
+     Use /ww:continue to create it, or /ww:ff to create all artifacts.
 ```
 
 **Tips:**
@@ -179,13 +179,13 @@ AI:  Created warpweave/changes/add-dark-mode/
 
 ---
 
-### `/otrix:continue`
+### `/ww:continue`
 
 Create the next artifact in the dependency chain. Creates one artifact at a time for incremental progress.
 
 **Syntax:**
 ```
-/otrix:continue [change-name]
+/ww:continue [change-name]
 ```
 
 **Arguments:**
@@ -202,7 +202,7 @@ Create the next artifact in the dependency chain. Creates one artifact at a time
 
 **Example:**
 ```
-You: /otrix:continue
+You: /ww:continue
 
 AI:  Change: add-dark-mode
 
@@ -219,7 +219,7 @@ AI:  Change: add-dark-mode
      ✓ Created warpweave/changes/add-dark-mode/specs/ui/spec.md
 
      Now available: design
-     Run /otrix:continue to create the next artifact.
+     Run /ww:continue to create the next artifact.
 ```
 
 **Tips:**
@@ -230,13 +230,13 @@ AI:  Change: add-dark-mode
 
 ---
 
-### `/otrix:ff`
+### `/ww:ff`
 
 Fast-forward through artifact creation. Creates all planning artifacts at once.
 
 **Syntax:**
 ```
-/otrix:ff [change-name]
+/ww:ff [change-name]
 ```
 
 **Arguments:**
@@ -252,7 +252,7 @@ Fast-forward through artifact creation. Creates all planning artifacts at once.
 
 **Example:**
 ```
-You: /otrix:ff add-dark-mode
+You: /ww:ff add-dark-mode
 
 AI:  Fast-forwarding add-dark-mode...
 
@@ -262,24 +262,24 @@ AI:  Fast-forwarding add-dark-mode...
      ✓ Creating tasks.md
 
      All planning artifacts complete!
-     Ready for implementation. Run /otrix:apply to begin.
+     Ready for implementation. Run /ww:apply to begin.
 ```
 
 **Tips:**
 - Use when you have a clear picture of what you're building
-- Faster than `/otrix:continue` for straightforward changes
+- Faster than `/ww:continue` for straightforward changes
 - You can still edit artifacts afterward
 - Good for small to medium features
 
 ---
 
-### `/otrix:apply`
+### `/ww:apply`
 
 Implement tasks from the change. Works through the task list, writing code and checking off items.
 
 **Syntax:**
 ```
-/otrix:apply [change-name]
+/ww:apply [change-name]
 ```
 
 **Arguments:**
@@ -295,7 +295,7 @@ Implement tasks from the change. Works through the task list, writing code and c
 
 **Example:**
 ```
-You: /otrix:apply
+You: /ww:apply
 
 AI:  Implementing add-dark-mode...
 
@@ -323,14 +323,14 @@ AI:  Implementing add-dark-mode...
 
 ---
 
-### `/otrix:update`
+### `/ww:update`
 
 Revise a change's existing planning artifacts and keep them coherent with one another. Planning artifacts only - it never edits code.
 
 **Syntax:**
 
 ```text
-/otrix:update [change-name]
+/ww:update [change-name]
 ```
 
 **Arguments:**
@@ -345,12 +345,12 @@ Revise a change's existing planning artifacts and keep them coherent with one an
 - Applies your requested revision, or reviews the artifacts for contradictions if you didn't name one
 - Reconciles the other existing artifacts in any direction (a design edit may ripple back to the proposal)
 - Confirms every edit with you before writing, one artifact at a time
-- Ends by recommending the next step: `/otrix:continue` (artifacts missing), `/otrix:apply` (carry a revised plan into code), or `/otrix:archive` (all done)
+- Ends by recommending the next step: `/ww:continue` (artifacts missing), `/ww:apply` (carry a revised plan into code), or `/ww:archive` (all done)
 
 **Example:**
 
 ```text
-You: /otrix:update add-dark-mode - we're storing the theme in a cookie now, not localStorage
+You: /ww:update add-dark-mode - we're storing the theme in a cookie now, not localStorage
 
 AI:  Reading add-dark-mode artifacts...
 
@@ -366,19 +366,19 @@ AI:  Reading add-dark-mode artifacts...
 
 **Tips:**
 
-- It won't create missing artifacts - that's `/otrix:continue`
-- If the change was already implemented, follow up with `/otrix:apply` so the code matches the revised plan
-- If your revision changes the *intent* of the change, start fresh with a new change instead (see [When to Update vs. Start Fresh](otrix.md#when-to-update-vs-start-fresh))
+- It won't create missing artifacts - that's `/ww:continue`
+- If the change was already implemented, follow up with `/ww:apply` so the code matches the revised plan
+- If your revision changes the *intent* of the change, start fresh with a new change instead (see [When to Update vs. Start Fresh](ww.md#when-to-update-vs-start-fresh))
 
 ---
 
-### `/otrix:verify`
+### `/ww:verify`
 
 Validate that implementation matches your change artifacts. Checks completeness, correctness, and coherence.
 
 **Syntax:**
 ```
-/otrix:verify [change-name]
+/ww:verify [change-name]
 ```
 
 **Arguments:**
@@ -402,7 +402,7 @@ Validate that implementation matches your change artifacts. Checks completeness,
 
 **Example:**
 ```
-You: /otrix:verify
+You: /ww:verify
 
 AI:  Verifying add-dark-mode...
 
@@ -440,13 +440,13 @@ AI:  Verifying add-dark-mode...
 
 ---
 
-### `/otrix:sync`
+### `/ww:sync`
 
 **Optional command.** Merge delta specs from a change into main specs. Archive will prompt to sync if needed, so you typically don't need to run this manually.
 
 **Syntax:**
 ```
-/otrix:sync [change-name]
+/ww:sync [change-name]
 ```
 
 **Arguments:**
@@ -463,7 +463,7 @@ AI:  Verifying add-dark-mode...
 
 **Example:**
 ```text
-You: /otrix:sync
+You: /ww:sync
 
 AI:  Syncing add-dark-mode delta specs...
 
@@ -477,7 +477,7 @@ AI:  Syncing add-dark-mode delta specs...
      Merging...
      ✓ warpweave/specs/ui/spec.md updated
 
-     Change remains active. Run /otrix:archive when ready to complete.
+     Change remains active. Run /ww:archive when ready to complete.
 ```
 
 **When to use manually:**
@@ -497,13 +497,13 @@ AI:  Syncing add-dark-mode delta specs...
 
 ---
 
-### `/otrix:archive`
+### `/ww:archive`
 
 Archive a completed change. Finalizes the change and moves it to the archive folder.
 
 **Syntax:**
 ```
-/otrix:archive [change-name]
+/ww:archive [change-name]
 ```
 
 **Arguments:**
@@ -520,7 +520,7 @@ Archive a completed change. Finalizes the change and moves it to the archive fol
 
 **Example:**
 ```text
-You: /otrix:archive
+You: /ww:archive
 
 AI:  Archiving add-dark-mode...
 
@@ -545,17 +545,17 @@ AI:  ✓ Synced specs to warpweave/specs/ui/spec.md
 - Archive won't block on incomplete tasks, but will warn
 - Delta specs can be synced during archive or beforehand
 - Archived changes are preserved for history
-- Use `/otrix:verify` first to catch issues
+- Use `/ww:verify` first to catch issues
 
 ---
 
-### `/otrix:bulk-archive`
+### `/ww:bulk-archive`
 
 Archive multiple completed changes at once. Handles spec conflicts between changes.
 
 **Syntax:**
 ```
-/otrix:bulk-archive [change-names...]
+/ww:bulk-archive [change-names...]
 ```
 
 **Arguments:**
@@ -572,7 +572,7 @@ Archive multiple completed changes at once. Handles spec conflicts between chang
 
 **Example:**
 ```
-You: /otrix:bulk-archive
+You: /ww:bulk-archive
 
 AI:  Found 3 completed changes:
      - add-dark-mode (8/8 tasks complete)
@@ -605,13 +605,13 @@ AI:  ✓ Archived add-dark-mode
 
 ---
 
-### `/otrix:onboard`
+### `/ww:onboard`
 
 Guided onboarding through the complete Warpweave workflow. An interactive tutorial using your actual codebase.
 
 **Syntax:**
 ```
-/otrix:onboard
+/ww:onboard
 ```
 
 **What it does:**
@@ -625,19 +625,19 @@ Guided onboarding through the complete Warpweave workflow. An interactive tutori
 **Phases:**
 1. Welcome and codebase analysis
 2. Finding an improvement opportunity
-3. Creating a change (`/otrix:new`)
+3. Creating a change (`/ww:new`)
 4. Writing the proposal
 5. Creating specs
 6. Writing the design
 7. Creating tasks
-8. Implementing tasks (`/otrix:apply`)
+8. Implementing tasks (`/ww:apply`)
 9. Verifying implementation
 10. Archiving the change
 11. Summary and next steps
 
 **Example:**
 ```
-You: /otrix:onboard
+You: /ww:onboard
 
 AI:  Welcome to Warpweave!
 
@@ -671,14 +671,14 @@ Different AI tools use slightly different command syntax. Use the format that ma
 
 | Your tool's command file | Syntax example | Example tools |
 |--------------------------|----------------|---------------|
-| `.../commands/otrix/<id>.*` | `/otrix:propose`, `/otrix:apply` | Claude Code, Gemini CLI, Crush |
-| `.../otrix-<id>.*` | `/otrix-propose`, `/otrix-apply` | Cursor, Devin Desktop, Copilot (IDE), Trae, Oh My Pi |
+| `.../commands/ww/<id>.*` | `/ww:propose`, `/ww:apply` | Claude Code, Gemini CLI, Crush |
+| `.../ww-<id>.*` | `/ww-propose`, `/ww-apply` | Cursor, Devin Desktop, Copilot (IDE), Trae, Oh My Pi |
 | none — skills only | `/warpweave-propose`, `/warpweave-apply-change` | CodeArts, ForgeCode, Hermes, Mistral Vibe, shared `.agents` |
 | none — Kimi Code | `/skill:warpweave-propose` | Kimi Code |
 | none — Codex CLI | `$warpweave-propose` | Codex |
 
-> **Devin Desktop vs Devin Local:** the `.devin/workflows/otrix-*.md` files give
-> Devin Desktop `/otrix-propose`. Devin Local has no workflows — use the skills
+> **Devin Desktop vs Devin Local:** the `.devin/workflows/ww-*.md` files give
+> Devin Desktop `/ww-propose`. Devin Local has no workflows — use the skills
 > Warpweave writes to `.devin/skills/`, e.g. `/warpweave-propose`, which work on
 > both agents.
 
@@ -690,7 +690,7 @@ The intent is the same across tools, but how commands are surfaced can differ by
 
 ## Legacy Commands
 
-These commands use the older "all-at-once" workflow. They still work but OTRIX commands are recommended.
+These commands use the older "all-at-once" workflow. They still work but WW commands are recommended.
 
 | Command | What it does |
 |---------|--------------|
@@ -703,8 +703,8 @@ These commands use the older "all-at-once" workflow. They still work but OTRIX c
 - Simple changes where you don't need incremental artifact creation
 - Preference for the all-or-nothing approach
 
-**Migrating to OTRIX:**
-Legacy changes can be continued with OTRIX commands. The artifact structure is compatible.
+**Migrating to WW:**
+Legacy changes can be continued with WW commands. The artifact structure is compatible.
 
 ---
 
@@ -715,7 +715,7 @@ Legacy changes can be continued with OTRIX commands. The artifact structure is c
 The command couldn't identify which change to work on.
 
 **Solutions:**
-- Specify the change name explicitly: `/otrix:apply add-dark-mode`
+- Specify the change name explicitly: `/ww:apply add-dark-mode`
 - Check that the change folder exists: `warpweave list`
 - Verify you're in the right project directory
 
@@ -755,7 +755,7 @@ The AI creates incomplete or incorrect artifacts.
 - Add project context in `warpweave/config.yaml`
 - Add per-artifact rules for specific guidance
 - Provide more detail in your change description
-- Use `/otrix:continue` instead of `/otrix:ff` for more control
+- Use `/ww:continue` instead of `/ww:ff` for more control
 
 ---
 

@@ -24,18 +24,18 @@ function injectPiArgs(body: string): string {
 
 /**
  * Pi adapter for prompt template generation.
- * File path: .pi/prompts/otrix-<id>.md
+ * File path: .pi/prompts/ww-<id>.md
  * Frontmatter: description
  *
  * Pi uses the filename (minus .md) as the slash command name, so
- * otrix-propose.md → /otrix-propose. generateCommand rewrites the body's
+ * ww-propose.md → /ww-propose. generateCommand rewrites the body's
  * command references to that form before this adapter formats it.
  */
 export const piAdapter: ToolCommandAdapter = {
   toolId: 'pi',
 
   getFilePath(commandId: string): string {
-    return path.join('.pi', 'prompts', `otrix-${commandId}.md`);
+    return path.join('.pi', 'prompts', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

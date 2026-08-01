@@ -10,14 +10,14 @@ import type { CommandContent, ToolCommandAdapter } from '../types.js';
 
 /**
  * Kilo Code adapter for command generation.
- * File path: .kilocode/workflows/otrix-<id>.md
+ * File path: .kilocode/workflows/ww-<id>.md
  * Format: Plain markdown without frontmatter
  */
 export const kilocodeAdapter: ToolCommandAdapter = {
   toolId: 'kilocode',
 
   getFilePath(commandId: string): string {
-    return path.join('.kilocode', 'workflows', `otrix-${commandId}.md`);
+    return path.join('.kilocode', 'workflows', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

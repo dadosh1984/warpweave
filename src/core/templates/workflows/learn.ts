@@ -83,7 +83,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxLearnCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Learn',
+    name: 'WW: Learn',
     description: 'Analyze archived changes for trends and recommendations',
     category: 'Metrics',
     tags: ['metrics', 'learn', 'trends', 'archives', 'analytics'],
@@ -91,7 +91,7 @@ export function getOpsxLearnCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally limit to a date range or a number of most-recent changes after \`/otrix:learn\`. If omitted, analyze all archives.
+**Input**: Optionally limit to a date range or a number of most-recent changes after \`/ww:learn\`. If omitted, analyze all archives.
 
 **Steps**
 

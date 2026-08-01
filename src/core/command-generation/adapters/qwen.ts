@@ -14,14 +14,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Qwen adapter for command generation.
- * File path: .qwen/commands/otrix-<id>.md
+ * File path: .qwen/commands/ww-<id>.md
  * Format: Markdown with description frontmatter
  */
 export const qwenAdapter: ToolCommandAdapter = {
   toolId: 'qwen',
 
   getFilePath(commandId: string): string {
-    return path.join('.qwen', 'commands', `otrix-${commandId}.md`);
+    return path.join('.qwen', 'commands', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

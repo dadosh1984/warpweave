@@ -144,12 +144,12 @@ The unified workflow uses the standard Warpweave commands:
 
 | Command | Purpose |
 |---------|---------|
-| `/otrix:explore` | Thinking partner before you commit to a plan |
-| `/otrix:propose` | Create a change: proposal, specs, design, tasks |
-| `/otrix:apply` | Implement tasks with TDD and ladder rungs |
-| `/otrix:archive` | Archive the change, sync specs |
+| `/ww:explore` | Thinking partner before you commit to a plan |
+| `/ww:propose` | Create a change: proposal, specs, design, tasks |
+| `/ww:apply` | Implement tasks with TDD and ladder rungs |
+| `/ww:archive` | Archive the change, sync specs |
 
-Your tool may spell `/otrix:propose` as `/otrix-propose`, `@otrix-propose`, or `$warpweave-propose` — `warpweave init` prints the right form for the tools you picked.
+Your tool may spell `/ww:propose` as `/ww-propose`, `@ww-propose`, or `$warpweave-propose` — `warpweave init` prints the right form for the tools you picked.
 
 ## FAQ
 

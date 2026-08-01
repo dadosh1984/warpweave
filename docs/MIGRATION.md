@@ -89,7 +89,7 @@ If you configured AI tools with Spectrix skills, update your configs:
 
 ## What Stayed the Same
 
-- `/otrix:*` commands (e.g., `/otrix:propose`, `/otrix:apply`) - unchanged
+- `/ww:*` commands (e.g., `/ww:propose`, `/ww:apply`) - unchanged
 - External integrations: Ponytail, Superpowers, RTK - names unchanged
 - Spec format: `spec-driven` schema - unchanged
 - Core functionality - all features work the same

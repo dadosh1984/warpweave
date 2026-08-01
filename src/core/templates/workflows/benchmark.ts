@@ -92,7 +92,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxBenchmarkCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Benchmark',
+    name: 'WW: Benchmark',
     description: 'Compare plan vs. actual and save the benchmark report',
     category: 'Metrics',
     tags: ['metrics', 'benchmark', 'plan', 'ladder', 'rtk'],
@@ -100,7 +100,7 @@ export function getOpsxBenchmarkCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: A change name after \`/otrix:benchmark\` (e.g., \`/otrix:benchmark add-auth\`). If omitted, infer from conversation context; if ambiguous, prompt for available changes.
+**Input**: A change name after \`/ww:benchmark\` (e.g., \`/ww:benchmark add-auth\`). If omitted, infer from conversation context; if ambiguous, prompt for available changes.
 
 **Steps**
 

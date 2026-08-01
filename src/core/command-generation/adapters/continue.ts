@@ -10,19 +10,19 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Continue adapter for command generation.
- * File path: .continue/prompts/otrix-<id>.prompt
+ * File path: .continue/prompts/ww-<id>.prompt
  * Frontmatter: name, description, invokable
  */
 export const continueAdapter: ToolCommandAdapter = {
   toolId: 'continue',
 
   getFilePath(commandId: string): string {
-    return path.join('.continue', 'prompts', `otrix-${commandId}.prompt`);
+    return path.join('.continue', 'prompts', `ww-${commandId}.prompt`);
   },
 
   formatFile(content: CommandContent): string {
     return `---
-name: ${escapeYamlValue(`otrix-${content.id}`)}
+name: ${escapeYamlValue(`ww-${content.id}`)}
 description: ${escapeYamlValue(content.description)}
 invokable: true
 ---

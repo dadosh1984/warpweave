@@ -1,16 +1,16 @@
-# otrix-onboard-skill Specification
+# ww-onboard-skill Specification
 
 ## Purpose
-Define `/otrix:onboard` behavior for guiding users through an end-to-end Spectrix workflow on their real codebase.
+Define `/ww:onboard` behavior for guiding users through an end-to-end Spectrix workflow on their real codebase.
 
 ## Requirements
-### Requirement: OTRIX Onboard Skill
+### Requirement: WW Onboard Skill
 
-The system SHALL provide an `/otrix:onboard` skill that guides users through their first complete Spectrix workflow cycle with narration and real codebase work.
+The system SHALL provide an `/ww:onboard` skill that guides users through their first complete Spectrix workflow cycle with narration and real codebase work.
 
 #### Scenario: Skill invocation
 
-- **WHEN** user invokes `/otrix:onboard`
+- **WHEN** user invokes `/ww:onboard`
 - **THEN** agent checks if Spectrix is initialized
 - **AND** if not initialized, prompts user to run `spectrix init` first
 - **AND** if initialized, proceeds with onboarding flow
@@ -54,7 +54,7 @@ The skill SHALL briefly demonstrate explore mode before creating a change.
 #### Scenario: Brief explore demonstration
 
 - **WHEN** task is selected
-- **THEN** agent briefly demonstrates `/otrix:explore` by investigating relevant code
+- **THEN** agent briefly demonstrates `/ww:explore` by investigating relevant code
 - **AND** explains explore mode is for thinking before doing
 - **AND** keeps this phase short (not a full exploration session)
 - **AND** transitions to change creation
@@ -144,8 +144,8 @@ The skill SHALL conclude with a recap and command reference.
 - **WHEN** onboarding is complete
 - **THEN** agent summarizes the workflow phases completed
 - **AND** emphasizes this rhythm works for any size change
-- **AND** provides command reference table (/otrix:explore, /otrix:new, /otrix:ff, /otrix:continue, /otrix:apply, /otrix:verify, /otrix:archive)
-- **AND** suggests next actions (try /otrix:new or /otrix:ff on something)
+- **AND** provides command reference table (/ww:explore, /ww:new, /ww:ff, /ww:continue, /ww:apply, /ww:verify, /ww:archive)
+- **AND** suggests next actions (try /ww:new or /ww:ff on something)
 
 ### Requirement: Graceful Exit Handling
 
@@ -156,12 +156,12 @@ The skill SHALL handle users who want to stop mid-way.
 - **WHEN** user indicates they want to stop during onboarding
 - **THEN** agent acknowledges gracefully
 - **AND** notes that the in-progress change is saved
-- **AND** explains how to continue later with `/otrix:continue <name>`
+- **AND** explains how to continue later with `/ww:continue <name>`
 - **AND** exits without pressure
 
 #### Scenario: User wants quick reference only
 
 - **WHEN** user says they just want to see the commands
 - **THEN** agent provides command cheat sheet
-- **AND** exits gracefully with encouragement to try `/otrix:new`
+- **AND** exits gracefully with encouragement to try `/ww:new`
 

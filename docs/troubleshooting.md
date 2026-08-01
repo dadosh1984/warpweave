@@ -39,9 +39,9 @@ The full list of tool IDs is in [Supported Tools](supported-tools.md). Use `--to
 
 ## Commands don't show up
 
-If `/otrix:propose` (or your tool's equivalent) doesn't appear or doesn't do anything, work down this list. They're ordered fastest-to-check first.
+If `/ww:propose` (or your tool's equivalent) doesn't appear or doesn't do anything, work down this list. They're ordered fastest-to-check first.
 
-1. **You may be in the wrong place.** Slash commands go in your AI assistant's chat, not your terminal. If you typed `/otrix:propose` into your shell, that's the issue. See [How Commands Work](how-commands-work.md).
+1. **You may be in the wrong place.** Slash commands go in your AI assistant's chat, not your terminal. If you typed `/ww:propose` into your shell, that's the issue. See [How Commands Work](how-commands-work.md).
 
 2. **Regenerate the files.** From your project root:
 
@@ -59,7 +59,7 @@ If `/otrix:propose` (or your tool's equivalent) doesn't appear or doesn't do any
 
 5. **Check you initialized this project.** Skills are written per project. If you cloned a repo or switched folders, run `warpweave init` (or `warpweave update`) there.
 
-6. **Confirm your tool supports command files.** Codex, CodeArts, ForgeCode, Hermes, Kimi Code, Mistral Vibe and the shared `.agents` target don't get generated `otrix-*` command files; they use skill-based invocations instead, so `/otrix` will never autocomplete for them. Type `$warpweave-propose` in Codex, `/skill:warpweave-propose` in Kimi Code, and `/warpweave-propose` in the rest. The shared `.agents` target is vendor-neutral, so `/warpweave-propose` is the common form rather than a guaranteed one — if your assistant does not answer to it, check its own docs for how it invokes a skill. Amazon Q does get command files, but loads them into its prompt library rather than its slash menu — type `@otrix-propose` there, not `/otrix`. Every tool's form is listed in [How To Invoke](supported-tools.md#how-to-invoke).
+6. **Confirm your tool supports command files.** Codex, CodeArts, ForgeCode, Hermes, Kimi Code, Mistral Vibe and the shared `.agents` target don't get generated `ww-*` command files; they use skill-based invocations instead, so `/ww` will never autocomplete for them. Type `$warpweave-propose` in Codex, `/skill:warpweave-propose` in Kimi Code, and `/warpweave-propose` in the rest. The shared `.agents` target is vendor-neutral, so `/warpweave-propose` is the common form rather than a guaranteed one — if your assistant does not answer to it, check its own docs for how it invokes a skill. Amazon Q does get command files, but loads them into its prompt library rather than its slash menu — type `@ww-propose` there, not `/ww`. Every tool's form is listed in [How To Invoke](supported-tools.md#how-to-invoke).
 
 ## Working with changes
 
@@ -69,7 +69,7 @@ The command couldn't tell which change you meant. Name it explicitly, or check w
 
 ```bash
 warpweave list                    # see active changes
-/otrix:apply add-dark-mode        # name the change in chat
+/ww:apply add-dark-mode        # name the change in chat
 ```
 
 Also confirm you're in the right project directory.
@@ -111,7 +111,7 @@ The AI didn't have enough context. A few levers help:
 - Add project context in `warpweave/config.yaml` so your stack and conventions are injected into every request. See [Customization](customization.md#project-configuration).
 - Add per-artifact `rules:` for guidance that only applies to, say, specs.
 - Give a more detailed description when you propose.
-- Use the expanded `/otrix:continue` to create one artifact at a time and review each, instead of `/otrix:ff` doing them all at once.
+- Use the expanded `/ww:continue` to create one artifact at a time and review each, instead of `/ww:ff` doing them all at once.
 
 ### Archive won't finish, or warns about incomplete tasks
 

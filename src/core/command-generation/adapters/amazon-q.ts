@@ -10,18 +10,18 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Amazon Q adapter for command generation.
- * File path: .amazonq/prompts/otrix-<id>.md
+ * File path: .amazonq/prompts/ww-<id>.md
  * Frontmatter: description
  *
  * Amazon Q surfaces these files as its prompt library rather than as slash
- * commands: the user types `@otrix-propose`, not `/otrix-propose`.
+ * commands: the user types `@ww-propose`, not `/ww-propose`.
  * https://docs.aws.amazon.com/amazonq/latest/qdeveloper-ug/command-line-prompts.html
  */
 export const amazonQAdapter: ToolCommandAdapter = {
   toolId: 'amazon-q',
 
   getFilePath(commandId: string): string {
-    return path.join('.amazonq', 'prompts', `otrix-${commandId}.md`);
+    return path.join('.amazonq', 'prompts', `ww-${commandId}.md`);
   },
 
   invocationPrefix: '@',

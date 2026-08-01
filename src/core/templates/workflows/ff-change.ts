@@ -93,7 +93,7 @@ After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions, plus any conditional artifact you skipped and why
 - What's ready: "All artifacts needed for implementation are ready."
-- Prompt: "Run \`/otrix:apply\` or ask me to implement to start working on the tasks."
+- Prompt: "Run \`/ww:apply\` or ask me to implement to start working on the tasks."
 
 **Artifact Creation Guidelines**
 
@@ -120,7 +120,7 @@ After completing all artifacts, summarize:
 
 export function getOpsxFfCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Fast Forward',
+    name: 'WW: Fast Forward',
     description: 'Create a change and generate all artifacts needed for implementation in one go',
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
@@ -128,7 +128,7 @@ export function getOpsxFfCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: The argument after \`/otrix:ff\` is the change name (kebab-case), OR a description of what the user wants to build.
+**Input**: The argument after \`/ww:ff\` is the change name (kebab-case), OR a description of what the user wants to build.
 
 **Steps**
 
@@ -206,7 +206,7 @@ After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions, plus any conditional artifact you skipped and why
 - What's ready: "All artifacts needed for implementation are ready."
-- Prompt: "Run \`/otrix:apply\` to start implementing."
+- Prompt: "Run \`/ww:apply\` to start implementing."
 
 **Artifact Creation Guidelines**
 

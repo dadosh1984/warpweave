@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Kiro adapter for command generation.
- * File path: .kiro/prompts/otrix-<id>.prompt.md
+ * File path: .kiro/prompts/ww-<id>.prompt.md
  * Frontmatter: description
  */
 export const kiroAdapter: ToolCommandAdapter = {
   toolId: 'kiro',
 
   getFilePath(commandId: string): string {
-    return path.join('.kiro', 'prompts', `otrix-${commandId}.prompt.md`);
+    return path.join('.kiro', 'prompts', `ww-${commandId}.prompt.md`);
   },
 
   formatFile(content: CommandContent): string {

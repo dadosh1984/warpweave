@@ -99,7 +99,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxGuardrailsCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Guardrails',
+    name: 'WW: Guardrails',
     description: 'Check the four pipeline gates before committing',
     category: 'Quality',
     tags: ['quality', 'gates', 'pipeline', 'pre-commit'],
@@ -107,7 +107,7 @@ export function getOpsxGuardrailsCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a change name after \`/otrix:guardrails\` (e.g., \`/otrix:guardrails add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
+**Input**: Optionally specify a change name after \`/ww:guardrails\` (e.g., \`/ww:guardrails add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
 

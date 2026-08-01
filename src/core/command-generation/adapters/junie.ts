@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Junie adapter for command generation.
- * File path: .junie/commands/otrix-<id>.md
+ * File path: .junie/commands/ww-<id>.md
  * Frontmatter: description
  */
 export const junieAdapter: ToolCommandAdapter = {
   toolId: 'junie',
 
   getFilePath(commandId: string): string {
-    return path.join('.junie', 'commands', `otrix-${commandId}.md`);
+    return path.join('.junie', 'commands', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Antigravity adapter for command generation.
- * File path: .agent/workflows/otrix-<id>.md
+ * File path: .agent/workflows/ww-<id>.md
  * Frontmatter: description
  */
 export const antigravityAdapter: ToolCommandAdapter = {
   toolId: 'antigravity',
 
   getFilePath(commandId: string): string {
-    return path.join('.agent', 'workflows', `otrix-${commandId}.md`);
+    return path.join('.agent', 'workflows', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

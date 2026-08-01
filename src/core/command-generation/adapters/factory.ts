@@ -10,14 +10,14 @@ import { escapeYamlValue } from '../yaml.js';
 
 /**
  * Factory adapter for command generation.
- * File path: .factory/commands/otrix-<id>.md
+ * File path: .factory/commands/ww-<id>.md
  * Frontmatter: description, argument-hint
  */
 export const factoryAdapter: ToolCommandAdapter = {
   toolId: 'factory',
 
   getFilePath(commandId: string): string {
-    return path.join('.factory', 'commands', `otrix-${commandId}.md`);
+    return path.join('.factory', 'commands', `ww-${commandId}.md`);
   },
 
   formatFile(content: CommandContent): string {

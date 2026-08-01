@@ -83,7 +83,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 export function getOpsxDebtLedgerCommandTemplate(): CommandTemplate {
   return {
-    name: 'OTRIX: Debt Ledger',
+    name: 'WW: Debt Ledger',
     description: 'Collect ponytail markers into a structured debt backlog',
     category: 'Quality',
     tags: ['quality', 'ponytail', 'debt', 'ledger', 'backlog'],
@@ -91,7 +91,7 @@ export function getOpsxDebtLedgerCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally narrow to a directory or change name after \`/otrix:debt-ledger\` (e.g., \`/otrix:debt-ledger src/core\`). If omitted, scan the whole codebase.
+**Input**: Optionally narrow to a directory or change name after \`/ww:debt-ledger\` (e.g., \`/ww:debt-ledger src/core\`). If omitted, scan the whole codebase.
 
 **Steps**
 
