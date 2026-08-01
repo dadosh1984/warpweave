@@ -27,6 +27,8 @@ import {
   getLearnSkillTemplate,
   getInitUnifiedSkillTemplate,
   getTranslatorSkillTemplate,
+  getPonytailMinimalOutputSkillTemplate,
+  getSuperpowersTddSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -99,6 +101,8 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getLearnSkillTemplate(), dirName: 'warpweave-learn', workflowId: 'learn' },
     { template: getInitUnifiedSkillTemplate(), dirName: 'warpweave-init-unified', workflowId: 'init-unified' },
     { template: getTranslatorSkillTemplate(), dirName: 'warpweave-translator', workflowId: 'translator' },
+    { template: getPonytailMinimalOutputSkillTemplate(), dirName: 'warpweave-ponytail-minimal-output', workflowId: 'ponytail-minimal-output' },
+    { template: getSuperpowersTddSkillTemplate(), dirName: 'warpweave-superpowers-tdd', workflowId: 'superpowers-tdd' },
   ];
 
   if (!workflowFilter) return all;

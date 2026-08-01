@@ -29,3 +29,5 @@ export { getOnboardSkillTemplate, getOpsxOnboardCommandTemplate } from './workfl
 export { getOpsxProposeSkillTemplate, getOpsxProposeCommandTemplate } from './workflows/propose.js';
 export { getFeedbackSkillTemplate } from './workflows/feedback.js';
 export { getTranslatorSkillTemplate } from './workflows/translator.js';
+export { getPonytailMinimalOutputSkillTemplate } from './workflows/ponytail-minimal-output.js';
+export { getSuperpowersTddSkillTemplate } from './workflows/superpowers-tdd.js';

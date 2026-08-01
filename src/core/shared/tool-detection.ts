@@ -38,6 +38,8 @@ export const SKILL_NAMES = [
   'warpweave-learn',
   'warpweave-init-unified',
   'warpweave-translator',
+  'warpweave-ponytail-minimal-output',
+  'warpweave-superpowers-tdd',
 ] as const;
 
 export type SkillName = (typeof SKILL_NAMES)[number];

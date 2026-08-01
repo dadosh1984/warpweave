@@ -1043,8 +1043,8 @@ export class InitCommand {
     console.log();
     console.log(chalk.bold('Unified tools (optional but recommended):'));
     console.log(`  ${chalk.cyan('rtk init -g --opencode')}  — compress shell output (-70% tokens)`);
-    console.log(`  Add to opencode.json: ${chalk.cyan('"superpowers@git+https://github.com/obra/superpowers.git"')}  — TDD + subagent methodology`);
-    console.log(`  Add to opencode.json: ${chalk.cyan('"@dietrichgebert/ponytail"')}  — minimal output ladder (-54% code)`);
+    console.log(`  Installed skill: ${chalk.cyan('warpweave-superpowers-tdd')}  — TDD + subagent methodology`);
+    console.log(`  Installed skill: ${chalk.cyan('warpweave-ponytail-minimal-output')}  — minimal output ladder (-54% code)`);
     console.log(`  Set profile: ${chalk.cyan('UNIFIED_PROFILE=standard')} in .env  — minimal | standard | enterprise`);
 
     // Restart instruction if any tools were configured and got a surface
