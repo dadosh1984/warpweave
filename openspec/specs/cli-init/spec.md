@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The `spectrix init` command SHALL create a complete Spectrix directory structure in any project, enabling immediate adoption of Spectrix conventions with support for multiple AI coding assistants.
+The `warpweave init` command SHALL create a complete Warpweave directory structure in any project, enabling immediate adoption of Warpweave conventions with support for multiple AI coding assistants.
 ## Requirements
 ### Requirement: Progress Indicators
 
@@ -13,18 +13,18 @@ The command SHALL display progress indicators during initialization to provide c
 - **WHEN** executing initialization steps
 - **THEN** validate environment silently in background (no output unless error)
 - **AND** display progress with ora spinners:
-  - Show spinner: "⠋ Creating Spectrix structure..."
-  - Then success: "✔ Spectrix structure created"
+  - Show spinner: "⠋ Creating Warpweave structure..."
+  - Then success: "✔ Warpweave structure created"
   - Show spinner: "⠋ Configuring AI tools..."
   - Then success: "✔ AI tools configured"
 
 ### Requirement: Directory Creation
 
-The command SHALL create the Spectrix directory structure with config file.
+The command SHALL create the Warpweave directory structure with config file.
 
-#### Scenario: Creating Spectrix structure
+#### Scenario: Creating Warpweave structure
 
-- **WHEN** `spectrix init` is executed
+- **WHEN** `warpweave init` is executed
 - **THEN** create the following directory structure:
 ```
 openspec/
@@ -41,7 +41,7 @@ The command SHALL configure AI coding assistants with skills and slash commands 
 #### Scenario: Prompting for AI tool selection
 
 - **WHEN** run interactively
-- **THEN** display animated welcome screen with Spectrix logo
+- **THEN** display animated welcome screen with Warpweave logo
 - **AND** present a searchable multi-select that shows all available tools
 - **AND** mark already configured tools with "(configured ✓)" indicator
 - **AND** pre-select configured tools for easy refresh
@@ -70,7 +70,7 @@ The command SHALL perform safety checks to prevent overwriting existing structur
 
 #### Scenario: Detecting existing initialization
 - **WHEN** the `openspec/` directory already exists
-- **THEN** inform the user that Spectrix is already initialized, skip recreating the base structure, and enter an extend mode
+- **THEN** inform the user that Warpweave is already initialized, skip recreating the base structure, and enter an extend mode
 - **AND** continue to the AI tool selection step so additional tools can be configured
 - **AND** display the existing-initialization error message only when the user declines to add any AI tools
 
@@ -104,22 +104,22 @@ The command SHALL use consistent exit codes to indicate different failure modes.
 - **WHEN** the command completes
 - **THEN** return appropriate exit code:
   - 0: Success
-  - 1: General error (including when Spectrix directory already exists)
+  - 1: General error (including when Warpweave directory already exists)
   - 2: Insufficient permissions (reserved for future use)
   - 3: User cancelled operation (reserved for future use)
 
 ### Requirement: Additional AI Tool Initialization
-`spectrix init` SHALL allow users to add configuration files for new AI coding assistants after the initial setup.
+`warpweave init` SHALL allow users to add configuration files for new AI coding assistants after the initial setup.
 
 #### Scenario: Configuring an extra tool after initial setup
 - **GIVEN** an `openspec/` directory already exists and at least one AI tool file is present
-- **WHEN** the user runs `spectrix init` and selects a different supported AI tool
-- **THEN** generate that tool's configuration files with Spectrix markers the same way as during first-time initialization
+- **WHEN** the user runs `warpweave init` and selects a different supported AI tool
+- **THEN** generate that tool's configuration files with Warpweave markers the same way as during first-time initialization
 - **AND** leave existing tool configuration files unchanged except for managed sections that need refreshing
 - **AND** exit with code 0 and display a success summary highlighting the newly added tool files
 
 ### Requirement: Success Output Enhancements
-`spectrix init` SHALL summarize tool actions when initialization or extend mode completes.
+`warpweave init` SHALL summarize tool actions when initialization or extend mode completes.
 
 #### Scenario: Showing tool summary
 - **WHEN** the command completes successfully
@@ -127,12 +127,12 @@ The command SHALL use consistent exit codes to indicate different failure modes.
 - **AND** personalize the "Next steps" header using the names of the selected tools, defaulting to a generic label when none remain
 
 ### Requirement: Exit Code Adjustments
-`spectrix init` SHALL treat extend mode without new native tool selections as a successful refresh.
+`warpweave init` SHALL treat extend mode without new native tool selections as a successful refresh.
 
 #### Scenario: Allowing empty extend runs
-- **WHEN** Spectrix is already initialized and the user selects no additional natively supported tools
+- **WHEN** Warpweave is already initialized and the user selects no additional natively supported tools
 - **THEN** complete successfully without requiring additional tool setup
-- **AND** preserve the existing Spectrix structure and config files
+- **AND** preserve the existing Warpweave structure and config files
 - **AND** exit with code 0
 
 ### Requirement: Non-Interactive Mode
@@ -154,7 +154,7 @@ The command SHALL support non-interactive operation through command-line options
 #### Scenario: Skip tool configuration non-interactively
 
 - **WHEN** run with `--tools none`
-- **THEN** create only the spectrix directory structure
+- **THEN** create only the warpweave directory structure
 - **AND** skip skill and command generation
 - **AND** create config only when config creation conditions are met
 
@@ -173,7 +173,7 @@ The command SHALL support non-interactive operation through command-line options
 #### Scenario: Missing --tools in non-interactive mode
 
 - **GIVEN** prompts are unavailable in non-interactive execution
-- **WHEN** user runs `spectrix init` without `--tools`
+- **WHEN** user runs `warpweave init` without `--tools`
 - **THEN** fail with exit code 1
 - **AND** instruct to use `--tools all`, `--tools none`, or explicit tool IDs
 
@@ -228,12 +228,12 @@ The command SHALL generate ww slash commands only for selected tools that have a
 #### Scenario: Kimi Code skips command-file generation
 
 - **WHEN** the user selects Kimi Code during initialization
-- **THEN** Spectrix SHALL treat it as a supported tool with `skillsDir: '.kimi-code'`
+- **THEN** Warpweave SHALL treat it as a supported tool with `skillsDir: '.kimi-code'`
 - **AND** command-file generation SHALL be skipped because no Kimi adapter is registered
 
 ### Requirement: Config File Generation
 
-The command SHALL create an Spectrix config file with schema settings.
+The command SHALL create an Warpweave config file with schema settings.
 
 #### Scenario: Creating config.yaml
 
@@ -253,15 +253,15 @@ The command SHALL create an Spectrix config file with schema settings.
 
 The command SHALL maintain backward compatibility with the experimental command.
 
-#### Scenario: Running spectrix experimental
+#### Scenario: Running warpweave experimental
 
-- **WHEN** user runs `spectrix experimental`
-- **THEN** delegate to `spectrix init`
+- **WHEN** user runs `warpweave experimental`
+- **THEN** delegate to `warpweave init`
 - **AND** the command SHALL be hidden from help output
 
 ## Why
 
-Manual creation of Spectrix structure is error-prone and creates adoption friction. A standardized init command ensures:
+Manual creation of Warpweave structure is error-prone and creates adoption friction. A standardized init command ensures:
 - Consistent structure across all projects
 - Proper AI instruction files are always included
 - Quick onboarding for new projects

@@ -440,8 +440,8 @@ export async function detectLegacyStructureFiles(
   let hasRootAgentsWithMarkers = false;
 
   // Check for warpweave/AGENTS.md
-  const spectrixAgentsPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'AGENTS.md');
-  hasOpenspecAgents = await FileSystemUtils.fileExists(spectrixAgentsPath);
+  const warpweaveAgentsPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'AGENTS.md');
+  hasOpenspecAgents = await FileSystemUtils.fileExists(warpweaveAgentsPath);
 
   // Check for warpweave/project.md (for migration messaging, not deleted)
   const projectMdPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'project.md');

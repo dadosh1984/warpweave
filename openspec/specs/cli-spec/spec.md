@@ -1,7 +1,7 @@
 # cli-spec Specification
 
 ## Purpose
-Define `spectrix spec` command behavior for listing, showing, and validating source-of-truth specifications.
+Define `warpweave spec` command behavior for listing, showing, and validating source-of-truth specifications.
 
 ## Requirements
 ### Requirement: Interactive spec show
@@ -10,7 +10,7 @@ The spec show command SHALL support interactive selection when no spec-id is pro
 
 #### Scenario: Interactive spec selection for show
 
-- **WHEN** executing `spectrix spec show` without arguments
+- **WHEN** executing `warpweave spec show` without arguments
 - **THEN** display an interactive list of available specs
 - **AND** allow the user to select a spec to show
 - **AND** display the selected spec content
@@ -19,7 +19,7 @@ The spec show command SHALL support interactive selection when no spec-id is pro
 #### Scenario: Non-interactive fallback keeps current behavior
 
 - **GIVEN** stdin is not a TTY or `--no-interactive` is provided or environment variable `OPEN_SPEC_INTERACTIVE=0`
-- **WHEN** executing `spectrix spec show` without a spec-id
+- **WHEN** executing `warpweave spec show` without a spec-id
 - **THEN** do not prompt interactively
 - **AND** print the existing error message for missing spec-id
 - **AND** set non-zero exit code
@@ -30,27 +30,27 @@ The system SHALL provide a `spec` command with subcommands for displaying, listi
 
 #### Scenario: Show spec as JSON
 
-- **WHEN** executing `spectrix spec show init --json`
+- **WHEN** executing `warpweave spec show init --json`
 - **THEN** parse the markdown spec file
 - **AND** extract headings and content hierarchically
 - **AND** output valid JSON to stdout
 
 #### Scenario: List all specs
 
-- **WHEN** executing `spectrix spec list`
+- **WHEN** executing `warpweave spec list`
 - **THEN** scan the openspec/specs directory
 - **AND** return list of all available capabilities
 - **AND** support JSON output with `--json` flag
 
 #### Scenario: Filter spec content
 
-- **WHEN** executing `spectrix spec show init --requirements`
+- **WHEN** executing `warpweave spec show init --requirements`
 - **THEN** display only requirement names and SHALL statements
 - **AND** exclude scenario content
 
 #### Scenario: Validate spec structure
 
-- **WHEN** executing `spectrix spec validate init`
+- **WHEN** executing `warpweave spec validate init`
 - **THEN** parse the spec file
 - **AND** validate against Zod schema
 - **AND** report any structural issues
@@ -72,7 +72,7 @@ The spec validate command SHALL support interactive selection when no spec-id is
 
 #### Scenario: Interactive spec selection for validation
 
-- **WHEN** executing `spectrix spec validate` without arguments
+- **WHEN** executing `warpweave spec validate` without arguments
 - **THEN** display an interactive list of available specs
 - **AND** allow the user to select a spec to validate
 - **AND** validate the selected spec
@@ -81,7 +81,7 @@ The spec validate command SHALL support interactive selection when no spec-id is
 #### Scenario: Non-interactive fallback keeps current behavior
 
 - **GIVEN** stdin is not a TTY or `--no-interactive` is provided or environment variable `OPEN_SPEC_INTERACTIVE=0`
-- **WHEN** executing `spectrix spec validate` without a spec-id
+- **WHEN** executing `warpweave spec validate` without a spec-id
 - **THEN** do not prompt interactively
 - **AND** print the existing error message for missing spec-id
 - **AND** set non-zero exit code

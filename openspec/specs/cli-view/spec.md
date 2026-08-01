@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The `spectrix view` command provides a comprehensive dashboard view of the Spectrix project state, displaying specifications, changes, and progress metrics in a unified, visually appealing format to help developers quickly understand project status.
+The `warpweave view` command provides a comprehensive dashboard view of the Warpweave project state, displaying specifications, changes, and progress metrics in a unified, visually appealing format to help developers quickly understand project status.
 ## Requirements
 ### Requirement: Dashboard Display
 
@@ -10,13 +10,13 @@ The system SHALL provide a `view` command that displays a dashboard overview of 
 
 #### Scenario: Basic dashboard display
 
-- **WHEN** user runs `spectrix view`
+- **WHEN** user runs `warpweave view`
 - **THEN** system displays a formatted dashboard with sections for summary, active changes, completed changes, and specifications
 
-#### Scenario: No Spectrix directory
+#### Scenario: No Warpweave directory
 
-- **WHEN** user runs `spectrix view` in a directory without OpenSpec
-- **THEN** system displays error message "✗ No spectrix directory found"
+- **WHEN** user runs `warpweave view` in a directory without OpenSpec
+- **THEN** system displays error message "✗ No warpweave directory found"
 
 ### Requirement: Summary Section
 

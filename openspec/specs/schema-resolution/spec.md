@@ -84,10 +84,10 @@ The system SHALL indicate `source: 'project'` for project-local schemas in `list
 
 ### Requirement: Schemas command shows source
 
-The `spectrix schemas` command SHALL display the source of each schema.
+The `warpweave schemas` command SHALL display the source of each schema.
 
 #### Scenario: Display format includes source
-- **WHEN** user runs `spectrix schemas`
+- **WHEN** user runs `warpweave schemas`
 - **THEN** the output SHALL show each schema with its source label (project, user, or package)
 
 ### Requirement: Use config schema as default for new changes
@@ -95,15 +95,15 @@ The `spectrix schemas` command SHALL display the source of each schema.
 The system SHALL use the schema field from `openspec/config.yaml` as the default when creating new changes without explicit `--schema` flag and no planning-home default applies.
 
 #### Scenario: Create change without --schema flag and config exists
-- **WHEN** user runs `spectrix new change foo`, no planning-home default applies, and config contains `schema: "tdd"`
+- **WHEN** user runs `warpweave new change foo`, no planning-home default applies, and config contains `schema: "tdd"`
 - **THEN** system creates change with schema "tdd"
 
 #### Scenario: Create change without --schema flag and no config
-- **WHEN** user runs `spectrix new change foo`, no planning-home default applies, and no config file exists
+- **WHEN** user runs `warpweave new change foo`, no planning-home default applies, and no config file exists
 - **THEN** system creates change with default schema "spec-driven"
 
 #### Scenario: Create change with explicit --schema flag
-- **WHEN** user runs `spectrix new change foo --schema custom` and config contains `schema: "tdd"`
+- **WHEN** user runs `warpweave new change foo --schema custom` and config contains `schema: "tdd"`
 - **THEN** system creates change with schema "custom" (CLI flag overrides config)
 
 ### Requirement: Resolve schema with updated precedence order

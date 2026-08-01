@@ -1,18 +1,18 @@
 # ww-onboard-skill Specification
 
 ## Purpose
-Define `/ww:onboard` behavior for guiding users through an end-to-end Spectrix workflow on their real codebase.
+Define `/ww:onboard` behavior for guiding users through an end-to-end Warpweave workflow on their real codebase.
 
 ## Requirements
 ### Requirement: WW Onboard Skill
 
-The system SHALL provide an `/ww:onboard` skill that guides users through their first complete Spectrix workflow cycle with narration and real codebase work.
+The system SHALL provide an `/ww:onboard` skill that guides users through their first complete Warpweave workflow cycle with narration and real codebase work.
 
 #### Scenario: Skill invocation
 
 - **WHEN** user invokes `/ww:onboard`
-- **THEN** agent checks if Spectrix is initialized
-- **AND** if not initialized, prompts user to run `spectrix init` first
+- **THEN** agent checks if Warpweave is initialized
+- **AND** if not initialized, prompts user to run `warpweave init` first
 - **AND** if initialized, proceeds with onboarding flow
 
 #### Scenario: Welcome and expectations
@@ -66,7 +66,7 @@ The skill SHALL guide users through each artifact with narration explaining the 
 #### Scenario: Change creation with narration
 
 - **WHEN** creating the change directory
-- **THEN** agent runs `spectrix new change "<name>"` with derived kebab-case name
+- **THEN** agent runs `warpweave new change "<name>"` with derived kebab-case name
 - **AND** explains what a "change" is (container for thinking and planning)
 - **AND** shows the folder structure that was created
 - **AND** pauses for user acknowledgment before proceeding

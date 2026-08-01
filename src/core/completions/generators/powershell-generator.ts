@@ -50,7 +50,7 @@ export class PowerShellGenerator implements CompletionGenerator {
 # Auto-generated - do not edit manually
 
 ${helpers}
-$spectrixCompleter = {
+$warpweaveCompleter = {
     param($wordToComplete, $commandAst, $cursorPosition)
 
     $tokens = $commandAst.ToString() -split "\\s+"
@@ -74,7 +74,7 @@ ${commandCases}
     }
 }
 
-Register-ArgumentCompleter -CommandName warpweave -ScriptBlock $spectrixCompleter
+Register-ArgumentCompleter -CommandName warpweave -ScriptBlock $warpweaveCompleter
 `;
   }
 

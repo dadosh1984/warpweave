@@ -1,11 +1,11 @@
 # CLI Archive Command Specification
 
 ## Purpose
-The archive command moves completed changes from the active changes directory to the archive folder with date-based naming, following Spectrix conventions.
+The archive command moves completed changes from the active changes directory to the archive folder with date-based naming, following Warpweave conventions.
 
 ## Command Syntax
 ```bash
-spectrix archive [change-name] [--yes|-y]
+warpweave archive [change-name] [--yes|-y]
 ```
 
 Options:
@@ -122,7 +122,7 @@ Before moving the change to archive, the command SHALL apply delta changes to ma
 #### Scenario: Carried Purpose shorter than the strict-mode minimum
 
 - **WHEN** the Purpose parsed back out of the new main spec is shorter than the minimum Purpose length strict validation enforces
-- **THEN** carry it over unchanged and warn that `spectrix validate --strict` reports it as too brief
+- **THEN** carry it over unchanged and warn that `warpweave validate --strict` reports it as too brief
 
 #### Scenario: Delta Purpose for a capability that already has a main spec
 
@@ -200,7 +200,7 @@ The archive command SHALL support a `--skip-specs` flag that skips all spec upda
 
 #### Scenario: Skipping spec updates with flag
 
-- **WHEN** executing `spectrix archive <change> --skip-specs`
+- **WHEN** executing `warpweave archive <change> --skip-specs`
 - **THEN** skip spec discovery and update confirmation
 - **AND** proceed directly to moving the change to archive
 - **AND** display a message indicating specs were skipped
@@ -243,7 +243,7 @@ The archive command SHALL validate changes before applying them to ensure data i
 
 #### Scenario: Pre-archive validation
 
-- **WHEN** executing `spectrix archive change-name`
+- **WHEN** executing `warpweave archive change-name`
 - **THEN** validate the change structure first
 - **AND** only proceed if validation passes
 - **AND** show validation errors if it fails
@@ -259,7 +259,7 @@ The archive command SHALL validate changes before applying them to ensure data i
 
 #### Scenario: Force archive without validation
 
-- **WHEN** executing `spectrix archive change-name --no-validate`
+- **WHEN** executing `warpweave archive change-name --no-validate`
 - **THEN** skip validation (unsafe mode)
 - **AND** show warning about skipping validation
 

@@ -189,8 +189,8 @@ function maybeWarnProjectConfigDrift(
   state: ProfileState,
   colorize: (message: string) => string
 ): void {
-  const spectrixDir = path.join(projectDir, WARPWEAVE_DIR_NAME);
-  if (!fs.existsSync(spectrixDir)) {
+  const warpweaveDir = path.join(projectDir, WARPWEAVE_DIR_NAME);
+  if (!fs.existsSync(warpweaveDir)) {
     return;
   }
   if (!hasProjectConfigDrift(projectDir, state.workflows, state.delivery)) {
@@ -643,8 +643,8 @@ export function registerConfigCommand(program: Command): void {
 
         // Check if inside an Warpweave project
         const projectDir = process.cwd();
-        const spectrixDir = path.join(projectDir, WARPWEAVE_DIR_NAME);
-        if (fs.existsSync(spectrixDir)) {
+        const warpweaveDir = path.join(projectDir, WARPWEAVE_DIR_NAME);
+        if (fs.existsSync(warpweaveDir)) {
           const applyNow = await confirm({
             message: 'Apply changes to this project now?',
             default: true,

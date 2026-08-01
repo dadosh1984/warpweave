@@ -26,7 +26,7 @@ export interface WorkingSet {
     path: string;
     source: ResolvedWarpweaveRoot['source'];
     store_id?: string;
-    role: 'spectrix_root';
+    role: 'warpweave_root';
   };
   members: WorkingSetMember[];
   status: StoreDiagnostic[];
@@ -66,7 +66,7 @@ export function assembleWorkingSet(input: AssembleWorkingSetInput): WorkingSet {
   );
 
   return {
-    root: { ...toRootOutput(input.root), role: 'spectrix_root' },
+    root: { ...toRootOutput(input.root), role: 'warpweave_root' },
     members,
     status,
   };

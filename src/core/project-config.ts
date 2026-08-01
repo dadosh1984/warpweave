@@ -559,10 +559,10 @@ export interface SpectrixDirClassification {
  */
 export function classifySpectrixDir(projectRoot: string): SpectrixDirClassification {
   const planningDir = resolvePlanningDirName(projectRoot);
-  const spectrixDir = path.join(projectRoot, planningDir);
+  const warpweaveDir = path.join(projectRoot, planningDir);
   const hasPlanningShape =
-    isDirectorySync(path.join(spectrixDir, 'specs')) ||
-    isDirectorySync(path.join(spectrixDir, 'changes'));
+    isDirectorySync(path.join(warpweaveDir, 'specs')) ||
+    isDirectorySync(path.join(warpweaveDir, 'changes'));
   return { hasPlanningShape, pointer: readStorePointer(projectRoot) };
 }
 

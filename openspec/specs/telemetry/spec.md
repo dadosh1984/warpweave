@@ -2,26 +2,26 @@
 
 ## Purpose
 
-This spec defines how Spectrix collects anonymous usage telemetry to help improve the tool. It governs the `src/telemetry/` module, which handles PostHog integration, privacy-preserving event design, user opt-out mechanisms, and first-run notice display. The spec ensures telemetry is minimal, transparent, and respects user privacy.
+This spec defines how Warpweave collects anonymous usage telemetry to help improve the tool. It governs the `src/telemetry/` module, which handles PostHog integration, privacy-preserving event design, user opt-out mechanisms, and first-run notice display. The spec ensures telemetry is minimal, transparent, and respects user privacy.
 
 ## Requirements
 
 ### Requirement: Command execution tracking
-The system SHALL send a `command_executed` event to PostHog when any CLI command executes, including only the command name and Spectrix version as properties.
+The system SHALL send a `command_executed` event to PostHog when any CLI command executes, including only the command name and Warpweave version as properties.
 
 #### Scenario: Standard command execution
-- **WHEN** a user runs any spectrix command
+- **WHEN** a user runs any warpweave command
 - **THEN** the system sends a `command_executed` event with `command` and `version` properties
 
 #### Scenario: Subcommand execution
-- **WHEN** a user runs a nested command like `spectrix change apply`
+- **WHEN** a user runs a nested command like `warpweave change apply`
 - **THEN** the system sends a `command_executed` event with the full command path (e.g., `change:apply`)
 
 ### Requirement: Privacy-preserving event design
 The system SHALL NOT include command arguments, file paths, project names, spec content, error messages, or IP addresses in telemetry events.
 
 #### Scenario: Command with arguments
-- **WHEN** a user runs `spectrix init my-project --force`
+- **WHEN** a user runs `warpweave init my-project --force`
 - **THEN** the telemetry event contains only `command: "init"` and `version: "<version>"` without arguments
 
 #### Scenario: IP address exclusion
@@ -60,9 +60,9 @@ The system SHALL automatically disable telemetry when `CI=true` environment vari
 The system SHALL display a one-line telemetry disclosure notice on the first command execution, before any telemetry is sent.
 
 #### Scenario: First command execution
-- **WHEN** a user runs their first spectrix command
+- **WHEN** a user runs their first warpweave command
 - **AND** telemetry is enabled
-- **THEN** the system displays: "Note: Spectrix collects anonymous usage stats. Opt out: OPENSPEC_TELEMETRY=0"
+- **THEN** the system displays: "Note: Warpweave collects anonymous usage stats. Opt out: OPENSPEC_TELEMETRY=0"
 
 #### Scenario: Subsequent command execution
 - **WHEN** a user has already seen the notice (noticeSeen: true in config)

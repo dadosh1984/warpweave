@@ -39,7 +39,7 @@ export class BashGenerator implements CompletionGenerator {
     return `# Bash completion script for Warpweave CLI
 # Auto-generated - do not edit manually
 
-_spectrix_completion() {
+_warpweave_completion() {
   local cur prev words cword
 
   # Use _init_completion if available (from bash-completion package)
@@ -76,7 +76,7 @@ ${commandCases}
 }
 
 ${helpers}
-complete -F _spectrix_completion warpweave
+complete -F _warpweave_completion warpweave
 `;
   }
 
@@ -176,16 +176,16 @@ complete -F _spectrix_completion warpweave
 
     switch (positionalType) {
       case 'change-id':
-        lines.push(`${indent}_spectrix_complete_changes`);
+        lines.push(`${indent}_warpweave_complete_changes`);
         break;
       case 'spec-id':
-        lines.push(`${indent}_spectrix_complete_specs`);
+        lines.push(`${indent}_warpweave_complete_specs`);
         break;
       case 'change-or-spec-id':
-        lines.push(`${indent}_spectrix_complete_items`);
+        lines.push(`${indent}_warpweave_complete_items`);
         break;
       case 'schema-name':
-        lines.push(`${indent}_spectrix_complete_schemas`);
+        lines.push(`${indent}_warpweave_complete_schemas`);
         break;
       case 'shell':
         lines.push(`${indent}local shells="zsh bash fish powershell"`);

@@ -1,17 +1,17 @@
 # legacy-cleanup Specification
 
 ## Purpose
-Define detection and cleanup behavior for legacy Spectrix artifacts during initialization and update workflows.
+Define detection and cleanup behavior for legacy Warpweave artifacts during initialization and update workflows.
 
 ## Requirements
 ### Requirement: Legacy artifact detection
 
-The system SHALL detect legacy Spectrix artifacts from previous init versions.
+The system SHALL detect legacy Warpweave artifacts from previous init versions.
 
 #### Scenario: Detecting legacy config files
 
-- **WHEN** running `spectrix init` on an existing project
-- **THEN** the system SHALL check for config files with Spectrix markers:
+- **WHEN** running `warpweave init` on an existing project
+- **THEN** the system SHALL check for config files with Warpweave markers:
   - `CLAUDE.md`
   - `.cursorrules`
   - `.windsurfrules`
@@ -25,20 +25,20 @@ The system SHALL detect legacy Spectrix artifacts from previous init versions.
 
 #### Scenario: Detecting legacy slash command directories
 
-- **WHEN** running `spectrix init` on an existing project
+- **WHEN** running `warpweave init` on an existing project
 - **THEN** the system SHALL check for old slash command directories:
   - `.claude/commands/openspec/`
   - `.cursor/commands/openspec/` (note: old format used `openspec-*.md` in commands root)
   - `.windsurf/workflows/openspec-*.md`
   - And equivalent directories for all tools in the legacy SlashCommandRegistry
 
-#### Scenario: Detecting legacy Spectrix structure files
+#### Scenario: Detecting legacy Warpweave structure files
 
-- **WHEN** running `spectrix init` on an existing project
+- **WHEN** running `warpweave init` on an existing project
 - **THEN** the system SHALL check for:
   - `openspec/AGENTS.md`
   - `openspec/project.md` (for migration messaging only, not deleted)
-  - Root `AGENTS.md` with Spectrix markers
+  - Root `AGENTS.md` with Warpweave markers
 
 ### Requirement: Legacy cleanup confirmation
 
@@ -73,26 +73,26 @@ The system SHALL prompt for confirmation before removing legacy artifacts.
 
 ### Requirement: Surgical removal of config file content
 
-The system SHALL preserve user content when removing Spectrix markers from config files.
+The system SHALL preserve user content when removing Warpweave markers from config files.
 
-#### Scenario: Config file with only Spectrix content
+#### Scenario: Config file with only Warpweave content
 
-- **WHEN** a config file contains only Spectrix marker block (whitespace outside is acceptable)
-- **THEN** the system SHALL remove the Spectrix marker block
+- **WHEN** a config file contains only Warpweave marker block (whitespace outside is acceptable)
+- **THEN** the system SHALL remove the Warpweave marker block
 - **AND** preserve the file (even if empty or whitespace-only)
 - **AND** NOT delete the file (config files belong to the user's project root)
 
 #### Scenario: Config file with mixed content
 
-- **WHEN** a config file contains content outside Spectrix markers
+- **WHEN** a config file contains content outside Warpweave markers
 - **THEN** the system SHALL remove only the `<!-- OPENSPEC:START -->` to `<!-- OPENSPEC:END -->` block
 - **AND** preserve all content before and after the markers
 - **AND** clean up any resulting double blank lines
 
 #### Scenario: Root AGENTS.md with mixed content
 
-- **WHEN** root `AGENTS.md` contains Spectrix markers AND other content
-- **THEN** the system SHALL remove only the Spectrix marker block
+- **WHEN** root `AGENTS.md` contains Warpweave markers AND other content
+- **THEN** the system SHALL remove only the Warpweave marker block
 - **AND** preserve the rest of the file
 
 ### Requirement: Legacy directory removal
@@ -143,8 +143,8 @@ The system SHALL report what was cleaned up.
 - **THEN** the system SHALL display a summary section:
   ```
   Cleaned up legacy files:
-    ✓ Removed Spectrix markers from CLAUDE.md
-    ✓ Removed .claude/commands/openspec/ (replaced by Spectrix skills and commands)
+    ✓ Removed Warpweave markers from CLAUDE.md
+    ✓ Removed .claude/commands/openspec/ (replaced by Warpweave skills and commands)
     ✓ Removed openspec/AGENTS.md (no longer needed)
   ```
 - **AND IF** `openspec/project.md` exists

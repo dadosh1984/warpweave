@@ -96,12 +96,12 @@ interface StoreListOutput {
   status: StoreDiagnostic[];
 }
 
-type WarpweaveRootOutput = Omit<StoreInspection['spectrixRoot'], 'diagnostics'> & {
+type WarpweaveRootOutput = Omit<StoreInspection['warpweaveRoot'], 'diagnostics'> & {
   status: StoreDiagnostic[];
 };
 
 interface StoreDoctorStoreOutput extends StoreOutput {
-  spectrix_root: WarpweaveRootOutput;
+  warpweave_root: WarpweaveRootOutput;
   metadata: StoreInspection['metadata'];
   git: {
     is_repository: boolean | null;
@@ -171,7 +171,7 @@ function toListOutput(result: StoreListResult): StoreListOutput {
   };
 }
 
-function toWarpweaveRootOutput(root: StoreInspection['spectrixRoot']): WarpweaveRootOutput {
+function toWarpweaveRootOutput(root: StoreInspection['warpweaveRoot']): WarpweaveRootOutput {
   return {
     present: root.present,
     config: root.config,
@@ -186,7 +186,7 @@ function toWarpweaveRootOutput(root: StoreInspection['spectrixRoot']): Warpweave
 function toDoctorStoreOutput(store: StoreInspection): StoreDoctorStoreOutput {
   return {
     ...toStoreOutput(store),
-    spectrix_root: toWarpweaveRootOutput(store.spectrixRoot),
+    warpweave_root: toWarpweaveRootOutput(store.warpweaveRoot),
     metadata: store.metadata,
     git: {
       is_repository: store.git.isRepository,
@@ -474,9 +474,9 @@ function formatDoctorGitHuman(store: StoreDoctorOutput['stores'][number]): strin
 }
 
 function formatWarpweaveRootHuman(store: StoreDoctorOutput['stores'][number]): string {
-  if (store.spectrix_root.healthy) return 'ok';
-  if (store.spectrix_root.present === false) return 'missing';
-  if (store.spectrix_root.present === null) return 'unknown';
+  if (store.warpweave_root.healthy) return 'ok';
+  if (store.warpweave_root.present === false) return 'missing';
+  if (store.warpweave_root.present === null) return 'unknown';
   return 'incomplete';
 }
 

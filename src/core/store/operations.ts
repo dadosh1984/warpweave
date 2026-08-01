@@ -111,7 +111,7 @@ export interface StoreDoctorResult {
 }
 
 export interface StoreInspection extends StoreInfo {
-  spectrixRoot: WarpweaveRootInspection;
+  warpweaveRoot: WarpweaveRootInspection;
   metadata: {
     present: boolean | null;
     valid: boolean | null;
@@ -510,9 +510,9 @@ async function prepareSetupPlan(
         throw remoteRequiresHandEditError(id, storeRoot);
       }
     } else {
-      const spectrixRoot = await inspectWarpweaveRoot(storeRoot);
+      const warpweaveRoot = await inspectWarpweaveRoot(storeRoot);
       const safeFreshDirectory = await isDirectoryEmpty(storeRoot) || await isGitOnlyDirectory(storeRoot);
-      if (!spectrixRoot.healthy && !safeFreshDirectory) {
+      if (!warpweaveRoot.healthy && !safeFreshDirectory) {
         throw new StoreError(
           'Store setup does not support initializing a non-empty folder that is not a healthy Warpweave root.',
           'store_setup_non_empty_directory',
@@ -763,10 +763,10 @@ export async function registerExistingStore(
   }
 
   assertNotConfigOnlyPointerRoot(storeRoot);
-  const spectrixRoot = await inspectWarpweaveRoot(storeRoot);
-  if (!spectrixRoot.healthy) {
+  const warpweaveRoot = await inspectWarpweaveRoot(storeRoot);
+  if (!warpweaveRoot.healthy) {
     const problems =
-      spectrixRoot.diagnostics.map((diagnostic) => diagnostic.message).join(' ') ||
+      warpweaveRoot.diagnostics.map((diagnostic) => diagnostic.message).join(' ') ||
       'The Warpweave root is missing or incomplete.';
     const isEmptyCloneSuspect =
       (await isGitRepositoryAtRoot(storeRoot)) &&
@@ -1061,7 +1061,7 @@ async function inspectStore(entry: {
     hasRemote: null,
     originUrl: null,
   };
-  let spectrixRoot: WarpweaveRootInspection = await inspectWarpweaveRoot(root);
+  let warpweaveRoot: WarpweaveRootInspection = await inspectWarpweaveRoot(root);
 
   if (kind === 'missing') {
     diagnostics.push(makeStoreDiagnostic(
@@ -1084,8 +1084,8 @@ async function inspectStore(entry: {
       }
     ));
   } else {
-    spectrixRoot = await inspectWarpweaveRoot(root);
-    diagnostics.push(...spectrixRoot.diagnostics);
+    warpweaveRoot = await inspectWarpweaveRoot(root);
+    diagnostics.push(...warpweaveRoot.diagnostics);
 
     try {
       const parsed = await readOptionalStoreMetadataState(root);
@@ -1184,7 +1184,7 @@ async function inspectStore(entry: {
     id: entry.id,
     root,
     metadataPath,
-    spectrixRoot,
+    warpweaveRoot,
     metadata,
     git,
     diagnostics,

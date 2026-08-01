@@ -142,11 +142,11 @@ export class InitCommand {
 
   async execute(targetPath: string): Promise<void> {
     const projectPath = path.resolve(targetPath);
-    const spectrixDir = WARPWEAVE_DIR_NAME;
-    const spectrixPath = path.join(projectPath, spectrixDir);
+    const warpweaveDir = WARPWEAVE_DIR_NAME;
+    const warpweavePath = path.join(projectPath, warpweaveDir);
 
     // Validation happens silently in the background
-    const extendMode = await this.validate(projectPath, spectrixPath);
+    const extendMode = await this.validate(projectPath, warpweavePath);
 
     // Pointer guard (slice 3.2): a config-only warpweave/ with a store:
     // declaration is externalized planning, not a root to extend — and a
@@ -227,7 +227,7 @@ export class InitCommand {
     }
 
     // Create directory structure and config
-    await this.createDirectoryStructure(spectrixPath, extendMode);
+    await this.createDirectoryStructure(warpweavePath, extendMode);
 
     // Copy unified config files and AGENTS.md/.env.example to the project
     await this.copyUnifiedConfig(projectPath);
@@ -242,7 +242,7 @@ export class InitCommand {
     }
 
     // Create config.yaml if needed
-    const configStatus = await this.createConfig(spectrixPath, extendMode);
+    const configStatus = await this.createConfig(warpweavePath, extendMode);
 
     // Display success message
     this.displaySuccessMessage(projectPath, validatedTools, results, configStatus);
@@ -254,9 +254,9 @@ export class InitCommand {
 
   private async validate(
     projectPath: string,
-    spectrixPath: string
+    warpweavePath: string
   ): Promise<boolean> {
-    const extendMode = await FileSystemUtils.directoryExists(spectrixPath);
+    const extendMode = await FileSystemUtils.directoryExists(warpweavePath);
 
     // Check write permissions
     if (!(await FileSystemUtils.ensureWritePermissions(projectPath))) {
@@ -639,14 +639,14 @@ export class InitCommand {
   // DIRECTORY STRUCTURE
   // ═══════════════════════════════════════════════════════════
 
-  private async createDirectoryStructure(spectrixPath: string, extendMode: boolean): Promise<void> {
+  private async createDirectoryStructure(warpweavePath: string, extendMode: boolean): Promise<void> {
     if (extendMode) {
       // In extend mode, just ensure directories exist without spinner
       const directories = [
-        spectrixPath,
-        path.join(spectrixPath, 'specs'),
-        path.join(spectrixPath, 'changes'),
-        path.join(spectrixPath, 'changes', 'archive'),
+        warpweavePath,
+        path.join(warpweavePath, 'specs'),
+        path.join(warpweavePath, 'changes'),
+        path.join(warpweavePath, 'changes', 'archive'),
       ];
 
       for (const dir of directories) {
@@ -658,10 +658,10 @@ export class InitCommand {
     const spinner = this.startSpinner('Creating Warpweave structure...');
 
     const directories = [
-      spectrixPath,
-      path.join(spectrixPath, 'specs'),
-      path.join(spectrixPath, 'changes'),
-      path.join(spectrixPath, 'changes', 'archive'),
+      warpweavePath,
+      path.join(warpweavePath, 'specs'),
+      path.join(warpweavePath, 'changes'),
+      path.join(warpweavePath, 'changes', 'archive'),
     ];
 
     for (const dir of directories) {
@@ -840,9 +840,9 @@ export class InitCommand {
   // CONFIG FILE
   // ═══════════════════════════════════════════════════════════
 
-  private async createConfig(spectrixPath: string, extendMode: boolean): Promise<'created' | 'exists' | 'skipped'> {
-    const configPath = path.join(spectrixPath, 'config.yaml');
-    const configYmlPath = path.join(spectrixPath, 'config.yml');
+  private async createConfig(warpweavePath: string, extendMode: boolean): Promise<'created' | 'exists' | 'skipped'> {
+    const configPath = path.join(warpweavePath, 'config.yaml');
+    const configYmlPath = path.join(warpweavePath, 'config.yml');
     const configYamlExists = fs.existsSync(configPath);
     const configYmlExists = fs.existsSync(configYmlPath);
 

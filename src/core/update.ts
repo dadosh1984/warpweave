@@ -120,10 +120,10 @@ export class UpdateCommand {
     const resolvedProjectPath = path.resolve(projectPath);
     // Honor legacy warpweave/ roots: update works wherever the planning
     // directory actually lives (warpweave/ for new installs).
-    const spectrixPath = path.join(resolvedProjectPath, resolvePlanningDirName(resolvedProjectPath));
+    const warpweavePath = path.join(resolvedProjectPath, resolvePlanningDirName(resolvedProjectPath));
 
     // 1. Check warpweave directory exists
-    if (!await FileSystemUtils.directoryExists(spectrixPath)) {
+    if (!await FileSystemUtils.directoryExists(warpweavePath)) {
       throw new Error(`No Warpweave directory found. Run 'warpweave init' first.`);
     }
 

@@ -145,7 +145,7 @@ export async function inspectWarpweaveRoot(storeRoot: string): Promise<Warpweave
 
   if (rootKind === 'missing') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'spectrix_store_root_missing',
+      'warpweave_store_root_missing',
       'Store root does not exist.',
       'store.root'
     ));
@@ -154,7 +154,7 @@ export async function inspectWarpweaveRoot(storeRoot: string): Promise<Warpweave
 
   if (rootKind !== 'directory') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'spectrix_store_root_not_directory',
+      'warpweave_store_root_not_directory',
       'Store root is not a directory.',
       'store.root'
     ));
@@ -162,22 +162,22 @@ export async function inspectWarpweaveRoot(storeRoot: string): Promise<Warpweave
   }
 
   const rel = planningRelativePaths(storeRoot);
-  const spectrixPath = path.join(storeRoot, rel.root);
-  const spectrixKind = await pathKind(spectrixPath);
-  inspection.present = spectrixKind === 'directory';
+  const warpweavePath = path.join(storeRoot, rel.root);
+  const warpweaveKind = await pathKind(warpweavePath);
+  inspection.present = warpweaveKind === 'directory';
 
-  if (spectrixKind === 'missing') {
+  if (warpweaveKind === 'missing') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'spectrix_root_missing',
+      'warpweave_root_missing',
       `Missing ${rel.root}/ directory.`,
       'warpweave.root'
     ));
     return inspection;
   }
 
-  if (spectrixKind !== 'directory') {
+  if (warpweaveKind !== 'directory') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'spectrix_root_not_directory',
+      'warpweave_root_not_directory',
       `${rel.root}/ exists but is not a directory.`,
       'warpweave.root'
     ));
@@ -194,13 +194,13 @@ export async function inspectWarpweaveRoot(storeRoot: string): Promise<Warpweave
     inspection.config = { present: false };
     if (configYamlKind !== 'missing' || configYmlKind !== 'missing') {
       inspection.diagnostics.push(missingDirectoryDiagnostic(
-        'spectrix_config_not_file',
+        'warpweave_config_not_file',
         'Warpweave config path exists but is not a file.',
         'warpweave.config'
       ));
     } else {
       inspection.diagnostics.push(missingDirectoryDiagnostic(
-        'spectrix_config_missing',
+        'warpweave_config_missing',
         `Missing ${rel.root}/config.yaml or ${rel.root}/config.yml.`,
         'warpweave.config'
       ));
@@ -212,7 +212,7 @@ export async function inspectWarpweaveRoot(storeRoot: string): Promise<Warpweave
     storeRoot,
     'specs',
     rel.specs,
-    'spectrix_specs_not_directory',
+    'warpweave_specs_not_directory',
     'warpweave.specs'
   );
   const changesKind = await inspectOptionalPlanningDirectory(
@@ -220,7 +220,7 @@ export async function inspectWarpweaveRoot(storeRoot: string): Promise<Warpweave
     storeRoot,
     'changes',
     rel.changes,
-    'spectrix_changes_not_directory',
+    'warpweave_changes_not_directory',
     'warpweave.changes'
   );
   if (changesKind === 'directory') {
@@ -229,7 +229,7 @@ export async function inspectWarpweaveRoot(storeRoot: string): Promise<Warpweave
       storeRoot,
       'archive',
       rel.archive,
-      'spectrix_archive_not_directory',
+      'warpweave_archive_not_directory',
       'warpweave.archive'
     );
   } else {

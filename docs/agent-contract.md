@@ -33,7 +33,7 @@ All root-resolving commands (`list`, `show`, `validate`, `status`, `instructions
 2. Otherwise, nearest ancestor with `warpweave/`: planning shape → `source: "nearest"` (a `store:` pointer is ignored with a stderr warning); config-only dir with a valid `store:` pointer → that store, `source: "declared"`.
 3. No nearest root + global `defaultStore` set (`warpweave config set defaultStore <id>`) → that store, `source: "global_default"`; a stale id fails with the underlying store error and a `fix` naming `warpweave config unset defaultStore`.
 4. No nearest root, no default + registered stores exist → error `no_root_with_registered_stores`.
-5. No root, no default, no stores: scaffolding commands treat the cwd as `source: "implicit"`; diagnostic commands (`doctor`, `context`) fail with `no_spectrix_root` instead — they inspect, never scaffold.
+5. No root, no default, no stores: scaffolding commands treat the cwd as `source: "implicit"`; diagnostic commands (`doctor`, `context`) fail with `no_warpweave_root` instead — they inspect, never scaffold.
 
 Successful JSON payloads embed the root:
 
@@ -98,7 +98,7 @@ setup/register: `{ "store": {id, root, metadata_path?}, "registry": {path, regis
 ## 6. Diagnostic code catalog
 
 ### Resolution
-`no_spectrix_root`, `no_root_with_registered_stores`, `no_registered_stores`, `unknown_store`, `store_identity_mismatch`, `unhealthy_store_root`, `store_path_not_supported`, `invalid_store_pointer`, `initiative_option_removed`, `areas_option_removed`; pass-through: `invalid_store_id`, `invalid_store_registry`, `invalid_store_metadata`.
+`no_warpweave_root`, `no_root_with_registered_stores`, `no_registered_stores`, `unknown_store`, `store_identity_mismatch`, `unhealthy_store_root`, `store_path_not_supported`, `invalid_store_pointer`, `initiative_option_removed`, `areas_option_removed`; pass-through: `invalid_store_id`, `invalid_store_registry`, `invalid_store_metadata`.
 
 ### Warpweave-root health (error, no fix)
 `openspec_store_root_missing`, `openspec_store_root_not_directory`, `openspec_root_missing`, `openspec_root_not_directory`, `openspec_config_missing`, `openspec_config_not_file`, `openspec_specs_not_directory`, `openspec_changes_not_directory`, `openspec_archive_not_directory`. During the stores beta, `warpweave/specs/`, `warpweave/changes/`, and `warpweave/changes/archive/` may be absent in a healthy root; they are only health errors when present but not directories.

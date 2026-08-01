@@ -19,7 +19,7 @@
  * (`unknown_store`, `no_registered_stores`, `store_identity_mismatch`,
  * `unhealthy_store_root`, `store_path_not_supported`,
  * `invalid_store_pointer`, `no_root_with_registered_stores`,
- * `no_spectrix_root`).
+ * `no_warpweave_root`).
  */
 
 import * as fs from 'node:fs';
@@ -447,7 +447,7 @@ export async function resolveWarpweaveRoot(
   if (options.allowImplicitRoot === false) {
     throw new RootSelectionError(
       'No Warpweave root found from the current directory.',
-      'no_spectrix_root',
+      'no_warpweave_root',
       { target: 'warpweave.root', fix: 'Run warpweave init to create a root here.' }
     );
   }

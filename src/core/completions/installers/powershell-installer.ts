@@ -214,7 +214,7 @@ export class PowerShellInstaller {
         }
 
         // Add Warpweave completion configuration with markers
-        const spectrixBlock = [
+        const warpweaveBlock = [
           '',
           '# WARPWEAVE:START - Warpweave completion (managed block, do not edit manually)',
           scriptLine,
@@ -222,7 +222,7 @@ export class PowerShellInstaller {
           '',
         ].join('\n');
 
-        const newContent = profileContent + spectrixBlock;
+        const newContent = profileContent + warpweaveBlock;
         if (!(await FileSystemUtils.canWriteFile(profilePath))) {
           throw new Error(`Path is not writable: ${profilePath}`);
         }

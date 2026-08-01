@@ -1,20 +1,20 @@
-# Spectrix Conventions Specification
+# Warpweave Conventions Specification
 
 ## Purpose
 
-Spectrix conventions SHALL define how system capabilities are documented, how changes are proposed and tracked, and how specifications evolve over time. This meta-specification serves as the source of truth for Spectrix's own conventions.
+Warpweave conventions SHALL define how system capabilities are documented, how changes are proposed and tracked, and how specifications evolve over time. This meta-specification serves as the source of truth for Warpweave's own conventions.
 ## Requirements
 ### Requirement: Structured conventions for specs and changes
 
-Spectrix conventions SHALL mandate a structured spec format with clear requirement and scenario sections so tooling can parse consistently.
+Warpweave conventions SHALL mandate a structured spec format with clear requirement and scenario sections so tooling can parse consistently.
 
 #### Scenario: Following the structured spec format
 
-- **WHEN** writing or updating Spectrix specifications
+- **WHEN** writing or updating Warpweave specifications
 - **THEN** authors SHALL use `### Requirement: ...` followed by at least one `#### Scenario: ...` section
 
 ### Requirement: Behavior-First Specification Boundary
-Spectrix specifications SHALL capture verifiable behavior contracts and avoid internal implementation detail.
+Warpweave specifications SHALL capture verifiable behavior contracts and avoid internal implementation detail.
 
 #### Scenario: Writing behavior requirements
 - **WHEN** documenting a capability in `spec.md`
@@ -26,7 +26,7 @@ Spectrix specifications SHALL capture verifiable behavior contracts and avoid in
 - **THEN** those details SHALL be documented in `design.md` or `tasks.md` instead of behavioral requirements
 
 ### Requirement: Progressive Rigor
-Spectrix conventions SHALL keep specs lightweight by default and scale rigor only when risk or coordination complexity demands it.
+Warpweave conventions SHALL keep specs lightweight by default and scale rigor only when risk or coordination complexity demands it.
 
 #### Scenario: Routine change specification
 - **WHEN** a change is local and low-risk
@@ -37,10 +37,10 @@ Spectrix conventions SHALL keep specs lightweight by default and scale rigor onl
 - **THEN** authors increase detail and explicit validation expectations proportionally
 
 ### Requirement: Project Structure
-An Spectrix project SHALL maintain a consistent directory structure for specifications and changes.
+An Warpweave project SHALL maintain a consistent directory structure for specifications and changes.
 
 #### Scenario: Initializing project structure
-- **WHEN** an Spectrix project is initialized
+- **WHEN** an Warpweave project is initialized
 - **THEN** it SHALL have this structure:
 ```
 openspec/
@@ -238,19 +238,19 @@ Behavioral specifications SHALL adopt the structured format with `### Requiremen
 - **AND** use `#### Scenario:` for scenarios with bold WHEN/THEN/AND keywords
 
 ### Requirement: Verb–Noun CLI Command Structure
-Spectrix CLI design SHALL use verbs as top-level commands with nouns provided as arguments or flags for scoping.
+Warpweave CLI design SHALL use verbs as top-level commands with nouns provided as arguments or flags for scoping.
 
 #### Scenario: Verb-first command discovery
-- **WHEN** a user runs a command like `spectrix list`
+- **WHEN** a user runs a command like `warpweave list`
 - **THEN** the verb communicates the action clearly
 - **AND** nouns refine scope via flags or arguments (e.g., `--changes`, `--specs`)
 
 #### Scenario: Backward compatibility for noun commands
-- **WHEN** users run noun-prefixed commands such as `spectrix spec ...` or `spectrix change ...`
+- **WHEN** users run noun-prefixed commands such as `warpweave spec ...` or `warpweave change ...`
 - **THEN** the CLI SHALL continue to support them for at least one release
 - **AND** display a deprecation warning that points to verb-first alternatives
 
 #### Scenario: Disambiguation guidance
 - **WHEN** item names are ambiguous between changes and specs
-- **THEN** `spectrix show` and `spectrix validate` SHALL accept `--type spec|change`
+- **THEN** `warpweave show` and `warpweave validate` SHALL accept `--type spec|change`
 - **AND** the help text SHALL document this clearly

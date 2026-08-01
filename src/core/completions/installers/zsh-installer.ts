@@ -69,13 +69,13 @@ export class ZshInstaller {
     if (isOhMyZsh) {
       // Oh My Zsh custom completions directory
       return {
-        path: path.join(this.ohMyZshCustomDir(), 'completions', '_spectrix'),
+        path: path.join(this.ohMyZshCustomDir(), 'completions', '_warpweave'),
         isOhMyZsh: true,
       };
     } else {
       // Standard Zsh completions directory
       return {
-        path: path.join(this.homeDir, '.zsh', 'completions', '_spectrix'),
+        path: path.join(this.homeDir, '.zsh', 'completions', '_warpweave'),
         isOhMyZsh: false,
       };
     }

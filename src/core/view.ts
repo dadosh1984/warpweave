@@ -8,9 +8,9 @@ import { resolvePlanningDirName } from './planning-home.js';
 
 export class ViewCommand {
   async execute(targetPath: string = '.'): Promise<void> {
-    const spectrixDir = path.join(targetPath, resolvePlanningDirName(targetPath));
+    const warpweaveDir = path.join(targetPath, resolvePlanningDirName(targetPath));
     
-    if (!fs.existsSync(spectrixDir)) {
+    if (!fs.existsSync(warpweaveDir)) {
       console.error(chalk.red('No warpweave (or legacy warpweave) directory found'));
       process.exit(1);
     }
@@ -19,8 +19,8 @@ export class ViewCommand {
     console.log('═'.repeat(60));
 
     // Get changes and specs data
-    const changesData = await this.getChangesData(spectrixDir);
-    const specsData = await this.getSpecsData(spectrixDir);
+    const changesData = await this.getChangesData(warpweaveDir);
+    const specsData = await this.getSpecsData(warpweaveDir);
 
     // Display summary metrics
     this.displaySummary(changesData, specsData);
@@ -80,12 +80,12 @@ export class ViewCommand {
     console.log(chalk.dim(`\nUse ${chalk.white('warpweave list --changes')} or ${chalk.white('warpweave list --specs')} for detailed views`));
   }
 
-  private async getChangesData(spectrixDir: string): Promise<{
+  private async getChangesData(warpweaveDir: string): Promise<{
     draft: Array<{ name: string }>;
     active: Array<{ name: string; progress: { total: number; completed: number } }>;
     completed: Array<{ name: string }>;
   }> {
-    const changesDir = path.join(spectrixDir, 'changes');
+    const changesDir = path.join(warpweaveDir, 'changes');
 
     if (!fs.existsSync(changesDir)) {
       return { draft: [], active: [], completed: [] };
@@ -99,7 +99,7 @@ export class ViewCommand {
 
     for (const entry of entries) {
       if (entry.isDirectory() && entry.name !== 'archive') {
-        const progress = await getTaskProgressForChange(changesDir, entry.name, path.dirname(spectrixDir));
+        const progress = await getTaskProgressForChange(changesDir, entry.name, path.dirname(warpweaveDir));
 
         if (progress.total === 0) {
           // No tasks defined yet - still in planning/draft phase
@@ -131,8 +131,8 @@ export class ViewCommand {
     return { draft, active, completed };
   }
 
-  private async getSpecsData(spectrixDir: string): Promise<Array<{ name: string; requirementCount: number }>> {
-    const specsDir = path.join(spectrixDir, 'specs');
+  private async getSpecsData(warpweaveDir: string): Promise<Array<{ name: string; requirementCount: number }>> {
+    const specsDir = path.join(warpweaveDir, 'specs');
     
     if (!fs.existsSync(specsDir)) {
       return [];

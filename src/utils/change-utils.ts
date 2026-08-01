@@ -172,14 +172,14 @@ export async function createChange(
   // specs/ and changes/archive/ exist, and write a config only when
   // none exists. The config records the PROJECT default schema, never
   // a one-change --schema override.
-  const spectrixDir = path.join(projectRoot, resolvePlanningDirName(projectRoot));
+  const warpweaveDir = path.join(projectRoot, resolvePlanningDirName(projectRoot));
 
   // Create the directory (including parent directories if needed)
   await FileSystemUtils.createDirectory(changeDir);
-  await FileSystemUtils.createDirectory(path.join(spectrixDir, 'specs'));
-  await FileSystemUtils.createDirectory(path.join(spectrixDir, 'changes', 'archive'));
-  const configPath = path.join(spectrixDir, 'config.yaml');
-  const configYmlPath = path.join(spectrixDir, 'config.yml');
+  await FileSystemUtils.createDirectory(path.join(warpweaveDir, 'specs'));
+  await FileSystemUtils.createDirectory(path.join(warpweaveDir, 'changes', 'archive'));
+  const configPath = path.join(warpweaveDir, 'config.yaml');
+  const configYmlPath = path.join(warpweaveDir, 'config.yml');
   if (
     !(await FileSystemUtils.fileExists(configPath)) &&
     !(await FileSystemUtils.fileExists(configYmlPath))

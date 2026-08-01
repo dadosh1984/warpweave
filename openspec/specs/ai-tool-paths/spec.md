@@ -1,7 +1,7 @@
 # ai-tool-paths Specification
 
 ## Purpose
-Define AI tool path metadata used to generate Spectrix skills and commands in tool-specific directories.
+Define AI tool path metadata used to generate Warpweave skills and commands in tool-specific directories.
 ## Requirements
 ### Requirement: AIToolOption skillsDir field
 
@@ -41,14 +41,14 @@ The `AI_TOOLS` array SHALL include `skillsDir` for tools that support the Agent 
 
 - **WHEN** looking up the `kimi` tool
 - **THEN** `skillsDir` SHALL be `.kimi-code`
-- **AND** Spectrix-managed skills remaining under the legacy `.kimi/skills` directory SHALL be migrated to `.kimi-code/skills` during init and update, preserving user files
+- **AND** Warpweave-managed skills remaining under the legacy `.kimi/skills` directory SHALL be migrated to `.kimi-code/skills` during init and update, preserving user files
 
 #### Scenario: Hermes Agent paths defined
 
 - **WHEN** looking up the `hermes` tool
 - **THEN** `skillsDir` SHALL be `.hermes`
 - **AND** `setupNote` SHALL explain that project `.hermes/skills` must be added to `skills.external_dirs` in `~/.hermes/config.yaml`
-- **AND** `spectrix init` and `spectrix update` SHALL display the note whenever `hermes` is configured
+- **AND** `warpweave init` and `warpweave update` SHALL display the note whenever `hermes` is configured
 
 #### Scenario: Tools without skillsDir
 
