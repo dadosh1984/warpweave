@@ -132,10 +132,10 @@ npm view @dadosh1984/spectrix
 After completing manual actions:
 
 - [x] GitHub repo renamed to `dadosh1984/warpweave`
-- [ ] npm package published: `warpweave@1.0.0`
-- [ ] Old package deprecated: `@dadosh1984/spectrix`
-- [ ] Repository metadata updated (description, topics)
-- [ ] NPM_TOKEN secret configured
+- [x] npm package published: `warpweave@1.0.0`
+- [x] Old package deprecated: `@dadosh1984/spectrix`
+- [x] Repository metadata updated (description, topics)
+- [x] NPM_TOKEN secret configured
 - [x] Local git remote updated
 
 ---
