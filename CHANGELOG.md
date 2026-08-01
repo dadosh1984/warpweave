@@ -1,5 +1,13 @@
 # warpweave
 
+## 1.0.1
+
+### Patch Changes
+
+- `warpweave feedback` fallback paths (missing/unauthenticated `gh` CLI, execution failure, network failure) now surface the canonical Discord channel `https://discord.gg/RHpQMYfje` for bug reports and feature requests.
+- `warpweave init` success output links the Discord community instead of the dead-end GitHub issues page.
+- Docs and README updated to the canonical Discord invite; foreign GitHub issues links removed.
+
 ## 1.0.0
 
 ### Major Changes
