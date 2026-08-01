@@ -1,17 +1,17 @@
 ---
-name: openspec-learn
+name: warpweave-learn
 description: Analyze archived changes for trends and recommendations. Use when the user wants to review project history, estimation accuracy, or ladder discipline across past changes.
-allowed-tools: Bash(spectrix:*)
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI.
+compatibility: Requires warpweave CLI.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
 Scan archived changes, aggregate metrics, and surface trends and recommendations.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 **Input**: Optionally limit to a date range or a number of most-recent changes. If omitted, analyze all archives.
 
@@ -21,9 +21,9 @@ Scan archived changes, aggregate metrics, and surface trends and recommendations
 
    List archived changes:
    ```bash
-   spectrix list --archived --json
+   warpweave list --archived --json
    ```
-   If archives are on disk under `openspec/changes/archive/`, list them directly.
+   If archives are on disk under `warpweave/changes/archive/`, list them directly.
 
 2. **Aggregate metrics per change**
 

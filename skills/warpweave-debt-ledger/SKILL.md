@@ -1,17 +1,17 @@
 ---
-name: openspec-debt-ledger
+name: warpweave-debt-ledger
 description: Collect `// ponytail:` markers from the codebase into a structured debt backlog. Use when the user wants to review deferred simplifications or decide which technical debt to pay off now.
-allowed-tools: Bash(spectrix:*)
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI and RTK.
+compatibility: Requires warpweave CLI and RTK.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
 Collect every deliberate simplification marked `// ponytail:` into a structured backlog.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 **Input**: Optionally narrow to a directory or change name. If omitted, scan the whole codebase.
 

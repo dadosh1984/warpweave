@@ -1,17 +1,17 @@
 ---
-name: openspec-update-change
-description: Update an Spectrix change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Never edits code.
-allowed-tools: Bash(spectrix:*)
+name: warpweave-update-change
+description: Update an Warpweave change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Never edits code.
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI.
+compatibility: Requires warpweave CLI.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
 Revise a change's existing planning artifacts and keep them coherent. Never edit code.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 **Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
@@ -22,7 +22,7 @@ Revise a change's existing planning artifacts and keep them coherent. Never edit
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run `spectrix list --json` to get available changes sorted by most recently modified, and ask the user to select one
+   - If ambiguous, run `warpweave list --json` to get available changes sorted by most recently modified, and ask the user to select one
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
@@ -32,11 +32,11 @@ Revise a change's existing planning artifacts and keep them coherent. Never edit
 
    Mark the most recently modified change as "(Recommended)" since it's likely what the user wants to update.
 
-   Always announce: "Using change: <name>" and how to override (e.g., `/openspec-update-change <other>`).
+   Always announce: "Using change: <name>" and how to override (e.g., `/warpweave-update-change <other>`).
 
 2. **Get the change's artifacts**
    ```bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    ```
    Parse the JSON to understand current state. The response includes:
    - `schemaName`: The workflow schema being used (e.g., "spec-driven")
@@ -56,7 +56,7 @@ Revise a change's existing planning artifacts and keep them coherent. Never edit
    - Read the artifact(s) the request touches and the change's other existing artifacts.
    - Apply the requested edit. Then check every other existing artifact against it - in ANY direction: an edit to a later artifact may require revising an earlier one, not only the other way around. Build order is a useful reading order, not a constraint on which artifacts may be revised.
    - Note everything that is now inconsistent, missing, or contradictory.
-   - Revise only files that already exist (`existingOutputPaths`). Do NOT create artifacts that don't exist yet, and do NOT invent new files under a glob artifact - note them and point the user to `/openspec-continue-change` to create them.
+   - Revise only files that already exist (`existingOutputPaths`). Do NOT create artifacts that don't exist yet, and do NOT invent new files under a glob artifact - note them and point the user to `/warpweave-continue-change` to create them.
    - If the change is already coherent, say so and make no edits.
 
 5. **Confirm and apply, one artifact at a time**
@@ -64,26 +64,26 @@ Revise a change's existing planning artifacts and keep them coherent. Never edit
    - If the user rejects a revision, do not write it - leave that artifact unchanged.
    - When a substantial rewrite is needed, get that artifact's rules and template first:
      ```bash
-     spectrix instructions <artifact-id> --change "<name>" --json
+     warpweave instructions <artifact-id> --change "<name>" --json
      ```
 
 6. **Point to the next step (guidance only - NEVER act on it)**
-   - Artifacts still missing -> suggest `/openspec-continue-change` to create them.
-   - Change already implemented (tasks checked off / already applied) -> the code may no longer match the revised plan; suggest `/openspec-apply-change` to carry the delta into code.
-   - Everything done and implemented -> suggest `/openspec-archive-change`.
+   - Artifacts still missing -> suggest `/warpweave-continue-change` to create them.
+   - Change already implemented (tasks checked off / already applied) -> the code may no longer match the revised plan; suggest `/warpweave-apply-change` to carry the delta into code.
+   - Everything done and implemented -> suggest `/warpweave-archive-change`.
 
 **Output**
 
 After each invocation, show:
 - Which artifacts were revised (and which proposed revisions were rejected)
-- Anything deferred to `/openspec-continue-change` (not-yet-created artifacts or files)
+- Anything deferred to `/warpweave-continue-change` (not-yet-created artifacts or files)
 - Where the change stands and the recommended next command
 
 **Guardrails**
-- Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to `/openspec-apply-change`.
-- Use the artifact ids and paths reported by `spectrix status`; never branch on hardcoded artifact names.
+- Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to `/warpweave-apply-change`.
+- Use the artifact ids and paths reported by `warpweave status`; never branch on hardcoded artifact names.
 - Edit only the concrete files in `existingOutputPaths`; never write to a glob `resolvedOutputPath`.
-- Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is `/openspec-continue-change`'s job.
+- Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is `/warpweave-continue-change`'s job.
 - Confirm every edit with the user before writing.
-- If the request changes the change's *intent* rather than refining it, recommend starting fresh with `/openspec-new-change` (the "Update vs. Start Fresh" heuristic).
-- `/openspec-continue-change` and `/openspec-new-change` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: `spectrix status --change "<name>" --json` shows the next artifact and `spectrix instructions <artifact-id> --change "<name>" --json` explains how to create it.
+- If the request changes the change's *intent* rather than refining it, recommend starting fresh with `/warpweave-new-change` (the "Update vs. Start Fresh" heuristic).
+- `/warpweave-continue-change` and `/warpweave-new-change` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: `warpweave status --change "<name>" --json` shows the next artifact and `warpweave instructions <artifact-id> --change "<name>" --json` explains how to create it.

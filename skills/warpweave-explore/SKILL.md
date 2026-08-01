@@ -1,21 +1,21 @@
 ---
-name: openspec-explore
+name: warpweave-explore
 description: Enter explore mode - a thinking partner for exploring ideas, investigating problems, and clarifying requirements. Use when the user wants to think through something before or during a change.
-allowed-tools: Bash(spectrix:*)
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI.
+compatibility: Requires warpweave CLI.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
 Enter explore mode. Think deeply. Visualize freely. Follow the conversation wherever it goes.
 
-**IMPORTANT: Explore mode is for thinking, not implementing.** You may read files, search code, and investigate the codebase, but you must NEVER write code or implement features. If the user asks you to implement something, remind them to exit explore mode first and create a change proposal. You MAY create Spectrix artifacts (proposals, designs, specs) if the user asks—that's capturing thinking, not implementing.
+**IMPORTANT: Explore mode is for thinking, not implementing.** You may read files, search code, and investigate the codebase, but you must NEVER write code or implement features. If the user asks you to implement something, remind them to exit explore mode first and create a change proposal. You MAY create Warpweave artifacts (proposals, designs, specs) if the user asks—that's capturing thinking, not implementing.
 
 **This is a stance, not a workflow.** There are no fixed steps, no required sequence, no mandatory outputs. You're a thinking partner helping the user explore.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 ---
 
@@ -77,15 +77,15 @@ Depending on what the user brings, you might:
 
 ---
 
-## Spectrix Awareness
+## Warpweave Awareness
 
-You have full context of the Spectrix system. Use it naturally, don't force it.
+You have full context of the Warpweave system. Use it naturally, don't force it.
 
 ### Check for context
 
 At the start, quickly check what exists:
 ```bash
-spectrix list --json
+warpweave list --json
 ```
 
 This tells you:
@@ -93,7 +93,7 @@ This tells you:
 - Their names, schemas, and status
 - What the user might be working on
 
-Then read the project's own context from the resolved root - `<root.path>/openspec/config.yaml` (or `config.yml`). Use the `root.path` returned above, and skip this if neither file exists:
+Then read the project's own context from the resolved root - `<root.path>/warpweave/config.yaml` (or `config.yml`). Use the `root.path` returned above, and skip this if neither file exists:
 - `context`: project background - tech stack, conventions, constraints
 - `rules`: keyed by artifact id - the entries for an artifact apply only when you write that artifact
 
@@ -111,7 +111,7 @@ Think freely. When insights crystallize, you might offer:
 If the user mentions a change or you detect one is relevant:
 
 1. **Resolve and read existing artifacts for context**
-   - Run `spectrix status --change "<name>" --json`.
+   - Run `warpweave status --change "<name>" --json`.
    - Use `changeRoot`, `artifactPaths`, and `actionContext` from the status JSON.
    - Read existing files from `artifactPaths.<artifact>.existingOutputPaths`.
 
@@ -208,7 +208,7 @@ You: [reads codebase]
 
 **User is stuck mid-implementation:**
 ```
-User: /openspec-explore add-auth-system
+User: /warpweave-explore add-auth-system
       The OAuth integration is more complex than expected
 
 You: [reads change artifacts]
@@ -285,7 +285,7 @@ But this summary is optional. Sometimes the thinking IS the value.
 
 ## Guardrails
 
-- **Don't implement** - Never write code or implement features. Creating Spectrix artifacts is fine, writing application code is not.
+- **Don't implement** - Never write code or implement features. Creating Warpweave artifacts is fine, writing application code is not.
 - **Don't fake understanding** - If something is unclear, dig deeper
 - **Don't rush** - Discovery is thinking time, not task time
 - **Don't force structure** - Let patterns emerge naturally

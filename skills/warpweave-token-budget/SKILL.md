@@ -1,19 +1,19 @@
 ---
-name: openspec-token-budget
+name: warpweave-token-budget
 description: Set a token limit for a change and track consumption across pipeline phases. Use when the user wants to constrain cost, project remaining budget, or review RTK savings per change.
-allowed-tools: Bash(spectrix:*)
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI and RTK.
+compatibility: Requires warpweave CLI and RTK.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
 Track and constrain token consumption for a change across the pipeline phases.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
-**Input**: A change name, plus an optional budget. If no budget is given, read it from `unified.toml` (`[openspec]` / budget section) or default to a sensible limit.
+**Input**: A change name, plus an optional budget. If no budget is given, read it from `unified.toml` (`[warpweave]` / budget section) or default to a sensible limit.
 
 **Steps**
 
@@ -22,10 +22,10 @@ Track and constrain token consumption for a change across the pipeline phases.
    - Use the explicit budget if provided
    - Otherwise read from `config/unified.toml` (e.g., `[rtk]` or a budget key) in the project
    - Otherwise default: 100k tokens per change (adjust with the user)
-   - Record the limit in `openspec/changes/<name>/` as `budget.md` if none exists
+   - Record the limit in `warpweave/changes/<name>/` as `budget.md` if none exists
 
    ```bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    ```
 
 2. **Track phase spend**

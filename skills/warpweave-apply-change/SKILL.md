@@ -1,17 +1,17 @@
 ---
-name: openspec-apply-change
-description: Implement tasks from an Spectrix change. Use when the user wants to start implementing, continue implementation, or work through tasks.
-allowed-tools: Bash(spectrix:*)
+name: warpweave-apply-change
+description: Implement tasks from an Warpweave change. Use when the user wants to start implementing, continue implementation, or work through tasks.
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI.
+compatibility: Requires warpweave CLI.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
-Implement tasks from an Spectrix change.
+Implement tasks from an Warpweave change.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 **Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
@@ -22,13 +22,13 @@ Implement tasks from an Spectrix change.
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run `spectrix list --json` to get available changes and ask the user to select one
+   - If ambiguous, run `warpweave list --json` to get available changes and ask the user to select one
 
-   Always announce: "Using change: <name>" and how to override (e.g., `/openspec-apply-change <other>`).
+   Always announce: "Using change: <name>" and how to override (e.g., `/warpweave-apply-change <other>`).
 
 2. **Check status to understand the schema**
    ```bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    ```
    Parse the JSON to understand:
    - `schemaName`: The workflow being used (e.g., "spec-driven")
@@ -38,7 +38,7 @@ Implement tasks from an Spectrix change.
 3. **Get apply instructions**
 
    ```bash
-   spectrix instructions apply --change "<name>" --json
+   warpweave instructions apply --change "<name>" --json
    ```
 
    This returns:
@@ -50,7 +50,7 @@ Implement tasks from an Spectrix change.
    - Optional `operationGuidance`: current advisory guidance for apply
 
    **Handle states:**
-   - If `state: "blocked"` (missing artifacts): show message, suggest using openspec-continue-change (if it is not installed, run `spectrix status --change "<name>" --json` to see the next artifact and `spectrix instructions <artifact-id> --change "<name>" --json` for how to create it)
+   - If `state: "blocked"` (missing artifacts): show message, suggest using warpweave-continue-change (if it is not installed, run `warpweave status --change "<name>" --json` to see the next artifact and `warpweave instructions <artifact-id> --change "<name>" --json` for how to create it)
    - If `state: "all_done"`: congratulate, suggest archive
    - Otherwise: proceed to implementation
 

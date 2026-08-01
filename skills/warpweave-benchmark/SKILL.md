@@ -1,17 +1,17 @@
 ---
-name: openspec-benchmark
+name: warpweave-benchmark
 description: Compare plan vs. actual for a change and save the report to benchmark.md. Use when the user wants to measure estimation accuracy, code size, or ladder discipline after implementation.
-allowed-tools: Bash(spectrix:*)
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI and RTK.
+compatibility: Requires warpweave CLI and RTK.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
 Compare what was planned for a change with what was actually delivered.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 **Input**: A change name. If omitted, infer from conversation context; if ambiguous, prompt for available changes.
 
@@ -20,12 +20,12 @@ Compare what was planned for a change with what was actually delivered.
 1. **Select the change**
 
    ```bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    ```
 
 2. **Collect the plan (estimate)**
 
-   From `openspec/changes/<name>/tasks.md`:
+   From `warpweave/changes/<name>/tasks.md`:
    - Number of tasks
    - Expected lines of code, if documented (Ladder Decision / estimates)
    - Expected tests, dependencies, and ladder rungs per task
@@ -59,7 +59,7 @@ Compare what was planned for a change with what was actually delivered.
 
 6. **Persist the report**
 
-   Write the full report to `openspec/changes/<name>/benchmark.md`:
+   Write the full report to `warpweave/changes/<name>/benchmark.md`:
 
    ```markdown
    ## Benchmark: <change-name>

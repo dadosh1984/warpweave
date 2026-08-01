@@ -1,33 +1,33 @@
 ---
-name: openspec-onboard
-description: Guided onboarding for Spectrix - walk through a complete workflow cycle with narration and real codebase work.
-allowed-tools: Bash(spectrix:*)
+name: warpweave-onboard
+description: Guided onboarding for Warpweave - walk through a complete workflow cycle with narration and real codebase work.
+allowed-tools: Bash(warpweave:*)
 license: MIT
-compatibility: Requires spectrix CLI.
+compatibility: Requires warpweave CLI.
 metadata:
-  author: spectrix
+  author: warpweave
   version: "1.0"
 ---
 
-Guide the user through their first complete Spectrix workflow cycle. This is a teaching experience—you'll do real work in their codebase while explaining each step.
+Guide the user through their first complete Warpweave workflow cycle. This is a teaching experience—you'll do real work in their codebase while explaining each step.
 
-**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run `spectrix store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `openspec/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 ---
 
 ## Preflight
 
-Before starting, check if the Spectrix CLI is installed:
+Before starting, check if the Warpweave CLI is installed:
 
 ```bash
 # Unix/macOS
-spectrix --version 2>&1 || echo "CLI_NOT_INSTALLED"
+warpweave --version 2>&1 || echo "CLI_NOT_INSTALLED"
 # Windows (PowerShell)
-# if (Get-Command spectrix -ErrorAction SilentlyContinue) { spectrix --version } else { echo "CLI_NOT_INSTALLED" }
+# if (Get-Command warpweave -ErrorAction SilentlyContinue) { warpweave --version } else { echo "CLI_NOT_INSTALLED" }
 ```
 
 **If CLI not installed:**
-> Spectrix CLI is not installed. Install it first, then come back to `/openspec-onboard`.
+> Warpweave CLI is not installed. Install it first, then come back to `/warpweave-onboard`.
 
 Stop here if not installed.
 
@@ -38,7 +38,7 @@ Stop here if not installed.
 Display:
 
 ```
-## Welcome to Spectrix!
+## Welcome to Warpweave!
 
 I'll walk you through a complete change cycle—from idea to implementation—using a real task in your codebase. Along the way, you'll learn the workflow by doing it.
 
@@ -116,7 +116,7 @@ Which task interests you? (Pick a number or describe your own)
 If the user picks or describes something too large (major feature, multi-day work):
 
 ```
-That's a valuable task, but it's probably larger than ideal for your first Spectrix run-through.
+That's a valuable task, but it's probably larger than ideal for your first Warpweave run-through.
 
 For learning the workflow, smaller is better—it lets you see the full cycle without getting stuck in implementation details.
 
@@ -154,7 +154,7 @@ Spend 1-2 minutes investigating the relevant code:
 │   [Optional: ASCII diagram if helpful]  │
 └─────────────────────────────────────────┘
 
-Explore mode (`/openspec-explore`) is for this kind of thinking—investigating before implementing. You can use it anytime you need to think through a problem.
+Explore mode (`/warpweave-explore`) is for this kind of thinking—investigating before implementing. You can use it anytime you need to think through a problem.
 
 Now let's create a change to hold our work.
 ```
@@ -169,14 +169,14 @@ Now let's create a change to hold our work.
 ```
 ## Creating a Change
 
-A "change" in Spectrix is a container for all the thinking and planning around a piece of work. It lives at the `changeRoot` reported by `spectrix status --change "<name>" --json` and holds your artifacts—proposal, specs, design, tasks.
+A "change" in Warpweave is a container for all the thinking and planning around a piece of work. It lives at the `changeRoot` reported by `warpweave status --change "<name>" --json` and holds your artifacts—proposal, specs, design, tasks.
 
 Let me create one for our task.
 ```
 
 **DO:** Create the change with a derived kebab-case name:
 ```bash
-spectrix new change "<derived-name>"
+warpweave new change "<derived-name>"
 ```
 
 **SHOW:**
@@ -245,9 +245,9 @@ Does this capture the intent? I can adjust before we save it.
 
 After approval, save the proposal:
 ```bash
-spectrix instructions proposal --change "<name>" --json
+warpweave instructions proposal --change "<name>" --json
 ```
-Then write the content to the `resolvedOutputPath` from `spectrix instructions proposal --change "<name>" --json`.
+Then write the content to the `resolvedOutputPath` from `warpweave instructions proposal --change "<name>" --json`.
 
 ```
 Proposal saved. This is your "why" document—you can always come back and refine it as understanding evolves.
@@ -270,7 +270,7 @@ For a small task like this, we might only need one spec file.
 
 **DO:** Resolve where the spec file should be created:
 ```bash
-spectrix instructions specs --change "<name>" --json
+warpweave instructions specs --change "<name>" --json
 # Use resolvedOutputPath from the JSON. If it is a glob, choose the concrete file path using the schema instruction and the change's context.
 ```
 
@@ -343,7 +343,7 @@ Here's the design:
 For a small task, this captures the key decisions without over-engineering.
 ```
 
-Save to the `resolvedOutputPath` from `spectrix instructions design --change "<name>" --json`.
+Save to the `resolvedOutputPath` from `warpweave instructions design --change "<name>" --json`.
 
 ---
 
@@ -381,7 +381,7 @@ Each checkbox becomes a unit of work in the apply phase. Ready to implement?
 
 **PAUSE** - Wait for user to confirm they're ready to implement.
 
-Save to the `resolvedOutputPath` from `spectrix instructions tasks --change "<name>" --json`.
+Save to the `resolvedOutputPath` from `warpweave instructions tasks --change "<name>" --json`.
 
 ---
 
@@ -432,7 +432,7 @@ Archived changes become your project's decision history—you can always find th
 
 **DO:** Archive the change (`--yes` answers the confirmation prompts, which you cannot answer from a tool call):
 ```bash
-spectrix archive "<name>" --yes
+warpweave archive "<name>" --yes
 ```
 
 **SHOW:**
@@ -449,7 +449,7 @@ The change is now part of your project's history. The code is in your codebase, 
 ```
 ## Congratulations!
 
-You just completed a full Spectrix cycle:
+You just completed a full Warpweave cycle:
 
 1. **Explore** - Thought through the problem
 2. **New** - Created a change container
@@ -470,25 +470,25 @@ This same rhythm works for any size change—a small fix or a major feature.
 
  | Command           | What it does                               |
  |-------------------|--------------------------------------------|
- | `/openspec-propose` | Create a change and generate all artifacts |
- | `/openspec-explore` | Think through problems before/during work  |
- | `/openspec-apply-change`   | Implement tasks from a change              |
- | `/openspec-archive-change` | Archive a completed change                 |
+ | `/warpweave-propose` | Create a change and generate all artifacts |
+ | `/warpweave-explore` | Think through problems before/during work  |
+ | `/warpweave-apply-change`   | Implement tasks from a change              |
+ | `/warpweave-archive-change` | Archive a completed change                 |
 
 **Additional commands** (only if installed - availability depends on your profile):
 
  | Command            | What it does                                             |
  |--------------------|----------------------------------------------------------|
- | `/openspec-new-change`      | Start a new change, step through artifacts one at a time |
- | `/openspec-continue-change` | Continue working on an existing change                   |
- | `/openspec-ff-change`       | Fast-forward: create all artifacts at once               |
- | `/openspec-verify-change`   | Verify implementation matches artifacts                  |
+ | `/warpweave-new-change`      | Start a new change, step through artifacts one at a time |
+ | `/warpweave-continue-change` | Continue working on an existing change                   |
+ | `/warpweave-ff-change`       | Fast-forward: create all artifacts at once               |
+ | `/warpweave-verify-change`   | Verify implementation matches artifacts                  |
 
 ---
 
 ## What's Next?
 
-Try `/openspec-propose` on something you actually want to build. You've got the rhythm now!
+Try `/warpweave-propose` on something you actually want to build. You've got the rhythm now!
 ```
 
 ---
@@ -500,11 +500,11 @@ Try `/openspec-propose` on something you actually want to build. You've got the 
 If the user says they need to stop, want to pause, or seem disengaged:
 
 ```
-No problem! Your change is saved at the `changeRoot` reported by `spectrix status --change "<name>" --json`.
+No problem! Your change is saved at the `changeRoot` reported by `warpweave status --change "<name>" --json`.
 
 To pick up where we left off later:
-- `/openspec-continue-change <name>` - Resume artifact creation (if installed; otherwise `spectrix status --change "<name>" --json` shows the next artifact)
-- `/openspec-apply-change <name>` - Jump to implementation (if tasks exist)
+- `/warpweave-continue-change <name>` - Resume artifact creation (if installed; otherwise `warpweave status --change "<name>" --json` shows the next artifact)
+- `/warpweave-apply-change <name>` - Jump to implementation (if tasks exist)
 
 The work won't be lost. Come back whenever you're ready.
 ```
@@ -516,27 +516,27 @@ Exit gracefully without pressure.
 If the user says they just want to see the commands or skip the tutorial:
 
 ```
-## Spectrix Quick Reference
+## Warpweave Quick Reference
 
 **Core workflow:**
 
  | Command                  | What it does                               |
  |--------------------------|--------------------------------------------|
- | `/openspec-propose <name>` | Create a change and generate all artifacts |
- | `/openspec-explore`        | Think through problems (no code changes)   |
- | `/openspec-apply-change <name>`   | Implement tasks                            |
- | `/openspec-archive-change <name>` | Archive when done                          |
+ | `/warpweave-propose <name>` | Create a change and generate all artifacts |
+ | `/warpweave-explore`        | Think through problems (no code changes)   |
+ | `/warpweave-apply-change <name>`   | Implement tasks                            |
+ | `/warpweave-archive-change <name>` | Archive when done                          |
 
 **Additional commands** (only if installed - availability depends on your profile):
 
  | Command                   | What it does                        |
  |---------------------------|-------------------------------------|
- | `/openspec-new-change <name>`      | Start a new change, step by step    |
- | `/openspec-continue-change <name>` | Continue an existing change         |
- | `/openspec-ff-change <name>`       | Fast-forward: all artifacts at once |
- | `/openspec-verify-change <name>`   | Verify implementation               |
+ | `/warpweave-new-change <name>`      | Start a new change, step by step    |
+ | `/warpweave-continue-change <name>` | Continue an existing change         |
+ | `/warpweave-ff-change <name>`       | Fast-forward: all artifacts at once |
+ | `/warpweave-verify-change <name>`   | Verify implementation               |
 
-Try `/openspec-propose` to start your first change.
+Try `/warpweave-propose` to start your first change.
 ```
 
 Exit gracefully.
