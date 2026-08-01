@@ -2,7 +2,7 @@
   <a href="https://github.com/dadosh1984/warpweave">
     <picture>
       <source srcset="assets/openspec_bg.png">
-      <img src="assets/openspec_bg.png" alt="Spectrix logo">
+      <img src="assets/openspec_bg.png" alt="Warpweave logo">
     </picture>
   </a>
 </p>
@@ -15,7 +15,7 @@
 </p>
 
 <details>
-<summary><strong>The most loved spec framework.</strong></summary>
+<summary><strong>Spec-driven development for AI-powered teams</strong></summary>
 
 [![Stars](https://img.shields.io/github/stars/dadosh1984/warpweave?style=flat-square&label=Stars)](https://github.com/dadosh1984/warpweave/stargazers)
 [![Downloads](https://img.shields.io/npm/dm/@dadosh1984/warpweave?style=flat-square&label=Downloads/mo)](https://www.npmjs.com/package/@dadosh1984/warpweave)
@@ -23,6 +23,7 @@
 
 </details>
 <p></p>
+
 Our philosophy:
 
 ```text
@@ -39,16 +40,18 @@ Our philosophy:
 
 | Layer | Role | Source |
 |-------|------|--------|
-| Spec | WHAT to build | Spectrix |
-| Process | HOW to build | [Superpowers](https://github.com/obra/superpowers) |
-| Quality | HOW MUCH to write | [Ponytail](https://github.com/DietrichGebert/ponytail) |
-| Feedback | HOW FAST to iterate | [RTK](https://github.com/rtk-ai/rtk) |
+| **Spec** | WHAT to build | **[OpenSpec](https://github.com/Fission-AI/OpenSpec)** |
+| **Process** | HOW to build | [Superpowers](https://github.com/obra/superpowers) |
+| **Quality** | HOW MUCH to write | [Ponytail](https://github.com/DietrichGebert/ponytail) |
+| **Feedback** | HOW FAST to iterate | [RTK](https://github.com/rtk-ai/rtk) |
+
+Warpweave is a unified fork of **OpenSpec** that integrates four complementary systems into a single cohesive workflow for spec-driven development.
 
 ### Pipeline
 
 ```
 USER INTENT
-  → PHASE 1: SPEC GATE (Spectrix)
+  → PHASE 1: SPEC GATE (OpenSpec)
   → PHASE 2: PLAN (Superpowers)
   → PHASE 3: EXECUTE (Ponytail + Superpowers TDD)
   → PHASE 4: FEEDBACK (RTK compressed output)
@@ -61,7 +64,7 @@ USER INTENT
 npm install -g @dadosh1984/warpweave@latest
 brew install rtk
 cd your-project
-spectrix init
+ww init
 rtk init -g --opencode
 ```
 
@@ -76,12 +79,12 @@ Add to `opencode.json`:
 ```
 
 > [!TIP]
-> **New workflow now available!** We've rebuilt Spectrix with a new artifact-guided workflow.
+> **New workflow now available!** We've rebuilt OpenSpec with a new artifact-guided workflow.
 >
 > Run `/otrix:propose "your idea"` to get started. → [Learn more here](docs/otrix.md)
 
 <p align="center">
-  Follow <a href="https://x.com/0xTab">@0xTab on X</a> for updates · Join the <a href="https://discord.gg/YctCnvvshC">Spectrix Discord</a> for help and questions.
+  Follow <a href="https://x.com/0xTab">@0xTab on X</a> for updates · Join the <a href="https://discord.gg/YctCnvvshC">Warpweave Discord</a> for help and questions.
 </p>
 
 <!-- TODO: Add GIF demo of /otrix:propose → /otrix:archive workflow -->
@@ -98,7 +101,7 @@ AI:  Let me look at your styling setup...
 You: Yes, let's do it.
 
 You: /otrix:propose add-dark-mode
-AI:  Created openspec/changes/add-dark-mode/
+AI:  Created warpweave/changes/add-dark-mode/
      ✓ proposal.md — why we're doing this, what's changing
      ✓ specs/       — requirements and scenarios
      ✓ design.md    — technical approach
@@ -114,7 +117,7 @@ AI:  Implementing tasks...
      All tasks complete!
 
 You: /otrix:archive
-AI:  Archived to openspec/changes/archive/2025-01-23-add-dark-mode/
+AI:  Archived to warpweave/changes/archive/2025-01-23-add-dark-mode/
      Specs updated. Ready for the next feature.
 ```
 
@@ -137,24 +140,24 @@ defaulting to the system preference.
 
 Your AI writes these; you review the plan before any code is written.
 
-Spectrix is built with Spectrix — browse this repo's live [specs](openspec/specs) and in-flight [changes](openspec/changes) for real examples at scale.
+Warpweave is built with Warpweave — browse this repo's live [specs](warpweave/specs) and in-flight [changes](warpweave/changes) for real examples at scale.
 
 </details>
 
 <details>
-<summary><strong>Spectrix Dashboard</strong></summary>
+<summary><strong>Warpweave Dashboard</strong></summary>
 
 <p align="center">
-  <img src="assets/openspec_dashboard.png" alt="Spectrix dashboard preview" width="90%">
+  <img src="assets/openspec_dashboard.png" alt="Warpweave dashboard preview" width="90%">
 </p>
 
 </details>
 
 ## Why teams adopt OpenSpec
 
-Solo, Spectrix keeps you and your AI honest on a single repo. On a team, the hard part moves: a feature spans the API server, the web app, and a shared library; requirements are owned by one team and consumed by others; planning starts before any code exists.
+Solo, Warpweave keeps you and your AI honest on a single repo. On a team, the hard part moves: a feature spans the API server, the web app, and a shared library; requirements are owned by one team and consumed by others; planning starts before any code exists.
 
-**[Stores](docs/stores-beta/user-guide.md)** are the answer — planning in a repo of its own. The same `openspec/` shape you already know (specs and changes), shared by `git push` like anything else. One source of truth your whole team and every coding agent can read, across every repo.
+**[Stores](docs/stores-beta/user-guide.md)** are the answer — planning in a repo of its own. The same `warpweave/` shape you already know (specs and changes), shared by `git push` like anything else. One source of truth your whole team and every coding agent can read, across every repo.
 
 - **Cross-repo features** — one change, one plan, even when the code lands in three repos.
 - **Shared requirements** — a platform team owns the specs; product teams reference them read-only, right where their coding agent can read them. No drifting wiki.
@@ -166,7 +169,7 @@ Solo, Spectrix keeps you and your AI honest on a single repo. On a team, the har
 
 **Requires Node.js 20.19.0 or higher.**
 
-Install Spectrix globally:
+Install Warpweave globally:
 
 ```bash
 npm install -g @dadosh1984/warpweave@latest
@@ -176,19 +179,19 @@ Then navigate to your project directory and initialize:
 
 ```bash
 cd your-project
-spectrix init
+ww init
 ```
 
-> **Want your AI to do it?** Paste the [setup prompt](docs/installation.md#install-with-your-ai-assistant) into your coding assistant — it installs the CLI, runs `spectrix init`, and verifies the result.
+> **Want your AI to do it?** Paste the [setup prompt](docs/installation.md#install-with-your-ai-assistant) into your coding assistant — it installs the CLI, runs `ww init`, and verifies the result.
 
 Now talk to your AI:
 
 - **Not sure what to build yet?** Start with `/otrix:explore`, a no-stakes thinking partner that reads your code, weighs options, and shapes a plan before anything is written. ([Explore guide](docs/explore.md))
 - **Already know what you want?** Go straight to `/otrix:propose <what-you-want-to-build>`.
 
-Both are in the default profile. If you want the expanded workflow (`/otrix:new`, `/otrix:continue`, `/otrix:ff`, `/otrix:verify`, `/otrix:bulk-archive`, `/otrix:onboard`), select it with `spectrix config profile` and apply with `spectrix update`.
+Both are in the default profile. If you want the expanded workflow (`/otrix:new`, `/otrix:continue`, `/otrix:ff`, `/otrix:verify`, `/otrix:bulk-archive`, `/otrix:onboard`), select it with `ww config profile` and apply with `ww update`.
 
-`/otrix:propose` is the canonical name; your tool may spell it `/otrix-propose` (Cursor, GitHub Copilot), `@otrix-propose` (Amazon Q) or `$openspec-propose` (Codex). `spectrix init` prints the right form for the tools you picked — see [How To Invoke](docs/supported-tools.md#how-to-invoke).
+`/otrix:propose` is the canonical name; your tool may spell it `/otrix-propose` (Cursor, GitHub Copilot), `@otrix-propose` (Amazon Q) or `$otrix-propose` (Codex). `ww init` prints the right form for the tools you picked — see [How To Invoke](docs/supported-tools.md#how-to-invoke).
 
 > [!NOTE]
 > Not sure if your tool is supported? [View the full list](docs/supported-tools.md) – we support 30+ tools and growing.
@@ -197,7 +200,7 @@ Both are in the default profile. If you want the expanded workflow (`/otrix:new`
 
 ## Docs
 
-**Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to Spectrix? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/otrix:propose`).
+**Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to Warpweave? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/otrix:propose`).
 
 → **[Warpweave Unified](docs/UNIFIED.md)**: the four systems, pipeline, profiles — how this fork integrates Superpowers, Ponytail, and RTK<br>
 → **[Getting Started](docs/getting-started.md)**: first steps<br>
@@ -206,7 +209,7 @@ Both are in the default profile. If you want the expanded workflow (`/otrix:new`
 → **[Core Concepts at a Glance](docs/overview.md)**: the whole mental model, one page<br>
 → **[Examples & Recipes](docs/examples.md)**: real changes, start to finish<br>
 → **[Workflows](docs/workflows.md)**: combos and patterns<br>
-→ **[Existing Projects](docs/existing-projects.md)**: adopt Spectrix on a brownfield codebase<br>
+→ **[Existing Projects](docs/existing-projects.md)**: adopt Warpweave on a brownfield codebase<br>
 → **[Editing a Change](docs/editing-changes.md)**: update artifacts, go back, reconcile manual edits<br>
 → **[Commands](docs/commands.md)**: slash commands & skills<br>
 → **[CLI](docs/cli.md)**: terminal reference<br>
@@ -220,14 +223,14 @@ Both are in the default profile. If you want the expanded workflow (`/otrix:new`
 
 ## Community schemas
 
-Third-party schema bundles distributed via standalone repositories — these provide opinionated workflows that integrate Spectrix with other tools, similar to how [github/spec-kit's community extension catalog](https://github.com/github/spec-kit/tree/main/extensions) handles tool integrations.
+Third-party schema bundles distributed via standalone repositories — these provide opinionated workflows that integrate Warpweave with other tools, similar to how [github/spec-kit's community extension catalog](https://github.com/github/spec-kit/tree/main/extensions) handles tool integrations.
 
 → **[Browse the catalog](docs/customization.md#community-schemas)** in the customization docs.
 
 
-## Why Spectrix?
+## Why Warpweave?
 
-AI coding assistants are powerful but unpredictable when requirements live only in chat history. Spectrix adds a lightweight spec layer so you agree on what to build before any code is written.
+AI coding assistants are powerful but unpredictable when requirements live only in chat history. Warpweave adds a lightweight spec layer so you agree on what to build before any code is written.
 
 - **Agree before you build** — human and AI align on specs before code gets written
 - **Stay organized** — each change gets its own folder with proposal, specs, design, and tasks
@@ -236,13 +239,13 @@ AI coding assistants are powerful but unpredictable when requirements live only 
 
 ### How we compare
 
-**vs. [Spec Kit](https://github.com/github/spec-kit)** (GitHub) — Thorough but heavyweight. Rigid phase gates, lots of Markdown, Python setup. Spectrix is lighter and lets you iterate freely.
+**vs. [Spec Kit](https://github.com/github/spec-kit)** (GitHub) — Thorough but heavyweight. Rigid phase gates, lots of Markdown, Python setup. Warpweave is lighter and lets you iterate freely.
 
-**vs. [Kiro](https://kiro.dev)** (AWS) — Powerful but you're locked into their IDE and limited to Claude models. Spectrix works with the tools you already use.
+**vs. [Kiro](https://kiro.dev)** (AWS) — Powerful but you're locked into their IDE and limited to Claude models. Warpweave works with the tools you already use.
 
-**vs. nothing** — AI coding without specs means vague prompts and unpredictable results. Spectrix brings predictability without the ceremony.
+**vs. nothing** — AI coding without specs means vague prompts and unpredictable results. Warpweave brings predictability without the ceremony.
 
-## Updating OpenSpec
+## Updating Warpweave
 
 **Upgrade the package**
 
@@ -255,22 +258,22 @@ npm install -g @dadosh1984/warpweave@latest
 Run this inside each project to regenerate AI guidance and ensure the latest slash commands are active:
 
 ```bash
-spectrix update
+ww update
 ```
 
 ## Usage Notes
 
-**Model selection**: Spectrix works best with high-reasoning models. We recommend Codex 5.5 and Opus 4.7 for both planning and implementation.
+**Model selection**: Warpweave works best with high-reasoning models. We recommend Codex 5.5 and Opus 4.7 for both planning and implementation.
 
-**Context hygiene**: Spectrix benefits from a clean context window. Clear your context before starting implementation and maintain good context hygiene throughout your session.
+**Context hygiene**: Warpweave benefits from a clean context window. Clear your context before starting implementation and maintain good context hygiene throughout your session.
 
 ## Contributing
 
 **Small fixes** — Bug fixes, typo corrections, and minor improvements can be submitted directly as PRs.
 
-**Larger changes** — For new features, significant refactors, or architectural changes, please submit an Spectrix change proposal first so we can align on intent and goals before implementation begins.
+**Larger changes** — For new features, significant refactors, or architectural changes, please submit a Warpweave change proposal first so we can align on intent and goals before implementation begins.
 
-When writing proposals, keep the Spectrix philosophy in mind: we serve a wide variety of users across different coding agents, models, and use cases. Changes should work well for everyone.
+When writing proposals, keep the Warpweave philosophy in mind: we serve a wide variety of users across different coding agents, models, and use cases. Changes should work well for everyone.
 
 **AI-generated code is welcome** — as long as it's been tested and verified. PRs containing AI-generated code should mention the coding agent and model used (e.g., "Generated with Claude Code using claude-opus-4-5-20251101").
 
@@ -287,23 +290,36 @@ When writing proposals, keep the Spectrix philosophy in mind: we serve a wide va
 <details>
 <summary><strong>Telemetry</strong></summary>
 
-Spectrix collects anonymous usage stats.
+Warpweave collects anonymous usage stats.
 
 We collect only command names and version to understand usage patterns. No arguments, paths, content, or PII. Automatically disabled in CI.
 
-**Opt-out:** `export OPENSPEC_TELEMETRY=0` or `export DO_NOT_TRACK=1`
+**Opt-out:** `export WARPWEAVE_TELEMETRY=0` or `export DO_NOT_TRACK=1`
 
 </details>
 
 <details>
 <summary><strong>Maintainers & Advisors</strong></summary>
 
-See [MAINTAINERS.md](MAINTAINERS.md) for the list of core maintainers and advisors who help guide the project.
+- **Maintainer**: [@dadosh1984](https://github.com/dadosh1984)
+- **Based on**: [OpenSpec](https://github.com/Fission-AI/OpenSpec) by Fission AI
+- **Integrations**: Superpowers, Ponytail, RTK
 
 </details>
 
+<details>
+<summary><strong>License</strong></summary>
 
+MIT License — see [LICENSE](LICENSE) for details.
 
-## License
+Warpweave is a fork of OpenSpec, which is Copyright (c) 2024 OpenSpec Contributors.
+Modifications and additional features are Copyright (c) 2026 dadosh1984.
 
-MIT
+</details>
+
+<p align="center">
+  <strong>Built with ❤️ using Warpweave</strong><br>
+  <a href="https://github.com/dadosh1984/warpweave">GitHub</a> ·
+  <a href="https://npmjs.com/package/@dadosh1984/warpweave">npm</a> ·
+  <a href="https://discord.gg/YctCnvvshC">Discord</a>
+</p>
