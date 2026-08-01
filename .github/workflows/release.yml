@@ -36,6 +36,7 @@ jobs:
       # Skip publishing in that case; the GitHub Release is still created.
       - name: Check npm version existence
         id: npm-version-check
+        shell: bash
         run: |
           VERSION=$(node -p "require('./package.json').version")
           if npm view warpweave@$VERSION version >/dev/null 2>&1; then
