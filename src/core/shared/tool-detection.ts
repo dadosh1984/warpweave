@@ -13,36 +13,36 @@ import { getGlobalConfig } from '../global-config.js';
 import { getProfileWorkflows, ALL_WORKFLOWS } from '../profiles.js';
 
 /**
- * Names of skill directories created by spectrix init.
+ * Names of skill directories created by warpweave init.
  */
 export const SKILL_NAMES = [
-  'openspec-explore',
-  'openspec-new-change',
-  'openspec-continue-change',
-  'openspec-apply-change',
-  'openspec-update-change',
-  'openspec-ff-change',
-  'openspec-sync-specs',
-  'openspec-archive-change',
-  'openspec-bulk-archive-change',
-  'openspec-verify-change',
-  'openspec-onboard',
-  'openspec-propose',
-  'openspec-ladder-audit',
-  'openspec-guardrails',
-  'openspec-debt-ledger',
-  'openspec-token-budget',
-  'openspec-benchmark',
-  'openspec-dependency-check',
-  'openspec-parallel-execute',
-  'openspec-learn',
-  'openspec-init-unified',
+  'warpweave-explore',
+  'warpweave-new-change',
+  'warpweave-continue-change',
+  'warpweave-apply-change',
+  'warpweave-update-change',
+  'warpweave-ff-change',
+  'warpweave-sync-specs',
+  'warpweave-archive-change',
+  'warpweave-bulk-archive-change',
+  'warpweave-verify-change',
+  'warpweave-onboard',
+  'warpweave-propose',
+  'warpweave-ladder-audit',
+  'warpweave-guardrails',
+  'warpweave-debt-ledger',
+  'warpweave-token-budget',
+  'warpweave-benchmark',
+  'warpweave-dependency-check',
+  'warpweave-parallel-execute',
+  'warpweave-learn',
+  'warpweave-init-unified',
 ] as const;
 
 export type SkillName = (typeof SKILL_NAMES)[number];
 
 /**
- * IDs of command templates created by spectrix init.
+ * IDs of command templates created by warpweave init.
  */
 export const COMMAND_IDS = [
   'explore',
@@ -136,7 +136,7 @@ export function getToolSkillStatus(projectRoot: string, toolId: string): ToolSki
 }
 
 /**
- * Checks whether a tool has at least one generated Spectrix command file.
+ * Checks whether a tool has at least one generated Warpweave command file.
  */
 export function toolHasAnyConfiguredCommand(projectPath: string, toolId: string): boolean {
   const adapter = CommandAdapterRegistry.get(toolId);
@@ -262,7 +262,7 @@ export function extractGeneratedByVersion(skillFilePath: string): string | null 
     // ---
     // ...
     // metadata:
-    //   author: openspec
+    //   author: warpweave
     //   version: "1.0"
     //   generatedBy: "0.23.0"
     // ---

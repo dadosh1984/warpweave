@@ -1,13 +1,13 @@
 # Commands
 
-This is the reference for Spectrix's slash commands. These commands are invoked in your AI coding assistant's chat interface (e.g., Claude Code, Cursor, Devin Desktop).
+This is the reference for Warpweave's slash commands. These commands are invoked in your AI coding assistant's chat interface (e.g., Claude Code, Cursor, Devin Desktop).
 
 For workflow patterns and when to use each command, see [Workflows](workflows.md). For CLI commands, see [CLI](cli.md).
 
 These pages use `/otrix:<command>` as the canonical name. Some tools spell it
 differently — Cursor and GitHub Copilot register `/otrix-propose`, Codex uses
-`$openspec-propose` — so check [How To Invoke](supported-tools.md#how-to-invoke)
-for your tool. The files Spectrix generates already use the right form.
+`$warpweave-propose` — so check [How To Invoke](supported-tools.md#how-to-invoke)
+for your tool. The files Warpweave generates already use the right form.
 
 ## Quick Reference
 
@@ -33,7 +33,7 @@ for your tool. The files Spectrix generates already use the right form.
 | `/otrix:bulk-archive` | Archive multiple changes at once |
 | `/otrix:onboard` | Guided tutorial through the complete workflow |
 
-The default global profile is `core`. To enable expanded workflow commands, run `spectrix config profile`, select workflows, then run `spectrix update` in your project.
+The default global profile is `core`. To enable expanded workflow commands, run `warpweave config profile`, select workflows, then run `warpweave update` in your project.
 
 ---
 
@@ -54,7 +54,7 @@ Create a new change and generate planning artifacts in one step. This is the def
 | `change-name-or-description` | No | Kebab-case name or plain-language change description |
 
 **What it does:**
-- Creates `openspec/changes/<change-name>/`
+- Creates `warpweave/changes/<change-name>/`
 - Generates artifacts needed before implementation (for `spec-driven`: proposal, specs, design, tasks)
 - Stops when the change is ready for `/otrix:apply`
 
@@ -62,7 +62,7 @@ Create a new change and generate planning artifacts in one step. This is the def
 ```text
 You: /otrix:propose add-dark-mode
 
-AI:  Created openspec/changes/add-dark-mode/
+AI:  Created warpweave/changes/add-dark-mode/
      ✓ proposal.md
      ✓ specs/ui/spec.md
      ✓ design.md
@@ -150,22 +150,22 @@ This command is part of the expanded workflow set (not included in the default `
 | `--schema` | No | Workflow schema to use (default: from config or `spec-driven`) |
 
 **What it does:**
-- Creates `openspec/changes/<change-name>/` directory
-- Creates `.openspec.yaml` metadata file in the change folder
+- Creates `warpweave/changes/<change-name>/` directory
+- Creates `.warpweave.yaml` metadata file in the change folder
 - Shows the first artifact template ready for creation
 - Prompts for change name and schema if not provided
 
 **What it creates:**
 ```
-openspec/changes/<change-name>/
-└── .openspec.yaml    # Change metadata (schema, created date)
+warpweave/changes/<change-name>/
+└── .warpweave.yaml    # Change metadata (schema, created date)
 ```
 
 **Example:**
 ```
 You: /otrix:new add-dark-mode
 
-AI:  Created openspec/changes/add-dark-mode/
+AI:  Created warpweave/changes/add-dark-mode/
      Schema: spec-driven
 
      Ready to create: proposal
@@ -175,7 +175,7 @@ AI:  Created openspec/changes/add-dark-mode/
 **Tips:**
 - Use descriptive names: `add-feature`, `fix-bug`, `refactor-module`
 - Avoid generic names like `update`, `changes`, `wip`
-- Schema can also be set in project config (`openspec/config.yaml`)
+- Schema can also be set in project config (`warpweave/config.yaml`)
 
 ---
 
@@ -216,7 +216,7 @@ AI:  Change: add-dark-mode
 
      [Reads proposal.md, creates specs based on requirements]
 
-     ✓ Created openspec/changes/add-dark-mode/specs/ui/spec.md
+     ✓ Created warpweave/changes/add-dark-mode/specs/ui/spec.md
 
      Now available: design
      Run /otrix:continue to create the next artifact.
@@ -341,7 +341,7 @@ Revise a change's existing planning artifacts and keep them coherent with one an
 
 **What it does:**
 
-- Reads the change's artifacts via `spectrix status --change <name> --json`
+- Reads the change's artifacts via `warpweave status --change <name> --json`
 - Applies your requested revision, or reviews the artifacts for contradictions if you didn't name one
 - Reconciles the other existing artifacts in any direction (a design edit may ripple back to the proposal)
 - Confirms every edit with you before writing, one artifact at a time
@@ -457,7 +457,7 @@ AI:  Verifying add-dark-mode...
 **What it does:**
 - Reads delta specs from change folder
 - Parses ADDED/MODIFIED/REMOVED/RENAMED sections
-- Merges changes into main `openspec/specs/` directory
+- Merges changes into main `warpweave/specs/` directory
 - Preserves existing content not mentioned in delta
 - Does not archive the change (remains active)
 
@@ -467,15 +467,15 @@ You: /otrix:sync
 
 AI:  Syncing add-dark-mode delta specs...
 
-     Reading: openspec/changes/add-dark-mode/specs/ui/spec.md
-     Target:  openspec/specs/ui/spec.md
+     Reading: warpweave/changes/add-dark-mode/specs/ui/spec.md
+     Target:  warpweave/specs/ui/spec.md
 
      Changes to apply:
      ✓ ADDED: Theme Selection requirement (2 scenarios)
      ✓ ADDED: Accessibility requirement (1 scenario)
 
      Merging...
-     ✓ openspec/specs/ui/spec.md updated
+     ✓ warpweave/specs/ui/spec.md updated
 
      Change remains active. Run /otrix:archive when ready to complete.
 ```
@@ -515,7 +515,7 @@ Archive a completed change. Finalizes the change and moves it to the archive fol
 - Checks artifact completion status
 - Checks task completion (warns if incomplete)
 - Offers to sync delta specs if not already synced
-- Moves change folder to `openspec/changes/archive/YYYY-MM-DD-<name>/`
+- Moves change folder to `warpweave/changes/archive/YYYY-MM-DD-<name>/`
 - Preserves all artifacts for audit trail
 
 **Example:**
@@ -535,8 +535,8 @@ AI:  Archiving add-dark-mode...
 
 You: Yes
 
-AI:  ✓ Synced specs to openspec/specs/ui/spec.md
-     ✓ Moved to openspec/changes/archive/2025-01-24-add-dark-mode/
+AI:  ✓ Synced specs to warpweave/specs/ui/spec.md
+     ✓ Moved to warpweave/changes/archive/2025-01-24-add-dark-mode/
 
      Change archived successfully.
 ```
@@ -607,7 +607,7 @@ AI:  ✓ Archived add-dark-mode
 
 ### `/otrix:onboard`
 
-Guided onboarding through the complete Spectrix workflow. An interactive tutorial using your actual codebase.
+Guided onboarding through the complete Warpweave workflow. An interactive tutorial using your actual codebase.
 
 **Syntax:**
 ```
@@ -639,7 +639,7 @@ Guided onboarding through the complete Spectrix workflow. An interactive tutoria
 ```
 You: /otrix:onboard
 
-AI:  Welcome to Spectrix!
+AI:  Welcome to Warpweave!
 
      I'll walk you through the complete workflow using your actual codebase.
      We'll find something small to improve, create a proper change for it,
@@ -673,13 +673,13 @@ Different AI tools use slightly different command syntax. Use the format that ma
 |--------------------------|----------------|---------------|
 | `.../commands/otrix/<id>.*` | `/otrix:propose`, `/otrix:apply` | Claude Code, Gemini CLI, Crush |
 | `.../otrix-<id>.*` | `/otrix-propose`, `/otrix-apply` | Cursor, Devin Desktop, Copilot (IDE), Trae, Oh My Pi |
-| none — skills only | `/openspec-propose`, `/openspec-apply-change` | CodeArts, ForgeCode, Hermes, Mistral Vibe, shared `.agents` |
-| none — Kimi Code | `/skill:openspec-propose` | Kimi Code |
-| none — Codex CLI | `$openspec-propose` | Codex |
+| none — skills only | `/warpweave-propose`, `/warpweave-apply-change` | CodeArts, ForgeCode, Hermes, Mistral Vibe, shared `.agents` |
+| none — Kimi Code | `/skill:warpweave-propose` | Kimi Code |
+| none — Codex CLI | `$warpweave-propose` | Codex |
 
 > **Devin Desktop vs Devin Local:** the `.devin/workflows/otrix-*.md` files give
 > Devin Desktop `/otrix-propose`. Devin Local has no workflows — use the skills
-> Spectrix writes to `.devin/skills/`, e.g. `/openspec-propose`, which work on
+> Warpweave writes to `.devin/skills/`, e.g. `/warpweave-propose`, which work on
 > both agents.
 
 The intent is the same across tools, but how commands are surfaced can differ by integration. [How To Invoke](supported-tools.md#how-to-invoke) lists every supported tool; this table shows only examples of each shape.
@@ -694,9 +694,9 @@ These commands use the older "all-at-once" workflow. They still work but OTRIX c
 
 | Command | What it does |
 |---------|--------------|
-| `/openspec:proposal` | Create all artifacts at once (proposal, specs, design, tasks) |
-| `/openspec:apply` | Implement the change |
-| `/openspec:archive` | Archive the change |
+| `/warpweave:proposal` | Create all artifacts at once (proposal, specs, design, tasks) |
+| `/warpweave:apply` | Implement the change |
+| `/warpweave:archive` | Archive the change |
 
 **When to use legacy commands:**
 - Existing projects using the old workflow
@@ -716,7 +716,7 @@ The command couldn't identify which change to work on.
 
 **Solutions:**
 - Specify the change name explicitly: `/otrix:apply add-dark-mode`
-- Check that the change folder exists: `spectrix list`
+- Check that the change folder exists: `warpweave list`
 - Verify you're in the right project directory
 
 ### "No artifacts ready"
@@ -724,7 +724,7 @@ The command couldn't identify which change to work on.
 All artifacts are either complete or blocked by missing dependencies.
 
 **Solutions:**
-- Run `spectrix status --change <name>` to see what's blocking
+- Run `warpweave status --change <name>` to see what's blocking
 - Check if required artifacts exist
 - Create missing dependency artifacts first
 
@@ -733,17 +733,17 @@ All artifacts are either complete or blocked by missing dependencies.
 The specified schema doesn't exist.
 
 **Solutions:**
-- List available schemas: `spectrix schemas`
+- List available schemas: `warpweave schemas`
 - Check spelling of schema name
-- Create the schema if it's custom: `spectrix schema init <name>`
+- Create the schema if it's custom: `warpweave schema init <name>`
 
 ### Commands not recognized
 
-The AI tool doesn't recognize Spectrix commands.
+The AI tool doesn't recognize Warpweave commands.
 
 **Solutions:**
-- Ensure Spectrix is initialized: `spectrix init`
-- Regenerate skills: `spectrix update`
+- Ensure Warpweave is initialized: `warpweave init`
+- Regenerate skills: `warpweave update`
 - Check that `.claude/skills/` directory exists (for Claude Code)
 - Restart your AI tool to pick up new skills
 
@@ -752,7 +752,7 @@ The AI tool doesn't recognize Spectrix commands.
 The AI creates incomplete or incorrect artifacts.
 
 **Solutions:**
-- Add project context in `openspec/config.yaml`
+- Add project context in `warpweave/config.yaml`
 - Add per-artifact rules for specific guidance
 - Provide more detail in your change description
 - Use `/otrix:continue` instead of `/otrix:ff` for more control

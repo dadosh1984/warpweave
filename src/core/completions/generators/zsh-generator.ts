@@ -7,7 +7,7 @@ import {
 import { ZSH_DYNAMIC_HELPERS } from '../templates/zsh-templates.js';
 
 /**
- * Generates Zsh completion scripts for the Spectrix CLI.
+ * Generates Zsh completion scripts for the Warpweave CLI.
  * Follows Zsh completion system conventions using the _spectrix function.
  */
 export class ZshGenerator implements CompletionGenerator {
@@ -49,9 +49,9 @@ export class ZshGenerator implements CompletionGenerator {
     const helpers = ZSH_DYNAMIC_HELPERS;
 
     // Assemble final script with template literal
-    return `#compdef spectrix
+    return `#compdef warpweave
 
-# Zsh completion script for Spectrix CLI
+# Zsh completion script for Warpweave CLI
 # Auto-generated - do not edit manually
 
 _spectrix() {
@@ -69,7 +69,7 @@ ${commandList}
 
   case $state in
     command)
-      _describe "spectrix command" commands
+      _describe "warpweave command" commands
       ;;
     args)
       case $words[1] in
@@ -81,7 +81,7 @@ ${commandCases}
 
 ${commandFunctions}
 ${helpers}
-compdef _spectrix openspec
+compdef _spectrix warpweave
 `;
   }
 

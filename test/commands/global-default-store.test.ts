@@ -43,9 +43,9 @@ describe('global defaultStore fallback (#1359)', () => {
   }
 
   function setDefaultStore(id: string): void {
-    fs.mkdirSync(path.join(tempDir, 'config', 'openspec'), { recursive: true });
+    fs.mkdirSync(path.join(tempDir, 'config', 'spectrix'), { recursive: true });
     fs.writeFileSync(
-      path.join(tempDir, 'config', 'openspec', 'config.json'),
+      path.join(tempDir, 'config', 'spectrix', 'config.json'),
       JSON.stringify({ defaultStore: id }) + '\n'
     );
   }

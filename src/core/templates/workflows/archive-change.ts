@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getArchiveChangeSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-archive-change',
+    name: 'warpweave-archive-change',
     description: 'Archive a completed change in the experimental workflow. Use when the user wants to finalize and archive a change after implementation is complete.',
     instructions: `Archive a completed change in the experimental workflow.
 
@@ -24,7 +24,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes and ask the user to select one
 
    When prompting, show only active changes (not already archived).
    Include the schema used for each change if available.
@@ -35,7 +35,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    After resolving the selected change and planning root, run:
    \`\`\`bash
-   spectrix instructions archive --change "<name>" --json
+   warpweave instructions archive --change "<name>" --json
    \`\`\`
    Keep the same selected-root flags on this command. This lookup is advisory and
    optional: it only supplies extra prompt inputs, so it must never block archiving.
@@ -60,7 +60,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check artifact completion status**
 
-   Run \`spectrix status --change "<name>" --json\` to check artifact completion.
+   Run \`warpweave status --change "<name>" --json\` to check artifact completion.
 
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used
@@ -93,7 +93,7 @@ ${STORE_SELECTION_GUIDANCE}
    delta specs from other artifacts.
 
    **If delta specs exist:**
-   - Compare each delta spec with its corresponding main spec at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 2, not a hardcoded repo path)
+   - Compare each delta spec with its corresponding main spec at \`<planningHome.root>/warpweave/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 2, not a hardcoded repo path)
    - Determine what changes would be applied (adds, modifications, removals, renames)
    - Show a combined summary before prompting
 
@@ -108,7 +108,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Anything else — ask again rather than archiving
 
    Before a selected sync writes any main spec, run
-   \`spectrix instructions specs --change "<name>" --json\` once with the same
+   \`warpweave instructions specs --change "<name>" --json\` once with the same
    selected-root flags. Require a zero exit status and valid artifact-instruction
    JSON. If the lookup fails or returns invalid JSON, report the error and stop
    before writing any main spec or moving the change. A valid response with omitted
@@ -116,7 +116,7 @@ ${STORE_SELECTION_GUIDANCE}
    form of main specs produced by this merge; do not use them as archive guidance,
    change CLI behavior, or copy the rule text into any output file.
 
-   Then run the \`openspec-sync-specs\` workflow inline (agent-driven intelligent merge) for change '<name>', passing the delta spec analysis and the fetched specs-rule snapshot from above, and wait for it to finish. The inline sync must reuse that snapshot without fetching \`specs\` instructions again. Do not delegate it to a background task — step 5 would move \`changeRoot\` out from under a sync that is still reading it, leaving the change archived and the main specs never updated. If your agent can only run it by delegation, delegate synchronously and wait for the result.
+   Then run the \`warpweave-sync-specs\` workflow inline (agent-driven intelligent merge) for change '<name>', passing the delta spec analysis and the fetched specs-rule snapshot from above, and wait for it to finish. The inline sync must reuse that snapshot without fetching \`specs\` instructions again. Do not delegate it to a background task — step 5 would move \`changeRoot\` out from under a sync that is still reading it, leaving the change archived and the main specs never updated. If your agent can only run it by delegation, delegate synchronously and wait for the result.
 
    Then re-run the comparison from the top of this step against every capability that has a delta spec in \`artifactPaths.specs.existingOutputPaths\` — not only the ones the sync reports it touched. A successful sync leaves nothing left to apply, so each capability must now read as already synced:
    - ADDED requirements present
@@ -133,7 +133,7 @@ ${STORE_SELECTION_GUIDANCE}
    mkdir -p "<planningHome.changesDir>/archive"
    \`\`\`
 
-   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`spectrix archive\`).
+   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`warpweave archive\`).
 
    **Check if target already exists:**
    - If yes: Fail with error, suggest renaming existing archive or using different date
@@ -167,11 +167,11 @@ ${STORE_SELECTION_GUIDANCE}
 
 **Guardrails**
 - Announce the selected change; prompt for selection when it is ambiguous
-- Use artifact graph (spectrix status --json) for completion checking
+- Use artifact graph (warpweave status --json) for completion checking
 - Don't block archive on warnings - just inform and confirm
-- Preserve .openspec.yaml when moving to archive (it moves with the directory)
+- Preserve .warpweave.yaml when moving to archive (it moves with the directory)
 - Show clear summary of what happened
-- If sync is requested, run the \`openspec-sync-specs\` workflow inline (agent-driven)
+- If sync is requested, run the \`warpweave-sync-specs\` workflow inline (agent-driven)
 - Never archive while a spec sync is still in flight — run the sync inline and verify the main specs before moving \`changeRoot\`
 - If delta specs exist, always run the sync assessment and show the combined summary before prompting
 - Apply relevant runtime context and report conflicts; operation guidance remains advisory
@@ -184,8 +184,8 @@ ${STORE_SELECTION_GUIDANCE}
 
 Before archiving, run \`rtk gain\` to report token savings for the session. Include the savings summary in the archive completion output.`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -208,7 +208,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes and ask the user to select one
 
    When prompting, show only active changes (not already archived).
    Include the schema used for each change if available.
@@ -219,7 +219,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    After resolving the selected change and planning root, run:
    \`\`\`bash
-   spectrix instructions archive --change "<name>" --json
+   warpweave instructions archive --change "<name>" --json
    \`\`\`
    Keep the same selected-root flags on this command. This lookup is advisory and
    optional: it only supplies extra prompt inputs, so it must never block archiving.
@@ -244,7 +244,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check artifact completion status**
 
-   Run \`spectrix status --change "<name>" --json\` to check artifact completion.
+   Run \`warpweave status --change "<name>" --json\` to check artifact completion.
 
    Parse the JSON to understand:
    - \`schemaName\`: The workflow being used
@@ -277,7 +277,7 @@ ${STORE_SELECTION_GUIDANCE}
    delta specs from other artifacts.
 
    **If delta specs exist:**
-   - Compare each delta spec with its corresponding main spec at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 2, not a hardcoded repo path)
+   - Compare each delta spec with its corresponding main spec at \`<planningHome.root>/warpweave/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 2, not a hardcoded repo path)
    - Determine what changes would be applied (adds, modifications, removals, renames)
    - Show a combined summary before prompting
 
@@ -292,7 +292,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Anything else — ask again rather than archiving
 
    Before a selected sync writes any main spec, run
-   \`spectrix instructions specs --change "<name>" --json\` once with the same
+   \`warpweave instructions specs --change "<name>" --json\` once with the same
    selected-root flags. Require a zero exit status and valid artifact-instruction
    JSON. If the lookup fails or returns invalid JSON, report the error and stop
    before writing any main spec or moving the change. A valid response with omitted
@@ -317,7 +317,7 @@ ${STORE_SELECTION_GUIDANCE}
    mkdir -p "<planningHome.changesDir>/archive"
    \`\`\`
 
-   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`spectrix archive\`).
+   Generate the target name: use the change name as-is when it already starts with a \`YYYY-MM-DD-\` prefix; otherwise prepend the current date as \`YYYY-MM-DD-<change-name>\`. Never stack a second date (same rule as \`warpweave archive\`).
 
    **Check if target already exists:**
    - If yes: Fail with error, suggest renaming existing archive or using different date
@@ -398,9 +398,9 @@ Target archive directory already exists.
 
 **Guardrails**
 - Announce the selected change; prompt for selection when it is ambiguous
-- Use artifact graph (spectrix status --json) for completion checking
+- Use artifact graph (warpweave status --json) for completion checking
 - Don't block archive on warnings - just inform and confirm
-- Preserve .openspec.yaml when moving to archive (it moves with the directory)
+- Preserve .warpweave.yaml when moving to archive (it moves with the directory)
 - Show clear summary of what happened
 - If sync is requested, run the \`/otrix:sync\` workflow inline (agent-driven)
 - Never archive while a spec sync is still in flight — run the sync inline and verify the main specs before moving \`changeRoot\`

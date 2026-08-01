@@ -106,14 +106,14 @@ describe('Spectrix root helper', () => {
     const result = await ensureOpenSpecRoot(root);
 
     expect(result.createdArtifacts).toEqual([
-      'openspec/',
-      'openspec/specs/',
-      'openspec/changes/',
-      'openspec/changes/archive/',
-      'openspec/config.yaml',
+      'spectrix/',
+      'spectrix/specs/',
+      'spectrix/changes/',
+      'spectrix/changes/archive/',
+      'spectrix/config.yaml',
     ]);
     expect(result.inspection.healthy).toBe(true);
-    expect(fs.readFileSync(path.join(root, 'openspec', 'config.yaml'), 'utf-8')).toContain(
+    expect(fs.readFileSync(path.join(root, 'spectrix', 'config.yaml'), 'utf-8')).toContain(
       `schema: ${DEFAULT_OPENSPEC_SCHEMA}`
     );
   });

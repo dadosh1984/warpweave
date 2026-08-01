@@ -1,7 +1,7 @@
 # Enterprise profile: large teams, cross-repo
 profile: enterprise
 
-openspec:
+warpweave:
   require_approval: true
   auto_archive: false
   stores: true  # cross-repo spec stores

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /**
- * Zod schema for global Spectrix configuration.
+ * Zod schema for global Warpweave configuration.
  * Uses passthrough() to preserve unknown fields for forward compatibility.
  */
 export const GlobalConfigSchema = z

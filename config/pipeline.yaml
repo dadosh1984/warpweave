@@ -2,13 +2,13 @@
 # Describes how the four systems interlock.
 
 pipeline:
-  name: openspec-unified
+  name: warpweave-unified
   version: "1.0.0"
 
   phases:
     - id: spec
       name: "Spec Gate"
-      system: openspec
+      system: warpweave
       entry: "/opsx:explore OR /opsx:propose"
       exit_condition: "specs approved by human"
       artifacts:
@@ -70,7 +70,7 @@ pipeline:
 
     - id: review
       name: "Review + Archive"
-      systems: [superpowers, openspec]
+      systems: [superpowers, warpweave]
       entry: "all tasks complete"
       steps:
         - code_review_against_spec

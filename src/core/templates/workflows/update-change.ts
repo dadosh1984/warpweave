@@ -9,8 +9,8 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getUpdateChangeSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-update-change',
-    description: "Update an Spectrix change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Never edits code.",
+    name: 'warpweave-update-change',
+    description: "Update an Warpweave change by revising its existing planning artifacts and keeping them coherent with one another. Use when the user wants to revise a change's plan, fold new decisions into it, or reconcile its artifacts after an edit. Never edits code.",
     instructions: `Revise a change's existing planning artifacts and keep them coherent. Never edit code.
 
 ${STORE_SELECTION_GUIDANCE}
@@ -24,7 +24,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes sorted by most recently modified, and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes sorted by most recently modified, and ask the user to select one
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
@@ -38,7 +38,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Get the change's artifacts**
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand current state. The response includes:
    - \`schemaName\`: The workflow schema being used (e.g., "spec-driven")
@@ -66,7 +66,7 @@ ${STORE_SELECTION_GUIDANCE}
    - If the user rejects a revision, do not write it - leave that artifact unchanged.
    - When a substantial rewrite is needed, get that artifact's rules and template first:
      \`\`\`bash
-     spectrix instructions <artifact-id> --change "<name>" --json
+     warpweave instructions <artifact-id> --change "<name>" --json
      \`\`\`
 
 6. **Point to the next step (guidance only - NEVER act on it)**
@@ -83,15 +83,15 @@ After each invocation, show:
 
 **Guardrails**
 - Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to \`/otrix:apply\`.
-- Use the artifact ids and paths reported by \`spectrix status\`; never branch on hardcoded artifact names.
+- Use the artifact ids and paths reported by \`warpweave status\`; never branch on hardcoded artifact names.
 - Edit only the concrete files in \`existingOutputPaths\`; never write to a glob \`resolvedOutputPath\`.
 - Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is \`/otrix:continue\`'s job.
 - Confirm every edit with the user before writing.
 - If the request changes the change's *intent* rather than refining it, recommend starting fresh with \`/otrix:new\` (the "Update vs. Start Fresh" heuristic).
-- \`/otrix:continue\` and \`/otrix:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`spectrix status --change "<name>" --json\` shows the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` explains how to create it.`,
+- \`/otrix:continue\` and \`/otrix:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`warpweave status --change "<name>" --json\` shows the next artifact and \`warpweave instructions <artifact-id> --change "<name>" --json\` explains how to create it.`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -114,7 +114,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes sorted by most recently modified, and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes sorted by most recently modified, and ask the user to select one
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
@@ -128,7 +128,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Get the change's artifacts**
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand current state. The response includes:
    - \`schemaName\`: The workflow schema being used (e.g., "spec-driven")
@@ -156,7 +156,7 @@ ${STORE_SELECTION_GUIDANCE}
    - If the user rejects a revision, do not write it - leave that artifact unchanged.
    - When a substantial rewrite is needed, get that artifact's rules and template first:
      \`\`\`bash
-     spectrix instructions <artifact-id> --change "<name>" --json
+     warpweave instructions <artifact-id> --change "<name>" --json
      \`\`\`
 
 6. **Point to the next step (guidance only - NEVER act on it)**
@@ -173,11 +173,11 @@ After each invocation, show:
 
 **Guardrails**
 - Planning artifacts only - NEVER edit implementation code. If the revised plan implies code changes, stop and point to \`/otrix:apply\`.
-- Use the artifact ids and paths reported by \`spectrix status\`; never branch on hardcoded artifact names.
+- Use the artifact ids and paths reported by \`warpweave status\`; never branch on hardcoded artifact names.
 - Edit only the concrete files in \`existingOutputPaths\`; never write to a glob \`resolvedOutputPath\`.
 - Do not advance the build frontier: no new artifacts, no new files under glob artifacts - that is \`/otrix:continue\`'s job.
 - Confirm every edit with the user before writing.
 - If the request changes the change's *intent* rather than refining it, recommend starting fresh with \`/otrix:new\` (the "Update vs. Start Fresh" heuristic).
-- \`/otrix:continue\` and \`/otrix:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`spectrix status --change "<name>" --json\` shows the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` explains how to create it.`
+- \`/otrix:continue\` and \`/otrix:new\` may not be installed (core profile). When suggesting one that is unavailable, point to the CLI instead: \`warpweave status --change "<name>" --json\` shows the next artifact and \`warpweave instructions <artifact-id> --change "<name>" --json\` explains how to create it.`
   };
 }

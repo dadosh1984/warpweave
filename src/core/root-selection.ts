@@ -1,11 +1,11 @@
 /**
- * Shared Spectrix root resolution for normal commands.
+ * Shared Warpweave root resolution for normal commands.
  *
  * Normal commands (`new change`, `status`, `instructions`, `list`, `show`,
- * `validate`, `archive`) resolve one Spectrix root through this module:
+ * `validate`, `archive`) resolve one Warpweave root through this module:
  *
  * - `--store <id>` selects a registered store's root.
- * - Without `--store`, the nearest ancestor containing `openspec/` wins.
+ * - Without `--store`, the nearest ancestor containing `warpweave/` wins.
  *   Leftover workspace view state is never considered a root here.
  * - With no nearest root, a global `defaultStore` (if set) is the last
  *   machine-level fallback before the selection hint error.
@@ -34,13 +34,13 @@ import {
   validateStoreId,
 } from './store/foundation.js';
 import { getStoreRootForBackend } from './store/registry.js';
-import { inspectOpenSpecRoot } from './openspec-root.js';
-import { findRepoPlanningRootSync, type PlanningHome } from './planning-home.js';
-import { classifyOpenSpecDir, storePointerProblem } from './project-config.js';
+import { inspectWarpweaveRoot } from './warpweave-root.js';
+import { findRepoPlanningRootSync, resolvePlanningDirName, type PlanningHome } from './planning-home.js';
+import { classifySpectrixDir, storePointerProblem } from './project-config.js';
 import { getGlobalConfig } from './global-config.js';
 import { FileSystemUtils } from '../utils/file-system.js';
 
-export type OpenSpecRootSource =
+export type WarpweaveRootSource =
   | 'store'
   | 'declared'
   | 'global_default'
@@ -52,19 +52,19 @@ export interface StoreSelectorOptions {
   storePath?: string;
 }
 
-export interface ResolveOpenSpecRootOptions extends StoreSelectorOptions {
+export interface ResolveWarpweaveRootOptions extends StoreSelectorOptions {
   startPath?: string;
   allowImplicitRoot?: boolean;
   globalDataDir?: string;
 }
 
-export interface ResolvedOpenSpecRoot {
+export interface ResolvedWarpweaveRoot {
   path: string;
   changesDir: string;
   specsDir: string;
   archiveDir: string;
   defaultSchema: 'spec-driven';
-  source: OpenSpecRootSource;
+  source: WarpweaveRootSource;
   storeId?: string;
 }
 
@@ -111,19 +111,19 @@ function fromStoreError(error: unknown): never {
 }
 
 function doctorFix(id: string): string {
-  return `Run spectrix store doctor ${id} to inspect it.`;
+  return `Run warpweave store doctor ${id} to inspect it.`;
 }
 
 function makeRoot(
   rootPath: string,
-  source: OpenSpecRootSource,
+  source: WarpweaveRootSource,
   storeId?: string
-): ResolvedOpenSpecRoot {
+): ResolvedWarpweaveRoot {
   return {
     path: rootPath,
-    changesDir: path.join(rootPath, 'openspec', 'changes'),
-    specsDir: path.join(rootPath, 'openspec', 'specs'),
-    archiveDir: path.join(rootPath, 'openspec', 'changes', 'archive'),
+    changesDir: path.join(rootPath, resolvePlanningDirName(rootPath), 'changes'),
+    specsDir: path.join(rootPath, resolvePlanningDirName(rootPath), 'specs'),
+    archiveDir: path.join(rootPath, resolvePlanningDirName(rootPath), 'changes', 'archive'),
     defaultSchema: 'spec-driven',
     source,
     ...(storeId ? { storeId } : {}),
@@ -145,8 +145,8 @@ function canonicalDirectory(startPath: string): string {
 async function resolveStoreRoot(
   id: string,
   globalDataDir?: string,
-  source: OpenSpecRootSource = 'store'
-): Promise<ResolvedOpenSpecRoot> {
+  source: WarpweaveRootSource = 'store'
+): Promise<ResolvedWarpweaveRoot> {
   try {
     validateStoreId(id);
   } catch (error) {
@@ -169,7 +169,7 @@ async function resolveStoreRoot(
         'no_registered_stores',
         {
           target: 'store.id',
-          fix: `Run spectrix store setup ${id} or spectrix store register <path> first.`,
+          fix: `Run warpweave store setup ${id} or warpweave store register <path> first.`,
         }
       );
     }
@@ -181,7 +181,7 @@ async function resolveStoreRoot(
       'unknown_store',
       {
         target: 'store.id',
-        fix: 'Pass a registered store id, or run spectrix store list.',
+        fix: 'Pass a registered store id, or run warpweave store list.',
       }
     );
   }
@@ -208,9 +208,9 @@ async function resolveStoreRoot(
       );
     case 'unhealthy_root':
       throw new RootSelectionError(
-        `Store '${id}' does not have a healthy Spectrix root at ${storeRoot}: ${inspection.problems} ${doctorFix(id)}`,
+        `Store '${id}' does not have a healthy Warpweave root at ${storeRoot}: ${inspection.problems} ${doctorFix(id)}`,
         'unhealthy_store_root',
-        { target: 'openspec.root', fix: doctorFix(id) }
+        { target: 'warpweave.root', fix: doctorFix(id) }
       );
     case 'ok':
       return makeRoot(inspection.canonicalRoot, source, id);
@@ -256,11 +256,11 @@ export async function inspectRegisteredStore(
     return { kind: 'metadata_id_mismatch', actualId: metadata.id };
   }
 
-  const inspection = await inspectOpenSpecRoot(storeRoot);
+  const inspection = await inspectWarpweaveRoot(storeRoot);
   if (!inspection.healthy) {
     const problems =
       inspection.diagnostics.map((diagnostic) => diagnostic.message).join(' ') ||
-      'Spectrix root is missing or incomplete.';
+      'Warpweave root is missing or incomplete.';
     return { kind: 'unhealthy_root', problems };
   }
 
@@ -268,23 +268,23 @@ export async function inspectRegisteredStore(
 }
 
 /**
- * Classifies the nearest `openspec/` directory (slice 3.2): a planning
+ * Classifies the nearest `warpweave/` directory (slice 3.2): a planning
  * shape (specs/ or changes/ directories) is a real root and wins —
  * fallback never override. A config-only directory with a `store:`
  * pointer resolves the declared store; without one, it stays a root
  * (today's behavior for freshly initialized minimal roots).
  */
 /**
- * The nearest-root walk, qualified: an `openspec/` DIRECTORY alone is
+ * The nearest-root walk, qualified: an `warpweave/` DIRECTORY alone is
  * not a root — it must carry a planning shape or a config file.
- * Without this, the recommended `~/openspec/<id>` store layout would
+ * Without this, the recommended `~/warpweave/<id>` store layout would
  * make $HOME a phantom root that captures every command under the
  * home tree.
  */
 function findQualifyingRootSync(startPath: string): string | null {
   let candidate = findRepoPlanningRootSync(startPath);
   while (candidate) {
-    const { hasPlanningShape, pointer } = classifyOpenSpecDir(candidate);
+    const { hasPlanningShape, pointer } = classifySpectrixDir(candidate);
     if (hasPlanningShape || pointer.filePath) {
       return candidate;
     }
@@ -300,13 +300,13 @@ function findQualifyingRootSync(startPath: string): string | null {
 async function resolveNearestOrDeclaredRoot(
   nearestRoot: string,
   globalDataDir?: string
-): Promise<ResolvedOpenSpecRoot> {
-  const { hasPlanningShape, pointer } = classifyOpenSpecDir(nearestRoot);
+): Promise<ResolvedWarpweaveRoot> {
+  const { hasPlanningShape, pointer } = classifySpectrixDir(nearestRoot);
 
   if (hasPlanningShape) {
     if (pointer.value !== undefined) {
       console.error(
-        `Warning: ${pointer.filePath} declares store '${pointer.value}', but this directory is a real Spectrix root; the declaration is ignored.`
+        `Warning: ${pointer.filePath} declares store '${pointer.value}', but this directory is a real Warpweave root; the declaration is ignored.`
       );
     }
     return makeRoot(nearestRoot, 'nearest');
@@ -340,7 +340,7 @@ async function resolveNearestOrDeclaredRoot(
       // they did not pass --store.
       const declarationFix =
         error.diagnostic.code === 'unknown_store'
-          ? `Register the store (spectrix store register <path> --id ${pointer.value}) or edit ${pointer.filePath} to name a registered store.`
+          ? `Register the store (warpweave store register <path> --id ${pointer.value}) or edit ${pointer.filePath} to name a registered store.`
           : error.diagnostic.fix;
       throw new RootSelectionError(
         `Declared in ${pointer.filePath}: ${error.message}`,
@@ -366,7 +366,7 @@ async function resolveNearestOrDeclaredRoot(
 async function resolveDefaultStoreRoot(
   id: string,
   globalDataDir?: string
-): Promise<ResolvedOpenSpecRoot> {
+): Promise<ResolvedWarpweaveRoot> {
   try {
     return await resolveStoreRoot(id, globalDataDir, 'global_default');
   } catch (error) {
@@ -374,7 +374,7 @@ async function resolveDefaultStoreRoot(
       const staleFix =
         error.diagnostic.code === 'unknown_store' ||
         error.diagnostic.code === 'no_registered_stores'
-          ? `Register the store (spectrix store register <path> --id ${id}) or clear the stale global default (spectrix config unset defaultStore).`
+          ? `Register the store (warpweave store register <path> --id ${id}) or clear the stale global default (warpweave config unset defaultStore).`
           : error.diagnostic.fix;
       throw new RootSelectionError(
         `Global defaultStore '${id}': ${error.message}`,
@@ -389,16 +389,16 @@ async function resolveDefaultStoreRoot(
   }
 }
 
-export async function resolveOpenSpecRoot(
-  options: ResolveOpenSpecRootOptions = {}
-): Promise<ResolvedOpenSpecRoot> {
+export async function resolveWarpweaveRoot(
+  options: ResolveWarpweaveRootOptions = {}
+): Promise<ResolvedWarpweaveRoot> {
   if (options.storePath !== undefined) {
     throw new RootSelectionError(
-      '--store-path is not supported. Register the path with spectrix store register <path>, then select it with --store <id>.',
+      '--store-path is not supported. Register the path with warpweave store register <path>, then select it with --store <id>.',
       'store_path_not_supported',
       {
         target: 'store.id',
-        fix: 'spectrix store register <path>, then rerun with --store <id>.',
+        fix: 'warpweave store register <path>, then rerun with --store <id>.',
       }
     );
   }
@@ -435,20 +435,20 @@ export async function resolveOpenSpecRoot(
 
   if (registeredIds.length > 0) {
     throw new RootSelectionError(
-      `No Spectrix root found in the current directory or its ancestors. Registered stores: ${registeredIds.join(', ')}. Pass --store <id> to use one, or run spectrix init to create a local root.`,
+      `No Warpweave root found in the current directory or its ancestors. Registered stores: ${registeredIds.join(', ')}. Pass --store <id> to use one, or run warpweave init to create a local root.`,
       'no_root_with_registered_stores',
       {
-        target: 'openspec.root',
-        fix: `Rerun with --store <id> (registered: ${registeredIds.join(', ')}) or run spectrix init.`,
+        target: 'warpweave.root',
+        fix: `Rerun with --store <id> (registered: ${registeredIds.join(', ')}) or run warpweave init.`,
       }
     );
   }
 
   if (options.allowImplicitRoot === false) {
     throw new RootSelectionError(
-      'No Spectrix root found from the current directory.',
+      'No Warpweave root found from the current directory.',
       'no_spectrix_root',
-      { target: 'openspec.root', fix: 'Run spectrix init to create a root here.' }
+      { target: 'warpweave.root', fix: 'Run warpweave init to create a root here.' }
     );
   }
 
@@ -461,11 +461,11 @@ export async function resolveOpenSpecRoot(
 
 export interface RootOutput {
   path: string;
-  source: OpenSpecRootSource;
+  source: WarpweaveRootSource;
   store_id?: string;
 }
 
-export function toRootOutput(root: ResolvedOpenSpecRoot): RootOutput {
+export function toRootOutput(root: ResolvedWarpweaveRoot): RootOutput {
   return {
     path: root.path,
     source: root.source,
@@ -479,8 +479,8 @@ export function toRootOutput(root: ResolvedOpenSpecRoot): RootOutput {
  * suppressed noun-form suggestions) keys on this, never on `source` directly.
  */
 export function isStoreSelectedRoot(
-  root: ResolvedOpenSpecRoot
-): root is ResolvedOpenSpecRoot & { storeId: string } {
+  root: ResolvedWarpweaveRoot
+): root is ResolvedWarpweaveRoot & { storeId: string } {
   return root.storeId !== undefined;
 }
 
@@ -488,9 +488,9 @@ export function isStoreSelectedRoot(
  * Human-mode verification signal for a selected store. Written to stderr so
  * raw-Markdown and agent-consumed stdout payloads stay clean.
  */
-export function emitStoreRootBanner(root: ResolvedOpenSpecRoot): void {
+export function emitStoreRootBanner(root: ResolvedWarpweaveRoot): void {
   if (isStoreSelectedRoot(root)) {
-    console.error(`Using Spectrix root: ${root.storeId} (${root.path})`);
+    console.error(`Using Warpweave root: ${root.storeId} (${root.path})`);
   }
 }
 
@@ -498,7 +498,7 @@ export function emitStoreRootBanner(root: ResolvedOpenSpecRoot): void {
  * Keeps follow-up command hints inside the selected store: a hint a user can
  * paste verbatim must carry `--store <id>` when a store was selected.
  */
-export function withStoreFlag(root: ResolvedOpenSpecRoot, command: string): string {
+export function withStoreFlag(root: ResolvedWarpweaveRoot, command: string): string {
   return isStoreSelectedRoot(root)
     ? `${command} --store ${root.storeId}`
     : command;
@@ -508,7 +508,7 @@ export function withStoreFlag(root: ResolvedOpenSpecRoot, command: string): stri
  * Compatibility bridge for workflow code that still expects a PlanningHome.
  * The planning home is always repo-shaped.
  */
-export function toPlanningHome(root: ResolvedOpenSpecRoot): PlanningHome {
+export function toPlanningHome(root: ResolvedWarpweaveRoot): PlanningHome {
   return {
     kind: 'repo',
     root: root.path,
@@ -532,9 +532,9 @@ export async function resolveRootForCommand(
     /** Diagnostic commands inspect what exists; they never scaffold. */
     allowImplicitRoot?: boolean;
   } = {}
-): Promise<ResolvedOpenSpecRoot | null> {
+): Promise<ResolvedWarpweaveRoot | null> {
   try {
-    const root = await resolveOpenSpecRoot({
+    const root = await resolveWarpweaveRoot({
       ...(selector.store !== undefined ? { store: selector.store } : {}),
       ...(selector.storePath !== undefined ? { storePath: selector.storePath } : {}),
       ...(output.allowImplicitRoot !== undefined

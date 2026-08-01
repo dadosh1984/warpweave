@@ -2,24 +2,42 @@ import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 
 import { FileSystemUtils } from '../utils/file-system.js';
+import { resolvePlanningDirName } from './planning-home.js';
 import { serializeConfig } from './config-prompts.js';
 import {
   makeStoreDiagnostic,
   type StoreDiagnostic,
 } from './store/errors.js';
 
-export const OPENSPEC_ROOT_DIR = 'openspec';
-export const OPENSPEC_CONFIG_YAML = 'openspec/config.yaml';
-export const OPENSPEC_CONFIG_YML = 'openspec/config.yml';
-export const OPENSPEC_SPECS_DIR = 'openspec/specs';
-export const OPENSPEC_CHANGES_DIR = 'openspec/changes';
-export const OPENSPEC_ARCHIVE_DIR = 'openspec/changes/archive';
-export const DEFAULT_OPENSPEC_SCHEMA = 'spec-driven';
+export const WARPWEAVE_ROOT_DIR = 'warpweave';
+export const WARPWEAVE_CONFIG_YAML = 'warpweave/config.yaml';
+export const WARPWEAVE_CONFIG_YML = 'warpweave/config.yml';
+export const WARPWEAVE_SPECS_DIR = 'warpweave/specs';
+export const WARPWEAVE_CHANGES_DIR = 'warpweave/changes';
+export const WARPWEAVE_ARCHIVE_DIR = 'warpweave/changes/archive';
+export const DEFAULT_WARPWEAVE_SCHEMA = 'spec-driven';
 export const DIRECTORY_ANCHOR_FILE_NAME = '.gitkeep';
 
 // Git cannot track empty directories, so setup anchors otherwise-empty
 // conventional store directories for teammates who clone the repo later.
-export const ANCHORED_OPENSPEC_DIRS = [OPENSPEC_SPECS_DIR, OPENSPEC_ARCHIVE_DIR] as const;
+export const ANCHORED_WARPWEAVE_DIRS = [WARPWEAVE_SPECS_DIR, WARPWEAVE_ARCHIVE_DIR] as const;
+
+/**
+ * Relative planning-directory paths for a store root, honoring legacy
+ * `warpweave/` installs: new installs use `warpweave/`, but roots that already
+ * carry a planning directory under the legacy name keep working under it.
+ */
+export function planningRelativePaths(storeRoot: string) {
+  const dir = resolvePlanningDirName(storeRoot);
+  return {
+    root: dir,
+    configYaml: `${dir}/config.yaml`,
+    configYml: `${dir}/config.yml`,
+    specs: `${dir}/specs`,
+    changes: `${dir}/changes`,
+    archive: `${dir}/changes/archive`,
+  };
+}
 
 type PathKind = 'missing' | 'directory' | 'file' | 'other';
 
@@ -29,7 +47,7 @@ export interface CreatedPathLedgerEntry {
   kind: 'directory' | 'file';
 }
 
-export interface OpenSpecRootInspection {
+export interface WarpweaveRootInspection {
   present: boolean | null;
   config: {
     present: boolean | null;
@@ -48,8 +66,8 @@ export interface OpenSpecRootInspection {
   diagnostics: StoreDiagnostic[];
 }
 
-export interface EnsureOpenSpecRootResult {
-  inspection: OpenSpecRootInspection;
+export interface EnsureWarpweaveRootResult {
+  inspection: WarpweaveRootInspection;
   createdArtifacts: string[];
   createdPaths: CreatedPathLedgerEntry[];
 }
@@ -79,7 +97,7 @@ function relativeArtifact(relativePath: string, kind: CreatedPathLedgerEntry['ki
   return kind === 'directory' ? `${normalized}/` : normalized;
 }
 
-function unresolvedInspection(): OpenSpecRootInspection {
+function unresolvedInspection(): WarpweaveRootInspection {
   return {
     present: null,
     config: { present: null },
@@ -102,7 +120,7 @@ function missingDirectoryDiagnostic(
 type OptionalPlanningDirectoryKey = 'specs' | 'changes' | 'archive';
 
 async function inspectOptionalPlanningDirectory(
-  inspection: OpenSpecRootInspection,
+  inspection: WarpweaveRootInspection,
   storeRoot: string,
   key: OptionalPlanningDirectoryKey,
   relativePath: string,
@@ -121,13 +139,13 @@ async function inspectOptionalPlanningDirectory(
   return kind;
 }
 
-export async function inspectOpenSpecRoot(storeRoot: string): Promise<OpenSpecRootInspection> {
+export async function inspectWarpweaveRoot(storeRoot: string): Promise<WarpweaveRootInspection> {
   const rootKind = await pathKind(storeRoot);
   const inspection = unresolvedInspection();
 
   if (rootKind === 'missing') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'openspec_store_root_missing',
+      'spectrix_store_root_missing',
       'Store root does not exist.',
       'store.root'
     ));
@@ -136,54 +154,55 @@ export async function inspectOpenSpecRoot(storeRoot: string): Promise<OpenSpecRo
 
   if (rootKind !== 'directory') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'openspec_store_root_not_directory',
+      'spectrix_store_root_not_directory',
       'Store root is not a directory.',
       'store.root'
     ));
     return inspection;
   }
 
-  const openspecPath = path.join(storeRoot, OPENSPEC_ROOT_DIR);
-  const openspecKind = await pathKind(openspecPath);
-  inspection.present = openspecKind === 'directory';
+  const rel = planningRelativePaths(storeRoot);
+  const spectrixPath = path.join(storeRoot, rel.root);
+  const spectrixKind = await pathKind(spectrixPath);
+  inspection.present = spectrixKind === 'directory';
 
-  if (openspecKind === 'missing') {
+  if (spectrixKind === 'missing') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'openspec_root_missing',
-      'Missing openspec/ directory.',
-      'openspec.root'
+      'spectrix_root_missing',
+      `Missing ${rel.root}/ directory.`,
+      'warpweave.root'
     ));
     return inspection;
   }
 
-  if (openspecKind !== 'directory') {
+  if (spectrixKind !== 'directory') {
     inspection.diagnostics.push(missingDirectoryDiagnostic(
-      'openspec_root_not_directory',
-      'openspec/ exists but is not a directory.',
-      'openspec.root'
+      'spectrix_root_not_directory',
+      `${rel.root}/ exists but is not a directory.`,
+      'warpweave.root'
     ));
     return inspection;
   }
 
-  const configYamlKind = await pathKind(path.join(storeRoot, OPENSPEC_CONFIG_YAML));
-  const configYmlKind = await pathKind(path.join(storeRoot, OPENSPEC_CONFIG_YML));
+  const configYamlKind = await pathKind(path.join(storeRoot, rel.configYaml));
+  const configYmlKind = await pathKind(path.join(storeRoot, rel.configYml));
   if (configYamlKind === 'file') {
-    inspection.config = { present: true, path: OPENSPEC_CONFIG_YAML };
+    inspection.config = { present: true, path: rel.configYaml };
   } else if (configYmlKind === 'file') {
-    inspection.config = { present: true, path: OPENSPEC_CONFIG_YML };
+    inspection.config = { present: true, path: rel.configYml };
   } else {
     inspection.config = { present: false };
     if (configYamlKind !== 'missing' || configYmlKind !== 'missing') {
       inspection.diagnostics.push(missingDirectoryDiagnostic(
-        'openspec_config_not_file',
-        'Spectrix config path exists but is not a file.',
-        'openspec.config'
+        'spectrix_config_not_file',
+        'Warpweave config path exists but is not a file.',
+        'warpweave.config'
       ));
     } else {
       inspection.diagnostics.push(missingDirectoryDiagnostic(
-        'openspec_config_missing',
-        'Missing openspec/config.yaml or openspec/config.yml.',
-        'openspec.config'
+        'spectrix_config_missing',
+        `Missing ${rel.root}/config.yaml or ${rel.root}/config.yml.`,
+        'warpweave.config'
       ));
     }
   }
@@ -192,26 +211,26 @@ export async function inspectOpenSpecRoot(storeRoot: string): Promise<OpenSpecRo
     inspection,
     storeRoot,
     'specs',
-    OPENSPEC_SPECS_DIR,
-    'openspec_specs_not_directory',
-    'openspec.specs'
+    rel.specs,
+    'spectrix_specs_not_directory',
+    'warpweave.specs'
   );
   const changesKind = await inspectOptionalPlanningDirectory(
     inspection,
     storeRoot,
     'changes',
-    OPENSPEC_CHANGES_DIR,
-    'openspec_changes_not_directory',
-    'openspec.changes'
+    rel.changes,
+    'spectrix_changes_not_directory',
+    'warpweave.changes'
   );
   if (changesKind === 'directory') {
     await inspectOptionalPlanningDirectory(
       inspection,
       storeRoot,
       'archive',
-      OPENSPEC_ARCHIVE_DIR,
-      'openspec_archive_not_directory',
-      'openspec.archive'
+      rel.archive,
+      'spectrix_archive_not_directory',
+      'warpweave.archive'
     );
   } else {
     inspection.archive = { present: false };
@@ -250,22 +269,23 @@ async function ensureDefaultConfig(
   storeRoot: string,
   ledger: CreatedPathLedgerEntry[]
 ): Promise<void> {
-  const configYamlPath = path.join(storeRoot, OPENSPEC_CONFIG_YAML);
-  const configYmlPath = path.join(storeRoot, OPENSPEC_CONFIG_YML);
+  const rel = planningRelativePaths(storeRoot);
+  const configYamlPath = path.join(storeRoot, rel.configYaml);
+  const configYmlPath = path.join(storeRoot, rel.configYml);
   const yamlKind = await pathKind(configYamlPath);
   const ymlKind = await pathKind(configYmlPath);
 
   if (yamlKind === 'file' || ymlKind === 'file') return;
   if (yamlKind !== 'missing' || ymlKind !== 'missing') {
-    throw new Error('Spectrix config path exists but is not a file.');
+    throw new Error('Warpweave config path exists but is not a file.');
   }
 
   await FileSystemUtils.writeFile(
     configYamlPath,
-    serializeConfig({ schema: DEFAULT_OPENSPEC_SCHEMA })
+    serializeConfig({ schema: DEFAULT_WARPWEAVE_SCHEMA })
   );
   ledger.push({
-    relativePath: relativeArtifact(OPENSPEC_CONFIG_YAML, 'file'),
+    relativePath: relativeArtifact(rel.configYaml, 'file'),
     absolutePath: configYamlPath,
     kind: 'file',
   });
@@ -289,14 +309,14 @@ async function ensureDirectoryAnchor(
   });
 }
 
-export interface EnsureOpenSpecRootOptions {
+export interface EnsureWarpweaveRootOptions {
   anchorEmptyDirectories?: boolean;
 }
 
-export async function ensureOpenSpecRoot(
+export async function ensureWarpweaveRoot(
   storeRoot: string,
-  options: EnsureOpenSpecRootOptions = {}
-): Promise<EnsureOpenSpecRootResult> {
+  options: EnsureWarpweaveRootOptions = {}
+): Promise<EnsureWarpweaveRootResult> {
   const ledger: CreatedPathLedgerEntry[] = [];
   const rootKind = await pathKind(storeRoot);
 
@@ -306,20 +326,21 @@ export async function ensureOpenSpecRoot(
     throw new Error('Store root is not a directory.');
   }
 
-  await ensureDirectory(storeRoot, OPENSPEC_ROOT_DIR, ledger);
-  await ensureDirectory(storeRoot, OPENSPEC_SPECS_DIR, ledger);
-  await ensureDirectory(storeRoot, OPENSPEC_CHANGES_DIR, ledger);
-  await ensureDirectory(storeRoot, OPENSPEC_ARCHIVE_DIR, ledger);
+  const rel = planningRelativePaths(storeRoot);
+  await ensureDirectory(storeRoot, rel.root, ledger);
+  await ensureDirectory(storeRoot, rel.specs, ledger);
+  await ensureDirectory(storeRoot, rel.changes, ledger);
+  await ensureDirectory(storeRoot, rel.archive, ledger);
   await ensureDefaultConfig(storeRoot, ledger);
 
   if (options.anchorEmptyDirectories) {
-    for (const relativeDir of ANCHORED_OPENSPEC_DIRS) {
+    for (const relativeDir of ANCHORED_WARPWEAVE_DIRS) {
       await ensureDirectoryAnchor(storeRoot, relativeDir, ledger);
     }
   }
 
   return {
-    inspection: await inspectOpenSpecRoot(storeRoot),
+    inspection: await inspectWarpweaveRoot(storeRoot),
     createdArtifacts: ledger.map((entry) => entry.relativePath),
     createdPaths: ledger,
   };

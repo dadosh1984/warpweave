@@ -1,10 +1,10 @@
 # Multi-Language Guide
 
-Configure Spectrix to generate artifacts in languages other than English.
+Configure Warpweave to generate artifacts in languages other than English.
 
 ## Quick Setup
 
-Add a language instruction to your `openspec/config.yaml`:
+Add a language instruction to your `warpweave/config.yaml`:
 
 ```yaml
 schema: spec-driven
@@ -104,7 +104,7 @@ To verify your language config is working:
 
 ```bash
 # Check the instructions - should show your language context
-spectrix instructions proposal --change my-change
+warpweave instructions proposal --change my-change
 
 # Output will include your language context
 ```

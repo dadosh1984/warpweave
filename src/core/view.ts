@@ -4,13 +4,14 @@ import chalk from 'chalk';
 import { getTaskProgressForChange, formatTaskStatus } from '../utils/task-progress.js';
 import { MarkdownParser } from './parsers/markdown-parser.js';
 import { discoverSpecFiles } from '../utils/spec-discovery.js';
+import { resolvePlanningDirName } from './planning-home.js';
 
 export class ViewCommand {
   async execute(targetPath: string = '.'): Promise<void> {
-    const openspecDir = path.join(targetPath, 'openspec');
+    const spectrixDir = path.join(targetPath, resolvePlanningDirName(targetPath));
     
-    if (!fs.existsSync(openspecDir)) {
-      console.error(chalk.red('No openspec directory found'));
+    if (!fs.existsSync(spectrixDir)) {
+      console.error(chalk.red('No warpweave (or legacy warpweave) directory found'));
       process.exit(1);
     }
 
@@ -18,8 +19,8 @@ export class ViewCommand {
     console.log('═'.repeat(60));
 
     // Get changes and specs data
-    const changesData = await this.getChangesData(openspecDir);
-    const specsData = await this.getSpecsData(openspecDir);
+    const changesData = await this.getChangesData(spectrixDir);
+    const specsData = await this.getSpecsData(spectrixDir);
 
     // Display summary metrics
     this.displaySummary(changesData, specsData);
@@ -76,15 +77,15 @@ export class ViewCommand {
     }
 
     console.log('\n' + '═'.repeat(60));
-    console.log(chalk.dim(`\nUse ${chalk.white('spectrix list --changes')} or ${chalk.white('spectrix list --specs')} for detailed views`));
+    console.log(chalk.dim(`\nUse ${chalk.white('warpweave list --changes')} or ${chalk.white('warpweave list --specs')} for detailed views`));
   }
 
-  private async getChangesData(openspecDir: string): Promise<{
+  private async getChangesData(spectrixDir: string): Promise<{
     draft: Array<{ name: string }>;
     active: Array<{ name: string; progress: { total: number; completed: number } }>;
     completed: Array<{ name: string }>;
   }> {
-    const changesDir = path.join(openspecDir, 'changes');
+    const changesDir = path.join(spectrixDir, 'changes');
 
     if (!fs.existsSync(changesDir)) {
       return { draft: [], active: [], completed: [] };
@@ -98,7 +99,7 @@ export class ViewCommand {
 
     for (const entry of entries) {
       if (entry.isDirectory() && entry.name !== 'archive') {
-        const progress = await getTaskProgressForChange(changesDir, entry.name, path.dirname(openspecDir));
+        const progress = await getTaskProgressForChange(changesDir, entry.name, path.dirname(spectrixDir));
 
         if (progress.total === 0) {
           // No tasks defined yet - still in planning/draft phase
@@ -130,8 +131,8 @@ export class ViewCommand {
     return { draft, active, completed };
   }
 
-  private async getSpecsData(openspecDir: string): Promise<Array<{ name: string; requirementCount: number }>> {
-    const specsDir = path.join(openspecDir, 'specs');
+  private async getSpecsData(spectrixDir: string): Promise<Array<{ name: string; requirementCount: number }>> {
+    const specsDir = path.join(spectrixDir, 'specs');
     
     if (!fs.existsSync(specsDir)) {
       return [];

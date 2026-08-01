@@ -7,7 +7,7 @@ import {
 import { BASH_DYNAMIC_HELPERS } from '../templates/bash-templates.js';
 
 /**
- * Generates Bash completion scripts for the Spectrix CLI.
+ * Generates Bash completion scripts for the Warpweave CLI.
  * Follows Bash completion conventions using complete builtin and COMPREPLY array.
  */
 export class BashGenerator implements CompletionGenerator {
@@ -36,7 +36,7 @@ export class BashGenerator implements CompletionGenerator {
     const helpers = BASH_DYNAMIC_HELPERS;
 
     // Assemble final script with template literal
-    return `# Bash completion script for Spectrix CLI
+    return `# Bash completion script for Warpweave CLI
 # Auto-generated - do not edit manually
 
 _spectrix_completion() {
@@ -76,7 +76,7 @@ ${commandCases}
 }
 
 ${helpers}
-complete -F _spectrix_completion openspec
+complete -F _spectrix_completion warpweave
 `;
   }
 

@@ -1,7 +1,7 @@
 # Standard profile: small team, normal projects
 profile: standard
 
-openspec:
+warpweave:
   require_approval: true
   auto_archive: true
 

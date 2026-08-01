@@ -55,7 +55,7 @@ describe('workset journey (7.1 e2e)', () => {
     appRepo = path.join(tempDir, 'web-app');
     createOpenSpecRoot(appRepo);
     fs.writeFileSync(
-      path.join(appRepo, 'openspec', 'config.yaml'),
+      path.join(appRepo, 'spectrix', 'config.yaml'),
       'schema: spec-driven\nreferences:\n  - team-context\n'
     );
 

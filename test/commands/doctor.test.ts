@@ -68,7 +68,7 @@ describe('spectrix doctor (3.6)', () => {
     writeSpec(upstream, 'rules', '## Purpose\n\nRules.\n');
     await registerStore({ id: 'upstream-context', localPath: upstream, globalDataDir });
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\nreferences:\n  - upstream-context\n'
     );
 
@@ -111,17 +111,17 @@ describe('spectrix doctor (3.6)', () => {
 
     // Declared-pointer session.
     const pointerRepo = mkdir('app-repo');
-    fs.mkdirSync(path.join(pointerRepo, 'openspec'), { recursive: true });
-    fs.writeFileSync(path.join(pointerRepo, 'openspec', 'config.yaml'), 'store: team-context\n');
+    fs.mkdirSync(path.join(pointerRepo, 'spectrix'), { recursive: true });
+    fs.writeFileSync(path.join(pointerRepo, 'spectrix', 'config.yaml'), 'store: team-context\n');
     const declared = await runCLI(['doctor', '--json'], { cwd: pointerRepo, env });
     expect(parseJson(declared).root.source).toBe('declared');
     expect(parseJson(declared).store.id).toBe('team-context');
 
     // Global-default session: no root, no pointer — provenance must name
     // the machine-level default, not masquerade as a repo pointer.
-    fs.mkdirSync(path.join(tempDir, 'config', 'openspec'), { recursive: true });
+    fs.mkdirSync(path.join(tempDir, 'config', 'spectrix'), { recursive: true });
     fs.writeFileSync(
-      path.join(tempDir, 'config', 'openspec', 'config.json'),
+      path.join(tempDir, 'config', 'spectrix', 'config.json'),
       JSON.stringify({ defaultStore: 'team-context' }) + '\n'
     );
     const fallback = await runCLI(['doctor', '--json'], { cwd: mkdir('no-root-here'), env });
@@ -144,7 +144,7 @@ describe('spectrix doctor (3.6)', () => {
 
   it('shows broken relationships with pasteable fixes at exit 0', async () => {
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\n' +
         'references:\n  - { id: design-system, remote: https://192.0.2.1/ds.git }\n'
     );
@@ -168,7 +168,7 @@ describe('spectrix doctor (3.6)', () => {
 
   it('distinguishes an empty registry from an unreadable one', async () => {
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\nreferences:\n  - ghost-context\n'
     );
 
@@ -193,20 +193,20 @@ describe('spectrix doctor (3.6)', () => {
   it('surfaces both-shapes and inert-pointer wrong turns', async () => {
     // Both shapes: a real root whose config declares a pointer.
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\nstore: team-context\n'
     );
     const bothShapes = await runCLI(['doctor', '--json'], { cwd: storeRoot, env });
     expect(parseJson(bothShapes).status[0]).toEqual(
       expect.objectContaining({ code: 'root_pointer_ignored' })
     );
-    fs.writeFileSync(path.join(storeRoot, 'openspec', 'config.yaml'), 'schema: spec-driven\n');
+    fs.writeFileSync(path.join(storeRoot, 'spectrix', 'config.yaml'), 'schema: spec-driven\n');
 
     // Inert pointer declarations, including from a subdirectory.
     const pointerRepo = mkdir('app-repo');
-    fs.mkdirSync(path.join(pointerRepo, 'openspec'), { recursive: true });
+    fs.mkdirSync(path.join(pointerRepo, 'spectrix'), { recursive: true });
     fs.writeFileSync(
-      path.join(pointerRepo, 'openspec', 'config.yaml'),
+      path.join(pointerRepo, 'spectrix', 'config.yaml'),
       'store: team-context\nreferences:\n  - wrong-context\n'
     );
     const subdir = mkdir('app-repo/packages/api');
@@ -342,7 +342,7 @@ describe('spectrix doctor (3.6)', () => {
 
   it('distinguishes self-reference omission from none declared', async () => {
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\nreferences:\n  - team-context\n'
     );
     const result = await runCLI(['doctor', '--store', 'team-context'], { cwd: tempDir, env });
@@ -352,7 +352,7 @@ describe('spectrix doctor (3.6)', () => {
 
   it('surfaces a malformed pointer on a real root', async () => {
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\nstore: [broken]\n'
     );
     const result = await runCLI(['doctor', '--json'], { cwd: storeRoot, env });
@@ -363,7 +363,7 @@ describe('spectrix doctor (3.6)', () => {
   });
 
   it('is read-only and changes nothing elsewhere', async () => {
-    fs.writeFileSync(path.join(storeRoot, 'openspec', 'config.yaml'), 'schema: spec-driven\n');
+    fs.writeFileSync(path.join(storeRoot, 'spectrix', 'config.yaml'), 'schema: spec-driven\n');
     const rootBefore = snapshot(storeRoot);
     const dataBefore = snapshot(path.join(tempDir, 'data'));
 

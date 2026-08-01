@@ -76,27 +76,27 @@ export interface CommandTemplateEntry {
  */
 export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemplateEntry[] {
   const all: SkillTemplateEntry[] = [
-    { template: getExploreSkillTemplate(), dirName: 'openspec-explore', workflowId: 'explore' },
-    { template: getNewChangeSkillTemplate(), dirName: 'openspec-new-change', workflowId: 'new' },
-    { template: getContinueChangeSkillTemplate(), dirName: 'openspec-continue-change', workflowId: 'continue' },
-    { template: getApplyChangeSkillTemplate(), dirName: 'openspec-apply-change', workflowId: 'apply' },
-    { template: getUpdateChangeSkillTemplate(), dirName: 'openspec-update-change', workflowId: 'update' },
-    { template: getFfChangeSkillTemplate(), dirName: 'openspec-ff-change', workflowId: 'ff' },
-    { template: getSyncSpecsSkillTemplate(), dirName: 'openspec-sync-specs', workflowId: 'sync' },
-    { template: getArchiveChangeSkillTemplate(), dirName: 'openspec-archive-change', workflowId: 'archive' },
-    { template: getBulkArchiveChangeSkillTemplate(), dirName: 'openspec-bulk-archive-change', workflowId: 'bulk-archive' },
-    { template: getVerifyChangeSkillTemplate(), dirName: 'openspec-verify-change', workflowId: 'verify' },
-    { template: getOnboardSkillTemplate(), dirName: 'openspec-onboard', workflowId: 'onboard' },
-    { template: getOpsxProposeSkillTemplate(), dirName: 'openspec-propose', workflowId: 'propose' },
-    { template: getLadderAuditSkillTemplate(), dirName: 'openspec-ladder-audit', workflowId: 'ladder-audit' },
-    { template: getGuardrailsSkillTemplate(), dirName: 'openspec-guardrails', workflowId: 'guardrails' },
-    { template: getDebtLedgerSkillTemplate(), dirName: 'openspec-debt-ledger', workflowId: 'debt-ledger' },
-    { template: getTokenBudgetSkillTemplate(), dirName: 'openspec-token-budget', workflowId: 'token-budget' },
-    { template: getBenchmarkSkillTemplate(), dirName: 'openspec-benchmark', workflowId: 'benchmark' },
-    { template: getDependencyCheckSkillTemplate(), dirName: 'openspec-dependency-check', workflowId: 'dependency-check' },
-    { template: getParallelExecuteSkillTemplate(), dirName: 'openspec-parallel-execute', workflowId: 'parallel-execute' },
-    { template: getLearnSkillTemplate(), dirName: 'openspec-learn', workflowId: 'learn' },
-    { template: getInitUnifiedSkillTemplate(), dirName: 'openspec-init-unified', workflowId: 'init-unified' },
+    { template: getExploreSkillTemplate(), dirName: 'warpweave-explore', workflowId: 'explore' },
+    { template: getNewChangeSkillTemplate(), dirName: 'warpweave-new-change', workflowId: 'new' },
+    { template: getContinueChangeSkillTemplate(), dirName: 'warpweave-continue-change', workflowId: 'continue' },
+    { template: getApplyChangeSkillTemplate(), dirName: 'warpweave-apply-change', workflowId: 'apply' },
+    { template: getUpdateChangeSkillTemplate(), dirName: 'warpweave-update-change', workflowId: 'update' },
+    { template: getFfChangeSkillTemplate(), dirName: 'warpweave-ff-change', workflowId: 'ff' },
+    { template: getSyncSpecsSkillTemplate(), dirName: 'warpweave-sync-specs', workflowId: 'sync' },
+    { template: getArchiveChangeSkillTemplate(), dirName: 'warpweave-archive-change', workflowId: 'archive' },
+    { template: getBulkArchiveChangeSkillTemplate(), dirName: 'warpweave-bulk-archive-change', workflowId: 'bulk-archive' },
+    { template: getVerifyChangeSkillTemplate(), dirName: 'warpweave-verify-change', workflowId: 'verify' },
+    { template: getOnboardSkillTemplate(), dirName: 'warpweave-onboard', workflowId: 'onboard' },
+    { template: getOpsxProposeSkillTemplate(), dirName: 'warpweave-propose', workflowId: 'propose' },
+    { template: getLadderAuditSkillTemplate(), dirName: 'warpweave-ladder-audit', workflowId: 'ladder-audit' },
+    { template: getGuardrailsSkillTemplate(), dirName: 'warpweave-guardrails', workflowId: 'guardrails' },
+    { template: getDebtLedgerSkillTemplate(), dirName: 'warpweave-debt-ledger', workflowId: 'debt-ledger' },
+    { template: getTokenBudgetSkillTemplate(), dirName: 'warpweave-token-budget', workflowId: 'token-budget' },
+    { template: getBenchmarkSkillTemplate(), dirName: 'warpweave-benchmark', workflowId: 'benchmark' },
+    { template: getDependencyCheckSkillTemplate(), dirName: 'warpweave-dependency-check', workflowId: 'dependency-check' },
+    { template: getParallelExecuteSkillTemplate(), dirName: 'warpweave-parallel-execute', workflowId: 'parallel-execute' },
+    { template: getLearnSkillTemplate(), dirName: 'warpweave-learn', workflowId: 'learn' },
+    { template: getInitUnifiedSkillTemplate(), dirName: 'warpweave-init-unified', workflowId: 'init-unified' },
   ];
 
   if (!workflowFilter) return all;
@@ -162,7 +162,7 @@ export function getCommandContents(workflowFilter?: readonly string[]): CommandC
  * Generates skill file content with YAML frontmatter.
  *
  * @param template - The skill template
- * @param generatedByVersion - The Spectrix version to embed in the file
+ * @param generatedByVersion - The Warpweave version to embed in the file
  * @param transformInstructions - Optional callback to transform the instructions content
  */
 export function generateSkillContent(
@@ -179,9 +179,9 @@ name: ${template.name}
 description: ${template.description}
 allowed-tools: ${OPENSPEC_CLI_ALLOWED_TOOLS}
 license: ${template.license || 'MIT'}
-compatibility: ${template.compatibility || 'Requires spectrix CLI.'}
+compatibility: ${template.compatibility || 'Requires warpweave CLI.'}
 metadata:
-  author: ${template.metadata?.author || 'spectrix'}
+  author: ${template.metadata?.author || 'warpweave'}
   version: "${template.metadata?.version || '1.0'}"
   generatedBy: "${generatedByVersion}"
 ---

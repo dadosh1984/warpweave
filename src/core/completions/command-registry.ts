@@ -3,7 +3,7 @@ import type { CommandDefinition } from './types.js';
 export const COMMAND_REGISTRY: CommandDefinition[] = [
   {
     name: 'init',
-    description: 'Initialize Spectrix in your project',
+    description: 'Initialize Warpweave in your project',
     acceptsPositional: true,
     positionalType: 'path',
     positionals: [{ name: 'path', type: 'path', optional: true }],
@@ -31,7 +31,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'update',
-    description: 'Update Spectrix instruction files',
+    description: 'Update Warpweave instruction files',
     acceptsPositional: true,
     positionalType: 'path',
     positionals: [{ name: 'path', type: 'path', optional: true }],
@@ -256,7 +256,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   {
     name: 'store',
     description:
-      'Create and manage stores - standalone Spectrix repos you register on this machine',
+      'Create and manage stores - standalone Warpweave repos you register on this machine',
     flags: [],
     subcommands: [
       {
@@ -353,7 +353,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'context',
-    description: 'Print the working context for the resolved Spectrix root',
+    description: 'Print the working context for the resolved Warpweave root',
     flags: [
       COMMON_FLAGS.json,
       COMMON_FLAGS.store,
@@ -370,7 +370,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'doctor',
-    description: 'Report relationship health for the resolved Spectrix root',
+    description: 'Report relationship health for the resolved Warpweave root',
     flags: [
       COMMON_FLAGS.json,
       COMMON_FLAGS.store,
@@ -442,7 +442,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'feedback',
-    description: 'Submit feedback about Spectrix',
+    description: 'Submit feedback about Warpweave',
     acceptsPositional: true,
     positionals: [{ name: 'message' }],
     flags: [
@@ -455,7 +455,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'change',
-    description: 'Manage Spectrix change proposals (deprecated)',
+    description: 'Manage Warpweave change proposals (deprecated)',
     flags: [],
     subcommands: [
       {
@@ -504,7 +504,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'spec',
-    description: 'Manage Spectrix specifications',
+    description: 'Manage Warpweave specifications',
     flags: [],
     subcommands: [
       {
@@ -559,7 +559,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'completion',
-    description: 'Manage shell completions for Spectrix CLI',
+    description: 'Manage shell completions for Warpweave CLI',
     flags: [],
     subcommands: [
       {
@@ -601,7 +601,7 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
   },
   {
     name: 'config',
-    description: 'View and modify global Spectrix configuration',
+    description: 'View and modify global Warpweave configuration',
     flags: [
       {
         name: 'scope',

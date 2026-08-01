@@ -1,7 +1,7 @@
 /**
  * Init Command
  *
- * Sets up Spectrix with Agent Skills and /otrix:* slash commands.
+ * Sets up Warpweave with Agent Skills and /otrix:* slash commands.
  * This is the unified setup command that replaces both the old init and experimental commands.
  */
 
@@ -12,12 +12,12 @@ import * as fs from 'fs';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { FileSystemUtils } from '../utils/file-system.js';
-import { classifyOpenSpecDir, storePointerProblem } from './project-config.js';
+import { classifySpectrixDir, storePointerProblem } from './project-config.js';
 import { findRepoPlanningRootSync } from './planning-home.js';
 import { getSkillReferenceTransformer, getTransformerForTool } from '../utils/command-references.js';
 import {
   AI_TOOLS,
-  OPENSPEC_DIR_NAME,
+  WARPWEAVE_DIR_NAME,
   AIToolOption,
   resolveToolIdAlias,
 } from './config.js';
@@ -77,27 +77,27 @@ const PROGRESS_SPINNER = {
 };
 
 const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
-  'explore': 'openspec-explore',
-  'new': 'openspec-new-change',
-  'continue': 'openspec-continue-change',
-  'apply': 'openspec-apply-change',
-  'update': 'openspec-update-change',
-  'ff': 'openspec-ff-change',
-  'sync': 'openspec-sync-specs',
-  'archive': 'openspec-archive-change',
-  'bulk-archive': 'openspec-bulk-archive-change',
-  'verify': 'openspec-verify-change',
-  'onboard': 'openspec-onboard',
-  'propose': 'openspec-propose',
-  'ladder-audit': 'openspec-ladder-audit',
-  'guardrails': 'openspec-guardrails',
-  'debt-ledger': 'openspec-debt-ledger',
-  'token-budget': 'openspec-token-budget',
-  'benchmark': 'openspec-benchmark',
-  'dependency-check': 'openspec-dependency-check',
-  'parallel-execute': 'openspec-parallel-execute',
-  'learn': 'openspec-learn',
-  'init-unified': 'openspec-init-unified',
+  'explore': 'warpweave-explore',
+  'new': 'warpweave-new-change',
+  'continue': 'warpweave-continue-change',
+  'apply': 'warpweave-apply-change',
+  'update': 'warpweave-update-change',
+  'ff': 'warpweave-ff-change',
+  'sync': 'warpweave-sync-specs',
+  'archive': 'warpweave-archive-change',
+  'bulk-archive': 'warpweave-bulk-archive-change',
+  'verify': 'warpweave-verify-change',
+  'onboard': 'warpweave-onboard',
+  'propose': 'warpweave-propose',
+  'ladder-audit': 'warpweave-ladder-audit',
+  'guardrails': 'warpweave-guardrails',
+  'debt-ledger': 'warpweave-debt-ledger',
+  'token-budget': 'warpweave-token-budget',
+  'benchmark': 'warpweave-benchmark',
+  'dependency-check': 'warpweave-dependency-check',
+  'parallel-execute': 'warpweave-parallel-execute',
+  'learn': 'warpweave-learn',
+  'init-unified': 'warpweave-init-unified',
 };
 
 // -----------------------------------------------------------------------------
@@ -142,13 +142,13 @@ export class InitCommand {
 
   async execute(targetPath: string): Promise<void> {
     const projectPath = path.resolve(targetPath);
-    const openspecDir = OPENSPEC_DIR_NAME;
-    const openspecPath = path.join(projectPath, openspecDir);
+    const spectrixDir = WARPWEAVE_DIR_NAME;
+    const spectrixPath = path.join(projectPath, spectrixDir);
 
     // Validation happens silently in the background
-    const extendMode = await this.validate(projectPath, openspecPath);
+    const extendMode = await this.validate(projectPath, spectrixPath);
 
-    // Pointer guard (slice 3.2): a config-only openspec/ with a store:
+    // Pointer guard (slice 3.2): a config-only warpweave/ with a store:
     // declaration is externalized planning, not a root to extend — and a
     // subdirectory of such a repo must not silently grow a nested root.
     // Refuse before legacy cleanup, migration, or prompts touch anything.
@@ -157,19 +157,19 @@ export class InitCommand {
     // refuse exactly where a normal command would resolve the pointer).
     const guardRoot = findRepoPlanningRootSync(projectPath);
     if (guardRoot) {
-      const { hasPlanningShape, pointer } = classifyOpenSpecDir(guardRoot);
+      const { hasPlanningShape, pointer } = classifySpectrixDir(guardRoot);
       if (!hasPlanningShape) {
         if (pointer.malformed) {
           throw new Error(
             `The store declaration in ${pointer.filePath} is invalid (` +
               storePointerProblem(pointer.malformed) +
-              `). Fix or remove the store: line before running spectrix init.`
+              `). Fix or remove the store: line before running warpweave init.`
           );
         }
         if (pointer.value !== undefined) {
           throw new Error(
             `This repo's planning is externalized to store '${pointer.value}' (${pointer.filePath}). ` +
-              `Remove the store: line first to convert this repo to a local Spectrix root.`
+              `Remove the store: line first to convert this repo to a local Warpweave root.`
           );
         }
       }
@@ -178,7 +178,7 @@ export class InitCommand {
     // Check for legacy artifacts and handle cleanup
     const deferredLegacyCleanup = await this.handleLegacyCleanup(projectPath, extendMode);
 
-    // Migrate Spectrix-managed skills left in renamed tool directories
+    // Migrate Warpweave-managed skills left in renamed tool directories
     // (e.g. .kimi -> .kimi-code) before detection so they stay recognized.
     migrateLegacyToolDirs(projectPath);
 
@@ -213,7 +213,7 @@ export class InitCommand {
     const validatedTools = this.validateTools(selectedToolIds, toolStates);
 
     // Selecting a renamed tool is consent to leave its former directory:
-    // init is about to write the current one, and leaving Spectrix content
+    // init is about to write the current one, and leaving Warpweave content
     // behind would give the user two installs of the same tool.
     for (const migration of migrateLegacyToolDirs(
       projectPath,
@@ -227,7 +227,7 @@ export class InitCommand {
     }
 
     // Create directory structure and config
-    await this.createDirectoryStructure(openspecPath, extendMode);
+    await this.createDirectoryStructure(spectrixPath, extendMode);
 
     // Copy unified config files and AGENTS.md/.env.example to the project
     await this.copyUnifiedConfig(projectPath);
@@ -242,7 +242,7 @@ export class InitCommand {
     }
 
     // Create config.yaml if needed
-    const configStatus = await this.createConfig(openspecPath, extendMode);
+    const configStatus = await this.createConfig(spectrixPath, extendMode);
 
     // Display success message
     this.displaySuccessMessage(projectPath, validatedTools, results, configStatus);
@@ -254,9 +254,9 @@ export class InitCommand {
 
   private async validate(
     projectPath: string,
-    openspecPath: string
+    spectrixPath: string
   ): Promise<boolean> {
-    const extendMode = await FileSystemUtils.directoryExists(openspecPath);
+    const extendMode = await FileSystemUtils.directoryExists(spectrixPath);
 
     // Check write permissions
     if (!(await FileSystemUtils.ensureWritePermissions(projectPath))) {
@@ -331,7 +331,7 @@ export class InitCommand {
 
     if (this.force || !canPrompt) {
       // --force flag or non-interactive mode: proceed with cleanup automatically.
-      // Legacy slash commands are 100% Spectrix-managed, and config file cleanup
+      // Legacy slash commands are 100% Warpweave-managed, and config file cleanup
       // only removes markers (never deletes files), so auto-cleanup is safe.
       await this.performImmediateLegacyCleanup(projectPath, detection);
       return detection.globalSlashCommandFiles.length > 0 ? { detection } : null;
@@ -508,7 +508,7 @@ export class InitCommand {
       .map((toolId) => AI_TOOLS.find((t) => t.value === toolId)?.name || toolId);
 
     if (configuredNames.length > 0) {
-      console.log(`Spectrix configured: ${configuredNames.join(', ')} (pre-selected)`);
+      console.log(`Warpweave configured: ${configuredNames.join(', ')} (pre-selected)`);
     }
 
     const detectedOnlyNames = detectedTools
@@ -639,14 +639,14 @@ export class InitCommand {
   // DIRECTORY STRUCTURE
   // ═══════════════════════════════════════════════════════════
 
-  private async createDirectoryStructure(openspecPath: string, extendMode: boolean): Promise<void> {
+  private async createDirectoryStructure(spectrixPath: string, extendMode: boolean): Promise<void> {
     if (extendMode) {
       // In extend mode, just ensure directories exist without spinner
       const directories = [
-        openspecPath,
-        path.join(openspecPath, 'specs'),
-        path.join(openspecPath, 'changes'),
-        path.join(openspecPath, 'changes', 'archive'),
+        spectrixPath,
+        path.join(spectrixPath, 'specs'),
+        path.join(spectrixPath, 'changes'),
+        path.join(spectrixPath, 'changes', 'archive'),
       ];
 
       for (const dir of directories) {
@@ -655,13 +655,13 @@ export class InitCommand {
       return;
     }
 
-    const spinner = this.startSpinner('Creating Spectrix structure...');
+    const spinner = this.startSpinner('Creating Warpweave structure...');
 
     const directories = [
-      openspecPath,
-      path.join(openspecPath, 'specs'),
-      path.join(openspecPath, 'changes'),
-      path.join(openspecPath, 'changes', 'archive'),
+      spectrixPath,
+      path.join(spectrixPath, 'specs'),
+      path.join(spectrixPath, 'changes'),
+      path.join(spectrixPath, 'changes', 'archive'),
     ];
 
     for (const dir of directories) {
@@ -670,7 +670,7 @@ export class InitCommand {
 
     spinner.stopAndPersist({
       symbol: PALETTE.white('▌'),
-      text: PALETTE.white('Spectrix structure created'),
+      text: PALETTE.white('Warpweave structure created'),
     });
   }
 
@@ -840,9 +840,9 @@ export class InitCommand {
   // CONFIG FILE
   // ═══════════════════════════════════════════════════════════
 
-  private async createConfig(openspecPath: string, extendMode: boolean): Promise<'created' | 'exists' | 'skipped'> {
-    const configPath = path.join(openspecPath, 'config.yaml');
-    const configYmlPath = path.join(openspecPath, 'config.yml');
+  private async createConfig(spectrixPath: string, extendMode: boolean): Promise<'created' | 'exists' | 'skipped'> {
+    const configPath = path.join(spectrixPath, 'config.yaml');
+    const configYmlPath = path.join(spectrixPath, 'config.yml');
     const configYamlExists = fs.existsSync(configPath);
     const configYmlExists = fs.existsSync(configYmlPath);
 
@@ -879,7 +879,7 @@ export class InitCommand {
     configStatus: 'created' | 'exists' | 'skipped'
   ): void {
     console.log();
-    console.log(chalk.bold('Spectrix Setup Complete'));
+    console.log(chalk.bold('Warpweave Setup Complete'));
     console.log();
 
     // Show created vs refreshed tools
@@ -942,13 +942,13 @@ export class InitCommand {
 
     // Config status
     if (configStatus === 'created') {
-      console.log(`Config: openspec/config.yaml (schema: ${DEFAULT_SCHEMA})`);
+      console.log(`Config: warpweave/config.yaml (schema: ${DEFAULT_SCHEMA})`);
     } else if (configStatus === 'exists') {
       // Show actual filename (config.yaml or config.yml)
-      const configYaml = path.join(projectPath, OPENSPEC_DIR_NAME, 'config.yaml');
-      const configYml = path.join(projectPath, OPENSPEC_DIR_NAME, 'config.yml');
+      const configYaml = path.join(projectPath, WARPWEAVE_DIR_NAME, 'config.yaml');
+      const configYml = path.join(projectPath, WARPWEAVE_DIR_NAME, 'config.yml');
       const configName = fs.existsSync(configYaml) ? 'config.yaml' : fs.existsSync(configYml) ? 'config.yml' : 'config.yaml';
-      console.log(`Config: openspec/${configName} (exists)`);
+      console.log(`Config: warpweave/${configName} (exists)`);
     } else {
       console.log(chalk.dim(`Config: skipped (non-interactive mode)`));
     }
@@ -964,8 +964,8 @@ export class InitCommand {
     // Tools that generated commands are told the command name their files
     // answer to (/otrix:* when namespaced under otrix/, /otrix-* when the
     // filename is the command); tools that only got skills are told their
-    // documented skill invocation (Kimi Code: /skill:openspec-*; Codex CLI:
-    // $openspec-*; others: /openspec-*). Tools that got no artifacts are
+    // documented skill invocation (Kimi Code: /skill:warpweave-*; Codex CLI:
+    // $warpweave-*; others: /warpweave-*). Tools that got no artifacts are
     // covered by the configuration correction instead. When the selection
     // disagrees, print one line per distinct instruction, labeled with the
     // tools it applies to.
@@ -1019,7 +1019,7 @@ export class InitCommand {
         chalk.yellow(
           `No skills or commands were generated for ${names}: delivery is set to 'commands' but ` +
             `${zeroArtifactTools.length === 1 ? 'it supports' : 'they support'} only skills. ` +
-            `Run 'spectrix config set delivery both' to generate skills.`
+            `Run 'warpweave config set delivery both' to generate skills.`
         )
       );
     }
@@ -1031,13 +1031,13 @@ export class InitCommand {
     } else if (activeWorkflows.includes('new')) {
       printStartHints('/otrix:new');
     } else {
-      console.log("Done. Run 'spectrix config profile' to configure your workflows.");
+      console.log("Done. Run 'warpweave config profile' to configure your workflows.");
     }
 
     // Links
     console.log();
-    console.log(`Learn more: ${chalk.cyan('https://github.com/dadosh1984/spectrix')}`);
-    console.log(`Feedback:   ${chalk.cyan('https://github.com/dadosh1984/spectrix/issues')}`);
+    console.log(`Learn more: ${chalk.cyan('https://github.com/dadosh1984/warpweave')}`);
+    console.log(`Feedback:   ${chalk.cyan('https://github.com/dadosh1984/warpweave/issues')}`);
 
     // Unified tool suggestions
     console.log();

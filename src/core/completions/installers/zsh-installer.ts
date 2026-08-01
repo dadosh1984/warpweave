@@ -15,8 +15,8 @@ export class ZshInstaller {
    * Markers for .zshrc configuration management
    */
   private readonly ZSHRC_MARKERS = {
-    start: '# OPENSPEC:START',
-    end: '# OPENSPEC:END',
+    start: '# WARPWEAVE:START',
+    end: '# WARPWEAVE:END',
   };
 
   constructor(homeDir: string = os.homedir()) {
@@ -118,7 +118,7 @@ export class ZshInstaller {
    */
   private generateZshrcConfig(completionsDir: string): string {
     return [
-      '# Spectrix shell completions configuration',
+      '# Warpweave shell completions configuration',
       `fpath=("${completionsDir}" $fpath)`,
       'autoload -Uz compinit',
       'compinit',
@@ -165,7 +165,7 @@ export class ZshInstaller {
   }
 
   /**
-   * Check if .zshrc has Spectrix configuration markers
+   * Check if .zshrc has Warpweave configuration markers
    *
    * @returns true if .zshrc exists and has markers
    */
@@ -431,7 +431,7 @@ export class ZshInstaller {
         messages.push(`Completion script removed from ${targetPath}`);
       }
       if (zshrcCleaned && !isOhMyZsh) {
-        messages.push('Removed Spectrix configuration from ~/.zshrc');
+        messages.push('Removed Warpweave configuration from ~/.zshrc');
       }
 
       return {

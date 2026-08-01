@@ -29,7 +29,7 @@ export const COMMON_FLAGS = {
   store: {
     name: 'store',
     description:
-      "Store id to use as the Spectrix root (a store is a standalone Spectrix repo you've registered)",
+      "Store id to use as the Warpweave root (a store is a standalone Warpweave repo you've registered)",
     takesValue: true,
   } as FlagDefinition,
 } as const;

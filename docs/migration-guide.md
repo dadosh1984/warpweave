@@ -1,6 +1,6 @@
 # Migrating to OTRIX
 
-This guide helps you transition from the legacy Spectrix workflow to OTRIX. The migration is designed to be smooth—your existing work is preserved, and the new system offers more flexibility.
+This guide helps you transition from the legacy Warpweave workflow to OTRIX. The migration is designed to be smooth—your existing work is preserved, and the new system offers more flexibility.
 
 ## What's Changing?
 
@@ -8,11 +8,11 @@ OTRIX replaces the old phase-locked workflow with a fluid, action-based approach
 
 | Aspect | Legacy | OTRIX |
 |--------|--------|------|
-| **Commands** | `/openspec:proposal`, `/openspec:apply`, `/openspec:archive` | Default: `/otrix:propose`, `/otrix:explore`, `/otrix:apply`, `/otrix:update`, `/otrix:sync`, `/otrix:archive` (expanded workflow commands optional) |
+| **Commands** | `/warpweave:proposal`, `/warpweave:apply`, `/warpweave:archive` | Default: `/otrix:propose`, `/otrix:explore`, `/otrix:apply`, `/otrix:update`, `/otrix:sync`, `/otrix:archive` (expanded workflow commands optional) |
 | **Workflow** | Create all artifacts at once | Create incrementally or all at once—your choice |
 | **Going back** | Awkward phase gates | Natural—update any artifact anytime |
 | **Customization** | Fixed structure | Schema-driven, fully hackable |
-| **Configuration** | `CLAUDE.md` with markers + `project.md` | Clean config in `openspec/config.yaml` |
+| **Configuration** | `CLAUDE.md` with markers + `project.md` | Clean config in `warpweave/config.yaml` |
 
 **The philosophy change:** Work isn't linear. OTRIX stops pretending it is.
 
@@ -24,51 +24,51 @@ OTRIX replaces the old phase-locked workflow with a fluid, action-based approach
 
 The migration process is designed with preservation in mind:
 
-- **Active changes in `openspec/changes/`** — Completely preserved. You can continue them with OTRIX commands.
+- **Active changes in `warpweave/changes/`** — Completely preserved. You can continue them with OTRIX commands.
 - **Archived changes** — Untouched. Your history remains intact.
-- **Main specs in `openspec/specs/`** — Untouched. These are your source of truth.
-- **Your content in CLAUDE.md, AGENTS.md, etc.** — Preserved. Only the Spectrix marker blocks are removed; everything you wrote stays.
+- **Main specs in `warpweave/specs/`** — Untouched. These are your source of truth.
+- **Your content in CLAUDE.md, AGENTS.md, etc.** — Preserved. Only the Warpweave marker blocks are removed; everything you wrote stays.
 
 ### What Gets Removed
 
-Only Spectrix-managed files that are being replaced:
+Only Warpweave-managed files that are being replaced:
 
 | What | Why |
 |------|-----|
 | Legacy slash command directories/files | Replaced by the new skills system |
-| `openspec/AGENTS.md` | Obsolete workflow trigger |
-| Spectrix markers in `CLAUDE.md`, `AGENTS.md`, etc. | No longer needed |
+| `warpweave/AGENTS.md` | Obsolete workflow trigger |
+| Warpweave markers in `CLAUDE.md`, `AGENTS.md`, etc. | No longer needed |
 
 **Legacy command locations by tool** (examples—your tool may vary):
 
-- Claude Code: `.claude/commands/openspec/`
-- Cursor: `.cursor/commands/openspec-*.md`
-- Devin Desktop, formerly Windsurf: `.windsurf/workflows/openspec-*.md`
-- Cline: `.clinerules/workflows/openspec-*.md`
-- Roo: `.roo/commands/openspec-*.md`
-- GitHub Copilot: `.github/prompts/openspec-*.prompt.md` (IDE extensions only; not supported in Copilot CLI)
-- Codex: Spectrix now uses `.codex/skills/openspec-*`; legacy cleanup only targets Spectrix's allowlisted prompt filenames in `$CODEX_HOME/prompts` or `~/.codex/prompts`, and only removes them after replacement skills exist.
+- Claude Code: `.claude/commands/warpweave/`
+- Cursor: `.cursor/commands/warpweave-*.md`
+- Devin Desktop, formerly Windsurf: `.windsurf/workflows/warpweave-*.md`
+- Cline: `.clinerules/workflows/warpweave-*.md`
+- Roo: `.roo/commands/warpweave-*.md`
+- GitHub Copilot: `.github/prompts/warpweave-*.prompt.md` (IDE extensions only; not supported in Copilot CLI)
+- Codex: Warpweave now uses `.codex/skills/warpweave-*`; legacy cleanup only targets Warpweave's allowlisted prompt filenames in `$CODEX_HOME/prompts` or `~/.codex/prompts`, and only removes them after replacement skills exist.
 - And others (Augment, Continue, Amazon Q, etc.)
 
 The migration detects whichever tools you have configured and cleans up their legacy files.
 
-The removal list may seem long, but these are all files that Spectrix originally created. Your own content is never deleted.
+The removal list may seem long, but these are all files that Warpweave originally created. Your own content is never deleted.
 
 ### What Needs Your Attention
 
 One file requires manual migration:
 
-**`openspec/project.md`** — This file isn't deleted automatically because it may contain project context you've written. You'll need to:
+**`warpweave/project.md`** — This file isn't deleted automatically because it may contain project context you've written. You'll need to:
 
 1. Review its contents
-2. Move useful context to `openspec/config.yaml` (see guidance below)
+2. Move useful context to `warpweave/config.yaml` (see guidance below)
 3. Delete the file when ready
 
 **Why we made this change:**
 
 The old `project.md` was passive—agents might read it, might not, might forget what they read. We found reliability was inconsistent.
 
-The new `config.yaml` context is **actively injected into every Spectrix planning request**. This means your project conventions, tech stack, and rules are always present when the AI is creating artifacts. Higher reliability.
+The new `config.yaml` context is **actively injected into every Warpweave planning request**. This means your project conventions, tech stack, and rules are always present when the AI is creating artifacts. Higher reliability.
 
 **The tradeoff:**
 
@@ -83,17 +83,17 @@ Don't worry about getting it perfect. We're still learning what works best here,
 
 ## Running the Migration
 
-Both `spectrix init` and `spectrix update` detect legacy files and guide you through the same cleanup process. Use whichever fits your situation:
+Both `warpweave init` and `warpweave update` detect legacy files and guide you through the same cleanup process. Use whichever fits your situation:
 
 - New installs default to profile `core` (`propose`, `explore`, `apply`, `update`, `sync`, `archive`).
 - Migrated installs preserve your previously installed workflows by writing a `custom` profile when needed.
 
-### Using `spectrix init`
+### Using `warpweave init`
 
 Run this if you want to add new tools or reconfigure which tools are set up:
 
 ```bash
-spectrix init
+warpweave init
 ```
 
 The init command detects legacy files and guides you through cleanup:
@@ -101,26 +101,26 @@ The init command detects legacy files and guides you through cleanup:
 ```
 Upgrading to the new OpenSpec
 
-Spectrix now uses agent skills, the emerging standard across coding
+Warpweave now uses agent skills, the emerging standard across coding
 agents. This simplifies your setup while keeping everything working
 as before.
 
 Files to remove
 No user content to preserve:
-  • .claude/commands/openspec/
-  • openspec/AGENTS.md
+  • .claude/commands/warpweave/
+  • warpweave/AGENTS.md
 
 Files to update
-Spectrix markers will be removed, your content preserved:
+Warpweave markers will be removed, your content preserved:
   • CLAUDE.md
   • AGENTS.md
 
 Needs your attention
-  • openspec/project.md
+  • warpweave/project.md
     We won't delete this file. It may contain useful project context.
 
-    The new openspec/config.yaml has a "context:" section for planning
-    context. This is included in every Spectrix request and works more
+    The new warpweave/config.yaml has a "context:" section for planning
+    context. This is included in every Warpweave request and works more
     reliably than the old project.md approach.
 
     Review project.md, move any useful content to config.yaml's context
@@ -132,17 +132,17 @@ Needs your attention
 **What happens when you say yes:**
 
 1. Legacy slash command directories are removed
-2. Spectrix markers are stripped from `CLAUDE.md`, `AGENTS.md`, etc. (your content stays)
-3. `openspec/AGENTS.md` is deleted
+2. Warpweave markers are stripped from `CLAUDE.md`, `AGENTS.md`, etc. (your content stays)
+3. `warpweave/AGENTS.md` is deleted
 4. New skills are installed in `.claude/skills/`
-5. `openspec/config.yaml` is created with a default schema
+5. `warpweave/config.yaml` is created with a default schema
 
-### Using `spectrix update`
+### Using `warpweave update`
 
 Run this if you just want to migrate and refresh your existing tools to the latest version:
 
 ```bash
-spectrix update
+warpweave update
 ```
 
 The update command also detects and cleans up legacy artifacts, then refreshes generated skills/commands to match your current profile and delivery settings.
@@ -152,18 +152,18 @@ The update command also detects and cleans up legacy artifacts, then refreshes g
 For scripted migrations:
 
 ```bash
-spectrix init --force --tools claude
+warpweave init --force --tools claude
 ```
 
 The `--force` flag skips prompts and auto-accepts cleanup.
 
-This includes cleanup of Spectrix-managed Codex prompt files in the global Codex prompt directory. Cleanup only targets Spectrix's allowlisted legacy Codex prompt filenames, removes them only after replacement `.codex/skills/openspec-*` skills exist, and preserves all other files.
+This includes cleanup of Warpweave-managed Codex prompt files in the global Codex prompt directory. Cleanup only targets Warpweave's allowlisted legacy Codex prompt filenames, removes them only after replacement `.codex/skills/warpweave-*` skills exist, and preserves all other files.
 
 ---
 
 ## Migrating project.md to config.yaml
 
-The old `openspec/project.md` was a freeform markdown file for project context. The new `openspec/config.yaml` is structured and—critically—**injected into every planning request** so your conventions are always present when the AI works.
+The old `warpweave/project.md` was a freeform markdown file for project context. The new `warpweave/config.yaml` is structured and—critically—**injected into every planning request** so your conventions are always present when the AI works.
 
 ### Before (project.md)
 
@@ -263,7 +263,7 @@ When migrating, be selective. Ask yourself: "Does the AI need this for *every* p
 If you're unsure how to distill your project.md, ask your AI assistant:
 
 ```
-I'm migrating from Spectrix's old project.md to the new config.yaml format.
+I'm migrating from Warpweave's old project.md to the new config.yaml format.
 
 Here's my current project.md:
 [paste your project.md content]
@@ -305,15 +305,15 @@ Command availability is profile-dependent:
 | `/otrix:bulk-archive` | Archive multiple changes at once |
 | `/otrix:onboard` | Guided end-to-end onboarding workflow |
 
-Enable expanded commands with `spectrix config profile`, then run `spectrix update`.
+Enable expanded commands with `warpweave config profile`, then run `warpweave update`.
 
 ### Command Mapping from Legacy
 
 | Legacy | OTRIX Equivalent |
 |--------|-----------------|
-| `/openspec:proposal` | `/otrix:propose` (default) or `/otrix:new` then `/otrix:ff` (expanded) |
-| `/openspec:apply` | `/otrix:apply` |
-| `/openspec:archive` | `/otrix:archive` |
+| `/warpweave:proposal` | `/otrix:propose` (default) or `/otrix:new` then `/otrix:ff` (expanded) |
+| `/warpweave:apply` | `/otrix:apply` |
+| `/warpweave:archive` | `/otrix:archive` |
 
 ### New Capabilities
 
@@ -392,7 +392,7 @@ When you run `/otrix:continue`, it checks what's ready and offers the next artif
 The legacy system used tool-specific command files:
 
 ```
-.claude/commands/openspec/
+.claude/commands/warpweave/
 ├── proposal.md
 ├── apply.md
 └── archive.md
@@ -402,16 +402,16 @@ OTRIX uses the emerging **skills** standard:
 
 ```
 .claude/skills/
-├── openspec-explore/SKILL.md
-├── openspec-new-change/SKILL.md
-├── openspec-continue-change/SKILL.md
-├── openspec-apply-change/SKILL.md
+├── warpweave-explore/SKILL.md
+├── warpweave-new-change/SKILL.md
+├── warpweave-continue-change/SKILL.md
+├── warpweave-apply-change/SKILL.md
 └── ...
 ```
 
 Skills are recognized across multiple AI coding tools and provide richer metadata.
 
-Codex is skills-only in OTRIX. Spectrix no longer generates Codex custom prompt files; use the generated `.codex/skills/openspec-*` directories instead.
+Codex is skills-only in OTRIX. Warpweave no longer generates Codex custom prompt files; use the generated `.codex/skills/warpweave-*` directories instead.
 
 ---
 
@@ -438,7 +438,7 @@ Shows what's ready to create based on what already exists.
 **Need to see status?**
 
 ```bash
-spectrix status --change add-my-feature
+warpweave status --change add-my-feature
 ```
 
 ---
@@ -475,8 +475,8 @@ rules:
 When determining which schema to use, OTRIX checks in order:
 
 1. **CLI flag**: `--schema <name>` (highest priority)
-2. **Change metadata**: `.openspec.yaml` in the change directory
-3. **Project config**: `openspec/config.yaml`
+2. **Change metadata**: `.warpweave.yaml` in the change directory
+3. **Project config**: `warpweave/config.yaml`
 4. **Default**: `spec-driven`
 
 ### Available Schemas
@@ -488,7 +488,7 @@ When determining which schema to use, OTRIX checks in order:
 List all available schemas:
 
 ```bash
-spectrix schemas
+warpweave schemas
 ```
 
 ### Custom Schemas
@@ -496,13 +496,13 @@ spectrix schemas
 Create your own workflow:
 
 ```bash
-spectrix schema init my-workflow
+warpweave schema init my-workflow
 ```
 
 Or fork an existing one:
 
 ```bash
-spectrix schema fork spec-driven my-workflow
+warpweave schema fork spec-driven my-workflow
 ```
 
 See [Customization](customization.md) for details.
@@ -516,7 +516,7 @@ See [Customization](customization.md) for details.
 You're running in a CI or non-interactive environment. Use:
 
 ```bash
-spectrix init --force
+warpweave init --force
 ```
 
 ### Commands not appearing after migration
@@ -532,12 +532,12 @@ Check that your `rules:` keys match your schema's artifact IDs:
 Run this to see valid artifact IDs:
 
 ```bash
-spectrix schemas --json
+warpweave schemas --json
 ```
 
 ### Config not being applied
 
-1. Ensure the file is at `openspec/config.yaml` (not `.yml`)
+1. Ensure the file is at `warpweave/config.yaml` (not `.yml`)
 2. Validate YAML syntax
 3. Config changes take effect immediately—no restart needed
 
@@ -557,30 +557,30 @@ Run init and decline the cleanup prompt—you'll see the full detection summary 
 
 ```
 project/
-├── openspec/
+├── warpweave/
 │   ├── specs/                    # Unchanged
 │   ├── changes/                  # Unchanged
 │   │   └── archive/              # Unchanged
 │   └── config.yaml               # NEW: Project configuration
 ├── .claude/
 │   └── skills/                   # NEW: OTRIX skills
-│       ├── openspec-propose/     # default core profile
-│       ├── openspec-explore/
-│       ├── openspec-apply-change/
-│       ├── openspec-update-change/
-│       ├── openspec-sync-specs/
-│       ├── openspec-archive-change/
+│       ├── warpweave-propose/     # default core profile
+│       ├── warpweave-explore/
+│       ├── warpweave-apply-change/
+│       ├── warpweave-update-change/
+│       ├── warpweave-sync-specs/
+│       ├── warpweave-archive-change/
 │       └── ...                   # expanded profile adds new/continue/ff/etc.
-├── CLAUDE.md                     # Spectrix markers removed, your content preserved
-└── AGENTS.md                     # Spectrix markers removed, your content preserved
+├── CLAUDE.md                     # Warpweave markers removed, your content preserved
+└── AGENTS.md                     # Warpweave markers removed, your content preserved
 ```
 
 ### What's Gone
 
-- `.claude/commands/openspec/` — replaced by `.claude/skills/`
-- `openspec/AGENTS.md` — obsolete
-- `openspec/project.md` — migrate to `config.yaml`, then delete
-- Spectrix marker blocks in `CLAUDE.md`, `AGENTS.md`, etc.
+- `.claude/commands/warpweave/` — replaced by `.claude/skills/`
+- `warpweave/AGENTS.md` — obsolete
+- `warpweave/project.md` — migrate to `config.yaml`, then delete
+- Warpweave marker blocks in `CLAUDE.md`, `AGENTS.md`, etc.
 
 ### Command Cheatsheet
 

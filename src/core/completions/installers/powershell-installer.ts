@@ -15,8 +15,8 @@ export class PowerShellInstaller {
    * Markers for PowerShell profile configuration management
    */
   private readonly PROFILE_MARKERS = {
-    start: '# OPENSPEC:START',
-    end: '# OPENSPEC:END',
+    start: '# WARPWEAVE:START',
+    end: '# WARPWEAVE:END',
   };
 
   constructor(homeDir: string = os.homedir()) {
@@ -151,7 +151,7 @@ export class PowerShellInstaller {
    */
   private generateProfileConfig(scriptPath: string): string {
     return [
-      '# Spectrix shell completions configuration',
+      '# Warpweave shell completions configuration',
       `if (Test-Path "${scriptPath}") {`,
       `    . "${scriptPath}"`,
       '}',
@@ -213,16 +213,16 @@ export class PowerShellInstaller {
           continue; // Already configured, skip
         }
 
-        // Add Spectrix completion configuration with markers
-        const openspecBlock = [
+        // Add Warpweave completion configuration with markers
+        const spectrixBlock = [
           '',
-          '# OPENSPEC:START - Spectrix completion (managed block, do not edit manually)',
+          '# WARPWEAVE:START - Warpweave completion (managed block, do not edit manually)',
           scriptLine,
-          '# OPENSPEC:END',
+          '# WARPWEAVE:END',
           '',
         ].join('\n');
 
-        const newContent = profileContent + openspecBlock;
+        const newContent = profileContent + spectrixBlock;
         if (!(await FileSystemUtils.canWriteFile(profilePath))) {
           throw new Error(`Path is not writable: ${profilePath}`);
         }
@@ -266,13 +266,13 @@ export class PowerShellInstaller {
           continue;
         }
 
-        // Remove OPENSPEC:START -> OPENSPEC:END block
-        const startMarker = '# OPENSPEC:START';
-        const endMarker = '# OPENSPEC:END';
+        // Remove WARPWEAVE:START -> WARPWEAVE:END block
+        const startMarker = '# WARPWEAVE:START';
+        const endMarker = '# WARPWEAVE:END';
         const startIndex = profileContent.indexOf(startMarker);
 
         if (startIndex === -1) {
-          continue; // No Spectrix block found
+          continue; // No Warpweave block found
         }
 
         const endIndex = profileContent.indexOf(endMarker, startIndex);
@@ -396,7 +396,7 @@ export class PowerShellInstaller {
       '',
       `To enable completions, add the following to your PowerShell profile (${profilePath}):`,
       '',
-      '  # Source Spectrix completions',
+      '  # Source Warpweave completions',
       `  if (Test-Path "${installedPath}") {`,
       `      . "${installedPath}"`,
       '  }',

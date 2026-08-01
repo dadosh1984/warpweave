@@ -37,7 +37,7 @@ describe('spectrix context (4.1)', () => {
     await registerStore({ id: 'upstream-context', localPath: upstream, globalDataDir });
 
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\n' +
         'references:\n  - upstream-context\n  - { id: design-system, remote: https://192.0.2.1/ds.git }\n'
     );
@@ -99,17 +99,17 @@ describe('spectrix context (4.1)', () => {
 
     // Declared-pointer session.
     const pointerRepo = path.join(tempDir, 'app-repo');
-    fs.mkdirSync(path.join(pointerRepo, 'openspec'), { recursive: true });
-    fs.writeFileSync(path.join(pointerRepo, 'openspec', 'config.yaml'), 'store: team-context\n');
+    fs.mkdirSync(path.join(pointerRepo, 'spectrix'), { recursive: true });
+    fs.writeFileSync(path.join(pointerRepo, 'spectrix', 'config.yaml'), 'store: team-context\n');
     const declared = await runCLI(['context', '--json'], { cwd: pointerRepo, env });
     expect(parseJson(declared).root.source).toBe('declared');
     expect(parseJson(declared).members).toHaveLength(2);
 
     // Global-default session: no root, no pointer — provenance must name
     // the machine-level default, not masquerade as a repo pointer.
-    fs.mkdirSync(path.join(tempDir, 'config', 'openspec'), { recursive: true });
+    fs.mkdirSync(path.join(tempDir, 'config', 'spectrix'), { recursive: true });
     fs.writeFileSync(
-      path.join(tempDir, 'config', 'openspec', 'config.json'),
+      path.join(tempDir, 'config', 'spectrix', 'config.json'),
       JSON.stringify({ defaultStore: 'team-context' }) + '\n'
     );
     const scratch = path.join(tempDir, 'no-root-here');
@@ -122,7 +122,7 @@ describe('spectrix context (4.1)', () => {
 
   it('distinguishes self-reference omission from nothing declared', async () => {
     fs.writeFileSync(
-      path.join(storeRoot, 'openspec', 'config.yaml'),
+      path.join(storeRoot, 'spectrix', 'config.yaml'),
       'schema: spec-driven\nreferences:\n  - team-context\n'
     );
     const human = await runCLI(['context', '--store', 'team-context'], { cwd: tempDir, env });
@@ -131,7 +131,7 @@ describe('spectrix context (4.1)', () => {
   });
 
   it('says so plainly when nothing is declared', async () => {
-    fs.writeFileSync(path.join(storeRoot, 'openspec', 'config.yaml'), 'schema: spec-driven\n');
+    fs.writeFileSync(path.join(storeRoot, 'spectrix', 'config.yaml'), 'schema: spec-driven\n');
     const human = await runCLI(['context', '--store', 'team-context'], { cwd: tempDir, env });
     expect(human.stdout).toContain('the working set is this root alone');
     const json = await runCLI(['context', '--json', '--store', 'team-context'], {

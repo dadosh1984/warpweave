@@ -1,7 +1,7 @@
 /**
  * Command Invocation
  *
- * How a tool spells an Spectrix command has two parts, and only one of them
+ * How a tool spells an Warpweave command has two parts, and only one of them
  * can be read off the file the adapter writes:
  *
  * - The *name* comes from the file. `.../commands/otrix/<id>.md` is namespaced
@@ -14,7 +14,7 @@
  *   invoked with `@` (`@otrix-propose`), so its adapter declares that prefix.
  *
  * Deriving the name from `getFilePath` keeps generated cross-references and
- * onboarding hints in step with the files Spectrix actually writes. A
+ * onboarding hints in step with the files Warpweave actually writes. A
  * hand-maintained list drifted before: only OpenCode was rewritten when the
  * hyphen form was introduced (#727), and Cursor still advertised `/otrix:`
  * commands its palette never registered (#1307). Carrying the prefix as
@@ -28,7 +28,7 @@ import type { ToolCommandAdapter } from './types.js';
 export type CommandInvocationStyle = 'namespaced' | 'flat';
 
 /**
- * Everything needed to spell one of a tool's Spectrix commands.
+ * Everything needed to spell one of a tool's Warpweave commands.
  */
 export interface CommandInvocation {
   /** How the command file names the command. */

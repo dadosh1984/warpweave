@@ -281,7 +281,7 @@ export function getInstallDir(): string | null {
  * True when the running CLI resolves from a `node_modules` belonging to the
  * project being updated or any ancestor of it — the hoisted-root layout npm and
  * pnpm workspaces produce. Anchored on the target path rather than the working
- * directory, since `spectrix update <path>` and running from a sub-package are
+ * directory, since `warpweave update <path>` and running from a sub-package are
  * both normal. Never throws: process.cwd() fails when the directory has been
  * deleted, and a wrong upgrade hint must not take down a successful update.
  */
@@ -417,7 +417,7 @@ export function isNpmGlobalInstall(
     // parent of the node_modules dir the CLI resolved from, so a hand-copied
     // portable tree would pass and be offered an npm upgrade it never had.
     return fs.existsSync(
-      process.platform === 'win32' ? path.join(prefix, 'spectrix.cmd') : path.join(prefix, 'bin')
+      process.platform === 'win32' ? path.join(prefix, 'warpweave.cmd') : path.join(prefix, 'bin')
     );
   } catch {
     return false;
@@ -481,7 +481,7 @@ export function buildCliUpdateLines(
   projectPath: string,
   options: { withCommand?: boolean } = {}
 ): string[] {
-  const lines = [`A newer Spectrix CLI is available (v${OPENSPEC_VERSION} → v${latestVersion}).`];
+  const lines = [`A newer Warpweave CLI is available (v${OPENSPEC_VERSION} → v${latestVersion}).`];
 
   // Omitted when we are about to offer to run it — printing a command and then
   // asking to run that same command reads like the user has to do both.
@@ -518,7 +518,7 @@ export function buildUpgradeCommandLines(
     lines.push(`  ${GLOBAL_UPGRADE_COMMANDS[detectPackageManager(installDir)]}`);
   }
 
-  lines.push('  Then run "spectrix update" again to pick up new workflows.');
+  lines.push('  Then run "warpweave update" again to pick up new workflows.');
   return lines;
 }
 
@@ -544,7 +544,7 @@ function loadSpawn(): typeof import('child_process').spawn {
 export function canSelfUpgrade(installDir: string | null, projectPath: string): boolean {
   if (!installDir) return false;
   if (isEphemeralRunnerInstall(installDir)) return false;
-  // Both anchors matter: `spectrix update ../other` from a project that owns
+  // Both anchors matter: `warpweave update ../other` from a project that owns
   // the CLI as a dependency is still a project-local install.
   if (isProjectLocalInstall(installDir, projectPath)) return false;
   if (isProjectLocalInstall(installDir)) return false;
@@ -588,7 +588,7 @@ async function runGlobalUpgrade(): Promise<boolean> {
 }
 
 /**
- * The `spectrix` npm installs alongside its global package, so the upgrade can
+ * The `warpweave` npm installs alongside its global package, so the upgrade can
  * be handed to the copy npm just wrote rather than to whatever PATH resolves.
  * Null when it cannot be found, in which case PATH is the only option left.
  */
@@ -610,11 +610,11 @@ export function upgradedBinPath(
 
   for (const root of ordered) {
     // npm writes the shim beside the global root on Windows
-    // (%APPDATA%\\npm\\openspec.cmd) and in <prefix>/bin on POSIX.
+    // (%APPDATA%\\npm\\warpweave.cmd) and in <prefix>/bin on POSIX.
     const candidates =
       process.platform === 'win32'
-        ? [path.join(path.dirname(root), 'spectrix.cmd')]
-        : [path.resolve(root, '..', '..', 'bin', 'spectrix')];
+        ? [path.join(path.dirname(root), 'warpweave.cmd')]
+        : [path.resolve(root, '..', '..', 'bin', 'warpweave')];
 
     for (const candidate of candidates) {
       try {
@@ -663,7 +663,7 @@ export function readCliVersion(binPath: string): Promise<string | null> {
     child.on('close', () => {
       clearTimeout(timer);
       // A line that is only a version, not the first version-shaped token
-      // anywhere: a wrapper banner ("Node.js v25.8.1 | Spectrix") would
+      // anywhere: a wrapper banner ("Node.js v25.8.1 | Warpweave") would
       // otherwise be read as the answer.
       const version = output
         .split(/\r?\n/)
@@ -714,14 +714,14 @@ export async function offerCliUpgrade(latestVersion: string): Promise<UpgradeOut
   }
 
   const binPath = upgradedBinPath();
-  const version = await readCliVersion(binPath ?? 'spectrix');
+  const version = await readCliVersion(binPath ?? 'warpweave');
 
   if (!version) {
-    console.log(chalk.yellow('Upgrade finished, but no "spectrix" could be run to confirm it.'));
+    console.log(chalk.yellow('Upgrade finished, but no "warpweave" could be run to confirm it.'));
     return 'not-on-path';
   }
   if (compareVersions(version, OPENSPEC_VERSION) <= 0) {
-    console.log(chalk.yellow(`Upgrade finished, but "spectrix" still reports v${version}.`));
+    console.log(chalk.yellow(`Upgrade finished, but "warpweave" still reports v${version}.`));
     console.log(
       chalk.dim(
         binPath
@@ -738,9 +738,9 @@ export async function offerCliUpgrade(latestVersion: string): Promise<UpgradeOut
 }
 
 /**
- * Runs `spectrix update` again with the CLI that was just installed — this
+ * Runs `warpweave update` again with the CLI that was just installed — this
  * process is still the old code, so it cannot write the new workflows itself.
- * Resolves the exit code to pass along; when no `spectrix` is on PATH the
+ * Resolves the exit code to pass along; when no `warpweave` is on PATH the
  * upgrade still landed but nothing was regenerated, so it says so and
  * resolves 0 rather than reporting a failure the upgrade did not have.
  */
@@ -749,7 +749,7 @@ export async function rerunUpdateWithUpgradedCli(
   options: { force?: boolean; binPath?: string } = {}
 ): Promise<number> {
   const spawn = loadSpawn();
-  const binPath = options.binPath ?? upgradedBinPath() ?? 'spectrix';
+  const binPath = options.binPath ?? upgradedBinPath() ?? 'warpweave';
   // The re-run stands in for the command the user typed, so it has to carry
   // the flags they typed with it.
   const args = ['update'];
@@ -774,7 +774,7 @@ export async function rerunUpdateWithUpgradedCli(
       // Nothing to hand off to: the upgrade landed but the instruction files
       // are still the old ones, so this run did not do what was asked.
       console.log(chalk.yellow('Instruction files were not regenerated.'));
-      console.log(chalk.dim('  Run "spectrix update" to pick up the new workflows.'));
+      console.log(chalk.dim('  Run "warpweave update" to pick up the new workflows.'));
       resolve(1);
     });
     // A child killed by a signal reports no code; that is not success.

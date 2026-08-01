@@ -52,32 +52,32 @@ export function transformCommandInvocations(
  * src/core/profile-sync-drift.ts (exported) and src/core/init.ts (local copy).
  */
 const COMMAND_TO_SKILL_NAME: Record<string, string> = {
-  'explore': 'openspec-explore',
-  'new': 'openspec-new-change',
-  'continue': 'openspec-continue-change',
-  'apply': 'openspec-apply-change',
-  'update': 'openspec-update-change',
-  'ff': 'openspec-ff-change',
-  'sync': 'openspec-sync-specs',
-  'archive': 'openspec-archive-change',
-  'bulk-archive': 'openspec-bulk-archive-change',
-  'verify': 'openspec-verify-change',
-  'onboard': 'openspec-onboard',
-  'propose': 'openspec-propose',
-  'ladder-audit': 'openspec-ladder-audit',
-  'guardrails': 'openspec-guardrails',
-  'debt-ledger': 'openspec-debt-ledger',
-  'token-budget': 'openspec-token-budget',
-  'benchmark': 'openspec-benchmark',
-  'dependency-check': 'openspec-dependency-check',
-  'parallel-execute': 'openspec-parallel-execute',
-  'learn': 'openspec-learn',
-  'init-unified': 'openspec-init-unified',
+  'explore': 'warpweave-explore',
+  'new': 'warpweave-new-change',
+  'continue': 'warpweave-continue-change',
+  'apply': 'warpweave-apply-change',
+  'update': 'warpweave-update-change',
+  'ff': 'warpweave-ff-change',
+  'sync': 'warpweave-sync-specs',
+  'archive': 'warpweave-archive-change',
+  'bulk-archive': 'warpweave-bulk-archive-change',
+  'verify': 'warpweave-verify-change',
+  'onboard': 'warpweave-onboard',
+  'propose': 'warpweave-propose',
+  'ladder-audit': 'warpweave-ladder-audit',
+  'guardrails': 'warpweave-guardrails',
+  'debt-ledger': 'warpweave-debt-ledger',
+  'token-budget': 'warpweave-token-budget',
+  'benchmark': 'warpweave-benchmark',
+  'dependency-check': 'warpweave-dependency-check',
+  'parallel-execute': 'warpweave-parallel-execute',
+  'learn': 'warpweave-learn',
+  'init-unified': 'warpweave-init-unified',
 };
 
 /**
  * Tools whose skill invocation uses a non-default prefix. The default is `/`
- * (e.g. `/openspec-propose`); Kimi Code invokes skills as `/skill:<name>` and
+ * (e.g. `/warpweave-propose`); Kimi Code invokes skills as `/skill:<name>` and
  * Codex CLI as `$<name>` — a `/<name>` form Codex does not recognize
  * (see docs/supported-tools.md).
  */
@@ -96,7 +96,7 @@ function replaceCommandsWithSkillReferences(text: string, prefix: string): strin
 /**
  * Transforms command references to skill references using the default `/`
  * invocation prefix. Converts `/otrix:<command>` patterns to
- * `/openspec-<skill>` so that generated skills do not reference commands
+ * `/warpweave-<skill>` so that generated skills do not reference commands
  * that were never generated. Used for channels that are not tied to one
  * tool (e.g. the skills.sh distribution); tool-targeted generation should
  * go through getSkillReferenceTransformer instead.
@@ -107,8 +107,8 @@ function replaceCommandsWithSkillReferences(text: string, prefix: string): strin
  * @returns Text with command references transformed to skill references
  *
  * @example
- * transformToSkillReferences('/otrix:apply') // returns '/openspec-apply-change'
- * transformToSkillReferences('Use /otrix:archive next') // returns 'Use /openspec-archive-change next'
+ * transformToSkillReferences('/otrix:apply') // returns '/warpweave-apply-change'
+ * transformToSkillReferences('Use /otrix:archive next') // returns 'Use /warpweave-archive-change next'
  */
 export function transformToSkillReferences(text: string): string {
   return replaceCommandsWithSkillReferences(text, '/');
@@ -117,7 +117,7 @@ export function transformToSkillReferences(text: string): string {
 /**
  * Returns the skill-reference transformer for a specific tool, honoring the
  * tool's documented skill invocation syntax (e.g. Kimi Code's
- * `/skill:openspec-propose`). Falls back to the default `/openspec-*` form.
+ * `/skill:warpweave-propose`). Falls back to the default `/warpweave-*` form.
  *
  * @param toolId - The AI tool identifier (e.g. 'kimi', 'vibe')
  * @returns A transformer converting `/otrix:*` references to skill invocations
@@ -136,7 +136,7 @@ export function getSkillReferenceTransformer(toolId: string): (text: string) => 
  * Skill references are used whenever the tool ends up without `/otrix:*`
  * commands — because delivery is skills-only, because the tool has no command
  * surface at all (capability 'none', e.g. Kimi Code or Mistral Vibe), or
- * because the tool invokes skills directly and Spectrix generates no command
+ * because the tool invokes skills directly and Warpweave generates no command
  * files for it (capability 'skills-invocable', i.e. Codex) — so those skills
  * never point at commands that were not generated.
  *
@@ -151,7 +151,7 @@ export function getSkillReferenceTransformer(toolId: string): (text: string) => 
  *
  * Devin is the one tool that takes skill references even though its commands
  * are generated: only Devin Desktop reads `.devin/workflows/`, so a workflow
- * reference is dead text for anyone on Devin Local, while the `/openspec-*`
+ * reference is dead text for anyone on Devin Local, while the `/warpweave-*`
  * skills work on both agents. Under commands-only delivery there are no Devin
  * skills to point at, so it falls through to the invocation rewrite below and
  * gets the `/otrix-<id>` form its workflow filenames register.

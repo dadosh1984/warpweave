@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getParallelExecuteSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-parallel-execute',
+    name: 'warpweave-parallel-execute',
     description: 'Run independent tasks from tasks.md in parallel using subagents. Use when the user wants to speed up implementation of a change with independent work items.',
     instructions: `Break tasks.md into dependency layers and execute independent groups in parallel via subagents.
 
@@ -22,7 +22,7 @@ ${STORE_SELECTION_GUIDANCE}
 1. **Select the change**
 
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
 2. **Read and parse tasks.md**
@@ -81,8 +81,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Prefer fewer, larger groups over many tiny ones to limit context-switch overhead
 - Never start a layer before the previous one fully completes`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI and RTK.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI and RTK.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -103,7 +103,7 @@ ${STORE_SELECTION_GUIDANCE}
 1. **Select the change**
 
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
 2. **Read and parse tasks.md**

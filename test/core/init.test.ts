@@ -57,7 +57,7 @@ describe('InitCommand', () => {
 
       await initCommand.execute(testDir);
 
-      const openspecPath = path.join(testDir, 'openspec');
+      const openspecPath = path.join(testDir, 'spectrix');
       expect(await directoryExists(openspecPath)).toBe(true);
       expect(await directoryExists(path.join(openspecPath, 'specs'))).toBe(true);
       expect(await directoryExists(path.join(openspecPath, 'changes'))).toBe(true);
@@ -114,7 +114,7 @@ describe('InitCommand', () => {
 
       await initCommand.execute(testDir);
 
-      const configPath = path.join(testDir, 'openspec', 'config.yaml');
+      const configPath = path.join(testDir, 'spectrix', 'config.yaml');
       expect(await fileExists(configPath)).toBe(true);
 
       const content = await fs.readFile(configPath, 'utf-8');
@@ -451,7 +451,7 @@ describe('InitCommand', () => {
       await initCommand.execute(testDir);
 
       // Should create Spectrix structure but no skills
-      const openspecPath = path.join(testDir, 'openspec');
+      const openspecPath = path.join(testDir, 'spectrix');
       expect(await directoryExists(openspecPath)).toBe(true);
 
       // No tool-specific directories should be created
@@ -487,7 +487,7 @@ describe('InitCommand', () => {
 
     it('should not create config.yaml if it already exists', async () => {
       // Pre-create config.yaml
-      const openspecDir = path.join(testDir, 'openspec');
+      const openspecDir = path.join(testDir, 'spectrix');
       await fs.mkdir(openspecDir, { recursive: true });
       const configPath = path.join(openspecDir, 'config.yaml');
       const existingContent = 'schema: custom-schema\n';
@@ -506,7 +506,7 @@ describe('InitCommand', () => {
 
       await initCommand.execute(newDir);
 
-      const openspecPath = path.join(newDir, 'openspec');
+      const openspecPath = path.join(newDir, 'spectrix');
       expect(await directoryExists(openspecPath)).toBe(true);
     });
 
@@ -894,7 +894,7 @@ describe('InitCommand - profile and detection features', () => {
 
   it('should preselect configured tools but not directory-detected tools in extend mode', async () => {
     // Simulate existing Spectrix project (extend mode).
-    await fs.mkdir(path.join(testDir, 'openspec'), { recursive: true });
+    await fs.mkdir(path.join(testDir, 'spectrix'), { recursive: true });
 
     // Configured with OpenSpec
     const claudeSkillDir = path.join(testDir, '.claude', 'skills', 'openspec-explore');
@@ -965,7 +965,7 @@ describe('InitCommand - profile and detection features', () => {
   });
 
   it('should migrate commands-only extend mode to custom profile without injecting propose', async () => {
-    await fs.mkdir(path.join(testDir, 'openspec'), { recursive: true });
+    await fs.mkdir(path.join(testDir, 'spectrix'), { recursive: true });
     await fs.mkdir(path.join(testDir, '.claude', 'commands', 'otrix'), { recursive: true });
     await fs.writeFile(path.join(testDir, '.claude', 'commands', 'otrix', 'explore.md'), '# explore\n');
 

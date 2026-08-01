@@ -4,13 +4,13 @@
 
 ## What Is It?
 
-OTRIX is now the standard workflow for Spectrix.
+OTRIX is now the standard workflow for Warpweave.
 
-It's a **fluid, iterative workflow** for Spectrix changes. No more rigid phases — just actions you can take anytime.
+It's a **fluid, iterative workflow** for Warpweave changes. No more rigid phases — just actions you can take anytime.
 
 ## Why This Exists
 
-The legacy Spectrix workflow works, but it's **locked down**:
+The legacy Warpweave workflow works, but it's **locked down**:
 
 - **Instructions are hardcoded** — buried in TypeScript, you can't change them
 - **All-or-nothing** — one big command creates everything, can't test individual pieces
@@ -39,7 +39,7 @@ Legacy workflow:                      OTRIX:
 **This is for everyone:**
 - **Teams** — create workflows that match how you actually work
 - **Power users** — tweak prompts to get better AI outputs for your codebase
-- **Spectrix contributors** — experiment with new approaches without releases
+- **Warpweave contributors** — experiment with new approaches without releases
 
 We're all still learning what works best. OTRIX lets us learn together.
 
@@ -59,15 +59,15 @@ You're "in planning phase", then "in implementation phase", then "done". But rea
 ## Setup
 
 ```bash
-# Make sure you have spectrix installed — skills are automatically generated
-spectrix init
+# Make sure you have warpweave installed — skills are automatically generated
+warpweave init
 ```
 
 This creates skills in `.claude/skills/` (or equivalent) that AI coding assistants auto-detect.
 
-By default, Spectrix uses the `core` workflow profile (`propose`, `explore`, `apply`, `update`, `sync`, `archive`). If you want the expanded workflow commands (`new`, `continue`, `ff`, `verify`, `bulk-archive`, `onboard`), configure them with `spectrix config profile` and apply with `spectrix update`.
+By default, Warpweave uses the `core` workflow profile (`propose`, `explore`, `apply`, `update`, `sync`, `archive`). If you want the expanded workflow commands (`new`, `continue`, `ff`, `verify`, `bulk-archive`, `onboard`), configure them with `warpweave config profile` and apply with `warpweave update`.
 
-During setup, you'll be prompted to create a **project config** (`openspec/config.yaml`). This is optional but recommended.
+During setup, you'll be prompted to create a **project config** (`warpweave/config.yaml`). This is optional but recommended.
 
 ## Project Configuration
 
@@ -75,10 +75,10 @@ Project config lets you set defaults and inject project-specific context into al
 
 ### Creating Config
 
-Config is created during `spectrix init`, or manually:
+Config is created during `warpweave init`, or manually:
 
 ```yaml
-# openspec/config.yaml
+# warpweave/config.yaml
 schema: spec-driven
 
 context: |
@@ -109,8 +109,8 @@ rules:
 
 **Schema precedence** (highest to lowest):
 1. CLI flag (`--schema <name>`)
-2. Change metadata (`.openspec.yaml` in change directory)
-3. Project config (`openspec/config.yaml`)
+2. Change metadata (`.warpweave.yaml` in change directory)
+3. Project config (`warpweave/config.yaml`)
 4. Default (`spec-driven`)
 
 **Context injection:**
@@ -142,10 +142,10 @@ rules:
 
 **"Unknown artifact ID in rules: X"**
 - Check artifact IDs match your schema (see list above)
-- Run `spectrix schemas --json` to see artifact IDs for each schema
+- Run `warpweave schemas --json` to see artifact IDs for each schema
 
 **Config not being applied:**
-- Ensure file is at `openspec/config.yaml` (not `.yml`)
+- Ensure file is at `warpweave/config.yaml` (not `.yml`)
 - Check YAML syntax with a validator
 - Config changes take effect immediately (no restart needed)
 
@@ -308,7 +308,7 @@ Think of it like git branches:
 
 ## What's Different?
 
-| | Legacy (`/openspec:proposal`) | OTRIX (`/otrix:*`) |
+| | Legacy (`/warpweave:proposal`) | OTRIX (`/otrix:*`) |
 |---|---|---|
 | **Structure** | One big proposal document | Discrete artifacts with dependencies |
 | **Workflow** | Linear phases: plan → implement → archive | Fluid actions — do anything anytime |
@@ -336,7 +336,7 @@ Examples in this section use the expanded command set (`new`, `continue`, etc.);
 │   └──────────────┘      └──────────────┘      └──────────────┘             │
 │         │                     │                     │                       │
 │         ▼                     ▼                     ▼                       │
-│   /openspec:proposal   /openspec:apply      /openspec:archive              │
+│   /warpweave:proposal   /warpweave:apply      /warpweave:archive              │
 │                                                                             │
 │   • Creates ALL artifacts at once                                          │
 │   • Can't go back to update specs during implementation                    │
@@ -381,7 +381,7 @@ Examples in this section use the expanded command set (`new`, `continue`, etc.);
 │   Tool-specific configurators/adapters                                      │
 │                    │                                                        │
 │                    ▼                                                        │
-│   Generated Command Files (.claude/commands/openspec/*.md)                  │
+│   Generated Command Files (.claude/commands/warpweave/*.md)                  │
 │                                                                             │
 │   • Fixed structure, no artifact awareness                                  │
 │   • Change requires code modification + rebuild                             │
@@ -417,7 +417,7 @@ Examples in this section use the expanded command set (`new`, `continue`, etc.);
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │                    │                                                        │
 │                    ▼                                                        │
-│   Skill Files (.claude/skills/openspec-*/SKILL.md)                          │
+│   Skill Files (.claude/skills/warpweave-*/SKILL.md)                          │
 │                                                                             │
 │   • Cross-editor compatible (Claude Code, Cursor, Devin)                    │
 │   • Skills query CLI for structured data                                    │
@@ -470,7 +470,7 @@ Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, no
 **Legacy workflow** — agent receives static instructions:
 
 ```
-  User: "/openspec:proposal"
+  User: "/warpweave:proposal"
            │
            ▼
   ┌─────────────────────────────────────────┐
@@ -497,7 +497,7 @@ Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, no
   ┌──────────────────────────────────────────────────────────────────────────┐
   │  Step 1: Query current state                                             │
   │  ┌────────────────────────────────────────────────────────────────────┐  │
-  │  │  $ spectrix status --change "add-auth" --json                      │  │
+  │  │  $ warpweave status --change "add-auth" --json                      │  │
   │  │                                                                    │  │
   │  │  {                                                                 │  │
   │  │    "artifacts": [                                                  │  │
@@ -512,7 +512,7 @@ Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, no
   │                                                                          │
   │  Step 2: Get rich instructions for ready artifact                        │
   │  ┌────────────────────────────────────────────────────────────────────┐  │
-  │  │  $ spectrix instructions specs --change "add-auth" --json          │  │
+  │  │  $ warpweave instructions specs --change "add-auth" --json          │  │
   │  │                                                                    │  │
   │  │  {                                                                 │  │
   │  │    "template": "# Specification\n\n## ADDED Requirements...",      │  │
@@ -572,23 +572,23 @@ Create custom workflows using the schema management commands:
 
 ```bash
 # Create a new schema from scratch (interactive)
-spectrix schema init my-workflow
+warpweave schema init my-workflow
 
 # Or fork an existing schema as a starting point
-spectrix schema fork spec-driven my-workflow
+warpweave schema fork spec-driven my-workflow
 
 # Validate your schema structure
-spectrix schema validate my-workflow
+warpweave schema validate my-workflow
 
 # See where a schema resolves from (useful for debugging)
-spectrix schema which my-workflow
+warpweave schema which my-workflow
 ```
 
-Schemas are stored in `openspec/schemas/` (project-local, version controlled) or `~/.local/share/openspec/schemas/` (user global).
+Schemas are stored in `warpweave/schemas/` (project-local, version controlled) or `~/.local/share/warpweave/schemas/` (user global).
 
 **Schema structure:**
 ```
-openspec/schemas/research-first/
+warpweave/schemas/research-first/
 ├── schema.yaml
 └── templates/
     ├── research.md
@@ -637,19 +637,19 @@ Schemas define what artifacts exist and their dependencies. Currently available:
 
 ```bash
 # List available schemas
-spectrix schemas
+warpweave schemas
 
 # See all schemas with their resolution sources
-spectrix schema which --all
+warpweave schema which --all
 
 # Create a new schema interactively
-spectrix schema init my-workflow
+warpweave schema init my-workflow
 
 # Fork an existing schema for customization
-spectrix schema fork spec-driven my-workflow
+warpweave schema fork spec-driven my-workflow
 
 # Validate schema structure before use
-spectrix schema validate my-workflow
+warpweave schema validate my-workflow
 ```
 
 ## Tips
@@ -658,10 +658,10 @@ spectrix schema validate my-workflow
 - `/otrix:ff` when you know what you want, `/otrix:continue` when exploring
 - During `/otrix:apply`, if something's wrong — fix the artifact, then continue
 - Tasks track progress via checkboxes in `tasks.md`
-- Check status anytime: `spectrix status --change "name"`
+- Check status anytime: `warpweave status --change "name"`
 
 ## Feedback
 
 This is rough. That's intentional — we're learning what works.
 
-Found a bug? Have ideas? Join us on [Discord](https://discord.gg/YctCnvvshC) or open an issue on [GitHub](https://github.com/Fission-AI/openspec/issues).
+Found a bug? Have ideas? Join us on [Discord](https://discord.gg/YctCnvvshC) or open an issue on [GitHub](https://github.com/Fission-AI/warpweave/issues).

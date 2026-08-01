@@ -2,7 +2,7 @@
 
 Real changes, start to finish. Each recipe shows the commands you'd type and what you'd see back, so you can match your situation to a pattern and copy it. These use the default **core** commands (`propose`, `explore`, `apply`, `update`, `sync`, `archive`); where the expanded set helps, it's noted.
 
-A reminder before you start: slash commands like `/otrix:propose` go in your **AI assistant's chat**, and `spectrix` commands go in your **terminal**. If that's new, read [How Commands Work](how-commands-work.md) first. In the transcripts below, `You:` and `AI:` are the chat, and lines starting with `$` are the terminal.
+A reminder before you start: slash commands like `/otrix:propose` go in your **AI assistant's chat**, and `warpweave` commands go in your **terminal**. If that's new, read [How Commands Work](how-commands-work.md) first. In the transcripts below, `You:` and `AI:` are the chat, and lines starting with `$` are the terminal.
 
 > **Not sure what you're building yet?** Most of these recipes are sharper if you start with `/otrix:explore` to think it through first. [Recipe 3](#recipe-3-exploring-before-you-commit) shows it in action, and the [Explore First](explore.md) guide makes the full case.
 
@@ -15,7 +15,7 @@ The whole thing is three commands. Propose, build, archive.
 ```text
 You: /otrix:propose add-logout-button
 
-AI:  Created openspec/changes/add-logout-button/
+AI:  Created warpweave/changes/add-logout-button/
      ✓ proposal.md — why and what
      ✓ specs/      — the new requirement and its scenarios
      ✓ design.md   — technical approach
@@ -23,7 +23,7 @@ AI:  Created openspec/changes/add-logout-button/
      Ready for implementation. Run /otrix:apply.
 ```
 
-Now read the plan. Open the proposal and the delta spec. This is the moment Spectrix is built for: catching a wrong assumption while it's still one paragraph, not 400 lines of code. Edit any artifact directly if something's off, then continue.
+Now read the plan. Open the proposal and the delta spec. This is the moment Warpweave is built for: catching a wrong assumption while it's still one paragraph, not 400 lines of code. Edit any artifact directly if something's off, then continue.
 
 ```text
 You: /otrix:apply
@@ -37,8 +37,8 @@ AI:  Working through tasks...
 You: /otrix:archive
 
 AI:  Archiving add-logout-button...
-     ✓ Merged specs into openspec/specs/auth/spec.md
-     ✓ Moved to openspec/changes/archive/2026-06-22-add-logout-button/
+     ✓ Merged specs into warpweave/specs/auth/spec.md
+     ✓ Moved to warpweave/changes/archive/2026-06-22-add-logout-button/
      Done. Ready for the next change.
 ```
 
@@ -53,7 +53,7 @@ Bug fixes work exactly like features. The difference is in how you frame the pro
 ```text
 You: /otrix:propose fix-login-redirect-loop
 
-AI:  Created openspec/changes/fix-login-redirect-loop/
+AI:  Created warpweave/changes/fix-login-redirect-loop/
      The proposal captures the current broken behavior and the
      intended behavior. The delta spec MODIFIES the redirect
      requirement so it's now precise and testable.
@@ -104,7 +104,7 @@ You: I'm partway through add-dark-mode, but I need to fix a login bug now.
 
 You: /otrix:propose fix-login-redirect
 
-AI:  Created openspec/changes/fix-login-redirect/. Ready for implementation.
+AI:  Created warpweave/changes/fix-login-redirect/. Ready for implementation.
 
 You: /otrix:apply
 
@@ -140,19 +140,19 @@ AI:  Created the change. The proposal states the goal (split the
      Ready for implementation.
 ```
 
-Declare the empty delta explicitly by setting `skip_specs: true` in the change's `.openspec.yaml`:
+Declare the empty delta explicitly by setting `skip_specs: true` in the change's `.warpweave.yaml`:
 
 ```yaml
 schema: spec-driven
 skip_specs: true
 ```
 
-Without the marker, `spectrix validate` rejects a change with zero deltas (so a forgotten specs phase still gets caught); with it, validation passes and `spectrix status` shows the specs stage as explicitly skipped rather than pending. If the refactor turns out to change behavior after all, remove `skip_specs` from `.openspec.yaml` and write the delta specs — validate treats the marker plus spec files as a conflict, so the stale marker can't linger silently.
+Without the marker, `warpweave validate` rejects a change with zero deltas (so a forgotten specs phase still gets caught); with it, validation passes and `warpweave status` shows the specs stage as explicitly skipped rather than pending. If the refactor turns out to change behavior after all, remove `skip_specs` from `.warpweave.yaml` and write the delta specs — validate treats the marker plus spec files as a conflict, so the stale marker can't linger silently.
 
 Archiving a marked change needs no extra flags (there are no deltas to merge). Independently, the `--skip-specs` flag tells the terminal command to skip the spec step explicitly:
 
 ```bash
-$ spectrix archive refactor-payment-module --skip-specs
+$ warpweave archive refactor-payment-module --skip-specs
 ```
 
 The same flag is handy for tooling, CI, and docs-only changes. The principle: specs describe behavior, so if behavior didn't change, the spec shouldn't either. See [Concepts](concepts.md#what-a-spec-is-and-is-not).
@@ -164,8 +164,8 @@ The same flag is handy for tooling, CI, and docs-only changes. The principle: sp
 The core `/otrix:propose` drafts everything at once. When you'd rather go one step at a time, turn on the expanded commands:
 
 ```bash
-$ spectrix config profile      # select the expanded workflows
-$ spectrix update              # apply them to this project
+$ warpweave config profile      # select the expanded workflows
+$ warpweave update              # apply them to this project
 ```
 
 Now you can scaffold and build incrementally:
@@ -173,7 +173,7 @@ Now you can scaffold and build incrementally:
 ```text
 You: /otrix:new add-2fa
 
-AI:  Created openspec/changes/add-2fa/. Ready to create: proposal.
+AI:  Created warpweave/changes/add-2fa/. Ready to create: proposal.
 
 You: /otrix:continue
 
@@ -188,14 +188,14 @@ Review each artifact as it lands, edit freely, and continue when you're happy. W
 
 ## Recipe 7: Learning the whole loop hands-on
 
-**When to use it:** you've installed Spectrix and want to *feel* the workflow on your own code, not a toy example.
+**When to use it:** you've installed Warpweave and want to *feel* the workflow on your own code, not a toy example.
 
 Turn on the expanded commands (see Recipe 6), then:
 
 ```text
 You: /otrix:onboard
 
-AI:  Welcome to Spectrix! I'll walk you through a complete change
+AI:  Welcome to Warpweave! I'll walk you through a complete change
      using your actual codebase. Let me scan for a small, safe
      improvement we can make together...
 ```
@@ -207,10 +207,10 @@ AI:  Welcome to Spectrix! I'll walk you through a complete change
 Any time, from your terminal, you can inspect the state of things:
 
 ```bash
-$ spectrix list                      # active changes
-$ spectrix show add-dark-mode        # one change in detail
-$ spectrix validate add-dark-mode    # check structure
-$ spectrix view                      # interactive dashboard
+$ warpweave list                      # active changes
+$ warpweave show add-dark-mode        # one change in detail
+$ warpweave validate add-dark-mode    # check structure
+$ warpweave view                      # interactive dashboard
 ```
 
 These are read-and-inspect tools. The proposing and building still happen through slash commands in chat. Full details in the [CLI reference](cli.md).

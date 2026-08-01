@@ -106,7 +106,7 @@ function worksetCliOpenerDisabledError(
     'workset_cli_opener_disabled',
     {
       target: 'workset.tool',
-      fix: `Open in VS Code or Cursor: spectrix workset open ${name} --tool code`,
+      fix: `Open in VS Code or Cursor: warpweave workset open ${name} --tool code`,
     }
   );
 }
@@ -252,7 +252,7 @@ class WorksetCommand {
       }
 
       console.log(
-        `Open it any time with: spectrix workset open ${workset.name}`
+        `Open it any time with: warpweave workset open ${workset.name}`
       );
     } catch (error) {
       emitFailure(options.json, { workset: null, status: [] }, error, 'workset_error');
@@ -266,7 +266,7 @@ class WorksetCommand {
     if (!name) {
       throw new StoreError('Pass a workset name.', 'workset_name_required', {
         target: 'workset.name',
-        fix: 'spectrix workset create <name> --member <path>',
+        fix: 'warpweave workset create <name> --member <path>',
       });
     }
 
@@ -279,7 +279,7 @@ class WorksetCommand {
         'workset_members_required',
         {
           target: 'workset.member',
-          fix: `spectrix workset create ${name} --member <path> --member <name>=<path>`,
+          fix: `warpweave workset create ${name} --member <path> --member <name>=<path>`,
         }
       );
     }
@@ -309,7 +309,7 @@ class WorksetCommand {
 
       if (worksets.length === 0) {
         console.log(
-          'No worksets saved. Create one with: spectrix workset create'
+          'No worksets saved. Create one with: warpweave workset create'
         );
         return;
       }
@@ -343,7 +343,7 @@ class WorksetCommand {
           'workset_open_json_unsupported',
           {
             target: 'workset.tool',
-            fix: 'Inspect worksets with: spectrix workset list --json',
+            fix: 'Inspect worksets with: warpweave workset list --json',
           }
         );
       }
@@ -375,7 +375,7 @@ class WorksetCommand {
             'workset_no_members_available',
             {
               target: 'workset.member',
-              fix: `Recompose it: spectrix workset remove ${name} --yes && spectrix workset create ${name} --member <path>`,
+              fix: `Recompose it: warpweave workset remove ${name} --yes && warpweave workset create ${name} --member <path>`,
             }
           );
         }
@@ -424,7 +424,7 @@ class WorksetCommand {
             'workset_tool_required',
             {
               target: 'workset.tool',
-              fix: `spectrix workset open ${name} --tool <id>`,
+              fix: `warpweave workset open ${name} --tool <id>`,
             }
           );
         }
@@ -472,7 +472,7 @@ class WorksetCommand {
           if (alternative !== null) {
             throw new StoreError(error.message, 'workset_launch_failed', {
               target: 'workset.tool',
-              fix: `Run: spectrix workset open ${name} --tool ${alternative}`,
+              fix: `Run: warpweave workset open ${name} --tool ${alternative}`,
             });
           }
         }
@@ -522,7 +522,7 @@ class WorksetCommand {
             'workset_remove_confirmation_required',
             {
               target: 'workset.name',
-              fix: `spectrix workset remove ${name} --yes`,
+              fix: `warpweave workset remove ${name} --yes`,
             }
           );
         }
@@ -564,7 +564,7 @@ export function registerWorksetCommand(program: Command): void {
     COMMAND_REGISTRY.find((entry) => entry.name === 'workset')?.description ??
     'Compose, keep, and open personal working views (purely local)';
   const workset = program.command('workset').description(groupDescription);
-  // Parsed at the group level so `spectrix workset --json` keeps the
+  // Parsed at the group level so `warpweave workset --json` keeps the
   // one-JSON-document contract instead of a raw Commander error. The
   // parent option matches anywhere; actions read optsWithGlobals().
   workset.addOption(new Option('--json', 'Output as JSON').hideHelp());
@@ -636,8 +636,8 @@ export function registerWorksetCommand(program: Command): void {
     );
     const message =
       attempted.length > 0
-        ? `Unknown command '${attempted[0]}' for 'spectrix workset'. Workset subcommands: ${subcommandsLine}.`
-        : `Missing subcommand for 'spectrix workset'. Workset subcommands: ${subcommandsLine}.`;
+        ? `Unknown command '${attempted[0]}' for 'warpweave workset'. Workset subcommands: ${subcommandsLine}.`
+        : `Missing subcommand for 'warpweave workset'. Workset subcommands: ${subcommandsLine}.`;
     if (workset.opts().json) {
       printJson({
         status: [

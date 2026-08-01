@@ -23,13 +23,13 @@ end`;
 export const FISH_DYNAMIC_HELPERS = `# Dynamic completion helpers
 
 function __fish_spectrix_changes
-    spectrix __complete changes 2>/dev/null | while read -l id desc
+    warpweave __complete changes 2>/dev/null | while read -l id desc
         printf '%s\\t%s\\n' "$id" "$desc"
     end
 end
 
 function __fish_spectrix_specs
-    spectrix __complete specs 2>/dev/null | while read -l id desc
+    warpweave __complete specs 2>/dev/null | while read -l id desc
         printf '%s\\t%s\\n' "$id" "$desc"
     end
 end
@@ -40,7 +40,7 @@ function __fish_spectrix_items
 end
 
 function __fish_spectrix_schemas
-    spectrix __complete schemas 2>/dev/null | while read -l id desc
+    warpweave __complete schemas 2>/dev/null | while read -l id desc
         printf '%s\\t%s\\n' "$id" "$desc"
     end
 end`;

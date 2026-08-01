@@ -1,6 +1,6 @@
 # Workflows
 
-This guide covers common workflow patterns for Spectrix and when to use each one. For basic setup, see [Getting Started](getting-started.md). For command reference, see [Commands](commands.md).
+This guide covers common workflow patterns for Warpweave and when to use each one. For basic setup, see [Getting Started](getting-started.md). For command reference, see [Commands](commands.md).
 
 ## Philosophy: Actions, Not Phases
 
@@ -78,8 +78,8 @@ Explore creates no artifacts and writes no code. It's a free, no-stakes conversa
 If you want explicit scaffold-and-build commands (`/otrix:new`, `/otrix:continue`, `/otrix:ff`, `/otrix:verify`, `/otrix:bulk-archive`, `/otrix:onboard`), enable them with:
 
 ```bash
-spectrix config profile
-spectrix update
+warpweave config profile
+warpweave update
 ```
 
 ## Workflow Patterns (Expanded Mode)
@@ -97,7 +97,7 @@ When you know what you want to build and just need to execute:
 ```text
 You: /otrix:new add-logout-button
 
-AI:  Created openspec/changes/add-logout-button/
+AI:  Created warpweave/changes/add-logout-button/
      Ready to create: proposal
 
 You: /otrix:ff
@@ -194,7 +194,7 @@ You: I'm working on add-dark-mode but got pulled into a bug fix
 
 You: /otrix:new fix-login-redirect
 
-AI:  Created openspec/changes/fix-login-redirect/
+AI:  Created warpweave/changes/fix-login-redirect/
 
 You: /otrix:ff
 
@@ -324,8 +324,8 @@ AI:  Archiving add-auth...
 
 You: Yes
 
-AI:  ✓ Synced specs to openspec/specs/auth/spec.md
-     ✓ Moved to openspec/changes/archive/2025-01-24-add-auth/
+AI:  ✓ Synced specs to warpweave/specs/auth/spec.md
+     ✓ Moved to warpweave/changes/archive/2025-01-24-add-auth/
 
      Change archived successfully.
 ```
@@ -446,7 +446,7 @@ Catches mismatches before you close out the change.
 
 ### Name Changes Clearly
 
-Good names make `spectrix list` useful:
+Good names make `warpweave list` useful:
 
 ```text
 Good:                          Avoid:
@@ -477,7 +477,7 @@ For full command details and options, see [Commands](commands.md).
 
 - [Writing Good Specs](writing-specs.md) - What a strong requirement and scenario look like, and how to right-size a change
 - [Reviewing a Change](reviewing-changes.md) - The two-minute pass on a drafted plan before any code
-- [Spectrix on a Team](team-workflow.md) - How changes fit branches and pull requests
+- [Warpweave on a Team](team-workflow.md) - How changes fit branches and pull requests
 - [Commands](commands.md) - Full command reference with options
 - [Concepts](concepts.md) - Deep dive into specs, artifacts, and schemas
 - [Customization](customization.md) - Create custom workflows

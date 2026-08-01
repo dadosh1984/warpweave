@@ -9,13 +9,13 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getTokenBudgetSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-token-budget',
+    name: 'warpweave-token-budget',
     description: 'Set a token limit for a change and track consumption across pipeline phases. Use when the user wants to constrain cost, project remaining budget, or review RTK savings per change.',
     instructions: `Track and constrain token consumption for a change across the pipeline phases.
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: A change name, plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[openspec]\` / budget section) or default to a sensible limit.
+**Input**: A change name, plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[warpweave]\` / budget section) or default to a sensible limit.
 
 **Steps**
 
@@ -24,10 +24,10 @@ ${STORE_SELECTION_GUIDANCE}
    - Use the explicit budget if provided
    - Otherwise read from \`config/unified.toml\` (e.g., \`[rtk]\` or a budget key) in the project
    - Otherwise default: 100k tokens per change (adjust with the user)
-   - Record the limit in \`openspec/changes/<name>/\` as \`budget.md\` if none exists
+   - Record the limit in \`warpweave/changes/<name>/\` as \`budget.md\` if none exists
 
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
 2. **Track phase spend**
@@ -75,8 +75,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Never hide an overrun; report it with a recovery path
 - Treat the RTK savings line as informational, not as budget credit`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI and RTK.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI and RTK.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -90,7 +90,7 @@ export function getOpsxTokenBudgetCommandTemplate(): CommandTemplate {
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: A change name after \`/otrix:token-budget\` (e.g., \`/otrix:token-budget add-auth 50000\`), plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[openspec]\` / budget section) or default to a sensible limit.
+**Input**: A change name after \`/otrix:token-budget\` (e.g., \`/otrix:token-budget add-auth 50000\`), plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[warpweave]\` / budget section) or default to a sensible limit.
 
 **Steps**
 
@@ -99,10 +99,10 @@ ${STORE_SELECTION_GUIDANCE}
    - Use the explicit budget if provided
    - Otherwise read from \`config/unified.toml\` (e.g., \`[rtk]\` or a budget key) in the project
    - Otherwise default: 100k tokens per change (adjust with the user)
-   - Record the limit in \`openspec/changes/<name>/\` as \`budget.md\` if none exists
+   - Record the limit in \`warpweave/changes/<name>/\` as \`budget.md\` if none exists
 
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
 2. **Track phase spend**

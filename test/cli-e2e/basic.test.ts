@@ -224,9 +224,9 @@ describe('spectrix CLI e2e basics', () => {
     async function prepareChange(options: { tasksComplete?: boolean } = {}): Promise<string> {
       const base = await fs.mkdtemp(path.join(tmpdir(), 'openspec-archive-e2e-'));
       tempRoots.push(base);
-      const changeDir = path.join(base, 'openspec', 'changes', 'add-greeting');
+      const changeDir = path.join(base, 'spectrix', 'changes', 'add-greeting');
       await fs.mkdir(path.join(changeDir, 'specs', 'greeting'), { recursive: true });
-      await fs.mkdir(path.join(base, 'openspec', 'specs'), { recursive: true });
+      await fs.mkdir(path.join(base, 'spectrix', 'specs'), { recursive: true });
       await fs.writeFile(
         path.join(changeDir, 'proposal.md'),
         '## Why\nThis change exists to document greeting behavior for the team, which is long enough.\n\n## What Changes\n- Add a greeting requirement.\n'
@@ -253,8 +253,8 @@ describe('spectrix CLI e2e basics', () => {
       expect(output).toContain('spectrix archive add-greeting --yes');
 
       // The change is untouched: nothing was archived or merged.
-      expect(await fileExists(path.join(projectDir, 'openspec', 'changes', 'add-greeting', 'proposal.md'))).toBe(true);
-      expect(await fileExists(path.join(projectDir, 'openspec', 'specs', 'greeting', 'spec.md'))).toBe(false);
+      expect(await fileExists(path.join(projectDir, 'spectrix', 'changes', 'add-greeting', 'proposal.md'))).toBe(true);
+      expect(await fileExists(path.join(projectDir, 'spectrix', 'specs', 'greeting', 'spec.md'))).toBe(false);
     });
 
     it('reports the incomplete-task prompt the same way', async () => {
@@ -295,7 +295,7 @@ describe('spectrix CLI e2e basics', () => {
       const result = await runCLI(['archive', 'add-greeting', '--yes'], { cwd: projectDir });
 
       expect(result.exitCode).toBe(0);
-      expect(await fileExists(path.join(projectDir, 'openspec', 'specs', 'greeting', 'spec.md'))).toBe(true);
+      expect(await fileExists(path.join(projectDir, 'spectrix', 'specs', 'greeting', 'spec.md'))).toBe(true);
     });
 
     it('asks for a change name instead of exiting 0 without archiving', async () => {
@@ -305,7 +305,7 @@ describe('spectrix CLI e2e basics', () => {
       const output = `${result.stdout}${result.stderr}`;
       expect(result.exitCode).toBe(1);
       expect(output).toContain('A change name is required');
-      expect(await fileExists(path.join(projectDir, 'openspec', 'changes', 'add-greeting', 'proposal.md'))).toBe(true);
+      expect(await fileExists(path.join(projectDir, 'spectrix', 'changes', 'add-greeting', 'proposal.md'))).toBe(true);
     });
 
     it('keeps --store in the suggested rerun for a store-rooted change', async () => {
@@ -325,7 +325,7 @@ describe('spectrix CLI e2e basics', () => {
         globalDataDir: getGlobalDataDir({ env }),
       });
 
-      const changeDir = path.join(storeRoot, 'openspec', 'changes', 'add-greeting');
+      const changeDir = path.join(storeRoot, 'spectrix', 'changes', 'add-greeting');
       await fs.mkdir(changeDir, { recursive: true });
       await fs.writeFile(path.join(changeDir, 'tasks.md'), '- [ ] Task 1\n');
 
@@ -362,7 +362,7 @@ describe('spectrix CLI e2e basics', () => {
         globalDataDir: getGlobalDataDir({ env }),
       });
 
-      const changeDir = path.join(storeRoot, 'openspec', 'changes', '--force');
+      const changeDir = path.join(storeRoot, 'spectrix', 'changes', '--force');
       await fs.mkdir(changeDir, { recursive: true });
       await fs.writeFile(path.join(changeDir, 'tasks.md'), '- [ ] Task 1\n');
 

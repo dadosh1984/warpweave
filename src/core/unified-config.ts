@@ -9,7 +9,7 @@ export const UNIFIED_CONFIG_RELATIVE_PATH = path.join('.unified', 'config', UNIF
  * Unified config sections, mirroring `config/unified.toml`.
  */
 export interface UnifiedConfig {
-  openspec?: Record<string, unknown>;
+  warpweave?: Record<string, unknown>;
   superpowers?: Record<string, unknown>;
   ponytail?: Record<string, unknown>;
   rtk?: Record<string, unknown>;
@@ -44,15 +44,15 @@ export function loadUnifiedConfig(projectPath?: string): UnifiedConfig | undefin
 }
 
 /**
- * Human-readable one-liner summary of each unified section, used by `spectrix config list`.
+ * Human-readable one-liner summary of each unified section, used by `warpweave config list`.
  */
 export function formatUnifiedConfigSummary(config: UnifiedConfig): string[] {
   const lines: string[] = [];
 
-  const spectrix = config.openspec;
-  if (spectrix) {
-    const schema = spectrix.schema ?? 'spec-driven';
-    const profile = spectrix.profile ?? 'standard';
+  const warpweave = config.warpweave;
+  if (warpweave) {
+    const schema = warpweave.schema ?? 'spec-driven';
+    const profile = warpweave.profile ?? 'standard';
     lines.push(`  schema: ${String(schema)}, profile: ${String(profile)}`);
   }
 

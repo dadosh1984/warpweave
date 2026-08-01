@@ -25,7 +25,7 @@ import { getTelemetryConfig, updateTelemetryConfig } from './config.js';
 // This is safe to embed as it only allows sending events, not reading data
 const POSTHOG_API_KEY = 'phc_Hthu8YvaIJ9QaFKyTG4TbVwkbd5ktcAFzVTKeMmoW2g';
 // Using reverse proxy to avoid ad blockers and keep traffic on our domain
-const POSTHOG_HOST = 'https://edge.openspec.dev';
+const POSTHOG_HOST = 'https://edge.warpweave.dev';
 const TELEMETRY_REQUEST_TIMEOUT_MS = 1000;
 
 let anonymousId: string | null = null;
@@ -140,7 +140,7 @@ function sendEvent(distinctId: string, event: string, properties: Record<string,
  * Track a command execution.
  *
  * @param commandName - The command name (e.g., 'init', 'change:apply')
- * @param version - The Spectrix version
+ * @param version - The Warpweave version
  */
 export async function trackCommand(commandName: string, version: string): Promise<void> {
   if (!isTelemetryEnabled()) {
@@ -177,7 +177,7 @@ export async function maybeShowTelemetryNotice(): Promise<void> {
 
     // Display notice
     console.log(
-      'Note: Spectrix collects anonymous usage stats. Opt out: OPENSPEC_TELEMETRY=0'
+      'Note: Warpweave collects anonymous usage stats. Opt out: OPENSPEC_TELEMETRY=0'
     );
 
     // Mark as seen

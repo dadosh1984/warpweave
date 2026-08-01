@@ -63,9 +63,9 @@ describe('store foundation', () => {
       process.env.XDG_DATA_HOME = tempDir;
       const storeRoot = path.join(tempDir, 'acme-context');
 
-      expect(getStoresDir()).toBe(path.join(tempDir, 'openspec', 'stores'));
+      expect(getStoresDir()).toBe(path.join(tempDir, 'spectrix', 'stores'));
       expect(getStoreRegistryPath()).toBe(
-        path.join(tempDir, 'openspec', 'stores', 'registry.yaml')
+        path.join(tempDir, 'spectrix', 'stores', 'registry.yaml')
       );
       expect(getStoreMetadataDir(storeRoot)).toBe(
         path.join(storeRoot, '.openspec-store')

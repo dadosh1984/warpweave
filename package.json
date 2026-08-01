@@ -1,9 +1,9 @@
 {
-  "name": "@dadosh1984/spectrix",
-  "version": "1.10.0",
+  "name": "warpweave",
+  "version": "1.0.0",
   "description": "Spec-driven development with Ponytail, Superpowers, and RTK — one organism, four systems, zero waste",
   "keywords": [
-    "openspec",
+    "warpweave",
     "specs",
     "cli",
     "ai",
@@ -15,13 +15,13 @@
     "minimal",
     "tdd"
   ],
-  "homepage": "https://github.com/dadosh1984/spectrix",
+  "homepage": "https://github.com/dadosh1984/warpweave",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dadosh1984/spectrix.git"
+    "url": "git+https://github.com/dadosh1984/warpweave.git"
   },
   "license": "MIT",
-  "author": "OpenSpec Contributors",
+  "author": "warpweave Contributors",
   "type": "module",
   "packageManager": "pnpm@9.15.9",
   "publishConfig": {
@@ -34,7 +34,7 @@
     }
   },
   "bin": {
-    "spectrix": "bin/spectrix.js"
+    "ww": "bin/ww.js"
   },
   "files": [
     "dist",
@@ -54,7 +54,7 @@
     "generate:skills": "node scripts/generate-skillssh.mjs",
     "regen:parity-hashes": "node scripts/regen-parity-hashes.mjs",
     "dev": "tsc --watch",
-    "dev:cli": "pnpm build && node bin/openspec.js",
+    "dev:cli": "pnpm build && node bin/warpweave.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",

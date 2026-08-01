@@ -61,7 +61,7 @@ const STORE_OPTION_DESCRIPTION = COMMON_FLAGS.store.description;
 function hiddenStorePathOption(): Option {
   return new Option(
     '--store-path <path>',
-    'Not supported; register the path with "spectrix store register <path>" and use --store <id>'
+    'Not supported; register the path with "warpweave store register <path>" and use --store <id>'
   ).hideHelp();
 }
 
@@ -105,18 +105,18 @@ export function getCommandPath(command: Command): string {
 
   while (current) {
     const name = current.name();
-    // Skip the root 'spectrix' command
-    if (name && name !== 'spectrix') {
+    // Skip the root 'warpweave' command
+    if (name && name !== 'warpweave') {
       names.unshift(name);
     }
     current = current.parent;
   }
 
-  return names.join(':') || 'spectrix';
+  return names.join(':') || 'warpweave';
 }
 
 program
-  .name('spectrix')
+  .name('warpweave')
   .description('AI-native system for spec-driven development')
   .version(version);
 
@@ -154,7 +154,7 @@ const toolsOptionDescription = `Configure AI tools non-interactively. Use "all",
 
 program
   .command('init [path]')
-  .description('Initialize Spectrix in your project')
+  .description('Initialize Warpweave in your project')
   .option('--tools <tools>', toolsOptionDescription)
   .option('--force', 'Auto-cleanup legacy files without prompting')
   .option('--profile <profile>', 'Override global config profile (core or custom)')
@@ -202,7 +202,7 @@ program
   .option('--no-interactive', 'Disable interactive prompts')
   .action(async (options?: { tool?: string; noInteractive?: boolean }) => {
     try {
-      console.log('Note: "spectrix experimental" is deprecated. Use "spectrix init" instead.');
+      console.log('Note: "warpweave experimental" is deprecated. Use "warpweave init" instead.');
       const { InitCommand } = await import('../core/init.js');
       const initCommand = new InitCommand({
         tools: options?.tool,
@@ -217,7 +217,7 @@ program
 
 program
   .command('update [path]')
-  .description('Update Spectrix instruction files')
+  .description('Update Warpweave instruction files')
   .option('--force', 'Force update even when tools are up to date')
   .action(async (targetPath = '.', options?: { force?: boolean }) => {
     try {
@@ -324,8 +324,8 @@ program
   .action(async (options?: { store?: string; storePath?: string }) => {
     try {
       // Implicit cwd fallback stays enabled so `view` keeps accepting the same
-      // directories as `list`/`status` — notably pre-config.yaml `openspec/`
-      // dirs. ViewCommand still reports a missing openspec/ directory itself.
+      // directories as `list`/`status` — notably pre-config.yaml `warpweave/`
+      // dirs. ViewCommand still reports a missing warpweave/ directory itself.
       const root = await resolveRootForCommand(options ?? {});
       if (!root) {
         return;
@@ -341,11 +341,11 @@ program
 // Change command with subcommands
 const changeCmd = program
   .command('change')
-  .description('Manage Spectrix change proposals');
+  .description('Manage Warpweave change proposals');
 
 // Deprecation notice for noun-based commands
 changeCmd.hook('preAction', () => {
-  console.error('Warning: The "spectrix change ..." commands are deprecated. Prefer verb-first commands (e.g., "spectrix list", "spectrix validate --changes").');
+  console.error('Warning: The "warpweave change ..." commands are deprecated. Prefer verb-first commands (e.g., "warpweave list", "warpweave validate --changes").');
 });
 
 changeCmd
@@ -367,12 +367,12 @@ changeCmd
 
 changeCmd
   .command('list')
-  .description('List all active changes (DEPRECATED: use "spectrix list" instead)')
+  .description('List all active changes (DEPRECATED: use "warpweave list" instead)')
   .option('--json', 'Output as JSON')
   .option('--long', 'Show id and title with counts')
   .action(async (options?: { json?: boolean; long?: boolean }) => {
     try {
-      console.error('Warning: "spectrix change list" is deprecated. Use "spectrix list".');
+      console.error('Warning: "warpweave change list" is deprecated. Use "warpweave list".');
       const changeCommand = new ChangeCommand();
       await changeCommand.list(options);
     } catch (error) {
@@ -484,7 +484,7 @@ program
 // Feedback command
 program
   .command('feedback <message>')
-  .description('Submit feedback about Spectrix')
+  .description('Submit feedback about Warpweave')
   .option('--body <text>', 'Detailed description for the feedback')
   .action(async (message: string, options?: { body?: string }) => {
     try {
@@ -499,7 +499,7 @@ program
 // Completion command with subcommands
 const completionCmd = program
   .command('completion')
-  .description('Manage shell completions for Spectrix CLI');
+  .description('Manage shell completions for Warpweave CLI');
 
 completionCmd
   .command('generate [shell]')

@@ -4,6 +4,7 @@ import * as path from 'node:path';
 import { Command } from 'commander';
 
 import { COMMAND_REGISTRY } from '../core/completions/command-registry.js';
+import { WARPWEAVE_DIR_NAME } from '../core/config.js';
 
 import {
   StoreError,
@@ -95,12 +96,12 @@ interface StoreListOutput {
   status: StoreDiagnostic[];
 }
 
-type OpenSpecRootOutput = Omit<StoreInspection['openspecRoot'], 'diagnostics'> & {
+type WarpweaveRootOutput = Omit<StoreInspection['spectrixRoot'], 'diagnostics'> & {
   status: StoreDiagnostic[];
 };
 
 interface StoreDoctorStoreOutput extends StoreOutput {
-  openspec_root: OpenSpecRootOutput;
+  spectrix_root: WarpweaveRootOutput;
   metadata: StoreInspection['metadata'];
   git: {
     is_repository: boolean | null;
@@ -170,7 +171,7 @@ function toListOutput(result: StoreListResult): StoreListOutput {
   };
 }
 
-function toOpenSpecRootOutput(root: StoreInspection['openspecRoot']): OpenSpecRootOutput {
+function toWarpweaveRootOutput(root: StoreInspection['spectrixRoot']): WarpweaveRootOutput {
   return {
     present: root.present,
     config: root.config,
@@ -185,7 +186,7 @@ function toOpenSpecRootOutput(root: StoreInspection['openspecRoot']): OpenSpecRo
 function toDoctorStoreOutput(store: StoreInspection): StoreDoctorStoreOutput {
   return {
     ...toStoreOutput(store),
-    openspec_root: toOpenSpecRootOutput(store.openspecRoot),
+    spectrix_root: toWarpweaveRootOutput(store.spectrixRoot),
     metadata: store.metadata,
     git: {
       is_repository: store.git.isRepository,
@@ -242,7 +243,7 @@ async function promptStoreId(): Promise<string> {
 async function promptStorePath(id: string): Promise<string> {
   const { input } = await import('@inquirer/prompts');
   // Suggest a visible, user-owned location — never the managed XDG data dir.
-  const defaultPath = ['~', 'openspec', id].join('/');
+  const defaultPath = ['~', WARPWEAVE_DIR_NAME, id].join('/');
 
   return input({
     message: 'Where should this store live?',
@@ -264,7 +265,7 @@ async function resolveSetupInput(
       'store_setup_id_required',
       {
         target: 'store.id',
-        fix: 'spectrix store setup <id> --path ~/openspec/<id> --json',
+        fix: 'warpweave store setup <id> --path ~/warpweave/<id> --json',
       }
     );
   }
@@ -275,7 +276,7 @@ async function resolveSetupInput(
       'store_setup_path_required',
       {
         target: 'store.root',
-        fix: `spectrix store setup ${id ?? '<id>'} --path ~/openspec/${id ?? '<id>'}`,
+        fix: `warpweave store setup ${id ?? '<id>'} --path ~/warpweave/${id ?? '<id>'}`,
       }
     );
   }
@@ -306,7 +307,7 @@ async function confirmSetup(
   const { confirm } = await import('@inquirer/prompts');
 
   console.log('');
-  console.log('Spectrix will create:');
+  console.log('Warpweave will create:');
   console.log('');
   console.log(`  Store: ${prepared.id}`);
   console.log(`  Location: ${formatPathForHuman(prepared.root)}`);
@@ -339,7 +340,7 @@ async function confirmRemove(id: string, root: string, options: StoreRemoveOptio
       'store_remove_confirmation_required',
       {
         target: 'store.root',
-        fix: `spectrix store remove ${id} --yes`,
+        fix: `warpweave store remove ${id} --yes`,
       }
     );
   }
@@ -356,7 +357,7 @@ async function confirmRemove(id: string, root: string, options: StoreRemoveOptio
       'store_remove_cancelled',
       {
         target: 'store.root',
-        fix: 'Run "spectrix store unregister <id>" if you only want to forget the local registration.',
+        fix: 'Run "warpweave store unregister <id>" if you only want to forget the local registration.',
       }
     );
   }
@@ -399,19 +400,19 @@ function printMutationHuman(
 
   console.log(`${title}: ${payload.store.id}`);
   console.log(`Location: ${formatPathForHuman(payload.store.root)}`);
-  console.log('Spectrix root: ready');
+  console.log('Warpweave root: ready');
   console.log(`Registry: ${payload.registry.already_registered ? 'already registered' : 'registered'}`);
   for (const status of payload.status) {
     console.log(`${status.severity === 'error' ? 'Issue' : 'Note'}: ${status.message}`);
   }
   console.log('');
-  console.log('Next: run normal Spectrix commands against this store, for example:');
-  console.log(`  spectrix new change <change-id> --store ${payload.store.id}`);
+  console.log('Next: run normal Warpweave commands against this store, for example:');
+  console.log(`  warpweave new change <change-id> --store ${payload.store.id}`);
   if (payload.git.is_repository) {
     const shareRemote = remotes?.canonical ?? remotes?.observed;
     console.log(
       shareRemote
-        ? `Share it: teammates clone ${shareRemote} and run spectrix store register <path>.`
+        ? `Share it: teammates clone ${shareRemote} and run warpweave store register <path>.`
         : 'Share this store by committing and pushing it like any Git repo.'
     );
   }
@@ -442,12 +443,12 @@ function printListHuman(payload: StoreListOutput): void {
     console.log('No stores registered.');
     console.log('');
     console.log('Next:');
-    console.log('  spectrix store setup team-context --path ~/openspec/team-context');
-    console.log('  spectrix store register /path/to/store');
+    console.log('  warpweave store setup team-context --path ~/warpweave/team-context');
+    console.log('  warpweave store register /path/to/store');
     return;
   }
 
-  console.log(`Spectrix stores (${payload.stores.length})`);
+  console.log(`Warpweave stores (${payload.stores.length})`);
   console.log('');
   console.log(`${'ID'.padEnd(16)}Location`);
   for (const store of payload.stores) {
@@ -472,10 +473,10 @@ function formatDoctorGitHuman(store: StoreDoctorOutput['stores'][number]): strin
   return `repository detected (commits: ${fact(store.git.has_commits, 'yes', 'none')}, uncommitted changes: ${fact(store.git.has_uncommitted_changes, 'yes', 'no')}, remote: ${fact(store.git.has_remote, 'yes', 'none')})`;
 }
 
-function formatOpenSpecRootHuman(store: StoreDoctorOutput['stores'][number]): string {
-  if (store.openspec_root.healthy) return 'ok';
-  if (store.openspec_root.present === false) return 'missing';
-  if (store.openspec_root.present === null) return 'unknown';
+function formatWarpweaveRootHuman(store: StoreDoctorOutput['stores'][number]): string {
+  if (store.spectrix_root.healthy) return 'ok';
+  if (store.spectrix_root.present === false) return 'missing';
+  if (store.spectrix_root.present === null) return 'unknown';
   return 'incomplete';
 }
 
@@ -490,7 +491,7 @@ function printDoctorHuman(payload: StoreDoctorOutput): void {
     console.log('');
     console.log(store.id);
     console.log(`  Location: ${store.root}`);
-    console.log(`  Spectrix root: ${formatOpenSpecRootHuman(store)}`);
+    console.log(`  Warpweave root: ${formatWarpweaveRootHuman(store)}`);
     console.log(`  Metadata: ${formatMetadataHuman(store)}`);
     const remoteLine = store.metadata.remote ?? store.git.origin_url;
     if (remoteLine) {
@@ -664,13 +665,13 @@ export function registerStoreCommand(program: Command): void {
   // entry, which shell completion scripts also consume.
   const storeGroupDescription =
     COMMAND_REGISTRY.find((entry) => entry.name === 'store')?.description ??
-    'Create and manage stores - standalone Spectrix repos you register on this machine';
+    'Create and manage stores - standalone Warpweave repos you register on this machine';
   const store = program.command('store').description(storeGroupDescription);
 
   store
     .command('setup [id]')
     .description('Create and register a local store')
-    .option('--path <path>', 'Folder where the store should live (for example ~/openspec/<id>)')
+    .option('--path <path>', 'Folder where the store should live (for example ~/warpweave/<id>)')
     .option('--init-git', 'Initialize a Git repository with an initial commit (default)')
     .option('--no-init-git', 'Skip every Git action: no init, no initial commit')
     .option('--remote <url>', 'Canonical clone source recorded in store.yaml')
@@ -683,7 +684,7 @@ export function registerStoreCommand(program: Command): void {
     .command('register [path]')
     .description('Register an existing local store')
     .option('--id <id>', 'Store id; defaults to metadata or folder name')
-    .option('--yes', 'Confirm creating store identity metadata for a healthy Spectrix root')
+    .option('--yes', 'Confirm creating store identity metadata for a healthy Warpweave root')
     .option('--json', 'Output as JSON')
     .action(async (inputPath: string | undefined, options: StoreRegisterOptions) => {
       await storeCommand.register(inputPath, options);
@@ -758,8 +759,8 @@ export function registerStoreCommand(program: Command): void {
     if (operands.includes('--json')) {
       const message =
         attempted.length > 0
-          ? `Unknown command '${attempted[0]}' for 'spectrix store'. Store subcommands: ${storeSubcommandsLine}.`
-          : `Missing subcommand for 'spectrix store'. Store subcommands: ${storeSubcommandsLine}.`;
+          ? `Unknown command '${attempted[0]}' for 'warpweave store'. Store subcommands: ${storeSubcommandsLine}.`
+          : `Missing subcommand for 'warpweave store'. Store subcommands: ${storeSubcommandsLine}.`;
       printJson({
         status: [
           {
@@ -773,19 +774,19 @@ export function registerStoreCommand(program: Command): void {
       process.exitCode = 1;
       return;
     }
-    let example = 'spectrix new change <change-id> --store <id>';
+    let example = 'warpweave new change <change-id> --store <id>';
     if (!hasFlagLikeToken && attempted.length > 0 && lifecycleRedirects.has(attempted[0])) {
       if (attempted[0] === 'new') {
         const changeId = attempted[1] === 'change' && attempted[2] ? attempted[2] : '<change-id>';
-        example = `spectrix new change ${changeId} --store <id>`;
+        example = `warpweave new change ${changeId} --store <id>`;
       } else {
-        example = `spectrix ${attempted.join(' ')} --store <id>`;
+        example = `warpweave ${attempted.join(' ')} --store <id>`;
       }
     }
     console.error(
       attempted.length > 0
-        ? `Error: unknown command '${attempted[0]}' for 'spectrix store'.`
-        : "Error: missing subcommand for 'spectrix store'."
+        ? `Error: unknown command '${attempted[0]}' for 'warpweave store'.`
+        : "Error: missing subcommand for 'warpweave store'."
     );
     console.error(
       `Store subcommands manage store registration: ${storeSubcommandsLine}.`

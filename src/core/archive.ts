@@ -7,10 +7,10 @@ import chalk from 'chalk';
 import {
   emitStoreRootBanner,
   isRootSelectionError,
-  resolveOpenSpecRoot,
+  resolveWarpweaveRoot,
   toRootOutput,
   withStoreFlag,
-  type ResolvedOpenSpecRoot,
+  type ResolvedWarpweaveRoot,
   isStoreSelectedRoot,
 } from './root-selection.js';
 import {
@@ -156,7 +156,7 @@ function rerunFlags(options: ArchiveOptions): string[] {
 }
 
 function rerunCommand(
-  root: ResolvedOpenSpecRoot,
+  root: ResolvedWarpweaveRoot,
   changeName: string,
   options: ArchiveOptions
 ): string {
@@ -165,9 +165,9 @@ function rerunCommand(
   // goes last, behind the `--` that ends option parsing. The store flag has
   // to stay in front of that `--` to still be read as an option.
   if (changeName.startsWith('-')) {
-    return `${withStoreFlag(root, `spectrix archive ${flags}`)} -- ${quoteChangeName(changeName)}`;
+    return `${withStoreFlag(root, `warpweave archive ${flags}`)} -- ${quoteChangeName(changeName)}`;
   }
-  return withStoreFlag(root, `spectrix archive ${quoteChangeName(changeName)} ${flags}`);
+  return withStoreFlag(root, `warpweave archive ${quoteChangeName(changeName)} ${flags}`);
 }
 
 /**
@@ -247,9 +247,9 @@ export class ArchiveCommand {
   async execute(changeName?: string, options: ArchiveOptions = {}): Promise<void> {
     const json = !!options.json;
 
-    let root: ResolvedOpenSpecRoot;
+    let root: ResolvedWarpweaveRoot;
     try {
-      root = await resolveOpenSpecRoot({
+      root = await resolveWarpweaveRoot({
         ...(options.store !== undefined ? { store: options.store } : {}),
         ...(options.storePath !== undefined ? { storePath: options.storePath } : {}),
       });
@@ -278,7 +278,7 @@ export class ArchiveCommand {
     await this.run(changeName, options, root, false);
   }
 
-  private printJsonFailure(root: ResolvedOpenSpecRoot | undefined, diagnostic: ArchiveDiagnostic): void {
+  private printJsonFailure(root: ResolvedWarpweaveRoot | undefined, diagnostic: ArchiveDiagnostic): void {
     console.log(
       JSON.stringify(
         {
@@ -301,7 +301,7 @@ export class ArchiveCommand {
   private async run(
     changeName: string | undefined,
     options: ArchiveOptions,
-    root: ResolvedOpenSpecRoot,
+    root: ResolvedWarpweaveRoot,
     json: boolean
   ): Promise<ArchiveResult | null> {
     const changesDir = root.changesDir;
@@ -314,7 +314,7 @@ export class ArchiveCommand {
         throw new ArchiveBlockedError(
           'archive_change_name_required',
           'A change name is required: archive --json is non-interactive.',
-          withStoreFlag(root, 'spectrix archive <change-name> --json')
+          withStoreFlag(root, 'warpweave archive <change-name> --json')
         );
       }
       const selectedChange = await this.selectChange(changesDir, root, options);
@@ -452,7 +452,7 @@ export class ArchiveCommand {
           throw new ArchiveBlockedError(
             'archive_validation_failed',
             `Validation failed for change '${changeName}'.`,
-            `Run ${withStoreFlag(root, `spectrix validate ${changeName}`)} for details, fix the errors, or rerun with --no-validate.`
+            `Run ${withStoreFlag(root, `warpweave validate ${changeName}`)} for details, fix the errors, or rerun with --no-validate.`
           );
         }
         console.log(chalk.red('\nValidation failed. Please fix the errors before archiving.'));
@@ -465,7 +465,7 @@ export class ArchiveCommand {
         throw new ArchiveBlockedError(
           'archive_confirmation_required',
           'Skipping validation requires confirmation: rerun with --yes.',
-          withStoreFlag(root, 'spectrix archive <change-name> --json --no-validate --yes')
+          withStoreFlag(root, 'warpweave archive <change-name> --json --no-validate --yes')
         );
       }
     } else {
@@ -590,7 +590,7 @@ export class ArchiveCommand {
             throw new ArchiveBlockedError(
               'archive_confirmation_required',
               `Updating ${specUpdates.length} spec(s) requires confirmation: rerun with --yes.`,
-              withStoreFlag(root, 'spectrix archive <change-name> --json --yes')
+              withStoreFlag(root, 'warpweave archive <change-name> --json --yes')
             );
           }
           shouldUpdateSpecs = await confirmOrBlock(
@@ -638,7 +638,7 @@ export class ArchiveCommand {
                   throw new ArchiveBlockedError(
                     'archive_spec_validation_failed',
                     `Rebuilt spec for '${specName}' failed validation. No files were changed.`,
-                    `Run ${withStoreFlag(root, `spectrix validate ${specName}`)} after fixing the change deltas.`
+                    `Run ${withStoreFlag(root, `warpweave validate ${specName}`)} after fixing the change deltas.`
                   );
                 }
                 console.log(chalk.red(`\nValidation errors in rebuilt spec for ${specName} (will not write changes):`));
@@ -735,7 +735,7 @@ export class ArchiveCommand {
 
   private async selectChange(
     changesDir: string,
-    root: ResolvedOpenSpecRoot,
+    root: ResolvedWarpweaveRoot,
     options: ArchiveOptions
   ): Promise<string | null> {
     const { select } = await import('@inquirer/prompts');
@@ -782,7 +782,7 @@ export class ArchiveCommand {
         throw new ArchiveBlockedError(
           'archive_change_name_required',
           'A change name is required: no answer could be read from stdin.',
-          withStoreFlag(root, `spectrix archive <change-name> ${rerunFlags(options).join(' ')}`)
+          withStoreFlag(root, `warpweave archive <change-name> ${rerunFlags(options).join(' ')}`)
         );
       }
       // User cancelled (Ctrl+C)

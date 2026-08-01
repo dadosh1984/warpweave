@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getSyncSpecsSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-sync-specs',
+    name: 'warpweave-sync-specs',
     description: 'Sync delta specs from a change to main specs. Use when the user wants to update main specs with changes from a delta spec, without archiving the change.',
     instructions: `Sync delta specs from a change to main specs.
 
@@ -26,7 +26,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes and ask the user to select one
 
    When prompting, show changes that have delta specs (under \`specs/\` directory).
 
@@ -36,10 +36,10 @@ ${STORE_SELECTION_GUIDANCE}
 
    Run:
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
-   The JSON includes \`planningHome.root\`. Main specs live under \`<planningHome.root>/openspec/specs/\` — use that (store-aware) root for every main-spec path below, not a hardcoded repo path. When a store is selected it points at the store, not the current repository.
+   The JSON includes \`planningHome.root\`. Main specs live under \`<planningHome.root>/warpweave/specs/\` — use that (store-aware) root for every main-spec path below, not a hardcoded repo path. When a store is selected it points at the store, not the current repository.
 
 3. **Find delta specs**
 
@@ -73,7 +73,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Before the first main-spec write, obtain one current specs-rule snapshot:
    - If archive invoked this workflow inline and supplied a valid snapshot from
-     \`spectrix instructions specs --change "<name>" --json\`, reuse it and do not
+     \`warpweave instructions specs --change "<name>" --json\`, reuse it and do not
      fetch the same instructions again.
    - Otherwise run that command once now with the same selected-root flags.
    - If the direct lookup exits non-zero or returns invalid artifact-instruction
@@ -91,7 +91,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    a. **Read the delta spec** to understand the intended changes
 
-   b. **Read the main spec** at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (may not exist yet)
+   b. **Read the main spec** at \`<planningHome.root>/warpweave/specs/<capability>/spec.md\` (may not exist yet)
 
    c. **Apply changes intelligently**:
 
@@ -115,12 +115,12 @@ ${STORE_SELECTION_GUIDANCE}
 
       **\`## Purpose\` in the delta:**
       - The main spec already has one and it is authoritative - leave it alone
-        (this is what \`spectrix archive\` does; it warns and moves on)
+        (this is what \`warpweave archive\` does; it warns and moves on)
 
    d. **Create new main spec** if capability doesn't exist yet:
-      - Create \`<planningHome.root>/openspec/specs/<capability>/spec.md\`
+      - Create \`<planningHome.root>/warpweave/specs/<capability>/spec.md\`
       - Add Purpose section: copy the delta's \`## Purpose\` body verbatim when it has one
-        (this is what \`spectrix archive\` does); only write a brief TBD placeholder when it does not
+        (this is what \`warpweave archive\` does); only write a brief TBD placeholder when it does not
       - Add Requirements section with the ADDED requirements
       - Follow the **Main Spec Format Reference** below
 
@@ -194,7 +194,7 @@ The system SHALL do something new.
 **Key Principle: Intelligent Merging**
 
 Unlike programmatic merging, you merge rather than overwrite:
-- A MODIFIED block carries the whole requirement - body plus every scenario that survives the change. \`spectrix validate\` and \`spectrix archive\` both reject one that drops a scenario the main spec still has.
+- A MODIFIED block carries the whole requirement - body plus every scenario that survives the change. \`warpweave validate\` and \`warpweave archive\` both reject one that drops a scenario the main spec still has.
 - Keep anything the delta does not mention, in the main spec's existing order
 - Use your judgment to merge changes sensibly
 
@@ -229,8 +229,8 @@ Main specs are now updated. The change remains active - archive when implementat
 - Stop before every main-spec write on a non-zero or invalid JSON specs-instruction response
 - Artifact rules constrain only the specs being written and are never copied into output files`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -255,7 +255,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes and ask the user to select one
 
    When prompting, show changes that have delta specs (under \`specs/\` directory).
 
@@ -265,10 +265,10 @@ ${STORE_SELECTION_GUIDANCE}
 
    Run:
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
-   The JSON includes \`planningHome.root\`. Main specs live under \`<planningHome.root>/openspec/specs/\` — use that (store-aware) root for every main-spec path below, not a hardcoded repo path. When a store is selected it points at the store, not the current repository.
+   The JSON includes \`planningHome.root\`. Main specs live under \`<planningHome.root>/warpweave/specs/\` — use that (store-aware) root for every main-spec path below, not a hardcoded repo path. When a store is selected it points at the store, not the current repository.
 
 3. **Find delta specs**
 
@@ -302,7 +302,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    Before the first main-spec write, obtain one current specs-rule snapshot:
    - If archive invoked this workflow inline and supplied a valid snapshot from
-     \`spectrix instructions specs --change "<name>" --json\`, reuse it and do not
+     \`warpweave instructions specs --change "<name>" --json\`, reuse it and do not
      fetch the same instructions again.
    - Otherwise run that command once now with the same selected-root flags.
    - If the direct lookup exits non-zero or returns invalid artifact-instruction
@@ -320,7 +320,7 @@ ${STORE_SELECTION_GUIDANCE}
 
    a. **Read the delta spec** to understand the intended changes
 
-   b. **Read the main spec** at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (may not exist yet)
+   b. **Read the main spec** at \`<planningHome.root>/warpweave/specs/<capability>/spec.md\` (may not exist yet)
 
    c. **Apply changes intelligently**:
 
@@ -344,12 +344,12 @@ ${STORE_SELECTION_GUIDANCE}
 
       **\`## Purpose\` in the delta:**
       - The main spec already has one and it is authoritative - leave it alone
-        (this is what \`spectrix archive\` does; it warns and moves on)
+        (this is what \`warpweave archive\` does; it warns and moves on)
 
    d. **Create new main spec** if capability doesn't exist yet:
-      - Create \`<planningHome.root>/openspec/specs/<capability>/spec.md\`
+      - Create \`<planningHome.root>/warpweave/specs/<capability>/spec.md\`
       - Add Purpose section: copy the delta's \`## Purpose\` body verbatim when it has one
-        (this is what \`spectrix archive\` does); only write a brief TBD placeholder when it does not
+        (this is what \`warpweave archive\` does); only write a brief TBD placeholder when it does not
       - Add Requirements section with the ADDED requirements
       - Follow the **Main Spec Format Reference** below
 
@@ -423,7 +423,7 @@ The system SHALL do something new.
 **Key Principle: Intelligent Merging**
 
 Unlike programmatic merging, you merge rather than overwrite:
-- A MODIFIED block carries the whole requirement - body plus every scenario that survives the change. \`spectrix validate\` and \`spectrix archive\` both reject one that drops a scenario the main spec still has.
+- A MODIFIED block carries the whole requirement - body plus every scenario that survives the change. \`warpweave validate\` and \`warpweave archive\` both reject one that drops a scenario the main spec still has.
 - Keep anything the delta does not mention, in the main spec's existing order
 - Use your judgment to merge changes sensibly
 

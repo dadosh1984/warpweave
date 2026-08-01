@@ -2,6 +2,7 @@ import { existsSync, readFileSync, statSync } from 'fs';
 import path from 'path';
 import { parse as parseYaml } from 'yaml';
 import { z } from 'zod';
+import { resolvePlanningDirName } from './planning-home.js';
 
 export const OPERATION_IDS = ['apply', 'archive'] as const;
 export type OperationId = (typeof OPERATION_IDS)[number];
@@ -25,9 +26,9 @@ const OperationConfigSchema = z.object({
  * 3. Runtime validation - uses safeParse() for resilient field-by-field validation
  *
  * Why Zod over manual validation:
- * - Helps understand Spectrix's data interfaces at a glance
+ * - Helps understand Warpweave's data interfaces at a glance
  * - Single source of truth for type and validation
- * - Consistent with other Spectrix schemas
+ * - Consistent with other Warpweave schemas
  */
 export const ProjectConfigSchema = z.object({
   // Required: which schema to use (e.g., "spec-driven", or project-local schema name)
@@ -67,12 +68,12 @@ export const ProjectConfigSchema = z.object({
   // parses would only drift from the real behavior.
 
   // Optional: the declared default store. Only consulted by root
-  // resolution when this openspec/ directory is config-only (no specs/
+  // resolution when this warpweave/ directory is config-only (no specs/
   // or changes/); a fallback, never an override.
   store: z
     .string()
     .optional()
-    .describe('Store id used as the Spectrix root when no local planning shape exists'),
+    .describe('Store id used as the Warpweave root when no local planning shape exists'),
 });
 
 /** Normalized in-memory shape of a referenced store declaration. */
@@ -236,7 +237,7 @@ function parseDeclarationList(raw: unknown): DeclarationEntry[] | undefined {
 export const MAX_CONTEXT_SIZE = 50 * 1024; // 50KB hard limit, shared with the references index
 
 /**
- * Read and parse openspec/config.yaml from project root.
+ * Read and parse warpweave/config.yaml from project root.
  * Uses resilient parsing - validates each field independently using Zod safeParse.
  * Returns null if file doesn't exist.
  * Returns partial config if some fields are invalid (with warnings).
@@ -251,7 +252,7 @@ export const MAX_CONTEXT_SIZE = 50 * 1024; // 50KB hard limit, shared with the r
  * invalidation logic) for negligible benefit. Direct reads also ensure config
  * changes are reflected immediately without stale cache issues.
  *
- * @param projectRoot - The root directory of the project (where `openspec/` lives)
+ * @param projectRoot - The root directory of the project (where `warpweave/` lives)
  * @returns Parsed config or null if file doesn't exist
  */
 export function readProjectConfig(projectRoot: string): ProjectConfig | null {
@@ -265,7 +266,7 @@ export function readProjectConfig(projectRoot: string): ProjectConfig | null {
     const raw = parseYaml(content);
 
     if (!raw || typeof raw !== 'object') {
-      console.warn(`openspec/config.yaml is not a valid YAML object`);
+      console.warn(`warpweave/config.yaml is not a valid YAML object`);
       return null;
     }
 
@@ -373,7 +374,7 @@ export function readProjectConfig(projectRoot: string): ProjectConfig | null {
 }
 
 function configPathForWarnings(projectRoot: string): string {
-  return resolveConfigFilePath(projectRoot) ?? path.join(projectRoot, 'openspec', 'config.yaml');
+  return resolveConfigFilePath(projectRoot) ?? path.join(projectRoot, resolvePlanningDirName(projectRoot), 'config.yaml');
 }
 
 /**
@@ -452,7 +453,7 @@ export function suggestSchemas(
   const builtIn = availableSchemas.filter((s) => s.isBuiltIn).map((s) => s.name);
   const projectLocal = availableSchemas.filter((s) => !s.isBuiltIn).map((s) => s.name);
 
-  let message = `Schema '${invalidSchemaName}' not found in openspec/config.yaml\n\n`;
+  let message = `Schema '${invalidSchemaName}' not found in warpweave/config.yaml\n\n`;
 
   if (suggestions.length > 0) {
     message += `Did you mean one of these?\n`;
@@ -473,7 +474,7 @@ export function suggestSchemas(
     message += `  Project-local: (none found)\n`;
   }
 
-  message += `\nFix: Edit openspec/config.yaml and change 'schema: ${invalidSchemaName}' to a valid schema name`;
+  message += `\nFix: Edit warpweave/config.yaml and change 'schema: ${invalidSchemaName}' to a valid schema name`;
 
   return message;
 }
@@ -496,7 +497,7 @@ export interface StorePointerRead {
 /**
  * Warning-silent targeted read of the `store:` pointer. Used by root
  * resolution (which must not re-emit the resilient parser's field
- * warnings) and by `spectrix init`'s pointer guard. Unlike
+ * warnings) and by `warpweave init`'s pointer guard. Unlike
  * `readProjectConfig`, a malformed value is REPORTED, not dropped —
  * a dropped pointer would silently flip where work lands.
  */
@@ -529,11 +530,12 @@ export function readStorePointer(projectRoot: string): StorePointerRead {
 
 /** Shared .yaml/.yml probe used by readProjectConfig and readStorePointer. */
 export function resolveConfigFilePath(projectRoot: string): string | null {
-  const yamlPath = path.join(projectRoot, 'openspec', 'config.yaml');
+  const planningDir = resolvePlanningDirName(projectRoot);
+  const yamlPath = path.join(projectRoot, planningDir, 'config.yaml');
   if (existsSync(yamlPath)) {
     return yamlPath;
   }
-  const ymlPath = path.join(projectRoot, 'openspec', 'config.yml');
+  const ymlPath = path.join(projectRoot, planningDir, 'config.yml');
   return existsSync(ymlPath) ? ymlPath : null;
 }
 
@@ -544,8 +546,8 @@ export function storePointerProblem(reason: 'unparseable' | 'non_string'): strin
     : 'the store key must be a single store id string';
 }
 
-export interface OpenSpecDirClassification {
-  /** True when openspec/specs or openspec/changes exists as a directory. */
+export interface SpectrixDirClassification {
+  /** True when warpweave/specs or warpweave/changes exists as a directory. */
   hasPlanningShape: boolean;
   pointer: StorePointerRead;
 }
@@ -555,11 +557,12 @@ export interface OpenSpecDirClassification {
  * by root resolution and the init pointer guard so they can never
  * disagree (slice 3.2).
  */
-export function classifyOpenSpecDir(projectRoot: string): OpenSpecDirClassification {
-  const openspecDir = path.join(projectRoot, 'openspec');
+export function classifySpectrixDir(projectRoot: string): SpectrixDirClassification {
+  const planningDir = resolvePlanningDirName(projectRoot);
+  const spectrixDir = path.join(projectRoot, planningDir);
   const hasPlanningShape =
-    isDirectorySync(path.join(openspecDir, 'specs')) ||
-    isDirectorySync(path.join(openspecDir, 'changes'));
+    isDirectorySync(path.join(spectrixDir, 'specs')) ||
+    isDirectorySync(path.join(spectrixDir, 'changes'));
   return { hasPlanningShape, pointer: readStorePointer(projectRoot) };
 }
 

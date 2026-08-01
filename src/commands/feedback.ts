@@ -31,7 +31,7 @@ function isGhAuthenticated(): boolean {
 }
 
 /**
- * Get Spectrix version from package.json
+ * Get Warpweave version from package.json
  */
 function getVersion(): string {
   try {
@@ -65,7 +65,7 @@ function generateMetadata(): string {
   const timestamp = getTimestamp();
 
   return `---
-Submitted via Spectrix CLI
+Submitted via Warpweave CLI
 - Version: ${version}
 - Platform: ${platform}
 - Timestamp: ${timestamp}`;
@@ -98,7 +98,7 @@ function formatBody(bodyText?: string): string {
  * Generate a pre-filled GitHub issue URL for manual submission
  */
 function generateManualSubmissionUrl(title: string, body: string): string {
-  const repo = 'Fission-AI/OpenSpec';
+  const repo = 'Fission-AI/Warpweave';
   const encodedTitle = encodeURIComponent(title);
   const encodedBody = encodeURIComponent(body);
   const encodedLabels = encodeURIComponent('feedback');
@@ -164,7 +164,7 @@ function createIssue(title: string, body: string, labels: string[]): string {
     'issue',
     'create',
     '--repo',
-    'Fission-AI/OpenSpec',
+    'Fission-AI/Warpweave',
     '--title',
     title,
     '--body',

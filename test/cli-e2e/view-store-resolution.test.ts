@@ -56,7 +56,7 @@ beforeAll(async () => {
   );
   expect(setup.exitCode, setup.stderr).toBe(0);
 
-  const specDir = path.join(storeRoot, 'openspec', 'specs', 'billing');
+  const specDir = path.join(storeRoot, 'spectrix', 'specs', 'billing');
   await fs.mkdir(specDir, { recursive: true });
   await fs.writeFile(path.join(specDir, 'spec.md'), SPEC);
 

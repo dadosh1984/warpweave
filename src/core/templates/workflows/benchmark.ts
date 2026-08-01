@@ -8,7 +8,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getBenchmarkSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-benchmark',
+    name: 'warpweave-benchmark',
     description: 'Compare plan vs. actual for a change and save the report to benchmark.md. Use when the user wants to measure estimation accuracy, code size, or ladder discipline after implementation.',
     instructions: `Compare what was planned for a change with what was actually delivered.
 
@@ -21,12 +21,12 @@ ${STORE_SELECTION_GUIDANCE}
 1. **Select the change**
 
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
 2. **Collect the plan (estimate)**
 
-   From \`openspec/changes/<name>/tasks.md\`:
+   From \`warpweave/changes/<name>/tasks.md\`:
    - Number of tasks
    - Expected lines of code, if documented (Ladder Decision / estimates)
    - Expected tests, dependencies, and ladder rungs per task
@@ -60,7 +60,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 6. **Persist the report**
 
-   Write the full report to \`openspec/changes/<name>/benchmark.md\`:
+   Write the full report to \`warpweave/changes/<name>/benchmark.md\`:
 
    \`\`\`markdown
    ## Benchmark: <change-name>
@@ -85,8 +85,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Actual LOC comes from the diff, not from memory
 - A rung skip without a documented reason counts as unjustified`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI and RTK.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI and RTK.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -107,12 +107,12 @@ ${STORE_SELECTION_GUIDANCE}
 1. **Select the change**
 
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
 
 2. **Collect the plan (estimate)**
 
-   From \`openspec/changes/<name>/tasks.md\`:
+   From \`warpweave/changes/<name>/tasks.md\`:
    - Number of tasks
    - Expected lines of code, if documented (Ladder Decision / estimates)
    - Expected tests, dependencies, and ladder rungs per task
@@ -146,7 +146,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 6. **Persist the report**
 
-   Write the full report to \`openspec/changes/<name>/benchmark.md\`:
+   Write the full report to \`warpweave/changes/<name>/benchmark.md\`:
 
    \`\`\`markdown
    ## Benchmark: <change-name>

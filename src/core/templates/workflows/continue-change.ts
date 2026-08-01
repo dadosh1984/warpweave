@@ -9,8 +9,8 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getContinueChangeSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-continue-change',
-    description: 'Continue working on an Spectrix change by creating the next artifact. Use when the user wants to progress their change, create the next artifact, or continue their workflow.',
+    name: 'warpweave-continue-change',
+    description: 'Continue working on an Warpweave change by creating the next artifact. Use when the user wants to progress their change, create the next artifact, or continue their workflow.',
     instructions: `Continue working on a change by creating the next artifact.
 
 ${STORE_SELECTION_GUIDANCE}
@@ -24,7 +24,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes sorted by most recently modified, and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes sorted by most recently modified, and ask the user to select one
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
@@ -38,7 +38,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check current status**
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand current state. The response includes:
    - \`schemaName\`: The workflow schema being used (e.g., "spec-driven")
@@ -62,7 +62,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Pick the FIRST artifact with \`status: "ready"\` from the status output
    - Get its instructions:
      \`\`\`bash
-     spectrix instructions <artifact-id> --change "<name>" --json
+     warpweave instructions <artifact-id> --change "<name>" --json
      \`\`\`
    - Parse the JSON. The key fields are:
      - \`context\`: Project background (constraints for you - do NOT include in output)
@@ -89,7 +89,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 4. **After creating an artifact, show progress**
    \`\`\`bash
-   spectrix status --change "<name>"
+   warpweave status --change "<name>"
    \`\`\`
 
 **Output**
@@ -118,8 +118,8 @@ If the \`instruction\` field directs you to use a specific skill or command to c
   - Do NOT copy \`<context>\`, \`<rules>\`, \`<project_context>\` blocks into the artifact
   - These guide what you write, but should never appear in the output`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -142,7 +142,7 @@ ${STORE_SELECTION_GUIDANCE}
    If a name is provided, use it. Otherwise:
    - Infer from conversation context if the user mentioned a change
    - Auto-select if only one active change exists
-   - If ambiguous, run \`spectrix list --json\` to get available changes sorted by most recently modified, and ask the user to select one
+   - If ambiguous, run \`warpweave list --json\` to get available changes sorted by most recently modified, and ask the user to select one
 
    When prompting, present the top 3-4 most recently modified changes as options, showing:
    - Change name
@@ -156,7 +156,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 2. **Check current status**
    \`\`\`bash
-   spectrix status --change "<name>" --json
+   warpweave status --change "<name>" --json
    \`\`\`
    Parse the JSON to understand current state. The response includes:
    - \`schemaName\`: The workflow schema being used (e.g., "spec-driven")
@@ -180,7 +180,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Pick the FIRST artifact with \`status: "ready"\` from the status output
    - Get its instructions:
      \`\`\`bash
-     spectrix instructions <artifact-id> --change "<name>" --json
+     warpweave instructions <artifact-id> --change "<name>" --json
      \`\`\`
    - Parse the JSON. The key fields are:
      - \`context\`: Project background (constraints for you - do NOT include in output)
@@ -207,7 +207,7 @@ ${STORE_SELECTION_GUIDANCE}
 
 4. **After creating an artifact, show progress**
    \`\`\`bash
-   spectrix status --change "<name>"
+   warpweave status --change "<name>"
    \`\`\`
 
 **Output**

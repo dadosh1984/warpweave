@@ -9,6 +9,7 @@ import chalk from 'chalk';
 import path from 'path';
 import * as fs from 'fs';
 import { getSchemaDir, listSchemas } from '../../core/artifact-graph/index.js';
+import { resolvePlanningDirName } from '../../core/planning-home.js';
 import type { ReferenceIndexEntry } from '../../core/references.js';
 import { isRootSelectionError } from '../../core/root-selection.js';
 
@@ -130,12 +131,12 @@ export function getStatusIndicator(status: 'done' | 'skipped' | 'ready' | 'block
 }
 
 /**
- * Returns the list of available change directory names under openspec/changes/.
+ * Returns the list of available change directory names under warpweave/changes/.
  * Excludes the archive directory and hidden directories.
  */
 export async function getAvailableChanges(
   projectRoot: string,
-  changesDir = path.join(projectRoot, 'openspec', 'changes')
+  changesDir = path.join(projectRoot, resolvePlanningDirName(projectRoot), 'changes')
 ): Promise<string[]> {
   const changesPath = changesDir;
   try {
@@ -184,12 +185,12 @@ function validateChangeLookupName(changeName: string): string | undefined {
 export async function validateChangeExists(
   changeName: string | undefined,
   projectRoot: string,
-  changesDir = path.join(projectRoot, 'openspec', 'changes'),
+  changesDir = path.join(projectRoot, resolvePlanningDirName(projectRoot), 'changes'),
   hints: { newChangeHint?: string } = {}
 ): Promise<string> {
   // Hints must stay pasteable: callers with a selected store pass a
   // store-carrying hint so following it lands in the same root.
-  const newChangeHint = hints.newChangeHint ?? 'spectrix new change <name>';
+  const newChangeHint = hints.newChangeHint ?? 'warpweave new change <name>';
 
   if (!changeName) {
     const available = await getAvailableChanges(projectRoot, changesDir);

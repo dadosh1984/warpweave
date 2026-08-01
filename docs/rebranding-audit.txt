@@ -1,0 +1,524 @@
+src/cli\index.ts:327:      // directories as `list`/`status` — notably pre-config.yaml `openspec/`
+src/cli\index.ts:328:      // dirs. ViewCommand still reports a missing openspec/ directory itself.
+src/commands\change.ts:94:      // only .openspec.yaml, and a custom schema need not define a proposal
+src/commands\change.ts:304:      bullets.push('- This change declares skip_specs (no spec deltas): delete the files under specs/, or remove skip_specs from .openspec.yaml if requirements do change');
+src/commands\change.ts:305:      bullets.push('- skip_specs is only honored when .openspec.yaml is valid change metadata (schema: <name> is required)');
+src/commands\change.ts:307:      bullets.push('- Fix .openspec.yaml so the skip_specs marker can be honored (schema: <name> is required)');
+src/commands\change.ts:308:      bullets.push('- Or remove skip_specs from .openspec.yaml and add delta specs instead');
+src/commands\config.ts:192:  const openspecDir = path.join(projectDir, OPENSPEC_DIR_NAME);
+src/commands\config.ts:193:  if (!fs.existsSync(openspecDir)) {
+src/commands\config.ts:646:        const openspecDir = path.join(projectDir, OPENSPEC_DIR_NAME);
+src/commands\config.ts:647:        if (fs.existsSync(openspecDir)) {
+src/commands\context.ts:14:  type ResolvedOpenSpecRoot,
+src/commands\context.ts:33:  root: ResolvedOpenSpecRoot
+src/commands\doctor.ts:10:  type ResolvedOpenSpecRoot,
+src/commands\doctor.ts:15:  classifyOpenSpecDir,
+src/commands\doctor.ts:34:  root: ResolvedOpenSpecRoot
+src/commands\doctor.ts:81:    const { hasPlanningShape, pointer } = classifyOpenSpecDir(root.path);
+src/commands\feedback.ts:101:  const repo = 'Fission-AI/OpenSpec';
+src/commands\feedback.ts:167:    'Fission-AI/OpenSpec',
+src/commands\shared-gather.ts:16:import { inspectOpenSpecRoot, type OpenSpecRootInspection } from '../core/openspec-root.js';
+src/commands\shared-gather.ts:18:import type { ResolvedOpenSpecRoot } from '../core/root-selection.js';
+src/commands\shared-gather.ts:25:  rootInspection: OpenSpecRootInspection;
+src/commands\shared-gather.ts:29:  root: ResolvedOpenSpecRoot
+src/commands\shared-gather.ts:44:  const rootInspection = await inspectOpenSpecRoot(root.path);
+src/commands\show.ts:7:  type ResolvedOpenSpecRoot,
+src/commands\show.ts:67:  private delegateOptions(root: ResolvedOpenSpecRoot, options: ShowExecuteOptions): ShowExecuteOptions & { rootOutput?: RootOutput } {
+src/commands\show.ts:77:    root: ResolvedOpenSpecRoot
+src/commands\show.ts:106:    params: { typeOverride?: ItemType; options: ShowExecuteOptions; root: ResolvedOpenSpecRoot }
+src/commands\show.ts:190:  private printNonInteractiveHint(root: ResolvedOpenSpecRoot): void {
+src/commands\spec.ts:54:  const metadata = spec.metadata ?? { version: '1.0.0', format: 'openspec' as const };
+src/commands\spec.ts:103:      const displayPath = this.rootPath ? specPath : `openspec/specs/${specId}/spec.md`;
+src/commands\spec.ts:119:        metadata: parsed.metadata ?? { version: '1.0.0', format: 'openspec' as const },
+src/commands\store.ts:99:type OpenSpecRootOutput = Omit<StoreInspection['openspecRoot'], 'diagnostics'> & {
+src/commands\store.ts:104:  openspec_root: OpenSpecRootOutput;
+src/commands\store.ts:174:function toOpenSpecRootOutput(root: StoreInspection['openspecRoot']): OpenSpecRootOutput {
+src/commands\store.ts:189:    openspec_root: toOpenSpecRootOutput(store.openspecRoot),
+src/commands\store.ts:268:        fix: 'spectrix store setup <id> --path ~/openspec/<id> --json',
+src/commands\store.ts:279:        fix: `spectrix store setup ${id ?? '<id>'} --path ~/openspec/${id ?? '<id>'}`,
+src/commands\store.ts:446:    console.log('  spectrix store setup team-context --path ~/openspec/team-context');
+src/commands\store.ts:476:function formatOpenSpecRootHuman(store: StoreDoctorOutput['stores'][number]): string {
+src/commands\store.ts:477:  if (store.openspec_root.healthy) return 'ok';
+src/commands\store.ts:478:  if (store.openspec_root.present === false) return 'missing';
+src/commands\store.ts:479:  if (store.openspec_root.present === null) return 'unknown';
+src/commands\store.ts:494:    console.log(`  Spectrix root: ${formatOpenSpecRootHuman(store)}`);
+src/commands\store.ts:674:    .option('--path <path>', 'Folder where the store should live (for example ~/openspec/<id>)')
+src/commands\validate.ts:9:  type ResolvedOpenSpecRoot,
+src/commands\validate.ts:89:  private async listChangeIds(root: ResolvedOpenSpecRoot): Promise<string[]> {
+src/commands\validate.ts:94:  private async runInteractiveSelector(root: ResolvedOpenSpecRoot, opts: { strict: boolean; json: boolean; concurrency?: string }): Promise<void> {
+src/commands\validate.ts:124:  private printNonInteractiveHint(root: ResolvedOpenSpecRoot): void {
+src/commands\validate.ts:133:  private async validateDirectItem(root: ResolvedOpenSpecRoot, itemName: string, opts: { typeOverride?: ItemType; strict: boolean; json: boolean }): Promise<void> {
+src/commands\validate.ts:195:  private async validateByType(root: ResolvedOpenSpecRoot, type: ItemType, id: string, opts: { strict: boolean; json: boolean }): Promise<void> {
+src/commands\validate.ts:215:  private printReport(type: ItemType, id: string, report: { valid: boolean; issues: any[] }, durationMs: number, json: boolean, root: ResolvedOpenSpecRoot): void {
+src/commands\validate.ts:234:  private printNextSteps(type: ItemType, id: string, root: ResolvedOpenSpecRoot, issues: Array<{ message: string }> = []): void {
+src/commands\validate.ts:247:      bullets.push('- This change declares skip_specs (no spec deltas): delete the files under specs/, or remove skip_specs from .openspec.yaml if requirements do change');
+src/commands\validate.ts:248:      bullets.push('- skip_specs is only honored when .openspec.yaml is valid change metadata (schema: <name> naming a known schema is required)');
+src/commands\validate.ts:250:      bullets.push('- Fix .openspec.yaml so the skip_specs marker can be honored (schema: <name> naming a known schema is required)');
+src/commands\validate.ts:251:      bullets.push('- Or remove skip_specs from .openspec.yaml and add delta specs instead');
+src/commands\validate.ts:265:  private async runBulkValidation(root: ResolvedOpenSpecRoot, scope: { changes: boolean; specs: boolean }, opts: { strict: boolean; json: boolean; concurrency?: string; noInteractive?: boolean }): Promise<void> {
+src/commands\workflow\instructions.ts:28:  type ResolvedOpenSpecRoot,
+src/commands\workflow\instructions.ts:82:async function loadRootConfigContext(root: ResolvedOpenSpecRoot): Promise<{
+src/commands\workflow\instructions.ts:207:    console.log(instructions.warning ?? 'This artifact is skipped (skip_specs is set in .openspec.yaml).');
+src/commands\workflow\instructions.ts:439:    instruction = `Cannot apply this change yet. Missing artifacts: ${missingArtifacts.join(', ')}.\nUse the openspec-continue-change skill to create the missing artifacts first.`;
+src/commands\workflow\instructions.ts:444:    instruction = `The ${tracksFilename} file is missing and must be created.\nUse openspec-continue-change to generate the tracking file.`;
+src/commands\workflow\instructions.ts:450:    instruction = `The ${tracksFilename} file exists but contains no tasks to work on.\nAdd tasks to ${tracksFilename} or regenerate it with openspec-continue-change.`;
+src/commands\workflow\instructions.ts:542:    console.log('Use the openspec-continue-change skill to create these first.');
+src/commands\workflow\new-change.ts:20:  type ResolvedOpenSpecRoot,
+src/commands\workflow\new-change.ts:75:  root: ResolvedOpenSpecRoot
+src/commands\workflow\new-change.ts:143:        metadataPath: path.join(result.changeDir, '.openspec.yaml'),
+src/commands\workflow\shared.ts:134: * Returns the list of available change directory names under openspec/changes/.
+src/core\archive.ts:10:  resolveOpenSpecRoot,
+src/core\archive.ts:13:  type ResolvedOpenSpecRoot,
+src/core\archive.ts:159:  root: ResolvedOpenSpecRoot,
+src/core\archive.ts:250:    let root: ResolvedOpenSpecRoot;
+src/core\archive.ts:252:      root = await resolveOpenSpecRoot({
+src/core\archive.ts:281:  private printJsonFailure(root: ResolvedOpenSpecRoot | undefined, diagnostic: ArchiveDiagnostic): void {
+src/core\archive.ts:304:    root: ResolvedOpenSpecRoot,
+src/core\archive.ts:738:    root: ResolvedOpenSpecRoot,
+src/core\artifact-graph\instruction-loader.ts:122:  'This change declares skip_specs: true in .openspec.yaml (no spec-level behavior changes), so this artifact is skipped.\n' +
+src/core\artifact-graph\instruction-loader.ts:123:  'Do not create spec files - they will conflict with that marker. If requirements now change, remove skip_specs from .openspec.yaml and rerun this command.';
+src/core\artifact-graph\instruction-loader.ts:242: * 2. Schema from .openspec.yaml metadata (if exists in change directory)
+src/core\artifact-graph\resolver.ts:81: * 1. Project-local: <projectRoot>/openspec/schemas/<name>/schema.yaml
+src/core\artifact-graph\resolver.ts:82: * 2. User override: ${XDG_DATA_HOME}/openspec/schemas/<name>/schema.yaml
+src/core\artifact-graph\resolver.ts:126: * 1. Project-local: <projectRoot>/openspec/schemas/<name>/schema.yaml
+src/core\artifact-graph\resolver.ts:127: * 2. User override: ${XDG_DATA_HOME}/openspec/schemas/<name>/schema.yaml
+src/core\command-generation\adapters\costrict.ts:13: * File path: .cospec/openspec/commands/otrix-<id>.md
+src/core\command-generation\adapters\costrict.ts:20:    return path.join('.cospec', 'openspec', 'commands', `otrix-${commandId}.md`);
+src/core\completions\generators\bash-generator.ts:79:complete -F _spectrix_completion openspec
+src/core\completions\generators\zsh-generator.ts:84:compdef _spectrix openspec
+src/core\completions\installers\powershell-installer.ts:217:        const openspecBlock = [
+src/core\completions\installers\powershell-installer.ts:225:        const newContent = profileContent + openspecBlock;
+src/core\config.ts:2:/** Directory name used by upstream OpenSpec and by pre-rename Spectrix installs. */
+src/core\config.ts:3:export const LEGACY_OPENSPEC_DIR_NAME = 'openspec';
+src/core\config.ts:10:export interface OpenSpecConfig {
+src/core\index.ts:18:export * from './openspec-root.js';
+src/core\init.ts:15:import { classifyOpenSpecDir, storePointerProblem } from './project-config.js';
+src/core\init.ts:80:  'explore': 'openspec-explore',
+src/core\init.ts:81:  'new': 'openspec-new-change',
+src/core\init.ts:82:  'continue': 'openspec-continue-change',
+src/core\init.ts:83:  'apply': 'openspec-apply-change',
+src/core\init.ts:84:  'update': 'openspec-update-change',
+src/core\init.ts:85:  'ff': 'openspec-ff-change',
+src/core\init.ts:86:  'sync': 'openspec-sync-specs',
+src/core\init.ts:87:  'archive': 'openspec-archive-change',
+src/core\init.ts:88:  'bulk-archive': 'openspec-bulk-archive-change',
+src/core\init.ts:89:  'verify': 'openspec-verify-change',
+src/core\init.ts:90:  'onboard': 'openspec-onboard',
+src/core\init.ts:91:  'propose': 'openspec-propose',
+src/core\init.ts:92:  'ladder-audit': 'openspec-ladder-audit',
+src/core\init.ts:93:  'guardrails': 'openspec-guardrails',
+src/core\init.ts:94:  'debt-ledger': 'openspec-debt-ledger',
+src/core\init.ts:95:  'token-budget': 'openspec-token-budget',
+src/core\init.ts:96:  'benchmark': 'openspec-benchmark',
+src/core\init.ts:97:  'dependency-check': 'openspec-dependency-check',
+src/core\init.ts:98:  'parallel-execute': 'openspec-parallel-execute',
+src/core\init.ts:99:  'learn': 'openspec-learn',
+src/core\init.ts:100:  'init-unified': 'openspec-init-unified',
+src/core\init.ts:145:    const openspecDir = OPENSPEC_DIR_NAME;
+src/core\init.ts:146:    const openspecPath = path.join(projectPath, openspecDir);
+src/core\init.ts:149:    const extendMode = await this.validate(projectPath, openspecPath);
+src/core\init.ts:151:    // Pointer guard (slice 3.2): a config-only openspec/ with a store:
+src/core\init.ts:160:      const { hasPlanningShape, pointer } = classifyOpenSpecDir(guardRoot);
+src/core\init.ts:230:    await this.createDirectoryStructure(openspecPath, extendMode);
+src/core\init.ts:245:    const configStatus = await this.createConfig(openspecPath, extendMode);
+src/core\init.ts:257:    openspecPath: string
+src/core\init.ts:259:    const extendMode = await FileSystemUtils.directoryExists(openspecPath);
+src/core\init.ts:642:  private async createDirectoryStructure(openspecPath: string, extendMode: boolean): Promise<void> {
+src/core\init.ts:646:        openspecPath,
+src/core\init.ts:647:        path.join(openspecPath, 'specs'),
+src/core\init.ts:648:        path.join(openspecPath, 'changes'),
+src/core\init.ts:649:        path.join(openspecPath, 'changes', 'archive'),
+src/core\init.ts:661:      openspecPath,
+src/core\init.ts:662:      path.join(openspecPath, 'specs'),
+src/core\init.ts:663:      path.join(openspecPath, 'changes'),
+src/core\init.ts:664:      path.join(openspecPath, 'changes', 'archive'),
+src/core\init.ts:843:  private async createConfig(openspecPath: string, extendMode: boolean): Promise<'created' | 'exists' | 'skipped'> {
+src/core\init.ts:844:    const configPath = path.join(openspecPath, 'config.yaml');
+src/core\init.ts:845:    const configYmlPath = path.join(openspecPath, 'config.yml');
+src/core\init.ts:945:      console.log(`Config: openspec/config.yaml (schema: ${DEFAULT_SCHEMA})`);
+src/core\init.ts:951:      console.log(`Config: openspec/${configName} (exists)`);
+src/core\init.ts:967:    // documented skill invocation (Kimi Code: /skill:openspec-*; Codex CLI:
+src/core\init.ts:968:    // $openspec-*; others: /openspec-*). Tools that got no artifacts are
+src/core\legacy-cleanup.ts:25:  'AGENTS.md', // root AGENTS.md (not openspec/AGENTS.md)
+src/core\legacy-cleanup.ts:35:  // Directory-based: .tooldir/commands/openspec/ or .tooldir/commands/openspec/*.md
+src/core\legacy-cleanup.ts:36:  'claude': { type: 'directory', path: '.claude/commands/openspec' },
+src/core\legacy-cleanup.ts:37:  'codebuddy': { type: 'directory', path: '.codebuddy/commands/openspec' },
+src/core\legacy-cleanup.ts:38:  'qoder': { type: 'directory', path: '.qoder/commands/openspec' },
+src/core\legacy-cleanup.ts:39:  'lingma': { type: 'directory', path: '.lingma/commands/openspec' },
+src/core\legacy-cleanup.ts:40:  'crush': { type: 'directory', path: '.crush/commands/openspec' },
+src/core\legacy-cleanup.ts:41:  'gemini': { type: 'directory', path: '.gemini/commands/openspec' },
+src/core\legacy-cleanup.ts:42:  'costrict': { type: 'directory', path: '.cospec/openspec/commands' },
+src/core\legacy-cleanup.ts:44:  // File-based: individual openspec-*.md files in a commands/workflows/prompts folder
+src/core\legacy-cleanup.ts:45:  'cursor': { type: 'files', pattern: '.cursor/commands/openspec-*.md' },
+src/core\legacy-cleanup.ts:48:  // `.devin/` postdates the otrix rename and never held `openspec-*` files.
+src/core\legacy-cleanup.ts:49:  'devin': { type: 'files', pattern: '.windsurf/workflows/openspec-*.md' },
+src/core\legacy-cleanup.ts:50:  'kilocode': { type: 'files', pattern: '.kilocode/workflows/openspec-*.md' },
+src/core\legacy-cleanup.ts:51:  'kiro': { type: 'files', pattern: '.kiro/prompts/openspec-*.prompt.md' },
+src/core\legacy-cleanup.ts:52:  'github-copilot': { type: 'files', pattern: '.github/prompts/openspec-*.prompt.md' },
+src/core\legacy-cleanup.ts:53:  'amazon-q': { type: 'files', pattern: '.amazonq/prompts/openspec-*.md' },
+src/core\legacy-cleanup.ts:54:  'cline': { type: 'files', pattern: '.clinerules/workflows/openspec-*.md' },
+src/core\legacy-cleanup.ts:55:  'roocode': { type: 'files', pattern: '.roo/commands/openspec-*.md' },
+src/core\legacy-cleanup.ts:56:  'auggie': { type: 'files', pattern: '.augment/commands/openspec-*.md' },
+src/core\legacy-cleanup.ts:57:  'factory': { type: 'files', pattern: '.factory/commands/openspec-*.md' },
+src/core\legacy-cleanup.ts:58:  'opencode': { type: 'files', pattern: ['.opencode/command/otrix-*.md', '.opencode/command/openspec-*.md'] },
+src/core\legacy-cleanup.ts:59:  'continue': { type: 'files', pattern: '.continue/prompts/openspec-*.prompt' },
+src/core\legacy-cleanup.ts:60:  'antigravity': { type: 'files', pattern: '.agent/workflows/openspec-*.md' },
+src/core\legacy-cleanup.ts:61:  'iflow': { type: 'files', pattern: '.iflow/commands/openspec-*.md' },
+src/core\legacy-cleanup.ts:62:  'junie': { type: 'files', pattern: ['.junie/commands/otrix-*.md', '.junie/commands/openspec-*.md'] },
+src/core\legacy-cleanup.ts:63:  'qwen': { type: 'files', pattern: ['.qwen/commands/otrix-*.toml', '.qwen/commands/openspec-*.toml'] },
+src/core\legacy-cleanup.ts:64:  'codex': { type: 'files', pattern: '.codex/prompts/openspec-*.md' },
+src/core\legacy-cleanup.ts:199:  /** Whether openspec/AGENTS.md exists */
+src/core\legacy-cleanup.ts:201:  /** Whether openspec/project.md exists (preserved, migration hint only) */
+src/core\legacy-cleanup.ts:287:      if (hasOpenSpecMarkers(content)) {
+src/core\legacy-cleanup.ts:368: * @param pattern - Glob pattern like '.cursor/commands/openspec-*.md'
+src/core\legacy-cleanup.ts:427:  // Check for openspec/AGENTS.md
+src/core\legacy-cleanup.ts:428:  const openspecAgentsPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'AGENTS.md');
+src/core\legacy-cleanup.ts:429:  hasOpenspecAgents = await FileSystemUtils.fileExists(openspecAgentsPath);
+src/core\legacy-cleanup.ts:431:  // Check for openspec/project.md (for migration messaging, not deleted)
+src/core\legacy-cleanup.ts:432:  const projectMdPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'project.md');
+src/core\legacy-cleanup.ts:439:    hasRootAgentsWithMarkers = hasOpenSpecMarkers(content);
+src/core\legacy-cleanup.ts:451:export function hasOpenSpecMarkers(content: string): boolean {
+src/core\legacy-cleanup.ts:463:export function isOnlyOpenSpecContent(content: string): boolean {
+src/core\legacy-cleanup.ts:509: * Preserves openspec/project.md (shows migration hint instead of deleting).
+src/core\legacy-cleanup.ts:587:  // Delete openspec/AGENTS.md (this is inside openspec/, it's Spectrix-managed)
+src/core\legacy-cleanup.ts:589:    const agentsPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'AGENTS.md');
+src/core\legacy-cleanup.ts:593:        result.deletedFiles.push('openspec/AGENTS.md');
+src/core\legacy-cleanup.ts:595:        result.errors.push(`Failed to delete openspec/AGENTS.md: ${error.message}`);
+src/core\legacy-cleanup.ts:659: * Only includes Spectrix-managed files (slash commands, openspec/AGENTS.md).
+src/core\legacy-cleanup.ts:688:  // openspec/AGENTS.md (inside openspec/, it's Spectrix-managed)
+src/core\legacy-cleanup.ts:690:    removals.push({ path: 'openspec/AGENTS.md', explanation: 'obsolete workflow file' });
+src/core\legacy-cleanup.ts:938:  lines.push('  • openspec/project.md');
+src/core\legacy-cleanup.ts:941:  lines.push(chalk.dim('    The new openspec/config.yaml has a "context:" section for planning'));
+src/core\migration.ts:119: * Moves Spectrix-managed skill directories (openspec-*) and command files
+src/core\migration.ts:502:    proposeReferences.size === 1 ? [...proposeReferences][0] : 'the openspec-propose skill';
+src/core\openspec-root.ts:27: * `openspec/` installs: new installs use `spectrix/`, but roots that already
+src/core\openspec-root.ts:50:export interface OpenSpecRootInspection {
+src/core\openspec-root.ts:69:export interface EnsureOpenSpecRootResult {
+src/core\openspec-root.ts:70:  inspection: OpenSpecRootInspection;
+src/core\openspec-root.ts:100:function unresolvedInspection(): OpenSpecRootInspection {
+src/core\openspec-root.ts:123:  inspection: OpenSpecRootInspection,
+src/core\openspec-root.ts:142:export async function inspectOpenSpecRoot(storeRoot: string): Promise<OpenSpecRootInspection> {
+src/core\openspec-root.ts:148:      'openspec_store_root_missing',
+src/core\openspec-root.ts:157:      'openspec_store_root_not_directory',
+src/core\openspec-root.ts:165:  const openspecPath = path.join(storeRoot, rel.root);
+src/core\openspec-root.ts:166:  const openspecKind = await pathKind(openspecPath);
+src/core\openspec-root.ts:167:  inspection.present = openspecKind === 'directory';
+src/core\openspec-root.ts:169:  if (openspecKind === 'missing') {
+src/core\openspec-root.ts:171:      'openspec_root_missing',
+src/core\openspec-root.ts:173:      'openspec.root'
+src/core\openspec-root.ts:178:  if (openspecKind !== 'directory') {
+src/core\openspec-root.ts:180:      'openspec_root_not_directory',
+src/core\openspec-root.ts:182:      'openspec.root'
+src/core\openspec-root.ts:197:        'openspec_config_not_file',
+src/core\openspec-root.ts:199:        'openspec.config'
+src/core\openspec-root.ts:203:        'openspec_config_missing',
+src/core\openspec-root.ts:205:        'openspec.config'
+src/core\openspec-root.ts:215:    'openspec_specs_not_directory',
+src/core\openspec-root.ts:216:    'openspec.specs'
+src/core\openspec-root.ts:223:    'openspec_changes_not_directory',
+src/core\openspec-root.ts:224:    'openspec.changes'
+src/core\openspec-root.ts:232:      'openspec_archive_not_directory',
+src/core\openspec-root.ts:233:      'openspec.archive'
+src/core\openspec-root.ts:312:export interface EnsureOpenSpecRootOptions {
+src/core\openspec-root.ts:316:export async function ensureOpenSpecRoot(
+src/core\openspec-root.ts:318:  options: EnsureOpenSpecRootOptions = {}
+src/core\openspec-root.ts:319:): Promise<EnsureOpenSpecRootResult> {
+src/core\openspec-root.ts:343:    inspection: await inspectOpenSpecRoot(storeRoot),
+src/core\parsers\change-parser.ts:52:        format: 'openspec-change',
+src/core\parsers\markdown-parser.ts:50:        format: 'openspec',
+src/core\parsers\markdown-parser.ts:77:        format: 'openspec-change',
+src/core\parsers\spec-structure.ts:47:          'Delta headers are only valid inside openspec/changes/<name>/specs/<capability>/spec.md ' +
+src/core\planning-home.ts:35: * upstream OpenSpec) keep their `openspec/` directory. Both are accepted when
+src/core\profile-sync-drift.ts:21:  'explore': 'openspec-explore',
+src/core\profile-sync-drift.ts:22:  'new': 'openspec-new-change',
+src/core\profile-sync-drift.ts:23:  'continue': 'openspec-continue-change',
+src/core\profile-sync-drift.ts:24:  'apply': 'openspec-apply-change',
+src/core\profile-sync-drift.ts:25:  'update': 'openspec-update-change',
+src/core\profile-sync-drift.ts:26:  'ff': 'openspec-ff-change',
+src/core\profile-sync-drift.ts:27:  'sync': 'openspec-sync-specs',
+src/core\profile-sync-drift.ts:28:  'archive': 'openspec-archive-change',
+src/core\profile-sync-drift.ts:29:  'bulk-archive': 'openspec-bulk-archive-change',
+src/core\profile-sync-drift.ts:30:  'verify': 'openspec-verify-change',
+src/core\profile-sync-drift.ts:31:  'onboard': 'openspec-onboard',
+src/core\profile-sync-drift.ts:32:  'propose': 'openspec-propose',
+src/core\profile-sync-drift.ts:33:  'ladder-audit': 'openspec-ladder-audit',
+src/core\profile-sync-drift.ts:34:  'guardrails': 'openspec-guardrails',
+src/core\profile-sync-drift.ts:35:  'debt-ledger': 'openspec-debt-ledger',
+src/core\profile-sync-drift.ts:36:  'token-budget': 'openspec-token-budget',
+src/core\profile-sync-drift.ts:37:  'benchmark': 'openspec-benchmark',
+src/core\profile-sync-drift.ts:38:  'dependency-check': 'openspec-dependency-check',
+src/core\profile-sync-drift.ts:39:  'parallel-execute': 'openspec-parallel-execute',
+src/core\profile-sync-drift.ts:40:  'learn': 'openspec-learn',
+src/core\profile-sync-drift.ts:41:  'init-unified': 'openspec-init-unified',
+src/core\project-config.ts:71:  // resolution when this openspec/ directory is config-only (no specs/
+src/core\project-config.ts:240: * Read and parse openspec/config.yaml from project root.
+src/core\project-config.ts:255: * @param projectRoot - The root directory of the project (where `openspec/` lives)
+src/core\project-config.ts:269:      console.warn(`openspec/config.yaml is not a valid YAML object`);
+src/core\project-config.ts:456:  let message = `Schema '${invalidSchemaName}' not found in openspec/config.yaml\n\n`;
+src/core\project-config.ts:477:  message += `\nFix: Edit openspec/config.yaml and change 'schema: ${invalidSchemaName}' to a valid schema name`;
+src/core\project-config.ts:549:export interface OpenSpecDirClassification {
+src/core\project-config.ts:550:  /** True when openspec/specs or openspec/changes exists as a directory. */
+src/core\project-config.ts:560:export function classifyOpenSpecDir(projectRoot: string): OpenSpecDirClassification {
+src/core\project-config.ts:562:  const openspecDir = path.join(projectRoot, planningDir);
+src/core\project-config.ts:564:    isDirectorySync(path.join(openspecDir, 'specs')) ||
+src/core\project-config.ts:565:    isDirectorySync(path.join(openspecDir, 'changes'));
+src/core\references.ts:4: * A root's `openspec/config.yaml` may declare `references:` — store ids
+src/core\references.ts:22:import { inspectRegisteredStore, type ResolvedOpenSpecRoot } from './root-selection.js';
+src/core\references.ts:285:  resolvedRoot: ResolvedOpenSpecRoot;
+src/core\relationship-health.ts:13:import { toRootOutput, type ResolvedOpenSpecRoot } from './root-selection.js';
+src/core\relationship-health.ts:18:    source: ResolvedOpenSpecRoot['source'];
+src/core\relationship-health.ts:35:  root: ResolvedOpenSpecRoot;
+src/core\relationship-health.ts:99:        `Move the ${input.inertPointerDeclarations.fields.join('/')} declarations into the store's openspec/config.yaml.`
+src/core\root-selection.ts:8: * - Without `--store`, the nearest ancestor containing `openspec/` wins.
+src/core\root-selection.ts:37:import { inspectOpenSpecRoot } from './openspec-root.js';
+src/core\root-selection.ts:39:import { classifyOpenSpecDir, storePointerProblem } from './project-config.js';
+src/core\root-selection.ts:43:export type OpenSpecRootSource =
+src/core\root-selection.ts:55:export interface ResolveOpenSpecRootOptions extends StoreSelectorOptions {
+src/core\root-selection.ts:61:export interface ResolvedOpenSpecRoot {
+src/core\root-selection.ts:67:  source: OpenSpecRootSource;
+src/core\root-selection.ts:119:  source: OpenSpecRootSource,
+src/core\root-selection.ts:121:): ResolvedOpenSpecRoot {
+src/core\root-selection.ts:148:  source: OpenSpecRootSource = 'store'
+src/core\root-selection.ts:149:): Promise<ResolvedOpenSpecRoot> {
+src/core\root-selection.ts:213:        { target: 'openspec.root', fix: doctorFix(id) }
+src/core\root-selection.ts:259:  const inspection = await inspectOpenSpecRoot(storeRoot);
+src/core\root-selection.ts:271: * Classifies the nearest `openspec/` directory (slice 3.2): a planning
+src/core\root-selection.ts:278: * The nearest-root walk, qualified: an `openspec/` DIRECTORY alone is
+src/core\root-selection.ts:280: * Without this, the recommended `~/openspec/<id>` store layout would
+src/core\root-selection.ts:287:    const { hasPlanningShape, pointer } = classifyOpenSpecDir(candidate);
+src/core\root-selection.ts:303:): Promise<ResolvedOpenSpecRoot> {
+src/core\root-selection.ts:304:  const { hasPlanningShape, pointer } = classifyOpenSpecDir(nearestRoot);
+src/core\root-selection.ts:369:): Promise<ResolvedOpenSpecRoot> {
+src/core\root-selection.ts:392:export async function resolveOpenSpecRoot(
+src/core\root-selection.ts:393:  options: ResolveOpenSpecRootOptions = {}
+src/core\root-selection.ts:394:): Promise<ResolvedOpenSpecRoot> {
+src/core\root-selection.ts:441:        target: 'openspec.root',
+src/core\root-selection.ts:451:      { target: 'openspec.root', fix: 'Run spectrix init to create a root here.' }
+src/core\root-selection.ts:464:  source: OpenSpecRootSource;
+src/core\root-selection.ts:468:export function toRootOutput(root: ResolvedOpenSpecRoot): RootOutput {
+src/core\root-selection.ts:482:  root: ResolvedOpenSpecRoot
+src/core\root-selection.ts:483:): root is ResolvedOpenSpecRoot & { storeId: string } {
+src/core\root-selection.ts:491:export function emitStoreRootBanner(root: ResolvedOpenSpecRoot): void {
+src/core\root-selection.ts:501:export function withStoreFlag(root: ResolvedOpenSpecRoot, command: string): string {
+src/core\root-selection.ts:511:export function toPlanningHome(root: ResolvedOpenSpecRoot): PlanningHome {
+src/core\root-selection.ts:535:): Promise<ResolvedOpenSpecRoot | null> {
+src/core\root-selection.ts:537:    const root = await resolveOpenSpecRoot({
+src/core\schemas\change.schema.ts:35:    format: z.literal('openspec-change'),
+src/core\schemas\spec.schema.ts:12:    format: z.literal('openspec'),
+src/core\shared\skill-generation.ts:79:    { template: getExploreSkillTemplate(), dirName: 'openspec-explore', workflowId: 'explore' },
+src/core\shared\skill-generation.ts:80:    { template: getNewChangeSkillTemplate(), dirName: 'openspec-new-change', workflowId: 'new' },
+src/core\shared\skill-generation.ts:81:    { template: getContinueChangeSkillTemplate(), dirName: 'openspec-continue-change', workflowId: 'continue' },
+src/core\shared\skill-generation.ts:82:    { template: getApplyChangeSkillTemplate(), dirName: 'openspec-apply-change', workflowId: 'apply' },
+src/core\shared\skill-generation.ts:83:    { template: getUpdateChangeSkillTemplate(), dirName: 'openspec-update-change', workflowId: 'update' },
+src/core\shared\skill-generation.ts:84:    { template: getFfChangeSkillTemplate(), dirName: 'openspec-ff-change', workflowId: 'ff' },
+src/core\shared\skill-generation.ts:85:    { template: getSyncSpecsSkillTemplate(), dirName: 'openspec-sync-specs', workflowId: 'sync' },
+src/core\shared\skill-generation.ts:86:    { template: getArchiveChangeSkillTemplate(), dirName: 'openspec-archive-change', workflowId: 'archive' },
+src/core\shared\skill-generation.ts:87:    { template: getBulkArchiveChangeSkillTemplate(), dirName: 'openspec-bulk-archive-change', workflowId: 'bulk-archive' },
+src/core\shared\skill-generation.ts:88:    { template: getVerifyChangeSkillTemplate(), dirName: 'openspec-verify-change', workflowId: 'verify' },
+src/core\shared\skill-generation.ts:89:    { template: getOnboardSkillTemplate(), dirName: 'openspec-onboard', workflowId: 'onboard' },
+src/core\shared\skill-generation.ts:90:    { template: getOpsxProposeSkillTemplate(), dirName: 'openspec-propose', workflowId: 'propose' },
+src/core\shared\skill-generation.ts:91:    { template: getLadderAuditSkillTemplate(), dirName: 'openspec-ladder-audit', workflowId: 'ladder-audit' },
+src/core\shared\skill-generation.ts:92:    { template: getGuardrailsSkillTemplate(), dirName: 'openspec-guardrails', workflowId: 'guardrails' },
+src/core\shared\skill-generation.ts:93:    { template: getDebtLedgerSkillTemplate(), dirName: 'openspec-debt-ledger', workflowId: 'debt-ledger' },
+src/core\shared\skill-generation.ts:94:    { template: getTokenBudgetSkillTemplate(), dirName: 'openspec-token-budget', workflowId: 'token-budget' },
+src/core\shared\skill-generation.ts:95:    { template: getBenchmarkSkillTemplate(), dirName: 'openspec-benchmark', workflowId: 'benchmark' },
+src/core\shared\skill-generation.ts:96:    { template: getDependencyCheckSkillTemplate(), dirName: 'openspec-dependency-check', workflowId: 'dependency-check' },
+src/core\shared\skill-generation.ts:97:    { template: getParallelExecuteSkillTemplate(), dirName: 'openspec-parallel-execute', workflowId: 'parallel-execute' },
+src/core\shared\skill-generation.ts:98:    { template: getLearnSkillTemplate(), dirName: 'openspec-learn', workflowId: 'learn' },
+src/core\shared\skill-generation.ts:99:    { template: getInitUnifiedSkillTemplate(), dirName: 'openspec-init-unified', workflowId: 'init-unified' },
+src/core\shared\tool-detection.ts:19:  'openspec-explore',
+src/core\shared\tool-detection.ts:20:  'openspec-new-change',
+src/core\shared\tool-detection.ts:21:  'openspec-continue-change',
+src/core\shared\tool-detection.ts:22:  'openspec-apply-change',
+src/core\shared\tool-detection.ts:23:  'openspec-update-change',
+src/core\shared\tool-detection.ts:24:  'openspec-ff-change',
+src/core\shared\tool-detection.ts:25:  'openspec-sync-specs',
+src/core\shared\tool-detection.ts:26:  'openspec-archive-change',
+src/core\shared\tool-detection.ts:27:  'openspec-bulk-archive-change',
+src/core\shared\tool-detection.ts:28:  'openspec-verify-change',
+src/core\shared\tool-detection.ts:29:  'openspec-onboard',
+src/core\shared\tool-detection.ts:30:  'openspec-propose',
+src/core\shared\tool-detection.ts:31:  'openspec-ladder-audit',
+src/core\shared\tool-detection.ts:32:  'openspec-guardrails',
+src/core\shared\tool-detection.ts:33:  'openspec-debt-ledger',
+src/core\shared\tool-detection.ts:34:  'openspec-token-budget',
+src/core\shared\tool-detection.ts:35:  'openspec-benchmark',
+src/core\shared\tool-detection.ts:36:  'openspec-dependency-check',
+src/core\shared\tool-detection.ts:37:  'openspec-parallel-execute',
+src/core\shared\tool-detection.ts:38:  'openspec-learn',
+src/core\shared\tool-detection.ts:39:  'openspec-init-unified',
+src/core\shared\tool-detection.ts:265:    //   author: openspec
+src/core\specs-apply.ts:533:  console.log(`Applying changes to ${options.displayPath ?? `openspec/specs/${specName}/spec.md`}:`);
+src/core\store\foundation.ts:28:export const STORE_METADATA_DIR_NAME = '.openspec-store';
+src/core\store\foundation.ts:174:      fix: 'Repair .openspec-store/store.yaml.',
+src/core\store\operations.ts:9:  classifyOpenSpecDir,
+src/core\store\operations.ts:16:  ensureOpenSpecRoot,
+src/core\store\operations.ts:17:  inspectOpenSpecRoot,
+src/core\store\operations.ts:20:  type OpenSpecRootInspection,
+src/core\store\operations.ts:21:} from '../openspec-root.js';
+src/core\store\operations.ts:114:  openspecRoot: OpenSpecRootInspection;
+src/core\store\operations.ts:228:  const { hasPlanningShape, pointer } = classifyOpenSpecDir(storeRoot);
+src/core\store\operations.ts:352:        fix: `spectrix store setup ${id} --path ~/openspec/${id}`,
+src/core\store\operations.ts:513:      const openspecRoot = await inspectOpenSpecRoot(storeRoot);
+src/core\store\operations.ts:515:      if (!openspecRoot.healthy && !safeFreshDirectory) {
+src/core\store\operations.ts:627:    const root = await ensureOpenSpecRoot(storeRoot, {
+src/core\store\operations.ts:652:        createdPaths.push(createdPath('.openspec-store/', metadataDir, 'directory'));
+src/core\store\operations.ts:655:        '.openspec-store/store.yaml',
+src/core\store\operations.ts:659:      createdFiles.push('.openspec-store/store.yaml');
+src/core\store\operations.ts:766:  const openspecRoot = await inspectOpenSpecRoot(storeRoot);
+src/core\store\operations.ts:767:  if (!openspecRoot.healthy) {
+src/core\store\operations.ts:769:      openspecRoot.diagnostics.map((diagnostic) => diagnostic.message).join(' ') ||
+src/core\store\operations.ts:782:        target: 'openspec.root',
+src/core\store\operations.ts:785:          : 'Run spectrix store setup for a new store, or point register at a checkout whose openspec/ files are present.',
+src/core\store\operations.ts:802:      `Store metadata id '${metadata.id}' does not match --id '${explicitId}'. The id comes from the store's committed .openspec-store/store.yaml.`,
+src/core\store\operations.ts:837:    createdFiles.push('.openspec-store/store.yaml');
+src/core\store\operations.ts:1064:  let openspecRoot: OpenSpecRootInspection = await inspectOpenSpecRoot(root);
+src/core\store\operations.ts:1087:    openspecRoot = await inspectOpenSpecRoot(root);
+src/core\store\operations.ts:1088:    diagnostics.push(...openspecRoot.diagnostics);
+src/core\store\operations.ts:1187:    openspecRoot,
+src/core\templates\workflows\apply-change.ts:12:    name: 'openspec-apply-change',
+src/core\templates\workflows\apply-change.ts:55:   - If \`state: "blocked"\` (missing artifacts): show message, suggest using openspec-continue-change (if it is not installed, run \`spectrix status --change "<name>" --json\` to see the next artifact and \`spectrix instructions <artifact-id> --change "<name>" --json\` for how to create it)
+src/core\templates\workflows\archive-change.ts:12:    name: 'openspec-archive-change',
+src/core\templates\workflows\archive-change.ts:96:   - Compare each delta spec with its corresponding main spec at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 2, not a hardcoded repo path)
+src/core\templates\workflows\archive-change.ts:119:   Then run the \`openspec-sync-specs\` workflow inline (agent-driven intelligent merge) for change '<name>', passing the delta spec analysis and the fetched specs-rule snapshot from above, and wait for it to finish. The inline sync must reuse that snapshot without fetching \`specs\` instructions again. Do not delegate it to a background task — step 5 would move \`changeRoot\` out from under a sync that is still reading it, leaving the change archived and the main specs never updated. If your agent can only run it by delegation, delegate synchronously and wait for the result.
+src/core\templates\workflows\archive-change.ts:172:- Preserve .openspec.yaml when moving to archive (it moves with the directory)
+src/core\templates\workflows\archive-change.ts:174:- If sync is requested, run the \`openspec-sync-specs\` workflow inline (agent-driven)
+src/core\templates\workflows\archive-change.ts:280:   - Compare each delta spec with its corresponding main spec at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 2, not a hardcoded repo path)
+src/core\templates\workflows\archive-change.ts:403:- Preserve .openspec.yaml when moving to archive (it moves with the directory)
+src/core\templates\workflows\benchmark.ts:11:    name: 'openspec-benchmark',
+src/core\templates\workflows\benchmark.ts:29:   From \`openspec/changes/<name>/tasks.md\`:
+src/core\templates\workflows\benchmark.ts:63:   Write the full report to \`openspec/changes/<name>/benchmark.md\`:
+src/core\templates\workflows\benchmark.ts:115:   From \`openspec/changes/<name>/tasks.md\`:
+src/core\templates\workflows\benchmark.ts:149:   Write the full report to \`openspec/changes/<name>/benchmark.md\`:
+src/core\templates\workflows\bulk-archive-change.ts:12:    name: 'openspec-bulk-archive-change',
+src/core\templates\workflows\bulk-archive-change.ts:180:      - Run the \`openspec-sync-specs\` workflow inline (agent-driven intelligent merge) only for changes with entries in \`includedDeltas\`, passing only the included delta paths and explicitly instructing it to ignore that change's \`excludedDeltas\`. Wait for it to finish.
+src/core\templates\workflows\bulk-archive-change.ts:191:      - Re-run the comparison only for delta specs in \`includedDeltas\` against main spec at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 3 status JSON, not a hardcoded repo path).
+src/core\templates\workflows\bulk-archive-change.ts:246:Conflict: <planningHome.root>/openspec/specs/auth/spec.md touched by [add-oauth, add-jwt]
+src/core\templates\workflows\bulk-archive-change.ts:261:Conflict: <planningHome.root>/openspec/specs/api/spec.md touched by [add-rest-api, add-graphql]
+src/core\templates\workflows\bulk-archive-change.ts:322:- Preserve .openspec.yaml when moving to archive
+src/core\templates\workflows\bulk-archive-change.ts:325:- If sync is requested, run the \`openspec-sync-specs\` workflow inline (agent-driven) for each change with included delta specs
+src/core\templates\workflows\bulk-archive-change.ts:328:- Never archive a change while a spec sync is still in flight — run the sync inline and verify main specs at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` before moving \`changeRoot\`
+src/core\templates\workflows\bulk-archive-change.ts:529:      - Re-run the comparison only for delta specs in \`includedDeltas\` against main spec at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (use the store-aware \`planningHome.root\` from step 3 status JSON, not a hardcoded repo path).
+src/core\templates\workflows\bulk-archive-change.ts:584:Conflict: <planningHome.root>/openspec/specs/auth/spec.md touched by [add-oauth, add-jwt]
+src/core\templates\workflows\bulk-archive-change.ts:599:Conflict: <planningHome.root>/openspec/specs/api/spec.md touched by [add-rest-api, add-graphql]
+src/core\templates\workflows\bulk-archive-change.ts:660:- Preserve .openspec.yaml when moving to archive
+src/core\templates\workflows\bulk-archive-change.ts:666:- Never archive a change while a spec sync is still in flight — run the sync inline and verify main specs at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` before moving \`changeRoot\`
+src/core\templates\workflows\continue-change.ts:12:    name: 'openspec-continue-change',
+src/core\templates\workflows\debt-ledger.ts:12:    name: 'openspec-debt-ledger',
+src/core\templates\workflows\dependency-check.ts:12:    name: 'openspec-dependency-check',
+src/core\templates\workflows\explore.ts:12:    name: 'openspec-explore',
+src/core\templates\workflows\explore.ts:98:Then read the project's own context from the resolved root - \`<root.path>/openspec/config.yaml\` (or \`config.yml\`). Use the \`root.path\` returned above, and skip this if neither file exists:
+src/core\templates\workflows\explore.ts:410:Then read the project's own context from the resolved root - \`<root.path>/openspec/config.yaml\` (or \`config.yml\`). Use the \`root.path\` returned above, and skip this if neither file exists:
+src/core\templates\workflows\ff-change.ts:12:    name: 'openspec-ff-change',
+src/core\templates\workflows\ff-change.ts:75:      - An artifact already reading \`status: "skipped"\` is satisfied: the change declares \`skip_specs\` in \`.openspec.yaml\`, so its files must NOT exist. Never try to create one
+src/core\templates\workflows\ff-change.ts:188:      - An artifact already reading \`status: "skipped"\` is satisfied: the change declares \`skip_specs\` in \`.openspec.yaml\`, so its files must NOT exist. Never try to create one
+src/core\templates\workflows\guardrails.ts:11:    name: 'openspec-guardrails',
+src/core\templates\workflows\guardrails.ts:35:   - \`openspec/changes/<name>/specs/\` contains at least one \`*.md\` spec
+src/core\templates\workflows\guardrails.ts:128:   - \`openspec/changes/<name>/specs/\` contains at least one \`*.md\` spec
+src/core\templates\workflows\init-unified.ts:11:    name: 'openspec-init-unified',
+src/core\templates\workflows\ladder-audit.ts:12:    name: 'openspec-ladder-audit',
+src/core\templates\workflows\learn.ts:12:    name: 'openspec-learn',
+src/core\templates\workflows\learn.ts:28:   If archives are on disk under \`openspec/changes/archive/\`, list them directly.
+src/core\templates\workflows\learn.ts:104:   If archives are on disk under \`openspec/changes/archive/\`, list them directly.
+src/core\templates\workflows\new-change.ts:12:    name: 'openspec-new-change',
+src/core\templates\workflows\onboard.ts:12:    name: 'openspec-onboard',
+src/core\templates\workflows\parallel-execute.ts:12:    name: 'openspec-parallel-execute',
+src/core\templates\workflows\propose.ts:12:    name: 'openspec-propose',
+src/core\templates\workflows\propose.ts:45:   This creates a scaffolded change in the planning home resolved by the CLI with \`.openspec.yaml\`.
+src/core\templates\workflows\propose.ts:85:      - An artifact already reading \`status: "skipped"\` is satisfied: the change declares \`skip_specs\` in \`.openspec.yaml\`, so its files must NOT exist. Never try to create one
+src/core\templates\workflows\propose.ts:181:   This creates a scaffolded change in the planning home resolved by the CLI with \`.openspec.yaml\`.
+src/core\templates\workflows\propose.ts:221:      - An artifact already reading \`status: "skipped"\` is satisfied: the change declares \`skip_specs\` in \`.openspec.yaml\`, so its files must NOT exist. Never try to create one
+src/core\templates\workflows\store-selection.ts:7:export const STORE_SELECTION_GUIDANCE = `**Store selection:** If the user names a store (a store is a standalone Spectrix repo registered on this machine) or the work lives in one, run \`spectrix store list --json\` to discover registered store ids, then pass \`--store <id>\` on the commands that read or write specs and changes (\`new change\`, \`status\`, \`instructions\`, \`list\`, \`show\`, \`validate\`, \`archive\`, \`doctor\`, \`context\`, \`view\`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local \`openspec/\` root.`;
+src/core\templates\workflows\sync-specs.ts:12:    name: 'openspec-sync-specs',
+src/core\templates\workflows\sync-specs.ts:42:   The JSON includes \`planningHome.root\`. Main specs live under \`<planningHome.root>/openspec/specs/\` — use that (store-aware) root for every main-spec path below, not a hardcoded repo path. When a store is selected it points at the store, not the current repository.
+src/core\templates\workflows\sync-specs.ts:94:   b. **Read the main spec** at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (may not exist yet)
+src/core\templates\workflows\sync-specs.ts:121:      - Create \`<planningHome.root>/openspec/specs/<capability>/spec.md\`
+src/core\templates\workflows\sync-specs.ts:271:   The JSON includes \`planningHome.root\`. Main specs live under \`<planningHome.root>/openspec/specs/\` — use that (store-aware) root for every main-spec path below, not a hardcoded repo path. When a store is selected it points at the store, not the current repository.
+src/core\templates\workflows\sync-specs.ts:323:   b. **Read the main spec** at \`<planningHome.root>/openspec/specs/<capability>/spec.md\` (may not exist yet)
+src/core\templates\workflows\sync-specs.ts:350:      - Create \`<planningHome.root>/openspec/specs/<capability>/spec.md\`
+src/core\templates\workflows\token-budget.ts:12:    name: 'openspec-token-budget',
+src/core\templates\workflows\token-budget.ts:18:**Input**: A change name, plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[openspec]\` / budget section) or default to a sensible limit.
+src/core\templates\workflows\token-budget.ts:27:   - Record the limit in \`openspec/changes/<name>/\` as \`budget.md\` if none exists
+src/core\templates\workflows\token-budget.ts:93:**Input**: A change name after \`/otrix:token-budget\` (e.g., \`/otrix:token-budget add-auth 50000\`), plus an optional budget. If no budget is given, read it from \`unified.toml\` (\`[openspec]\` / budget section) or default to a sensible limit.
+src/core\templates\workflows\token-budget.ts:102:   - Record the limit in \`openspec/changes/<name>/\` as \`budget.md\` if none exists
+src/core\templates\workflows\update-change.ts:12:    name: 'openspec-update-change',
+src/core\templates\workflows\verify-change.ts:12:    name: 'openspec-verify-change',
+src/core\unified-config.ts:12:  openspec?: Record<string, unknown>;
+src/core\unified-config.ts:52:  const spectrix = config.openspec;
+src/core\update.ts:117:   * @param projectPath - Path to the project root containing the openspec directory
+src/core\update.ts:121:    // Honor legacy openspec/ roots: update works wherever the planning
+src/core\update.ts:123:    const openspecPath = path.join(resolvedProjectPath, resolvePlanningDirName(resolvedProjectPath));
+src/core\update.ts:125:    // 1. Check openspec directory exists
+src/core\update.ts:126:    if (!await FileSystemUtils.directoryExists(openspecPath)) {
+src/core\update.ts:425:      console.log(`Learn more: ${chalk.cyan('https://github.com/Fission-AI/OpenSpec')}`);
+src/core\validation\constants.ts:30:    'skip_specs is set in .openspec.yaml but spec files exist under specs/. Remove skip_specs or delete the delta spec files',
+src/core\validation\constants.ts:32:    'skip_specs is set in .openspec.yaml: change declares no spec-level behavior changes, zero deltas accepted',
+src/core\validation\constants.ts:34:    'skip_specs is set but .openspec.yaml is not valid change metadata, so the marker is not honored. Fix the metadata',
+src/core\validation\constants.ts:47:    'No deltas found. Ensure your change has a specs/ directory with capability folders (e.g. specs/http-server/spec.md) containing .md files that use delta headers (## ADDED/MODIFIED/REMOVED/RENAMED Requirements) and that each requirement includes at least one "#### Scenario:" block. If this change intentionally modifies no specs (pure refactor, tooling, docs), set "skip_specs: true" in the change\'s .openspec.yaml instead. Tip: run "spectrix change show <change-id> --json --deltas-only" to inspect parsed deltas.',
+src/core\validation\validator.ts:170:      // archives while its requirements never reach openspec/specs/ (#1385).
+src/core\version-check.ts:613:    // (%APPDATA%\\npm\\openspec.cmd) and in <prefix>/bin on POSIX.
+src/core\view.ts:11:    const openspecDir = path.join(targetPath, resolvePlanningDirName(targetPath));
+src/core\view.ts:13:    if (!fs.existsSync(openspecDir)) {
+src/core\view.ts:14:      console.error(chalk.red('No spectrix (or legacy openspec) directory found'));
+src/core\view.ts:22:    const changesData = await this.getChangesData(openspecDir);
+src/core\view.ts:23:    const specsData = await this.getSpecsData(openspecDir);
+src/core\view.ts:83:  private async getChangesData(openspecDir: string): Promise<{
+src/core\view.ts:88:    const changesDir = path.join(openspecDir, 'changes');
+src/core\view.ts:102:        const progress = await getTaskProgressForChange(changesDir, entry.name, path.dirname(openspecDir));
+src/core\view.ts:134:  private async getSpecsData(openspecDir: string): Promise<Array<{ name: string; requirementCount: number }>> {
+src/core\view.ts:135:    const specsDir = path.join(openspecDir, 'specs');
+src/core\working-set.ts:11:import { toRootOutput, type ResolvedOpenSpecRoot } from './root-selection.js';
+src/core\working-set.ts:27:    source: ResolvedOpenSpecRoot['source'];
+src/core\working-set.ts:29:    role: 'openspec_root';
+src/core\working-set.ts:36:  root: ResolvedOpenSpecRoot;
+src/core\working-set.ts:69:    root: { ...toRootOutput(input.root), role: 'openspec_root' },
+src/telemetry\index.ts:28:const POSTHOG_HOST = 'https://edge.openspec.dev';
+src/ui\welcome-screen.ts:34:    // (/otrix-propose, @otrix-propose, $openspec-propose ...) and cannot be known
+src/utils\change-metadata.ts:8:export const METADATA_FILENAME = '.openspec.yaml';
+src/utils\change-metadata.ts:46: * Writes change metadata to .openspec.yaml in the change directory.
+src/utils\change-metadata.ts:87: * Reads change metadata from .openspec.yaml in the change directory.
+src/utils\change-metadata.ts:160: * 2. Schema from .openspec.yaml metadata (if exists)
+src/utils\change-metadata.ts:161: * 3. Schema from openspec/config.yaml (if exists)
+src/utils\change-metadata.ts:174:  // Derive project root from changeDir (changeDir is typically projectRoot/openspec/changes/change-name)
+src/utils\change-metadata.ts:231: * <root>/openspec/changes/<name> for every root type, including store roots).
+src/utils\change-utils.ts:22:  /** Additional metadata to persist in the change's .openspec.yaml */
+src/utils\change-utils.ts:111: * @param projectRoot - The root directory of the project (where `openspec/` lives)
+src/utils\change-utils.ts:121: * // Creates openspec/changes/add-auth/ with default schema
+src/utils\change-utils.ts:126: * // Creates openspec/changes/add-auth/ with custom schema
+src/utils\change-utils.ts:175:  const openspecDir = path.join(projectRoot, resolvePlanningDirName(projectRoot));
+src/utils\change-utils.ts:179:  await FileSystemUtils.createDirectory(path.join(openspecDir, 'specs'));
+src/utils\change-utils.ts:180:  await FileSystemUtils.createDirectory(path.join(openspecDir, 'changes', 'archive'));
+src/utils\change-utils.ts:181:  const configPath = path.join(openspecDir, 'config.yaml');
+src/utils\change-utils.ts:182:  const configYmlPath = path.join(openspecDir, 'config.yml');
+src/utils\command-references.ts:55:  'explore': 'openspec-explore',
+src/utils\command-references.ts:56:  'new': 'openspec-new-change',
+src/utils\command-references.ts:57:  'continue': 'openspec-continue-change',
+src/utils\command-references.ts:58:  'apply': 'openspec-apply-change',
+src/utils\command-references.ts:59:  'update': 'openspec-update-change',
+src/utils\command-references.ts:60:  'ff': 'openspec-ff-change',
+src/utils\command-references.ts:61:  'sync': 'openspec-sync-specs',
+src/utils\command-references.ts:62:  'archive': 'openspec-archive-change',
+src/utils\command-references.ts:63:  'bulk-archive': 'openspec-bulk-archive-change',
+src/utils\command-references.ts:64:  'verify': 'openspec-verify-change',
+src/utils\command-references.ts:65:  'onboard': 'openspec-onboard',
+src/utils\command-references.ts:66:  'propose': 'openspec-propose',
+src/utils\command-references.ts:67:  'ladder-audit': 'openspec-ladder-audit',
+src/utils\command-references.ts:68:  'guardrails': 'openspec-guardrails',
+src/utils\command-references.ts:69:  'debt-ledger': 'openspec-debt-ledger',
+src/utils\command-references.ts:70:  'token-budget': 'openspec-token-budget',
+src/utils\command-references.ts:71:  'benchmark': 'openspec-benchmark',
+src/utils\command-references.ts:72:  'dependency-check': 'openspec-dependency-check',
+src/utils\command-references.ts:73:  'parallel-execute': 'openspec-parallel-execute',
+src/utils\command-references.ts:74:  'learn': 'openspec-learn',
+src/utils\command-references.ts:75:  'init-unified': 'openspec-init-unified',
+src/utils\command-references.ts:80: * (e.g. `/openspec-propose`); Kimi Code invokes skills as `/skill:<name>` and
+src/utils\command-references.ts:99: * `/openspec-<skill>` so that generated skills do not reference commands
+src/utils\command-references.ts:110: * transformToSkillReferences('/otrix:apply') // returns '/openspec-apply-change'
+src/utils\command-references.ts:111: * transformToSkillReferences('Use /otrix:archive next') // returns 'Use /openspec-archive-change next'
+src/utils\command-references.ts:120: * `/skill:openspec-propose`). Falls back to the default `/openspec-*` form.
+src/utils\command-references.ts:154: * reference is dead text for anyone on Devin Local, while the `/openspec-*`
+src/utils\file-system.ts:289:      const testFile = path.join(dirPath, '.openspec-test-' + Date.now() + '-' + Math.random().toString(36).slice(2));
+src/utils\item-discovery.ts:8: * (legacy installs: openspec/changes/), except the archive and hidden directories.
+src/utils\item-discovery.ts:14: * `.openspec.yaml`, and a custom schema need not define a proposal artifact at
+src/utils\item-discovery.ts:38: * openspec/changes/archive/ except hidden directories.
+src/utils\shell-detection.ts:38: * launched openspec. POSIX-only and best-effort — any failure returns undefined

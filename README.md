@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/Fission-AI/OpenSpec">
+  <a href="https://github.com/dadosh1984/warpweave">
     <picture>
       <source srcset="assets/openspec_bg.png">
       <img src="assets/openspec_bg.png" alt="Spectrix logo">
@@ -8,8 +8,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Fission-AI/OpenSpec/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Fission-AI/OpenSpec/actions/workflows/ci.yml/badge.svg" /></a>
-  <a href="https://www.npmjs.com/package/@dadosh1984/spectrix"><img alt="npm version" src="https://img.shields.io/npm/v/@dadosh1984/spectrix?style=flat-square" /></a>
+  <a href="https://github.com/dadosh1984/warpweave/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/dadosh1984/warpweave/actions/workflows/ci.yml/badge.svg" /></a>
+  <a href="https://www.npmjs.com/package/@dadosh1984/warpweave"><img alt="npm version" src="https://img.shields.io/npm/v/@dadosh1984/warpweave?style=flat-square" /></a>
   <a href="./LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" /></a>
   <a href="https://discord.gg/YctCnvvshC"><img alt="Discord" src="https://img.shields.io/discord/1411657095639601154?style=flat-square&logo=discord&logoColor=white&label=Discord&suffix=%20online" /></a>
 </p>
@@ -17,9 +17,9 @@
 <details>
 <summary><strong>The most loved spec framework.</strong></summary>
 
-[![Stars](https://img.shields.io/github/stars/Fission-AI/OpenSpec?style=flat-square&label=Stars)](https://github.com/Fission-AI/OpenSpec/stargazers)
-[![Downloads](https://img.shields.io/npm/dm/@dadosh1984/spectrix?style=flat-square&label=Downloads/mo)](https://www.npmjs.com/package/@dadosh1984/spectrix)
-[![Contributors](https://img.shields.io/github/contributors/Fission-AI/OpenSpec?style=flat-square&label=Contributors)](https://github.com/Fission-AI/OpenSpec/graphs/contributors)
+[![Stars](https://img.shields.io/github/stars/dadosh1984/warpweave?style=flat-square&label=Stars)](https://github.com/dadosh1984/warpweave/stargazers)
+[![Downloads](https://img.shields.io/npm/dm/@dadosh1984/warpweave?style=flat-square&label=Downloads/mo)](https://www.npmjs.com/package/@dadosh1984/warpweave)
+[![Contributors](https://img.shields.io/github/contributors/dadosh1984/warpweave?style=flat-square&label=Contributors)](https://github.com/dadosh1984/warpweave/graphs/contributors)
 
 </details>
 <p></p>
@@ -33,7 +33,7 @@ Our philosophy:
 → scalable from personal projects to enterprises
 ```
 
-## Spectrix Unified
+## Warpweave Unified
 
 **Spec-driven minimalism with compressed feedback loops.** One organism. Four systems. Zero waste.
 
@@ -58,7 +58,7 @@ USER INTENT
 ### Quick Start
 
 ```bash
-npm install -g @dadosh1984/spectrix@latest
+npm install -g @dadosh1984/warpweave@latest
 brew install rtk
 cd your-project
 spectrix init
@@ -169,7 +169,7 @@ Solo, Spectrix keeps you and your AI honest on a single repo. On a team, the har
 Install Spectrix globally:
 
 ```bash
-npm install -g @dadosh1984/spectrix@latest
+npm install -g @dadosh1984/warpweave@latest
 ```
 
 Then navigate to your project directory and initialize:
@@ -199,7 +199,7 @@ Both are in the default profile. If you want the expanded workflow (`/otrix:new`
 
 **Start here:** the **[Documentation Home](docs/README.md)** maps everything. New to Spectrix? Read [Getting Started](docs/getting-started.md), then [How Commands Work](docs/how-commands-work.md) (where you actually type `/otrix:propose`).
 
-→ **[Spectrix Unified](docs/UNIFIED.md)**: the four systems, pipeline, profiles — how this fork integrates Superpowers, Ponytail, and RTK<br>
+→ **[Warpweave Unified](docs/UNIFIED.md)**: the four systems, pipeline, profiles — how this fork integrates Superpowers, Ponytail, and RTK<br>
 → **[Getting Started](docs/getting-started.md)**: first steps<br>
 → **[Explore First](docs/explore.md)**: think it through with `/otrix:explore` before you commit<br>
 → **[How Commands Work](docs/how-commands-work.md)**: where slash commands run vs the CLI<br>
@@ -247,7 +247,7 @@ AI coding assistants are powerful but unpredictable when requirements live only 
 **Upgrade the package**
 
 ```bash
-npm install -g @dadosh1984/spectrix@latest
+npm install -g @dadosh1984/warpweave@latest
 ```
 
 **Refresh agent instructions**

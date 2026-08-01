@@ -27,11 +27,11 @@ export const VALIDATION_MESSAGES = {
   CHANGE_WHAT_EMPTY: 'What Changes section cannot be empty',
   CHANGE_NO_DELTAS: 'Change must have at least one delta',
   CHANGE_SKIP_SPECS_CONFLICT:
-    'skip_specs is set in .openspec.yaml but spec files exist under specs/. Remove skip_specs or delete the delta spec files',
+    'skip_specs is set in .warpweave.yaml but spec files exist under specs/. Remove skip_specs or delete the delta spec files',
   CHANGE_SKIP_SPECS_ACCEPTED:
-    'skip_specs is set in .openspec.yaml: change declares no spec-level behavior changes, zero deltas accepted',
+    'skip_specs is set in .warpweave.yaml: change declares no spec-level behavior changes, zero deltas accepted',
   CHANGE_SKIP_SPECS_INVALID_METADATA:
-    'skip_specs is set but .openspec.yaml is not valid change metadata, so the marker is not honored. Fix the metadata',
+    'skip_specs is set but .warpweave.yaml is not valid change metadata, so the marker is not honored. Fix the metadata',
   CHANGE_TOO_MANY_DELTAS: `Consider splitting changes with more than ${MAX_DELTAS_PER_CHANGE} deltas`,
   DELTA_SPEC_EMPTY: 'Spec name cannot be empty',
   DELTA_DESCRIPTION_EMPTY: 'Delta description cannot be empty',
@@ -44,7 +44,7 @@ export const VALIDATION_MESSAGES = {
   
   // Guidance snippets (appended to primary messages for remediation)
   GUIDE_NO_DELTAS:
-    'No deltas found. Ensure your change has a specs/ directory with capability folders (e.g. specs/http-server/spec.md) containing .md files that use delta headers (## ADDED/MODIFIED/REMOVED/RENAMED Requirements) and that each requirement includes at least one "#### Scenario:" block. If this change intentionally modifies no specs (pure refactor, tooling, docs), set "skip_specs: true" in the change\'s .openspec.yaml instead. Tip: run "spectrix change show <change-id> --json --deltas-only" to inspect parsed deltas.',
+    'No deltas found. Ensure your change has a specs/ directory with capability folders (e.g. specs/http-server/spec.md) containing .md files that use delta headers (## ADDED/MODIFIED/REMOVED/RENAMED Requirements) and that each requirement includes at least one "#### Scenario:" block. If this change intentionally modifies no specs (pure refactor, tooling, docs), set "skip_specs: true" in the change\'s .warpweave.yaml instead. Tip: run "warpweave change show <change-id> --json --deltas-only" to inspect parsed deltas.',
   GUIDE_MISSING_SPEC_SECTIONS:
     'Missing required sections. Expected headers: "## Purpose" and "## Requirements". Example:\n## Purpose\n[brief purpose]\n\n## Requirements\n### Requirement: Clear requirement statement\nUsers SHALL ...\n\n#### Scenario: Descriptive name\n- **WHEN** ...\n- **THEN** ...',
   GUIDE_MISSING_CHANGE_SECTIONS:

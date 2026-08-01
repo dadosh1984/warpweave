@@ -354,8 +354,8 @@ describe('store canonical remote (3.3)', () => {
       createHealthyOpenSpecRoot(originWorktree);
       // Anchor every directory a healthy clone needs (the same job
       // store setup's anchor files do).
-      fs.writeFileSync(path.join(originWorktree, 'openspec', 'specs', '.gitkeep'), '');
-      fs.writeFileSync(path.join(originWorktree, 'openspec', 'changes', 'archive', '.gitkeep'), '');
+      fs.writeFileSync(path.join(originWorktree, 'spectrix', 'specs', '.gitkeep'), '');
+      fs.writeFileSync(path.join(originWorktree, 'spectrix', 'changes', 'archive', '.gitkeep'), '');
       fs.mkdirSync(path.join(originWorktree, '.openspec-store'), { recursive: true });
       fs.writeFileSync(
         path.join(originWorktree, '.openspec-store', 'store.yaml'),
@@ -370,14 +370,14 @@ describe('store canonical remote (3.3)', () => {
       // (backslashes fail isShellSafeRemote); git accepts it anywhere.
       const originRemote = originWorktree.split(path.sep).join('/');
       const appRepo = path.join(tempDir, 'app-repo');
-      fs.mkdirSync(path.join(appRepo, 'openspec'), { recursive: true });
+      fs.mkdirSync(path.join(appRepo, 'spectrix'), { recursive: true });
       fs.writeFileSync(
-        path.join(appRepo, 'openspec', 'config.yaml'),
+        path.join(appRepo, 'spectrix', 'config.yaml'),
         'schema: spec-driven\nreferences:\n' +
           `  - { id: team-context, remote: ${originRemote} }\n`
       );
-      fs.mkdirSync(path.join(appRepo, 'openspec', 'specs'), { recursive: true });
-      fs.mkdirSync(path.join(appRepo, 'openspec', 'changes', 'archive'), { recursive: true });
+      fs.mkdirSync(path.join(appRepo, 'spectrix', 'specs'), { recursive: true });
+      fs.mkdirSync(path.join(appRepo, 'spectrix', 'changes', 'archive'), { recursive: true });
 
       const created = await runCLI(['new', 'change', 'onboard-check', '--json'], {
         cwd: appRepo,
@@ -393,7 +393,7 @@ describe('store canonical remote (3.3)', () => {
       const entry = parseJson(degraded).references[0];
       expect(entry.status[0].code).toBe('reference_unresolved');
       const fix: string = entry.status[0].fix;
-      const expectedCheckout = path.join(scratchHome, 'openspec', 'team-context');
+      const expectedCheckout = path.join(scratchHome, 'spectrix', 'team-context');
       // The quote style is platform-deliberate: POSIX single quotes,
       // win32 double quotes (cmd/PowerShell treat ' as literal).
       const q = process.platform === 'win32' ? '"' : "'";
@@ -431,8 +431,8 @@ describe('store canonical remote (3.3)', () => {
       createHealthyOpenSpecRoot(storeRoot);
       // Keep specs/ and archive/ tracked so the pre-existing
       // fragile-directories warning stays out of this assertion.
-      fs.writeFileSync(path.join(storeRoot, 'openspec', 'specs', '.gitkeep'), '');
-      fs.writeFileSync(path.join(storeRoot, 'openspec', 'changes', 'archive', '.gitkeep'), '');
+      fs.writeFileSync(path.join(storeRoot, 'spectrix', 'specs', '.gitkeep'), '');
+      fs.writeFileSync(path.join(storeRoot, 'spectrix', 'changes', 'archive', '.gitkeep'), '');
       fs.mkdirSync(path.join(storeRoot, '.openspec-store'), { recursive: true });
       fs.writeFileSync(
         path.join(storeRoot, '.openspec-store', 'store.yaml'),

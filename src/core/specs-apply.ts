@@ -257,7 +257,7 @@ export async function buildUpdatedSpec(
       // Measured on the parsed overview, which is what the validator reads.
       warn(
         `${specName} - carried Purpose is under ${MIN_PURPOSE_LENGTH} characters; ` +
-          `spectrix validate --strict reports it as too brief.`
+          `warpweave validate --strict reports it as too brief.`
       );
     }
   }
@@ -530,7 +530,7 @@ export async function writeUpdatedSpec(
   if (options.silent) return;
 
   const specName = update.id;
-  console.log(`Applying changes to ${options.displayPath ?? `openspec/specs/${specName}/spec.md`}:`);
+  console.log(`Applying changes to ${options.displayPath ?? `warpweave/specs/${specName}/spec.md`}:`);
   if (counts.added) console.log(`  + ${counts.added} added`);
   if (counts.modified) console.log(`  ~ ${counts.modified} modified`);
   if (counts.removed) console.log(`  - ${counts.removed} removed`);

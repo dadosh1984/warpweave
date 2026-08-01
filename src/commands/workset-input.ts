@@ -159,8 +159,8 @@ export function toolUnavailableError(
       target: 'workset.tool',
       fix:
         alternative !== null
-          ? `Install '${opener.command}' or run: spectrix workset open ${worksetName} --tool ${alternative}`
-          : `Install '${opener.command}', then rerun: spectrix workset open ${worksetName}`,
+          ? `Install '${opener.command}' or run: warpweave workset open ${worksetName} --tool ${alternative}`
+          : `Install '${opener.command}', then rerun: warpweave workset open ${worksetName}`,
     }
   );
 }
@@ -179,7 +179,7 @@ export function noToolInstalledError(
     'workset_tool_unavailable',
     {
       target: 'workset.tool',
-      fix: `Install one of: ${commands}. Then rerun: spectrix workset open ${worksetName}`,
+      fix: `Install one of: ${commands}. Then rerun: warpweave workset open ${worksetName}`,
     }
   );
 }

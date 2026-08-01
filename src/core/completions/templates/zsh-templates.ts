@@ -5,21 +5,21 @@
 
 export const ZSH_DYNAMIC_HELPERS = `# Dynamic completion helpers
 
-# Use spectrix __complete to get available changes
+# Use warpweave __complete to get available changes
 _spectrix_complete_changes() {
   local -a changes
   while IFS=$'\\t' read -r id desc; do
     changes+=("$id:$desc")
-  done < <(spectrix __complete changes 2>/dev/null)
+  done < <(warpweave __complete changes 2>/dev/null)
   _describe "change" changes
 }
 
-# Use spectrix __complete to get available specs
+# Use warpweave __complete to get available specs
 _spectrix_complete_specs() {
   local -a specs
   while IFS=$'\\t' read -r id desc; do
     specs+=("$id:$desc")
-  done < <(spectrix __complete specs 2>/dev/null)
+  done < <(warpweave __complete specs 2>/dev/null)
   _describe "spec" specs
 }
 
@@ -28,18 +28,18 @@ _spectrix_complete_items() {
   local -a items
   while IFS=$'\\t' read -r id desc; do
     items+=("$id:$desc")
-  done < <(spectrix __complete changes 2>/dev/null)
+  done < <(warpweave __complete changes 2>/dev/null)
   while IFS=$'\\t' read -r id desc; do
     items+=("$id:$desc")
-  done < <(spectrix __complete specs 2>/dev/null)
+  done < <(warpweave __complete specs 2>/dev/null)
   _describe "item" items
 }
 
-# Use spectrix __complete to get available schemas
+# Use warpweave __complete to get available schemas
 _spectrix_complete_schemas() {
   local -a schemas
   while IFS=$'\\t' read -r id desc; do
     schemas+=("$id:$desc")
-  done < <(spectrix __complete schemas 2>/dev/null)
+  done < <(warpweave __complete schemas 2>/dev/null)
   _describe "schema" schemas
 }`;

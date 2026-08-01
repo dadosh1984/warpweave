@@ -4,13 +4,13 @@ Quick answers to the questions people ask most. If your question is really a "so
 
 ## The basics
 
-### What is Spectrix, in one sentence?
+### What is Warpweave, in one sentence?
 
 A lightweight layer that gets you and your AI coding assistant to agree on what to build, in writing, before any code is written.
 
 ### Why would I want that?
 
-Because AI assistants are confident even when they're wrong. When the requirements live only in a chat thread, the AI fills gaps with guesses, and you find out after the code exists. Spectrix moves the agreement earlier, where mistakes are cheap to fix. See [Core Concepts at a Glance](overview.md) for the full case.
+Because AI assistants are confident even when they're wrong. When the requirements live only in a chat thread, the AI fills gaps with guesses, and you find out after the code exists. Warpweave moves the agreement earlier, where mistakes are cheap to fix. See [Core Concepts at a Glance](overview.md) for the full case.
 
 ### Do I have to use it for everything?
 
@@ -18,33 +18,33 @@ No. Use it where agreement matters, which is most non-trivial work. For a one-ch
 
 ### Can I use it on a big existing codebase, or only new projects?
 
-Existing codebases are the main event. Spectrix is brownfield-first: you do not document your whole app up front. You write specs only for what each change touches, and your specs fill in over time around the work you actually do. There's a dedicated guide: [Using Spectrix in an Existing Project](existing-projects.md).
+Existing codebases are the main event. Warpweave is brownfield-first: you do not document your whole app up front. You write specs only for what each change touches, and your specs fill in over time around the work you actually do. There's a dedicated guide: [Using Warpweave in an Existing Project](existing-projects.md).
 
 ### Is it tied to one AI tool?
 
-No. Spectrix works with 30+ assistants, including Claude Code, Cursor, Devin Desktop, GitHub Copilot, Gemini CLI, Codex, and more. The full list and per-tool details are in [Supported Tools](supported-tools.md).
+No. Warpweave works with 30+ assistants, including Claude Code, Cursor, Devin Desktop, GitHub Copilot, Gemini CLI, Codex, and more. The full list and per-tool details are in [Supported Tools](supported-tools.md).
 
 ## Running commands
 
 ### Where do I type `/otrix:propose`?
 
-In your AI assistant's chat, not your terminal. This is the single most common point of confusion, so it has its own page: [How Commands Work](how-commands-work.md). Short version: `spectrix ...` runs in the terminal, `/otrix:...` runs in chat.
+In your AI assistant's chat, not your terminal. This is the single most common point of confusion, so it has its own page: [How Commands Work](how-commands-work.md). Short version: `warpweave ...` runs in the terminal, `/otrix:...` runs in chat.
 
 ### How do I "start interactive mode"?
 
-There isn't a separate mode to start. You open your AI assistant like normal and type a slash command into its chat. The slash command is how you "enter" Spectrix. (The one genuinely interactive terminal feature is `spectrix view`, a dashboard for browsing specs and changes.) Full explanation in [How Commands Work](how-commands-work.md).
+There isn't a separate mode to start. You open your AI assistant like normal and type a slash command into its chat. The slash command is how you "enter" Warpweave. (The one genuinely interactive terminal feature is `warpweave view`, a dashboard for browsing specs and changes.) Full explanation in [How Commands Work](how-commands-work.md).
 
 ### I typed a slash command and nothing happened. Why?
 
-Most likely you typed it in the terminal instead of your AI chat, you used a spelling your tool doesn't register, or the commands aren't installed yet. If the files are missing — or you never set the tool up — run `spectrix init`; `spectrix update` only refreshes files that already exist. Then restart your assistant and use the form printed under "Getting started" — see [How To Invoke](supported-tools.md#how-to-invoke). [Troubleshooting](troubleshooting.md#commands-dont-show-up) has the full checklist.
+Most likely you typed it in the terminal instead of your AI chat, you used a spelling your tool doesn't register, or the commands aren't installed yet. If the files are missing — or you never set the tool up — run `warpweave init`; `warpweave update` only refreshes files that already exist. Then restart your assistant and use the form printed under "Getting started" — see [How To Invoke](supported-tools.md#how-to-invoke). [Troubleshooting](troubleshooting.md#commands-dont-show-up) has the full checklist.
 
 ### Why is the syntax `/otrix:propose` in one tool and `/otrix-propose` in another?
 
-Each AI tool surfaces custom commands a little differently, and Spectrix spells them the way your tool loads the file it wrote. A command file named `otrix-propose.md` is typed `/otrix-propose`; one filed under `commands/otrix/` is typed `/otrix:propose`. Tools that take skills instead of commands use the skill name — Codex needs `$openspec-propose`, Kimi Code `/skill:openspec-propose`. The `spectrix init` "Getting started" line already prints the right form for the tools you picked; the full table is in [How To Invoke](supported-tools.md#how-to-invoke).
+Each AI tool surfaces custom commands a little differently, and Warpweave spells them the way your tool loads the file it wrote. A command file named `otrix-propose.md` is typed `/otrix-propose`; one filed under `commands/otrix/` is typed `/otrix:propose`. Tools that take skills instead of commands use the skill name — Codex needs `$warpweave-propose`, Kimi Code `/skill:warpweave-propose`. The `warpweave init` "Getting started" line already prints the right form for the tools you picked; the full table is in [How To Invoke](supported-tools.md#how-to-invoke).
 
 ### What's the difference between a skill and a command?
 
-Both are files Spectrix writes so your assistant can run the workflow. Skills (`.../skills/openspec-*/SKILL.md`) are the newer cross-tool standard; commands (`.../commands/otrix-*`) are the older per-tool slash files. You don't need to pick. You just type the slash command, and Spectrix installs whichever your tool uses.
+Both are files Warpweave writes so your assistant can run the workflow. Skills (`.../skills/warpweave-*/SKILL.md`) are the newer cross-tool standard; commands (`.../commands/otrix-*`) are the older per-tool slash files. You don't need to pick. You just type the slash command, and Warpweave installs whichever your tool uses.
 
 ## The workflow
 
@@ -66,7 +66,7 @@ Explore to think it through, propose to draft the plan, apply to build it, archi
 
 ### What are `core` and expanded profiles?
 
-A profile decides which slash commands get installed. **Core** (the default) gives you `propose`, `explore`, `apply`, `update`, `sync`, `archive`. The **expanded** set adds `new`, `continue`, `ff`, `verify`, `bulk-archive`, and `onboard` for finer control. Switch with `spectrix config profile`, then apply with `spectrix update`.
+A profile decides which slash commands get installed. **Core** (the default) gives you `propose`, `explore`, `apply`, `update`, `sync`, `archive`. The **expanded** set adds `new`, `continue`, `ff`, `verify`, `bulk-archive`, and `onboard` for finer control. Switch with `warpweave config profile`, then apply with `warpweave update`.
 
 ### Do I need to run `/otrix:sync`?
 
@@ -74,7 +74,7 @@ Usually not. Sync merges a change's delta specs into your main specs, and `/otri
 
 ### How do I edit a proposal, spec, or task after I've started?
 
-Just edit the file. Every artifact is plain Markdown in `openspec/changes/<name>/`, and there's no locked phase or special edit mode. Change it by hand, or ask your AI to revise it ("update the design to use a queue"), then keep going. The AI always works from the current file contents. Full guide: [Editing & Iterating on a Change](editing-changes.md).
+Just edit the file. Every artifact is plain Markdown in `warpweave/changes/<name>/`, and there's no locked phase or special edit mode. Change it by hand, or ask your AI to revise it ("update the design to use a queue"), then keep going. The AI always works from the current file contents. Full guide: [Editing & Iterating on a Change](editing-changes.md).
 
 ### Can I go back and change the plan after implementing some of it?
 
@@ -82,7 +82,7 @@ Yes, at any time. The workflow is fluid, so review and editing aren't phases you
 
 ### I edited the code by hand. How do I reconcile it with the spec?
 
-Bring them back in sync before you archive, since archiving makes your specs the record of truth. If the code is now correct, update the delta spec to match what you shipped; if the spec is correct, keep building until the code agrees. `/otrix:verify` surfaces the mismatches. See [Editing & Iterating on a Change](editing-changes.md#i-edited-the-code-by-hand-how-do-i-reconcile-that-with-openspec).
+Bring them back in sync before you archive, since archiving makes your specs the record of truth. If the code is now correct, update the delta spec to match what you shipped; if the spec is correct, keep building until the code agrees. `/otrix:verify` surfaces the mismatches. See [Editing & Iterating on a Change](editing-changes.md#i-edited-the-code-by-hand-how-do-i-reconcile-that-with-warpweave).
 
 ### When should I update an existing change versus start a new one?
 
@@ -92,7 +92,7 @@ Update when it's the same work, refined. Start fresh when the intent fundamental
 
 This is where specs earn their keep. Because the plan lives in files (not only in chat history), you can clear your context, start a fresh AI session, and pick up with `/otrix:apply`; it reads the artifacts and resumes from the first unchecked task. If requirements change, edit the artifacts to match the new reality and continue. Keeping a clean context window also produces better results; clear it before implementation.
 
-### Should I commit the `openspec/` folder to git?
+### Should I commit the `warpweave/` folder to git?
 
 Yes. Your specs, active changes, and archive are part of your project's history. Commit them like any other source. The archive in particular becomes a durable record of why your system works the way it does.
 
@@ -104,17 +104,17 @@ A spec describes observable behavior: what the system does, its inputs, outputs,
 
 ### What's a delta spec?
 
-A spec that describes only what's changing, using `ADDED`, `MODIFIED`, and `REMOVED` sections, rather than restating the whole spec. It's how Spectrix handles edits to existing systems cleanly. See [Concepts](concepts.md#delta-specs).
+A spec that describes only what's changing, using `ADDED`, `MODIFIED`, and `REMOVED` sections, rather than restating the whole spec. It's how Warpweave handles edits to existing systems cleanly. See [Concepts](concepts.md#delta-specs).
 
 ### Where do archived changes go?
 
-To `openspec/changes/archive/YYYY-MM-DD-<name>/`, with all artifacts preserved. Nothing is deleted; the change just moves out of your active list.
+To `warpweave/changes/archive/YYYY-MM-DD-<name>/`, with all artifacts preserved. Nothing is deleted; the change just moves out of your active list.
 
 ## Configuration and customization
 
 ### How do I tell the AI about my tech stack?
 
-Put it in `openspec/config.yaml` under `context:`. That text is injected into every planning request, so the AI always knows your stack and conventions. See [Customization](customization.md#project-configuration).
+Put it in `warpweave/config.yaml` under `context:`. That text is injected into every planning request, so the AI always knows your stack and conventions. See [Customization](customization.md#project-configuration).
 
 ### Can I generate specs in a language other than English?
 
@@ -122,25 +122,25 @@ Yes. Add a language instruction to your config's `context:`. [Multi-Language](mu
 
 ### Can I change the workflow itself?
 
-Yes, with custom schemas. A schema defines which artifacts exist and how they depend on each other. Fork the default with `spectrix schema fork spec-driven my-workflow`, then edit it. See [Customization](customization.md#custom-schemas).
+Yes, with custom schemas. A schema defines which artifacts exist and how they depend on each other. Fork the default with `warpweave schema fork spec-driven my-workflow`, then edit it. See [Customization](customization.md#custom-schemas).
 
 ## Models, privacy, and upgrades
 
 ### Which AI model should I use?
 
-Spectrix works best with high-reasoning models. The README recommends models like Codex 5.5 and Opus 4.7 for both planning and implementation. Also keep your context window clean: clear it before implementation for best results.
+Warpweave works best with high-reasoning models. The README recommends models like Codex 5.5 and Opus 4.7 for both planning and implementation. Also keep your context window clean: clear it before implementation for best results.
 
-### Does Spectrix collect data?
+### Does Warpweave collect data?
 
 It collects anonymous usage stats: command names and version only. No arguments, paths, content, or personal data, and it's off automatically in CI. Opt out with `export OPENSPEC_TELEMETRY=0` or `export DO_NOT_TRACK=1`.
 
 ### How do I upgrade?
 
-Two steps. Upgrade the package (`npm install -g @dadosh1984/spectrix@latest`), then run `spectrix update` inside each project to refresh the generated skills and commands.
+Two steps. Upgrade the package (`npm install -g @dadosh1984/warpweave@latest`), then run `warpweave update` inside each project to refresh the generated skills and commands.
 
-### How do I uninstall Spectrix?
+### How do I uninstall Warpweave?
 
-There's no uninstall command, because it's just a global package plus files in your project. Remove the package (`npm uninstall -g @dadosh1984/spectrix`), and optionally delete the `openspec/` directory and the generated tool files. Step-by-step, including what's safe to keep, is in [Installation: Uninstalling](installation.md#uninstalling).
+There's no uninstall command, because it's just a global package plus files in your project. Remove the package (`npm uninstall -g @dadosh1984/warpweave`), and optionally delete the `warpweave/` directory and the generated tool files. Step-by-step, including what's safe to keep, is in [Installation: Uninstalling](installation.md#uninstalling).
 
 ## Getting help
 
@@ -148,7 +148,7 @@ There's no uninstall command, because it's just a global package plus files in y
 
 - **Discord:** [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
 - **GitHub Issues:** [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
-- **From your terminal:** `spectrix feedback "your message"` opens a GitHub issue for you.
+- **From your terminal:** `warpweave feedback "your message"` opens a GitHub issue for you.
 
 ### These docs are wrong or confusing. What do I do?
 

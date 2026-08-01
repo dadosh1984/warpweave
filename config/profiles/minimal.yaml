@@ -1,7 +1,7 @@
 # Minimal profile: solo developer, small projects
 profile: minimal
 
-openspec:
+warpweave:
   require_approval: false  # self-approve
   auto_archive: true
 

@@ -1,14 +1,14 @@
-# Spectrix Unified
+# Warpweave Unified
 
 **Spec-driven minimalism with compressed feedback loops.** One organism. Four systems. Zero waste.
 
-Spectrix Unified is a fork of [Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) that embeds three tools into the existing `spec-driven` pipeline. The artifact structure (`proposal → specs → design → tasks`) stays exactly the same — each phase of the pipeline gains built-in support for the three tools.
+Warpweave Unified is a fork of [Fission-AI/OpenSpec](https://github.com/Fission-AI/OpenSpec) that embeds three tools into the existing `spec-driven` pipeline. The artifact structure (`proposal → specs → design → tasks`) stays exactly the same — each phase of the pipeline gains built-in support for the three tools.
 
 ## The Four Systems
 
 | Layer | Question | System | Effect |
 |-------|----------|--------|--------|
-| Spec | WHAT to build | [Spectrix](https://github.com/Fission-AI/OpenSpec) | requirements with GIVEN/WHEN/THEN scenarios |
+| Spec | WHAT to build | [Warpweave](https://github.com/Fission-AI/OpenSpec) | requirements with GIVEN/WHEN/THEN scenarios |
 | Process | HOW to build | [Superpowers](https://github.com/obra/superpowers) | TDD, subagent-driven development, two-stage review |
 | Quality | HOW MUCH to write | [Ponytail](https://github.com/DietrichGebert/ponytail) | -54% lines, YAGNI ladder |
 | Feedback | HOW FAST to iterate | [RTK](https://github.com/rtk-ai/rtk) | -70% tokens on command output |
@@ -19,11 +19,11 @@ Every action passes through all four layers. Never skip a layer.
 
 ```text
 USER INTENT
-  → PHASE 1: SPEC GATE  (Spectrix)      — proposal, specs, design, tasks; human approves
+  → PHASE 1: SPEC GATE  (Warpweave)      — proposal, specs, design, tasks; human approves
   → PHASE 2: PLAN       (Superpowers)   — tasks decomposed, file-level granularity
   → PHASE 3: EXECUTE    (Ponytail + Superpowers TDD) — RED → GREEN → REFACTOR, ladder rungs
   → PHASE 4: FEEDBACK   (RTK)           — every shell command runs through `rtk`
-  → PHASE 5: REVIEW     (Superpowers + Spectrix) — two-stage review, archive, spec sync
+  → PHASE 5: REVIEW     (Superpowers + Warpweave) — two-stage review, archive, spec sync
 ```
 
 ### Gates
@@ -84,7 +84,7 @@ You receive compressed output. Act on signal, ignore noise. On command failure, 
 
 ## Configuration
 
-`spectrix init` copies the unified configuration into your project:
+`warpweave init` copies the unified configuration into your project:
 
 | Source | Destination |
 |--------|-------------|
@@ -98,7 +98,7 @@ You receive compressed output. Act on signal, ignore noise. On command failure, 
 Single source of truth for all four systems:
 
 ```toml
-[openspec]     # schema, profile, auto_archive, require_approval
+[warpweave]     # schema, profile, auto_archive, require_approval
 [superpowers]  # tdd_mode, subagent_review, task_max_minutes
 [ponytail]     # mode, yagni_strict, prefer_stdlib
 [rtk]          # auto_rewrite, ultra_compact, tee_mode, hooks
@@ -120,10 +120,10 @@ Select a profile with the `UNIFIED_PROFILE` environment variable (see `.env.exam
 ## Installation
 
 ```bash
-npm install -g @dadosh1984/spectrix@latest
+npm install -g @dadosh1984/warpweave@latest
 brew install rtk
 cd your-project
-spectrix init
+warpweave init
 rtk init -g --opencode
 ```
 
@@ -140,7 +140,7 @@ Add Superpowers and Ponytail to `opencode.json`:
 
 ## Commands
 
-The unified workflow uses the standard Spectrix commands:
+The unified workflow uses the standard Warpweave commands:
 
 | Command | Purpose |
 |---------|---------|
@@ -149,13 +149,13 @@ The unified workflow uses the standard Spectrix commands:
 | `/otrix:apply` | Implement tasks with TDD and ladder rungs |
 | `/otrix:archive` | Archive the change, sync specs |
 
-Your tool may spell `/otrix:propose` as `/otrix-propose`, `@otrix-propose`, or `$openspec-propose` — `spectrix init` prints the right form for the tools you picked.
+Your tool may spell `/otrix:propose` as `/otrix-propose`, `@otrix-propose`, or `$warpweave-propose` — `warpweave init` prints the right form for the tools you picked.
 
 ## FAQ
 
-**Do I need to change how I use Spectrix?** No. The artifact structure and commands are identical. The three tools are embedded as instructions, templates, and suggestions.
+**Do I need to change how I use Warpweave?** No. The artifact structure and commands are identical. The three tools are embedded as instructions, templates, and suggestions.
 
-**Does Spectrix Unified change the schema?** No. The schema stays `spec-driven`. We modify the existing `instruction` blocks, templates, and skill generator.
+**Does Warpweave Unified change the schema?** No. The schema stays `spec-driven`. We modify the existing `instruction` blocks, templates, and skill generator.
 
 **What if I don't want RTK/Superpowers/Ponytail?** They are suggestions, not requirements. The spec-driven pipeline works standalone; the unified tooling layers on top.
 

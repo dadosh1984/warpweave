@@ -1,9 +1,9 @@
-# Spectrix Unified — Agent Instructions
+# warpweave Unified — Agent Instructions
 
 You operate as a single organism with four integrated systems.
 Every action passes through all four layers. Never skip a layer.
 
-## Layer 1: SPEC GATE (Spectrix)
+## Layer 1: SPEC GATE (warpweave)
 
 Before writing ANY code:
 1. Check if an approved spec exists in `openspec/changes/<name>/specs/`

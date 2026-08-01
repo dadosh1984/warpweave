@@ -1,10 +1,10 @@
 # Getting Started
 
-This guide explains how Spectrix works after you've installed and initialized it. For installation instructions, see the [main README](../README.md#quick-start) or the [Installation guide](installation.md). New to the whole docs set? The [documentation home](README.md) maps everything.
+This guide explains how Warpweave works after you've installed and initialized it. For installation instructions, see the [main README](../README.md#quick-start) or the [Installation guide](installation.md). New to the whole docs set? The [documentation home](README.md) maps everything.
 
 > **Where do I type these commands?** Two places, and mixing them up is the most common early stumble.
 >
-> - `spectrix ...` commands (like `spectrix init`) run in your **terminal**.
+> - `warpweave ...` commands (like `warpweave init`) run in your **terminal**.
 > - `/otrix:...` commands (like `/otrix:propose`) run in your **AI assistant's chat**, the same box where you'd ask it to write code.
 >
 > There's no separate "interactive mode" to start. You just type the slash command in chat and your assistant takes it from there. Full explanation: [How Commands Work](how-commands-work.md).
@@ -14,8 +14,8 @@ This guide explains how Spectrix works after you've installed and initialized it
 The whole loop, with each step labeled by where it happens:
 
 ```text
-TERMINAL   $ npm install -g @dadosh1984/spectrix@latest
-TERMINAL   $ cd your-project && spectrix init
+TERMINAL   $ npm install -g @dadosh1984/warpweave@latest
+TERMINAL   $ cd your-project && warpweave init
 AI CHAT      /otrix:explore                    (optional: think it through first)
 AI CHAT      /otrix:propose add-dark-mode      (AI drafts the plan; you review it)
 AI CHAT      /otrix:apply                      (AI builds it)
@@ -30,7 +30,7 @@ Two terminal steps to set up, then you live in chat. The rest of this guide unpa
 
 ## How It Works
 
-Spectrix helps you and your AI coding assistant agree on what to build before any code is written.
+Warpweave helps you and your AI coding assistant agree on what to build before any code is written.
 
 **Default quick path (core profile):**
 
@@ -47,14 +47,14 @@ Start with `/otrix:explore` when you're figuring out what to do, or jump straigh
 /otrix:new ──► /otrix:ff or /otrix:continue ──► /otrix:apply ──► /otrix:verify ──► /otrix:archive
 ```
 
-The default global profile is `core`, which includes `propose`, `explore`, `apply`, `update`, `sync`, and `archive`. You can enable the expanded workflow commands with `spectrix config profile` and then `spectrix update`.
+The default global profile is `core`, which includes `propose`, `explore`, `apply`, `update`, `sync`, and `archive`. You can enable the expanded workflow commands with `warpweave config profile` and then `warpweave update`.
 
-## What Spectrix Creates
+## What Warpweave Creates
 
-After running `spectrix init`, your project has this structure:
+After running `warpweave init`, your project has this structure:
 
 ```
-openspec/
+warpweave/
 ├── specs/              # Source of truth (your system's behavior)
 │   └── <domain>/
 │       └── spec.md
@@ -99,7 +99,7 @@ You can always go back and refine earlier artifacts as you learn more during imp
 
 ## How Delta Specs Work
 
-Delta specs are the key concept in Spectrix. They show what's changing relative to your current specs.
+Delta specs are the key concept in Warpweave. They show what's changing relative to your current specs.
 
 ### The Format
 
@@ -143,7 +143,7 @@ When you archive a change:
 2. **MODIFIED** requirements replace the existing version
 3. **REMOVED** requirements are deleted from the main spec
 
-The change folder moves to `openspec/changes/archive/` for audit history.
+The change folder moves to `warpweave/changes/archive/` for audit history.
 
 ## Example: Your First Change
 
@@ -154,7 +154,7 @@ Let's walk through adding dark mode to an application.
 ```text
 You: /otrix:propose add-dark-mode
 
-AI:  Created openspec/changes/add-dark-mode/
+AI:  Created warpweave/changes/add-dark-mode/
      ✓ proposal.md — why we're doing this, what's changing
      ✓ specs/       — requirements and scenarios
      ✓ design.md    — technical approach
@@ -249,8 +249,8 @@ During implementation, if you discover the design needs adjustment, just update 
 You: /otrix:archive
 
 AI:  Archiving add-dark-mode...
-     ✓ Merged specs into openspec/specs/ui/spec.md
-     ✓ Moved to openspec/changes/archive/2025-01-24-add-dark-mode/
+     ✓ Merged specs into warpweave/specs/ui/spec.md
+     ✓ Moved to warpweave/changes/archive/2025-01-24-add-dark-mode/
      Done! Ready for the next feature.
 ```
 
@@ -262,16 +262,16 @@ Use the CLI to check on your changes:
 
 ```bash
 # List active changes
-spectrix list
+warpweave list
 
 # View change details
-spectrix show add-dark-mode
+warpweave show add-dark-mode
 
 # Validate spec formatting
-spectrix validate add-dark-mode
+warpweave validate add-dark-mode
 
 # Interactive dashboard
-spectrix view
+warpweave view
 ```
 
 ## Next Steps
@@ -279,13 +279,13 @@ spectrix view
 - [Explore First](explore.md) - Use `/otrix:explore` to think through an idea before you commit
 - [Reviewing a Change](reviewing-changes.md) - What to check in the plan the AI drafts, before any code
 - [Writing Good Specs](writing-specs.md) - What a strong requirement and scenario look like
-- [Using Spectrix in an Existing Project](existing-projects.md) - Start on a large brownfield codebase
+- [Using Warpweave in an Existing Project](existing-projects.md) - Start on a large brownfield codebase
 - [Editing & Iterating on a Change](editing-changes.md) - Update artifacts, go back, reconcile manual edits
 - [Core Concepts at a Glance](overview.md) - The whole mental model on one page
 - [Examples & Recipes](examples.md) - Real changes, start to finish
 - [Workflows](workflows.md) - Common patterns and when to use each command
 - [Commands](commands.md) - Full reference for all slash commands
 - [Concepts](concepts.md) - Deeper understanding of specs, changes, and schemas
-- [Customization](customization.md) - Make Spectrix work your way
+- [Customization](customization.md) - Make Warpweave work your way
 - [Stores](stores-beta/user-guide.md) - Planning that spans repos or teams? Keep it in its own repo (beta)
 - [FAQ](faq.md) and [Troubleshooting](troubleshooting.md) - When you get stuck

@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getDependencyCheckSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-dependency-check',
+    name: 'warpweave-dependency-check',
     description: 'Check a proposed new dependency against the Ponytail ladder before adding it. Use when the user wants to add a dependency or verify that an existing one is justified.',
     instructions: `Intercept any proposed new dependency and walk the Ponytail ladder before approving it.
 
@@ -70,8 +70,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Prefer "existing dependency" over a new one when the gap is small
 - Never approve a dependency to satisfy a YAGNI need`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 

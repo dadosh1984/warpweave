@@ -21,7 +21,7 @@ import {
   DEFAULT_CONFIG,
 } from '../core/config-schema.js';
 import { CORE_WORKFLOWS, ALL_WORKFLOWS, getProfileWorkflows, UNIFIED_PROFILE_PRESETS } from '../core/profiles.js';
-import { OPENSPEC_DIR_NAME } from '../core/config.js';
+import { WARPWEAVE_DIR_NAME } from '../core/config.js';
 import { loadUnifiedConfig, formatUnifiedConfigSummary } from '../core/unified-config.js';
 import { hasProjectConfigDrift } from '../core/profile-sync-drift.js';
 import { UpdateCommand } from '../core/update.js';
@@ -88,7 +88,7 @@ const WORKFLOW_PROMPT_META: Record<string, WorkflowPromptMeta> = {
   },
   onboard: {
     name: 'Onboard',
-    description: 'Guided onboarding flow for Spectrix',
+    description: 'Guided onboarding flow for Warpweave',
   },
 };
 
@@ -189,18 +189,18 @@ function maybeWarnProjectConfigDrift(
   state: ProfileState,
   colorize: (message: string) => string
 ): void {
-  const openspecDir = path.join(projectDir, OPENSPEC_DIR_NAME);
-  if (!fs.existsSync(openspecDir)) {
+  const spectrixDir = path.join(projectDir, WARPWEAVE_DIR_NAME);
+  if (!fs.existsSync(spectrixDir)) {
     return;
   }
   if (!hasProjectConfigDrift(projectDir, state.workflows, state.delivery)) {
     return;
   }
-  console.log(colorize('Warning: Global config is not applied to this project. Run `spectrix update` to sync.'));
+  console.log(colorize('Warning: Global config is not applied to this project. Run `warpweave update` to sync.'));
 }
 
 function printConfigProfileApplyGuidance(): void {
-  console.log('Config updated. Run `spectrix update` in your projects to apply.');
+  console.log('Config updated. Run `warpweave update` in your projects to apply.');
 }
 
 /**
@@ -211,7 +211,7 @@ function printConfigProfileApplyGuidance(): void {
 export function registerConfigCommand(program: Command): void {
   const configCmd = program
     .command('config')
-    .description('View and modify global Spectrix configuration')
+    .description('View and modify global Warpweave configuration')
     .option('--scope <scope>', 'Config scope (only "global" supported currently)')
     .hook('preAction', (thisCommand) => {
       const opts = thisCommand.opts();
@@ -312,7 +312,7 @@ export function registerConfigCommand(program: Command): void {
       if (!keyValidation.valid && (!allowUnknown || unsafeKey)) {
         const reason = keyValidation.reason ? ` ${keyValidation.reason}.` : '';
         console.error(`Error: Invalid configuration key "${key}".${reason}`);
-        console.error('Use "spectrix config list" to see available keys.');
+        console.error('Use "warpweave config list" to see available keys.');
         if (!allowUnknown && !unsafeKey) {
           console.error('Pass --allow-unknown to bypass this check.');
         }
@@ -369,7 +369,7 @@ export function registerConfigCommand(program: Command): void {
     .action(async (options: { all?: boolean; yes?: boolean }) => {
       if (!options.all) {
         console.error('Error: --all flag is required for reset');
-        console.error('Usage: spectrix config reset --all [-y]');
+        console.error('Usage: warpweave config reset --all [-y]');
         process.exitCode = 1;
         return;
       }
@@ -469,7 +469,7 @@ export function registerConfigCommand(program: Command): void {
     .command('profile [preset]')
     .description('Configure workflow profile (interactive picker or preset shortcut)')
     .action(async (preset?: string) => {
-      // Preset shortcut: `spectrix config profile core`
+      // Preset shortcut: `warpweave config profile core`
       if (preset === 'core') {
         const config = getGlobalConfig();
         config.profile = 'core';
@@ -480,7 +480,7 @@ export function registerConfigCommand(program: Command): void {
         return;
       }
 
-      // Unified profile shortcuts: `spectrix config profile standard`, etc.
+      // Unified profile shortcuts: `warpweave config profile standard`, etc.
       const unifiedPreset = UNIFIED_PROFILE_PRESETS.find((entry) => entry.id === preset);
       if (unifiedPreset) {
         const config = getGlobalConfig();
@@ -503,7 +503,7 @@ export function registerConfigCommand(program: Command): void {
       // Non-interactive check
       if (!process.stdout.isTTY) {
         const presets = ['core', ...UNIFIED_PROFILE_PRESETS.map((entry) => entry.id)];
-        console.error(`Interactive mode required. Use \`spectrix config profile <preset>\` (${presets.join(', ')}) or set config via environment/flags.`);
+        console.error(`Interactive mode required. Use \`warpweave config profile <preset>\` (${presets.join(', ')}) or set config via environment/flags.`);
         process.exitCode = 1;
         return;
       }
@@ -641,10 +641,10 @@ export function registerConfigCommand(program: Command): void {
         config.workflows = nextState.workflows;
         saveGlobalConfig(config);
 
-        // Check if inside an Spectrix project
+        // Check if inside an Warpweave project
         const projectDir = process.cwd();
-        const openspecDir = path.join(projectDir, OPENSPEC_DIR_NAME);
-        if (fs.existsSync(openspecDir)) {
+        const spectrixDir = path.join(projectDir, WARPWEAVE_DIR_NAME);
+        if (fs.existsSync(spectrixDir)) {
           const applyNow = await confirm({
             message: 'Apply changes to this project now?',
             default: true,
@@ -653,9 +653,9 @@ export function registerConfigCommand(program: Command): void {
           if (applyNow) {
             try {
               await new UpdateCommand().execute(projectDir);
-              console.log('Run `spectrix update` in your other projects to apply.');
+              console.log('Run `warpweave update` in your other projects to apply.');
             } catch (error) {
-              console.error(`\`spectrix update\` failed: ${asErrorMessage(error)}`);
+              console.error(`\`warpweave update\` failed: ${asErrorMessage(error)}`);
               console.error('Please run it manually to apply the profile changes.');
               process.exitCode = 1;
             }

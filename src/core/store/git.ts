@@ -104,7 +104,7 @@ export async function commitStoreFiles(
     await execFileAsync('git', ['add', '--', ...pathspecs], { cwd: storeRoot });
     await execFileAsync(
       'git',
-      ['commit', '-m', `Initialize Spectrix store ${id}`, '--', ...pathspecs],
+      ['commit', '-m', `Initialize Warpweave store ${id}`, '--', ...pathspecs],
       { cwd: storeRoot }
     );
   } catch (error) {

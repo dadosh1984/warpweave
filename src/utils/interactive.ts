@@ -39,7 +39,7 @@ export function isInteractive(value?: boolean | InteractiveOptions): boolean {
  * - It is not a substitute for `isInteractive()`. This classifies a prompt
  *   that has *already failed*, so piped answers are unaffected: an answer
  *   that arrives resolves the prompt and never reaches this check. Refusing
- *   to prompt up front would break `printf 'y\n' | spectrix archive ...`,
+ *   to prompt up front would break `printf 'y\n' | warpweave archive ...`,
  *   which works today.
  * - It is not a cancellation check. Ctrl-C raises the same error class, and
  *   it reaches a process whose stdin is a pipe just as easily as one at a

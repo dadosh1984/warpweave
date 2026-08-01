@@ -7,13 +7,13 @@
 
 ## The problem this solves
 
-Spectrix normally lives inside one code repo: an `openspec/` folder next to
+Warpweave normally lives inside one code repo: an `warpweave/` folder next to
 your code, holding specs and changes for that repo.
 
 That stops fitting the moment your planning is bigger than one repo:
 
 - Your work spans several repos — one feature touches the API server, the
-  web app, and a shared library. Whose `openspec/` folder does the plan
+  web app, and a shared library. Whose `warpweave/` folder does the plan
   live in?
 - Your team plans before code exists, or plans things that never become
   code in *this* repo.
@@ -21,16 +21,16 @@ That stops fitting the moment your planning is bigger than one repo:
   version drifts, and your coding agent can't read it anyway.
 
 A **store** is the answer: a standalone repo whose whole job is planning.
-It has the same `openspec/` shape you already know — specs and changes —
+It has the same `warpweave/` shape you already know — specs and changes —
 plus a small identity file. You register it on your machine once, by name,
-and then every normal Spectrix command can work in it from anywhere.
+and then every normal Warpweave command can work in it from anywhere.
 
 ## The shape
 
 ```
             team-plans  (a store: planning in its own repo)
-            ├── .openspec-store/store.yaml     identity: "I am team-plans"
-            └── openspec/
+            ├── .warpweave-store/store.yaml     identity: "I am team-plans"
+            └── warpweave/
                 ├── specs/      what is true
                 └── changes/    what is in motion
                       ▲
@@ -45,9 +45,9 @@ and then every normal Spectrix command can work in it from anywhere.
 Two rules keep this simple:
 
 1. **A store is just a git repo.** You commit, push, pull, and review it
-   yourself. Spectrix never clones, syncs, or pushes anything on its own.
+   yourself. Warpweave never clones, syncs, or pushes anything on its own.
 2. **Declarations, not machinery.** Repos can *declare* how they relate to
-   stores (shown below). Declarations change what Spectrix can tell you —
+   stores (shown below). Declarations change what Warpweave can tell you —
    never where your commands act.
 
 ## Five minutes to your first store
@@ -55,35 +55,35 @@ Two rules keep this simple:
 Two commands take you from nothing to a working, store-scoped change:
 
 ```bash
-spectrix store setup team-plans --path ~/openspec/team-plans
+warpweave store setup team-plans --path ~/warpweave/team-plans
 ```
 
 ```
 Store ready: team-plans
-Location: /Users/you/openspec/team-plans
-Spectrix root: ready
+Location: /Users/you/warpweave/team-plans
+Warpweave root: ready
 Registry: registered
 
-Next: run normal Spectrix commands against this store, for example:
-  spectrix new change <change-id> --store team-plans
+Next: run normal Warpweave commands against this store, for example:
+  warpweave new change <change-id> --store team-plans
 Share this store by committing and pushing it like any Git repo.
 ```
 
 ```bash
-spectrix new change add-login --store team-plans
+warpweave new change add-login --store team-plans
 ```
 
 ```
-Using Spectrix root: team-plans (/Users/you/openspec/team-plans)
-Created change 'add-login' at /Users/you/openspec/team-plans/openspec/changes/add-login/
+Using Warpweave root: team-plans (/Users/you/warpweave/team-plans)
+Created change 'add-login' at /Users/you/warpweave/team-plans/warpweave/changes/add-login/
 Schema: spec-driven
-Next: spectrix status --change add-login --store team-plans
+Next: warpweave status --change add-login --store team-plans
 ```
 
 That's the whole model. From here the lifecycle is exactly what you know —
 `status`, `instructions`, `validate`, `archive` — with `--store team-plans`
 on each command, and every printed hint carries the flag for you. The
-`Using Spectrix root:` line always tells you where a command is acting.
+`Using Warpweave root:` line always tells you where a command is acting.
 
 ## Story: one team, one planning repo
 
@@ -93,13 +93,13 @@ them across code repos.
 **Day one (whoever sets it up):**
 
 ```bash
-spectrix store setup team-plans --path ~/openspec/team-plans \
+warpweave store setup team-plans --path ~/warpweave/team-plans \
   --remote git@github.com:acme/team-plans.git
-git -C ~/openspec/team-plans push -u origin main
+git -C ~/warpweave/team-plans push -u origin main
 ```
 
 Passing `--remote` records the clone URL inside the store's own identity
-file (`.openspec-store/store.yaml`), in the initial commit. Every future
+file (`.warpweave-store/store.yaml`), in the initial commit. Every future
 clone is born knowing where it came from, so health checks and error
 messages can print a complete, pasteable fix for teammates who don't have
 it yet.
@@ -107,15 +107,15 @@ it yet.
 **Every teammate (once per machine):**
 
 ```bash
-git clone git@github.com:acme/team-plans.git ~/openspec/team-plans
-spectrix store register ~/openspec/team-plans
+git clone git@github.com:acme/team-plans.git ~/warpweave/team-plans
+warpweave store register ~/warpweave/team-plans
 ```
 
 From then on, everyone works in the same planning repo by name:
 
 ```bash
-spectrix status --store team-plans --change add-login
-spectrix show add-login --store team-plans
+warpweave status --store team-plans --change add-login
+warpweave show add-login --store team-plans
 ```
 
 **Sharing work is git, on purpose.** A change you create exists only in
@@ -124,23 +124,23 @@ branches, pull requests, and review for free, because a store is an
 ordinary repo.
 
 **Connecting the team's code repos.** A code repo whose planning is fully
-externalized needs exactly one line, in `openspec/config.yaml`:
+externalized needs exactly one line, in `warpweave/config.yaml`:
 
 ```yaml
-# web-app/openspec/config.yaml
+# web-app/warpweave/config.yaml
 store: team-plans
 ```
 
-Now every Spectrix command run inside `web-app` acts on `team-plans` with
+Now every Warpweave command run inside `web-app` acts on `team-plans` with
 no flags at all:
 
 ```bash
 cd ~/src/web-app
-spectrix status --change add-login
+warpweave status --change add-login
 ```
 
 ```
-Using Spectrix root: team-plans (/Users/you/openspec/team-plans)
+Using Warpweave root: team-plans (/Users/you/warpweave/team-plans)
 ...
 ```
 
@@ -153,7 +153,7 @@ code repos that all plan into the same store, set it once, globally,
 instead of adding the `store:` line to each repo:
 
 ```bash
-spectrix config set defaultStore team-plans
+warpweave config set defaultStore team-plans
 ```
 
 Now any command run outside a planning root — and with no `--store` and no
@@ -162,7 +162,7 @@ precedence list, so `--store`, a local root, and a project `store:` pointer
 all still win. The root banner and JSON `root` block report
 `source: "global_default"` with the store id, so you can always tell a
 machine-wide default from a repo's own pointer. Clear it with
-`spectrix config unset defaultStore`. If the id is not registered, commands
+`warpweave config unset defaultStore`. If the id is not registered, commands
 error and tell you to register it or clear the stale default.
 
 ## Story: requirements that cross team lines
@@ -175,29 +175,29 @@ relationship without moving anyone's work.
    platform-reqs (store)                 api-server (code repo)
    owned by the platform team            owned by a product team
    ┌──────────────────────────┐          ┌──────────────────────────┐
-   │ openspec/specs/          │ ◀────────│ openspec/config.yaml     │
+   │ warpweave/specs/          │ ◀────────│ warpweave/config.yaml     │
    │   payments/spec.md       │ reads    │   references:            │
    │   auth/spec.md           │          │     - platform-reqs      │
-   │                          │          │ openspec/specs/          │
-   │ openspec/changes/        │          │   (their own designs)    │
-   │   platform work          │          │ openspec/changes/        │
+   │                          │          │ warpweave/specs/          │
+   │ warpweave/changes/        │          │   (their own designs)    │
+   │   platform work          │          │ warpweave/changes/        │
    │                          │          │   (their own work)       │
    │                          │          └──────────────────────────┘
    └──────────────────────────┘
 ```
 
 **The product team declares what it draws on** in its repo's
-`openspec/config.yaml`:
+`warpweave/config.yaml`:
 
 ```yaml
 references:
   - platform-reqs
 ```
 
-References are read-only context. The repo keeps its own `openspec/` root;
-work stays there. What changes: `spectrix instructions` in that repo now
+References are read-only context. The repo keeps its own `warpweave/` root;
+work stays there. What changes: `warpweave instructions` in that repo now
 includes an index of the referenced store's specs — each with a one-line
-summary and the exact fetch command (`spectrix show <spec-id> --type spec
+summary and the exact fetch command (`warpweave show <spec-id> --type spec
 --store platform-reqs`). An agent working in `api-server` can find the
 upstream payment requirements, cite them, and write its low-level design in
 the repo's own root — without anyone pasting context around.
@@ -216,15 +216,15 @@ with on their machine. Nothing about those local checkout paths is
 committed to the shared planning repo.
 
 ```bash
-spectrix workset create platform \
-  --member ~/openspec/platform-reqs \
+warpweave workset create platform \
+  --member ~/warpweave/platform-reqs \
   --member ~/src/api-server \
   --member ~/src/web-app
 ```
 
 ## Two questions you can always ask
 
-**"Is my setup healthy?"** — `spectrix doctor` checks the current root and
+**"Is my setup healthy?"** — `warpweave doctor` checks the current root and
 its referenced stores, read-only, with a pasteable fix per finding:
 
 ```
@@ -232,30 +232,30 @@ Doctor
 
 Root
   Location: /Users/you/src/api-server
-  Spectrix root: ok
+  Warpweave root: ok
 
 References
-  - platform-reqs: ok (/Users/you/openspec/platform-reqs)
+  - platform-reqs: ok (/Users/you/warpweave/platform-reqs)
   - design-system: Referenced store 'design-system' is not registered on this machine.
-    Fix: git clone -- git@github.com:acme/design-system.git '/Users/you/openspec/design-system' && spectrix store register '/Users/you/openspec/design-system' --id design-system
+    Fix: git clone -- git@github.com:acme/design-system.git '/Users/you/warpweave/design-system' && warpweave store register '/Users/you/warpweave/design-system' --id design-system
 
 ```
 
-**"What am I working with?"** — `spectrix context` assembles the working
-set from Spectrix declarations: the root and the stores it references.
+**"What am I working with?"** — `warpweave context` assembles the working
+set from Warpweave declarations: the root and the stores it references.
 
 ```
 Working context for api-server (/Users/you/src/api-server)
 
-Spectrix root
+Warpweave root
   api-server  /Users/you/src/api-server
 
 Referenced stores
-  platform-reqs  /Users/you/openspec/platform-reqs
-    Fetch: spectrix show <spec-id> --type spec --store platform-reqs
+  platform-reqs  /Users/you/warpweave/platform-reqs
+    Fetch: warpweave show <spec-id> --type spec --store platform-reqs
 ```
 
-Both support `--json` for agents. `spectrix context --code-workspace
+Both support `--json` for agents. `warpweave context --code-workspace
 <path>` additionally writes a VS Code workspace file containing the whole
 set — the only write this command performs.
 
@@ -267,26 +267,26 @@ A **workset** is a personal, named view of exactly that, reopened with one
 command in your tool of choice.
 
 ```
-  workset "platform"                 spectrix workset open platform
-  ├── team-plans   ~/openspec/team-plans         │
+  workset "platform"                 warpweave workset open platform
+  ├── team-plans   ~/warpweave/team-plans         │
   ├── api-server   ~/src/api-server              ▼
   └── web-app      ~/src/web-app       all three open in your tool
 ```
 
 ```bash
-spectrix workset create platform \
-  --member ~/openspec/team-plans --member ~/src/api-server \
+warpweave workset create platform \
+  --member ~/warpweave/team-plans --member ~/src/api-server \
   --tool code
-spectrix workset list
+warpweave workset list
 ```
 
 ```
 platform  (opens in VS Code)
-  team-plans  /Users/you/openspec/team-plans
+  team-plans  /Users/you/warpweave/team-plans
   api-server  /Users/you/src/api-server
 ```
 
-`spectrix workset open platform` then launches the saved tool: editors
+`warpweave workset open platform` then launches the saved tool: editors
 (VS Code, Cursor) open one window with every member and return. The first
 member is the primary. Override the tool any time with `--tool <id>`.
 
@@ -295,7 +295,7 @@ are never committed, and make no claims about the work — they only record
 what you like open together. Removing one never touches the member
 folders. New tools are configuration, not code: anything launched via a
 workspace file or per-folder attach flags can be added under the `openers`
-key in the global config (`spectrix config edit`).
+key in the global config (`warpweave config edit`).
 
 ## How commands decide where to act
 
@@ -303,7 +303,7 @@ Every normal command resolves its root the same way, in this order:
 
 ```
 1. --store <id>          you said so explicitly        → that store
-2. nearest openspec/     a real planning root here     → this repo
+2. nearest warpweave/     a real planning root here     → this repo
    (walking up from cwd)
 3. store: pointer        config.yaml declares a store  → that store
 4. defaultStore          global config sets a machine  → that store
@@ -315,7 +315,7 @@ Every normal command resolves its root the same way, in this order:
                                                           (classic behavior)
 ```
 
-The `Using Spectrix root:` line (and the `root` block in `--json` output)
+The `Using Warpweave root:` line (and the `root` block in `--json` output)
 tells you which case you're in.
 
 ## Known limitations
@@ -324,19 +324,19 @@ tells you which case you're in.
   names, flags, file formats, JSON keys.
 - **One checkout per store id per machine.** Registering a second checkout
   under the same id fails with a hint to `store unregister` first.
-- **No sync, ever — by design.** Spectrix never clones, pulls, or pushes.
+- **No sync, ever — by design.** Warpweave never clones, pulls, or pushes.
   A stale checkout shows stale specs until *you* pull; references are
   indexed live from whatever is on disk.
 - **Empty planning folders can be absent.** A new store may not have
-  `openspec/changes/`, `openspec/specs/`, or `openspec/changes/archive/` in Git
+  `warpweave/changes/`, `warpweave/specs/`, or `warpweave/changes/archive/` in Git
   yet. That is accepted during the beta; those folders appear once normal
   commands create files for them.
 - **Pointer repos stay pointers.** A config-only repo whose
-  `openspec/config.yaml` declares `store: <id>` is treated as externalized
+  `warpweave/config.yaml` declares `store: <id>` is treated as externalized
   planning, not as a store checkout to register. Remove the `store:` line first
   if you intentionally want to convert that repo into a local store root.
 - **Some commands stay where they are.** `view`, `templates`, `schemas`,
-  and the deprecated noun forms (`spectrix change show`, ...) act on the
+  and the deprecated noun forms (`warpweave change show`, ...) act on the
   current directory only — no `--store`.
 - **Per-machine state is per-machine.** The store registry and worksets
   are local settings. Nothing about your machine's layout is
@@ -352,13 +352,13 @@ tells you which case you're in.
 
 | What | Where | Shared? |
 |---|---|---|
-| A store's planning | `<store>/openspec/` (specs, changes) | Yes — commit and push it |
-| A store's identity | `<store>/.openspec-store/store.yaml` | Yes — committed with the store |
-| The store registry | `<data dir>/openspec/stores/registry.yaml` | No — this machine only |
-| Worksets | `<data dir>/openspec/worksets/` | No — this machine only |
+| A store's planning | `<store>/warpweave/` (specs, changes) | Yes — commit and push it |
+| A store's identity | `<store>/.warpweave-store/store.yaml` | Yes — committed with the store |
+| The store registry | `<data dir>/warpweave/stores/registry.yaml` | No — this machine only |
+| Worksets | `<data dir>/warpweave/worksets/` | No — this machine only |
 
-`<data dir>` is `~/.local/share/openspec` on macOS and Linux (or
-`$XDG_DATA_HOME/openspec` when set), and `%LOCALAPPDATA%\openspec` on
+`<data dir>` is `~/.local/share/warpweave` on macOS and Linux (or
+`$XDG_DATA_HOME/warpweave` when set), and `%LOCALAPPDATA%\warpweave` on
 Windows.
 
 ## Reference

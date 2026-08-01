@@ -9,6 +9,7 @@ import type { RootOutput } from '../core/root-selection.js';
 import { isInteractive } from '../utils/interactive.js';
 import { getActiveChangeIds } from '../utils/item-discovery.js';
 import { getTaskProgressForChange } from '../utils/task-progress.js';
+import { resolvePlanningDirName } from '../core/planning-home.js';
 
 /**
  * True only when `target` is definitively absent. An EACCES or I/O failure
@@ -43,7 +44,8 @@ export class ChangeCommand {
   }
 
   private getChangesPath(): string {
-    return path.join(this.rootPath ?? process.cwd(), 'openspec', 'changes');
+    const root = this.rootPath ?? process.cwd();
+    return path.join(root, resolvePlanningDirName(root), 'changes');
   }
 
   /**
@@ -72,7 +74,7 @@ export class ChangeCommand {
         } else {
           console.error(`No change specified. Available IDs: ${changes.join(', ')}`);
         }
-        console.error('Hint: use "spectrix change list" to view available changes.');
+        console.error('Hint: use "warpweave change list" to view available changes.');
         process.exitCode = 1;
         return;
       }
@@ -88,8 +90,8 @@ export class ChangeCommand {
     try {
       await fs.access(proposalPath);
     } catch {
-      // A change can exist without a proposal: `spectrix new change` scaffolds
-      // only .openspec.yaml, and a custom schema need not define a proposal
+      // A change can exist without a proposal: `warpweave new change` scaffolds
+      // only .warpweave.yaml, and a custom schema need not define a proposal
       // artifact. Say which of the two cases this is instead of reporting a
       // change that does exist as missing. A stray file under changes/ is not a
       // change, and naming it one would point the user at a `status --change`
@@ -101,7 +103,7 @@ export class ChangeCommand {
       if (isChangeDirectory) {
         throw new Error(
           `Change "${changeName}" has no proposal.md yet. ` +
-            `Run "spectrix status --change ${changeName}" to see which artifact comes next.`
+            `Run "warpweave status --change ${changeName}" to see which artifact comes next.`
         );
       }
       throw new Error(`Change "${changeName}" not found at ${proposalPath}`);
@@ -140,9 +142,9 @@ export class ChangeCommand {
    * - JSON: array of { id, title, deltaCount, taskStatus }, sorted by id
    */
   async list(options?: { json?: boolean; long?: boolean }): Promise<void> {
-    const changesPath = path.join(process.cwd(), 'openspec', 'changes');
+    const changesPath = path.join(process.cwd(), resolvePlanningDirName(process.cwd()), 'changes');
     
-    // Same directory-based resolution as `spectrix list`, the command this
+    // Same directory-based resolution as `warpweave list`, the command this
     // deprecated alias points users at. Every output path below already
     // tolerates a change whose proposal.md is missing or unreadable.
     const changes = await getActiveChangeIds();
@@ -223,7 +225,7 @@ export class ChangeCommand {
   }
 
   async validate(changeName?: string, options?: { strict?: boolean; json?: boolean; noInteractive?: boolean }): Promise<void> {
-    const changesPath = path.join(process.cwd(), 'openspec', 'changes');
+    const changesPath = path.join(process.cwd(), resolvePlanningDirName(process.cwd()), 'changes');
     
     if (!changeName) {
       const canPrompt = isInteractive(options);
@@ -241,7 +243,7 @@ export class ChangeCommand {
         } else {
           console.error(`No change specified. Available IDs: ${changes.join(', ')}`);
         }
-        console.error('Hint: use "spectrix change list" to view available changes.');
+        console.error('Hint: use "warpweave change list" to view available changes.');
         process.exitCode = 1;
         return;
       }
@@ -299,15 +301,15 @@ export class ChangeCommand {
       i.message.includes(VALIDATION_MESSAGES.CHANGE_SKIP_SPECS_INVALID_METADATA)
     );
     if (conflictIssue) {
-      bullets.push('- This change declares skip_specs (no spec deltas): delete the files under specs/, or remove skip_specs from .openspec.yaml if requirements do change');
-      bullets.push('- skip_specs is only honored when .openspec.yaml is valid change metadata (schema: <name> is required)');
+      bullets.push('- This change declares skip_specs (no spec deltas): delete the files under specs/, or remove skip_specs from .warpweave.yaml if requirements do change');
+      bullets.push('- skip_specs is only honored when .warpweave.yaml is valid change metadata (schema: <name> is required)');
     } else if (invalidMarkerIssue) {
-      bullets.push('- Fix .openspec.yaml so the skip_specs marker can be honored (schema: <name> is required)');
-      bullets.push('- Or remove skip_specs from .openspec.yaml and add delta specs instead');
+      bullets.push('- Fix .warpweave.yaml so the skip_specs marker can be honored (schema: <name> is required)');
+      bullets.push('- Or remove skip_specs from .warpweave.yaml and add delta specs instead');
     } else {
       bullets.push('- Ensure change has deltas in specs/: use headers ## ADDED/MODIFIED/REMOVED/RENAMED Requirements');
       bullets.push('- Each requirement MUST include at least one #### Scenario: block');
-      bullets.push('- Debug parsed deltas: spectrix change show <id> --json --deltas-only');
+      bullets.push('- Debug parsed deltas: warpweave change show <id> --json --deltas-only');
     }
     console.error('Next steps:');
     bullets.forEach(b => console.error(`  ${b}`));

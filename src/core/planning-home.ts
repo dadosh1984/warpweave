@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
+import { LEGACY_WARPWEAVE_DIR_NAME, WARPWEAVE_DIR_NAME } from './config.js';
 import { FileSystemUtils } from '../utils/file-system.js';
 
 export type PlanningHomeKind = 'repo';
@@ -25,6 +26,23 @@ function pathExistsAsDirectory(candidatePath: string): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * Resolves the planning directory name for a project root.
+ *
+ * New installs create `warpweave/`; projects set up before the rename (or by
+ * upstream Warpweave) keep their `warpweave/` directory. Both are accepted when
+ * reading; `warpweave` wins when both exist and is the default for creation.
+ */
+export function resolvePlanningDirName(projectRoot: string): string {
+  if (pathExistsAsDirectory(path.join(projectRoot, WARPWEAVE_DIR_NAME))) {
+    return WARPWEAVE_DIR_NAME;
+  }
+  if (pathExistsAsDirectory(path.join(projectRoot, LEGACY_WARPWEAVE_DIR_NAME))) {
+    return LEGACY_WARPWEAVE_DIR_NAME;
+  }
+  return WARPWEAVE_DIR_NAME;
 }
 
 function getSearchStartDirectory(startPath: string): string {
@@ -58,7 +76,8 @@ function findNearestAncestor(startPath: string, predicate: (dirPath: string) => 
 
 export function findRepoPlanningRootSync(startPath = process.cwd()): string | null {
   return findNearestAncestor(startPath, (dirPath) =>
-    pathExistsAsDirectory(path.join(dirPath, 'openspec'))
+    pathExistsAsDirectory(path.join(dirPath, WARPWEAVE_DIR_NAME)) ||
+    pathExistsAsDirectory(path.join(dirPath, LEGACY_WARPWEAVE_DIR_NAME))
   );
 }
 
@@ -66,7 +85,7 @@ function repoPlanningHome(repoRoot: string): PlanningHome {
   return {
     kind: 'repo',
     root: repoRoot,
-    changesDir: path.join(repoRoot, 'openspec', 'changes'),
+    changesDir: path.join(repoRoot, resolvePlanningDirName(repoRoot), 'changes'),
     defaultSchema: REPO_DEFAULT_SCHEMA,
   };
 }
@@ -83,7 +102,7 @@ export function resolveCurrentPlanningHomeSync(
   }
 
   if (options.allowImplicitRepoRoot === false) {
-    throw new Error('No Spectrix planning home found from the current directory.');
+    throw new Error('No Warpweave planning home found from the current directory.');
   }
 
   return repoPlanningHome(FileSystemUtils.canonicalizeExistingPath(searchStart));

@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getDebtLedgerSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-debt-ledger',
+    name: 'warpweave-debt-ledger',
     description: 'Collect `// ponytail:` markers from the codebase into a structured debt backlog. Use when the user wants to review deferred simplifications or decide which technical debt to pay off now.',
     instructions: `Collect every deliberate simplification marked \`// ponytail:\` into a structured backlog.
 
@@ -76,8 +76,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Prefer deleting orphaned markers over rewriting dead references
 - Never silently drop a marker; list it as orphaned so the decision is explicit`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI and RTK.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI and RTK.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 

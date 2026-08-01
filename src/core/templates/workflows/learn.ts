@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 
 export function getLearnSkillTemplate(): SkillTemplate {
   return {
-    name: 'openspec-learn',
+    name: 'warpweave-learn',
     description: 'Analyze archived changes for trends and recommendations. Use when the user wants to review project history, estimation accuracy, or ladder discipline across past changes.',
     instructions: `Scan archived changes, aggregate metrics, and surface trends and recommendations.
 
@@ -23,9 +23,9 @@ ${STORE_SELECTION_GUIDANCE}
 
    List archived changes:
    \`\`\`bash
-   spectrix list --archived --json
+   warpweave list --archived --json
    \`\`\`
-   If archives are on disk under \`openspec/changes/archive/\`, list them directly.
+   If archives are on disk under \`warpweave/changes/archive/\`, list them directly.
 
 2. **Aggregate metrics per change**
 
@@ -76,8 +76,8 @@ ${STORE_SELECTION_GUIDANCE}
 - Use dates from archive filenames or the change root, not from memory
 - Recommendations must trace to a concrete trend in the data`,
     license: 'MIT',
-    compatibility: 'Requires spectrix CLI.',
-    metadata: { author: 'spectrix', version: '1.0' },
+    compatibility: 'Requires warpweave CLI.',
+    metadata: { author: 'warpweave', version: '1.0' },
   };
 }
 
@@ -99,9 +99,9 @@ ${STORE_SELECTION_GUIDANCE}
 
    List archived changes:
    \`\`\`bash
-   spectrix list --archived --json
+   warpweave list --archived --json
    \`\`\`
-   If archives are on disk under \`openspec/changes/archive/\`, list them directly.
+   If archives are on disk under \`warpweave/changes/archive/\`, list them directly.
 
 2. **Aggregate metrics per change**
 

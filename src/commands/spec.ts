@@ -1,6 +1,6 @@
 import { program } from 'commander';
 import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { join, relative } from 'path';
 import { MarkdownParser } from '../core/parsers/markdown-parser.js';
 import { Validator } from '../core/validation/validator.js';
 import type { Spec } from '../core/schemas/index.js';
@@ -8,8 +8,11 @@ import type { RootOutput } from '../core/root-selection.js';
 import { isInteractive } from '../utils/interactive.js';
 import { getSpecIds } from '../utils/item-discovery.js';
 import { discoverSpecFiles } from '../utils/spec-discovery.js';
+import { resolvePlanningDirName } from '../core/planning-home.js';
 
-const SPECS_DIR = 'openspec/specs';
+function getCwdSpecsDir(): string {
+  return join(process.cwd(), resolvePlanningDirName(process.cwd()), 'specs');
+}
 
 interface ShowOptions {
   json?: boolean;
@@ -48,7 +51,7 @@ function filterSpec(spec: Spec, options: ShowOptions): Spec {
     scenarios: includeScenarios ? req.scenarios : [],
   }));
 
-  const metadata = spec.metadata ?? { version: '1.0.0', format: 'openspec' as const };
+  const metadata = spec.metadata ?? { version: '1.0.0', format: 'warpweave' as const };
 
   return {
     name: spec.name,
@@ -75,7 +78,7 @@ export class SpecCommand {
   // deprecated noun-form commands stay cwd-based.
   constructor(rootPath?: string) {
     this.rootPath = rootPath;
-    this.specsDir = rootPath ? join(rootPath, 'openspec', 'specs') : SPECS_DIR;
+    this.specsDir = rootPath ? join(rootPath, resolvePlanningDirName(rootPath), 'specs') : getCwdSpecsDir();
   }
 
   async show(specId?: string, options: ShowOptions = {}): Promise<void> {
@@ -97,7 +100,7 @@ export class SpecCommand {
     if (!existsSync(specPath)) {
       // Root-aware callers get the absolute path; the cwd-based noun form
       // keeps its historical forward-slash relative message on all platforms.
-      const displayPath = this.rootPath ? specPath : `openspec/specs/${specId}/spec.md`;
+      const displayPath = this.rootPath ? specPath : `warpweave/specs/${specId}/spec.md`;
       throw new Error(`Spec '${specId}' not found at ${displayPath}`);
     }
 
@@ -113,7 +116,7 @@ export class SpecCommand {
         overview: parsed.overview,
         requirementCount: filtered.requirements.length,
         requirements: filtered.requirements,
-        metadata: parsed.metadata ?? { version: '1.0.0', format: 'openspec' as const },
+        metadata: parsed.metadata ?? { version: '1.0.0', format: 'warpweave' as const },
         ...(options.rootOutput ? { root: options.rootOutput } : {}),
       };
       console.log(JSON.stringify(output, null, 2));
@@ -126,11 +129,11 @@ export class SpecCommand {
 export function registerSpecCommand(rootProgram: typeof program) {
   const specCommand = rootProgram
     .command('spec')
-    .description('Manage and view Spectrix specifications');
+    .description('Manage and view Warpweave specifications');
 
   // Deprecation notice for noun-based commands
   specCommand.hook('preAction', () => {
-    console.error('Warning: The "spectrix spec ..." commands are deprecated. Prefer verb-first commands (e.g., "spectrix show", "spectrix validate --specs").');
+    console.error('Warning: The "warpweave spec ..." commands are deprecated. Prefer verb-first commands (e.g., "warpweave show", "warpweave validate --specs").');
   });
 
   specCommand
@@ -158,12 +161,12 @@ export function registerSpecCommand(rootProgram: typeof program) {
     .option('--long', 'Show id and title with counts')
     .action(async (options: { json?: boolean; long?: boolean }) => {
       try {
-        if (!existsSync(SPECS_DIR)) {
+        if (!existsSync(getCwdSpecsDir())) {
           console.log('No items found');
           return;
         }
 
-        const discovered = await discoverSpecFiles(SPECS_DIR);
+        const discovered = await discoverSpecFiles(getCwdSpecsDir());
         const specs = discovered
           .map(({ id, specFile }) => {
             try {
@@ -227,10 +230,11 @@ export function registerSpecCommand(rootProgram: typeof program) {
           }
         }
 
-        const specPath = join(SPECS_DIR, specId, 'spec.md');
+        const specsDir = getCwdSpecsDir();
+        const specPath = join(specsDir, specId, 'spec.md');
         
         if (!existsSync(specPath)) {
-          throw new Error(`Spec '${specId}' not found at openspec/specs/${specId}/spec.md`);
+          throw new Error(`Spec '${specId}' not found at ${relative(process.cwd(), specsDir)}/${specId}/spec.md`);
         }
 
         const validator = new Validator(options.strict);

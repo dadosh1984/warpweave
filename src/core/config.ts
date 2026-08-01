@@ -1,11 +1,17 @@
-export const OPENSPEC_DIR_NAME = 'openspec';
+export const WARPWEAVE_DIR_NAME = 'warpweave';
+/** Directory name used by upstream Warpweave and by pre-rename Warpweave installs. */
+export const LEGACY_WARPWEAVE_DIR_NAME = 'warpweave';
+/** @deprecated Use WARPWEAVE_DIR_NAME instead. OPENSPEC_DIR_NAME is kept for backward compatibility. */
+export const OPENSPEC_DIR_NAME = WARPWEAVE_DIR_NAME;
 
-export const OPENSPEC_MARKERS = {
-  start: '<!-- OPENSPEC:START -->',
-  end: '<!-- OPENSPEC:END -->'
+export const WARPWEAVE_MARKERS = {
+  start: '<!-- WARPWEAVE:START -->',
+  end: '<!-- WARPWEAVE:END -->'
 };
+/** @deprecated Use WARPWEAVE_MARKERS instead. OPENSPEC_MARKERS is kept for backward compatibility. */
+export const OPENSPEC_MARKERS = WARPWEAVE_MARKERS;
 
-export interface OpenSpecConfig {
+export interface SpectrixConfig {
   aiTools: string[];
 }
 
@@ -38,7 +44,7 @@ export const AI_TOOLS: AIToolOption[] = [
   { name: 'Factory Droid', value: 'factory', available: true, successLabel: 'Factory Droid', skillsDir: '.factory' },
   { name: 'Gemini CLI', value: 'gemini', available: true, successLabel: 'Gemini CLI', skillsDir: '.gemini' },
   { name: 'GitHub Copilot', value: 'github-copilot', available: true, successLabel: 'GitHub Copilot', skillsDir: '.github', detectionPaths: ['.github/copilot-instructions.md', '.github/instructions', '.github/workflows/copilot-setup-steps.yml', '.github/prompts', '.github/agents', '.github/skills', '.github/.mcp.json'] },
-  { name: 'Hermes Agent', value: 'hermes', available: true, successLabel: 'Hermes Agent', skillsDir: '.hermes', detectionPaths: ['.hermes', 'HERMES.md', '.hermes.md'], setupNote: "Hermes only loads skills from ~/.hermes/skills by default. Add this project's .hermes/skills directory to skills.external_dirs in ~/.hermes/config.yaml so Hermes picks up the generated Spectrix skills." },
+  { name: 'Hermes Agent', value: 'hermes', available: true, successLabel: 'Hermes Agent', skillsDir: '.hermes', detectionPaths: ['.hermes', 'HERMES.md', '.hermes.md'], setupNote: "Hermes only loads skills from ~/.hermes/skills by default. Add this project's .hermes/skills directory to skills.external_dirs in ~/.hermes/config.yaml so Hermes picks up the generated Warpweave skills." },
   { name: 'iFlow', value: 'iflow', available: true, successLabel: 'iFlow', skillsDir: '.iflow' },
   { name: 'Junie', value: 'junie', available: true, successLabel: 'Junie', skillsDir: '.junie' },
   { name: 'Kilo Code', value: 'kilocode', available: true, successLabel: 'Kilo Code', skillsDir: '.kilocode' },
@@ -59,7 +65,7 @@ export const AI_TOOLS: AIToolOption[] = [
   // `.agents/` for more than skills, so the root alone says nothing about skills.
   // A project that does keep skills there is a project this target fits, the same
   // way `.claude/` selects Claude Code — the signal is the user's setup, not
-  // Spectrix's own files.
+  // Warpweave's own files.
   { name: 'Shared .agents skills', value: 'agents', available: true, successLabel: 'shared .agents skills', skillsDir: '.agents', detectionPaths: ['.agents/skills'] }
 ];
 

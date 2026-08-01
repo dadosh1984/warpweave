@@ -5,6 +5,7 @@ import { readFileSync, type Dirent } from 'fs';
 import { MarkdownParser } from './parsers/markdown-parser.js';
 import type { RootOutput } from './root-selection.js';
 import { discoverSpecFiles } from '../utils/spec-discovery.js';
+import { resolvePlanningDirName } from './planning-home.js';
 
 interface ChangeInfo {
   name: string;
@@ -99,7 +100,7 @@ export class ListCommand {
     const { sort = 'recent', json = false, root } = options;
 
     if (mode === 'changes') {
-      const changesDir = path.join(targetPath, 'openspec', 'changes');
+      const changesDir = path.join(targetPath, resolvePlanningDirName(targetPath), 'changes');
 
       // Get all directories in changes (excluding archive)
       const entries = await readChangeDirectoryEntries(changesDir);
@@ -165,7 +166,7 @@ export class ListCommand {
     }
 
     // specs mode
-    const specsDir = path.join(targetPath, 'openspec', 'specs');
+    const specsDir = path.join(targetPath, resolvePlanningDirName(targetPath), 'specs');
     try {
       await fs.access(specsDir);
     } catch {

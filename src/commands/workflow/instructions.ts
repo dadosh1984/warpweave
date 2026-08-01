@@ -25,7 +25,7 @@ import {
   withStoreFlag,
   toPlanningHome,
   toRootOutput,
-  type ResolvedOpenSpecRoot,
+  type ResolvedWarpweaveRoot,
 } from '../../core/root-selection.js';
 import {
   assembleReferenceIndex,
@@ -79,7 +79,7 @@ export type ArchiveInstructionsOptions = ApplyInstructionsOptions;
  * index when references are declared, and resolves the config path for
  * fix text. Shared by both instruction surfaces.
  */
-async function loadRootConfigContext(root: ResolvedOpenSpecRoot): Promise<{
+async function loadRootConfigContext(root: ResolvedWarpweaveRoot): Promise<{
   projectConfig: ProjectConfig | null;
   references: ReferenceIndexEntry[] | undefined;
 }> {
@@ -124,7 +124,7 @@ export async function instructionsCommand(
       options.change,
       projectRoot,
       root.changesDir,
-      { newChangeHint: withStoreFlag(root, 'spectrix new change <name>') }
+      { newChangeHint: withStoreFlag(root, 'warpweave new change <name>') }
     );
 
     // Validate schema if explicitly provided
@@ -204,7 +204,7 @@ export function printInstructionsText(instructions: ArtifactInstructions, isBloc
   // validate then rejects as conflicting with the marker.
   if (instructions.skipped) {
     console.log('<warning>');
-    console.log(instructions.warning ?? 'This artifact is skipped (skip_specs is set in .openspec.yaml).');
+    console.log(instructions.warning ?? 'This artifact is skipped (skip_specs is set in .warpweave.yaml).');
     console.log('</warning>');
     console.log();
     console.log('</artifact>');
@@ -330,7 +330,7 @@ export function printInstructionsText(instructions: ArtifactInstructions, isBloc
  * agent to act on and tick off, and a bare `- [ ]` gives it nothing to match.
  * It still counts toward progress, which is taken from every parsed line, so
  * this list can be shorter than the totals beside it but never disagrees with
- * `spectrix list` or archive about how much work is left. An empty list is also
+ * `warpweave list` or archive about how much work is left. An empty list is also
  * what puts apply in its "nothing to work on" state, so a file of nothing but
  * text-less checkboxes asks to be rewritten instead of being called done.
  */
@@ -425,7 +425,7 @@ export async function generateApplyInstructions(
   const tasks = toTaskItems(parsedTasks);
 
   // Calculate progress over every checkbox in the file, listed or not, so these
-  // numbers match `spectrix list` and archive's incomplete-task check.
+  // numbers match `warpweave list` and archive's incomplete-task check.
   const total = parsedTasks.length;
   const complete = parsedTasks.filter((task) => task.done).length;
   const remaining = total - complete;
@@ -436,18 +436,18 @@ export async function generateApplyInstructions(
 
   if (missingArtifacts.length > 0) {
     state = 'blocked';
-    instruction = `Cannot apply this change yet. Missing artifacts: ${missingArtifacts.join(', ')}.\nUse the openspec-continue-change skill to create the missing artifacts first.`;
+    instruction = `Cannot apply this change yet. Missing artifacts: ${missingArtifacts.join(', ')}.\nUse the warpweave-continue-change skill to create the missing artifacts first.`;
   } else if (tracksFile && !tracksFileExists) {
     // Tracking file configured but doesn't exist yet
     const tracksFilename = path.basename(tracksFile);
     state = 'blocked';
-    instruction = `The ${tracksFilename} file is missing and must be created.\nUse openspec-continue-change to generate the tracking file.`;
+    instruction = `The ${tracksFilename} file is missing and must be created.\nUse warpweave-continue-change to generate the tracking file.`;
   } else if (tracksFile && tracksFileExists && tasks.length === 0) {
     // Tracking file exists but lists nothing an agent can work on: either no
     // checkboxes at all, or only checkboxes with no text after them.
     const tracksFilename = path.basename(tracksFile);
     state = 'blocked';
-    instruction = `The ${tracksFilename} file exists but contains no tasks to work on.\nAdd tasks to ${tracksFilename} or regenerate it with openspec-continue-change.`;
+    instruction = `The ${tracksFilename} file exists but contains no tasks to work on.\nAdd tasks to ${tracksFilename} or regenerate it with warpweave-continue-change.`;
   } else if (tracksFile && remaining === 0 && total > 0) {
     state = 'all_done';
     instruction = 'All tasks are complete! This change is ready to be archived.\nConsider running tests and reviewing the changes before archiving.';
@@ -491,7 +491,7 @@ export async function applyInstructionsCommand(options: ApplyInstructionsOptions
       options.change,
       projectRoot,
       root.changesDir,
-      { newChangeHint: withStoreFlag(root, 'spectrix new change <name>') }
+      { newChangeHint: withStoreFlag(root, 'warpweave new change <name>') }
     );
 
     // Validate schema if explicitly provided
@@ -539,7 +539,7 @@ export function printApplyInstructionsText(instructions: ApplyInstructions): voi
     console.log('### ⚠️ Blocked');
     console.log();
     console.log(`Missing artifacts: ${missingArtifacts.join(', ')}`);
-    console.log('Use the openspec-continue-change skill to create these first.');
+    console.log('Use the warpweave-continue-change skill to create these first.');
     console.log();
   }
 
@@ -609,7 +609,7 @@ export async function archiveInstructionsCommand(
       options.change,
       root.path,
       root.changesDir,
-      { newChangeHint: withStoreFlag(root, 'spectrix new change <name>') }
+      { newChangeHint: withStoreFlag(root, 'warpweave new change <name>') }
     );
     const projectConfig = readProjectConfig(root.path);
     const instructions = generateArchiveInstructions(changeName, projectConfig);

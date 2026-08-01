@@ -7,7 +7,7 @@ import {
 import { POWERSHELL_DYNAMIC_HELPERS } from '../templates/powershell-templates.js';
 
 /**
- * Generates PowerShell completion scripts for the Spectrix CLI.
+ * Generates PowerShell completion scripts for the Warpweave CLI.
  * Uses Register-ArgumentCompleter for command completion.
  */
 export class PowerShellGenerator implements CompletionGenerator {
@@ -46,7 +46,7 @@ export class PowerShellGenerator implements CompletionGenerator {
     const helpers = POWERSHELL_DYNAMIC_HELPERS;
 
     // Assemble final script with template literal
-    return `# PowerShell completion script for Spectrix CLI
+    return `# PowerShell completion script for Warpweave CLI
 # Auto-generated - do not edit manually
 
 ${helpers}
@@ -74,7 +74,7 @@ ${commandCases}
     }
 }
 
-Register-ArgumentCompleter -CommandName spectrix -ScriptBlock $spectrixCompleter
+Register-ArgumentCompleter -CommandName warpweave -ScriptBlock $spectrixCompleter
 `;
   }
 

@@ -1,6 +1,6 @@
 # Customization
 
-Spectrix provides three levels of customization:
+Warpweave provides three levels of customization:
 
 | Level | What it does | Best for |
 |-------|--------------|----------|
@@ -12,7 +12,7 @@ Spectrix provides three levels of customization:
 
 ## Project Configuration
 
-The `openspec/config.yaml` file is the easiest way to customize Spectrix for your team. It lets you:
+The `warpweave/config.yaml` file is the easiest way to customize Warpweave for your team. It lets you:
 
 - **Set a default schema** - Skip `--schema` on every command
 - **Inject project context** - AI sees your tech stack, conventions, etc.
@@ -22,13 +22,13 @@ The `openspec/config.yaml` file is the easiest way to customize Spectrix for you
 ### Quick Setup
 
 ```bash
-spectrix init
+warpweave init
 ```
 
 This walks you through creating a config interactively. Or create one manually:
 
 ```yaml
-# openspec/config.yaml
+# warpweave/config.yaml
 schema: spec-driven
 
 context: |
@@ -60,10 +60,10 @@ operations:
 
 ```bash
 # Without config
-spectrix new change my-feature --schema spec-driven
+warpweave new change my-feature --schema spec-driven
 
 # With config - schema is automatic
-spectrix new change my-feature
+warpweave new change my-feature
 ```
 
 **Context and rules injection:**
@@ -99,8 +99,8 @@ and artifact rules are never relabeled as operation guidance.
 Apply and archive fetch these inputs at execution time:
 
 ```bash
-spectrix instructions apply --change my-feature --json
-spectrix instructions archive --change my-feature --json
+warpweave instructions apply --change my-feature --json
+warpweave instructions archive --change my-feature --json
 ```
 
 Both surfaces return current project `context` and matching
@@ -125,13 +125,13 @@ artifacts, or summaries unless the user separately requests that content.
 **Archive and spec-sync input safety:**
 
 Archive, bulk archive, and standalone sync use
-`artifactPaths.specs.existingOutputPaths` from `spectrix status --json` as the
+`artifactPaths.specs.existingOutputPaths` from `warpweave status --json` as the
 only delta-spec source. A schema without a `specs` artifact, or a change whose
 concrete output list is empty, has nothing to sync; other artifacts are not used
 to infer delta specs.
 
 Before a semantic merge writes a main spec, the workflow consumes current
-`spectrix instructions specs --change <name> --json` output. The returned
+`warpweave instructions specs --change <name> --json` output. The returned
 `specs` rules constrain only the main specs produced by that merge. Single archive
 passes that snapshot into inline sync, standalone sync fetches it directly, and
 bulk archive obtains every required snapshot before its first spec write. A
@@ -140,27 +140,27 @@ not an empty input: the workflow stops before the affected spec write or change
 move (for bulk archive, before any batch write or move).
 
 This configuration does not change archive execution phases, user prompts,
-filesystem operations, semantic merge ownership, the direct `spectrix archive`
+filesystem operations, semantic merge ownership, the direct `warpweave archive`
 command, or the structure and output of artifact `rules`.
 
 ### Schema Resolution Order
 
-When Spectrix needs a schema, it checks in this order:
+When Warpweave needs a schema, it checks in this order:
 
 1. CLI flag: `--schema <name>`
-2. Change metadata (`.openspec.yaml` in the change folder)
-3. Project config (`openspec/config.yaml`)
+2. Change metadata (`.warpweave.yaml` in the change folder)
+3. Project config (`warpweave/config.yaml`)
 4. Default (`spec-driven`)
 
 ---
 
 ## Custom Schemas
 
-When project config isn't enough, create your own schema with a completely custom workflow. Custom schemas live in your project's `openspec/schemas/` directory and are version-controlled with your code.
+When project config isn't enough, create your own schema with a completely custom workflow. Custom schemas live in your project's `warpweave/schemas/` directory and are version-controlled with your code.
 
 ```text
 your-project/
-├── openspec/
+├── warpweave/
 │   ├── config.yaml        # Project config
 │   ├── schemas/           # Custom schemas live here
 │   │   └── my-workflow/
@@ -175,15 +175,15 @@ your-project/
 The fastest way to customize is to fork a built-in schema:
 
 ```bash
-spectrix schema fork spec-driven my-workflow
+warpweave schema fork spec-driven my-workflow
 ```
 
-This copies the entire `spec-driven` schema to `openspec/schemas/my-workflow/` where you can edit it freely.
+This copies the entire `spec-driven` schema to `warpweave/schemas/my-workflow/` where you can edit it freely.
 
 **What you get:**
 
 ```text
-openspec/schemas/my-workflow/
+warpweave/schemas/my-workflow/
 ├── schema.yaml           # Workflow definition
 └── templates/
     ├── proposal.md       # Template for proposal artifact
@@ -200,10 +200,10 @@ For a completely fresh workflow:
 
 ```bash
 # Interactive
-spectrix schema init research-first
+warpweave schema init research-first
 
 # Non-interactive
-spectrix schema init rapid \
+warpweave schema init rapid \
   --description "Rapid iteration workflow" \
   --artifacts "proposal,tasks" \
   --default
@@ -214,7 +214,7 @@ spectrix schema init rapid \
 A schema defines the artifacts in your workflow and how they depend on each other:
 
 ```yaml
-# openspec/schemas/my-workflow/schema.yaml
+# warpweave/schemas/my-workflow/schema.yaml
 name: my-workflow
 version: 1
 description: My team's custom workflow
@@ -293,7 +293,7 @@ Templates can include:
 Before using a custom schema, validate it:
 
 ```bash
-spectrix schema validate my-workflow
+warpweave schema validate my-workflow
 ```
 
 This checks:
@@ -308,7 +308,7 @@ Once created, use your schema with:
 
 ```bash
 # Specify on command
-spectrix new change feature --schema my-workflow
+warpweave new change feature --schema my-workflow
 
 # Or set as default in config.yaml
 schema: my-workflow
@@ -320,10 +320,10 @@ Not sure which schema is being used? Check with:
 
 ```bash
 # See where a specific schema resolves from
-spectrix schema which my-workflow
+warpweave schema which my-workflow
 
 # List all available schemas
-spectrix schema which --all
+warpweave schema which --all
 ```
 
 Output shows whether it's from your project, user directory, or the package:
@@ -331,12 +331,12 @@ Output shows whether it's from your project, user directory, or the package:
 ```text
 Schema: my-workflow
 Source: project
-Path: /path/to/project/openspec/schemas/my-workflow
+Path: /path/to/project/warpweave/schemas/my-workflow
 ```
 
 ---
 
-> **Note:** Spectrix also supports user-level schemas at `~/.local/share/openspec/schemas/` for sharing across projects, but project-level schemas in `openspec/schemas/` are recommended since they're version-controlled with your code.
+> **Note:** Warpweave also supports user-level schemas at `~/.local/share/warpweave/schemas/` for sharing across projects, but project-level schemas in `warpweave/schemas/` are recommended since they're version-controlled with your code.
 
 ---
 
@@ -347,7 +347,7 @@ Path: /path/to/project/openspec/schemas/my-workflow
 A minimal workflow for quick iterations:
 
 ```yaml
-# openspec/schemas/rapid/schema.yaml
+# warpweave/schemas/rapid/schema.yaml
 name: rapid
 version: 1
 description: Fast iteration with minimal overhead
@@ -378,7 +378,7 @@ apply:
 Fork the default and add a review step:
 
 ```bash
-spectrix schema fork spec-driven with-review
+warpweave schema fork spec-driven with-review
 ```
 
 Then edit `schema.yaml` to add:
@@ -406,17 +406,17 @@ Then edit `schema.yaml` to add:
 
 ## Community Schemas
 
-Spectrix also supports community-maintained schemas distributed via standalone repositories. These provide opinionated workflows that integrate Spectrix with other tools or systems, similar to how [github/spec-kit's community extension catalog](https://github.com/github/spec-kit/tree/main/extensions) works for spec-kit.
+Warpweave also supports community-maintained schemas distributed via standalone repositories. These provide opinionated workflows that integrate Warpweave with other tools or systems, similar to how [github/spec-kit's community extension catalog](https://github.com/github/spec-kit/tree/main/extensions) works for spec-kit.
 
-Community schemas are not vendored into Spectrix core — they live in their own repositories with their own release cadence. To use one, copy the schema bundle into your project's `openspec/schemas/<schema-name>/` directory (each repo's README has install instructions).
+Community schemas are not vendored into Warpweave core — they live in their own repositories with their own release cadence. To use one, copy the schema bundle into your project's `warpweave/schemas/<schema-name>/` directory (each repo's README has install instructions).
 
 | Schema | Maintainer | Repository | Description |
 |--------|-----------|-----------|-------------|
-| `intent-driven` | @harikrishnan83 | [intent-driven-dev/openspec-schemas](https://github.com/intent-driven-dev/openspec-schemas/tree/main/openspec/schemas/intent-driven) | Captures change intent, observable behaviour, technical design, and durable architectural decisions before implementation. Adds a change-local ADR review manifest and writes qualifying long-lived decisions as immutable, supersedable ADRs. |
-| `superpowers-bridge` | @JiangWay | [JiangWay/openspec-schemas](https://github.com/JiangWay/openspec-schemas/tree/main/superpowers-bridge) | Integrates Spectrix's artifact governance with [obra/superpowers](https://github.com/obra/superpowers) execution skills (brainstorming, writing-plans, TDD via subagents, code review, finishing). Adds an evidence-first `retrospective` artifact filling a gap Superpowers does not natively cover. |
-| `nanopm` | @nmrtn | [nmrtn/nanopm](https://github.com/nmrtn/nanopm/tree/main/openspec-schema) | PM-first workflow. Runs [nanopm](https://github.com/nmrtn/nanopm)'s planning pipeline (audit → strategy → roadmap → PRD) upstream of implementation. Bridges product planning to Spectrix's spec-driven engineering workflow. Artifacts read from `.nanopm/` if present — proposal sources the audit, design sources the strategy, and tasks source the PRD breakdown. |
-| `e2e-runbooks` | @Lukk17 | [Lukk17/openspec-schemas](https://github.com/Lukk17/openspec-schemas/tree/master/openspec/schemas/e2e-runbooks) | Capability-level end-to-end test runbooks. Each capability gets an immutable spec, an immutable tasks-template, and one timestamped run record per execution. Assertions are observable behaviour only (HTTP status, response body, persisted state — never log substrings); each run records start/end UTC, duration, and best-estimate LLM token consumption. |
-| `anvil` | @jikkujoyce | [jikkujoyce/openspec-schemas](https://github.com/jikkujoyce/openspec-schemas/tree/main/schemas/anvil) | Spec-driven workflow with TDD discipline and an adversarial review step. Flow: `proposal` → `specs` → `design` → `review` → `test-plan` → `tasks` → `apply` → `verify`. `review` is written by a fresh-context, read-only reviewer (a second model when one is available) and emits a `VERDICT:` line telling the agent to gate `test-plan`, `tasks`, and `apply`; Spectrix only checks that artifacts exist, so enforce the gate with your own CI or hook. `test-plan` maps every spec scenario to a named test and doubles as a red/green ledger that `verify` audits. |
+| `intent-driven` | @harikrishnan83 | [intent-driven-dev/warpweave-schemas](https://github.com/intent-driven-dev/warpweave-schemas/tree/main/warpweave/schemas/intent-driven) | Captures change intent, observable behaviour, technical design, and durable architectural decisions before implementation. Adds a change-local ADR review manifest and writes qualifying long-lived decisions as immutable, supersedable ADRs. |
+| `superpowers-bridge` | @JiangWay | [JiangWay/warpweave-schemas](https://github.com/JiangWay/warpweave-schemas/tree/main/superpowers-bridge) | Integrates Warpweave's artifact governance with [obra/superpowers](https://github.com/obra/superpowers) execution skills (brainstorming, writing-plans, TDD via subagents, code review, finishing). Adds an evidence-first `retrospective` artifact filling a gap Superpowers does not natively cover. |
+| `nanopm` | @nmrtn | [nmrtn/nanopm](https://github.com/nmrtn/nanopm/tree/main/warpweave-schema) | PM-first workflow. Runs [nanopm](https://github.com/nmrtn/nanopm)'s planning pipeline (audit → strategy → roadmap → PRD) upstream of implementation. Bridges product planning to Warpweave's spec-driven engineering workflow. Artifacts read from `.nanopm/` if present — proposal sources the audit, design sources the strategy, and tasks source the PRD breakdown. |
+| `e2e-runbooks` | @Lukk17 | [Lukk17/warpweave-schemas](https://github.com/Lukk17/warpweave-schemas/tree/master/warpweave/schemas/e2e-runbooks) | Capability-level end-to-end test runbooks. Each capability gets an immutable spec, an immutable tasks-template, and one timestamped run record per execution. Assertions are observable behaviour only (HTTP status, response body, persisted state — never log substrings); each run records start/end UTC, duration, and best-estimate LLM token consumption. |
+| `anvil` | @jikkujoyce | [jikkujoyce/warpweave-schemas](https://github.com/jikkujoyce/warpweave-schemas/tree/main/schemas/anvil) | Spec-driven workflow with TDD discipline and an adversarial review step. Flow: `proposal` → `specs` → `design` → `review` → `test-plan` → `tasks` → `apply` → `verify`. `review` is written by a fresh-context, read-only reviewer (a second model when one is available) and emits a `VERDICT:` line telling the agent to gate `test-plan`, `tasks`, and `apply`; Warpweave only checks that artifacts exist, so enforce the gate with your own CI or hook. `test-plan` maps every spec scenario to a named test and doubles as a red/green ledger that `verify` audits. |
 
 > Want to contribute a community schema? Open an issue with a link to your repository, or submit a PR adding a row to this table.
 

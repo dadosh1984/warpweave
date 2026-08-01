@@ -1,5 +1,5 @@
 /**
- * Legacy cleanup module for detecting and removing Spectrix artifacts
+ * Legacy cleanup module for detecting and removing Warpweave artifacts
  * from previous init versions during the migration to the skill-based workflow.
  */
 
@@ -13,7 +13,7 @@ import type { WorkflowId } from './profiles.js';
 
 /**
  * Legacy config file names from the old ToolRegistry.
- * These were config files created at project root with Spectrix markers.
+ * These were config files created at project root with Warpweave markers.
  */
 export const LEGACY_CONFIG_FILES = [
   'CLAUDE.md',
@@ -22,7 +22,7 @@ export const LEGACY_CONFIG_FILES = [
   'COSTRICT.md',
   'QODER.md',
   'IFLOW.md',
-  'AGENTS.md', // root AGENTS.md (not openspec/AGENTS.md)
+  'AGENTS.md', // root AGENTS.md (not warpweave/AGENTS.md)
   'QWEN.md',
 ] as const;
 
@@ -32,40 +32,40 @@ export const LEGACY_CONFIG_FILES = [
  * Some tools used a directory structure, others used individual files.
  */
 export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPattern> = {
-  // Directory-based: .tooldir/commands/openspec/ or .tooldir/commands/openspec/*.md
-  'claude': { type: 'directory', path: '.claude/commands/openspec' },
-  'codebuddy': { type: 'directory', path: '.codebuddy/commands/openspec' },
-  'qoder': { type: 'directory', path: '.qoder/commands/openspec' },
-  'lingma': { type: 'directory', path: '.lingma/commands/openspec' },
-  'crush': { type: 'directory', path: '.crush/commands/openspec' },
-  'gemini': { type: 'directory', path: '.gemini/commands/openspec' },
-  'costrict': { type: 'directory', path: '.cospec/openspec/commands' },
+  // Directory-based: .tooldir/commands/warpweave/ or .tooldir/commands/warpweave/*.md
+  'claude': { type: 'directory', path: '.claude/commands/warpweave' },
+  'codebuddy': { type: 'directory', path: '.codebuddy/commands/warpweave' },
+  'qoder': { type: 'directory', path: '.qoder/commands/warpweave' },
+  'lingma': { type: 'directory', path: '.lingma/commands/warpweave' },
+  'crush': { type: 'directory', path: '.crush/commands/warpweave' },
+  'gemini': { type: 'directory', path: '.gemini/commands/warpweave' },
+  'costrict': { type: 'directory', path: '.cospec/warpweave/commands' },
 
-  // File-based: individual openspec-*.md files in a commands/workflows/prompts folder
-  'cursor': { type: 'files', pattern: '.cursor/commands/openspec-*.md' },
+  // File-based: individual warpweave-*.md files in a commands/workflows/prompts folder
+  'cursor': { type: 'files', pattern: '.cursor/commands/warpweave-*.md' },
   // Keyed by the tool id these map back to, so the pre-otrix Windsurf files
   // belong to `devin` — the id Windsurf became. Only `.windsurf/` is listed:
-  // `.devin/` postdates the otrix rename and never held `openspec-*` files.
-  'devin': { type: 'files', pattern: '.windsurf/workflows/openspec-*.md' },
-  'kilocode': { type: 'files', pattern: '.kilocode/workflows/openspec-*.md' },
-  'kiro': { type: 'files', pattern: '.kiro/prompts/openspec-*.prompt.md' },
-  'github-copilot': { type: 'files', pattern: '.github/prompts/openspec-*.prompt.md' },
-  'amazon-q': { type: 'files', pattern: '.amazonq/prompts/openspec-*.md' },
-  'cline': { type: 'files', pattern: '.clinerules/workflows/openspec-*.md' },
-  'roocode': { type: 'files', pattern: '.roo/commands/openspec-*.md' },
-  'auggie': { type: 'files', pattern: '.augment/commands/openspec-*.md' },
-  'factory': { type: 'files', pattern: '.factory/commands/openspec-*.md' },
-  'opencode': { type: 'files', pattern: ['.opencode/command/otrix-*.md', '.opencode/command/openspec-*.md'] },
-  'continue': { type: 'files', pattern: '.continue/prompts/openspec-*.prompt' },
-  'antigravity': { type: 'files', pattern: '.agent/workflows/openspec-*.md' },
-  'iflow': { type: 'files', pattern: '.iflow/commands/openspec-*.md' },
-  'junie': { type: 'files', pattern: ['.junie/commands/otrix-*.md', '.junie/commands/openspec-*.md'] },
-  'qwen': { type: 'files', pattern: ['.qwen/commands/otrix-*.toml', '.qwen/commands/openspec-*.toml'] },
-  'codex': { type: 'files', pattern: '.codex/prompts/openspec-*.md' },
+  // `.devin/` postdates the otrix rename and never held `warpweave-*` files.
+  'devin': { type: 'files', pattern: '.windsurf/workflows/warpweave-*.md' },
+  'kilocode': { type: 'files', pattern: '.kilocode/workflows/warpweave-*.md' },
+  'kiro': { type: 'files', pattern: '.kiro/prompts/warpweave-*.prompt.md' },
+  'github-copilot': { type: 'files', pattern: '.github/prompts/warpweave-*.prompt.md' },
+  'amazon-q': { type: 'files', pattern: '.amazonq/prompts/warpweave-*.md' },
+  'cline': { type: 'files', pattern: '.clinerules/workflows/warpweave-*.md' },
+  'roocode': { type: 'files', pattern: '.roo/commands/warpweave-*.md' },
+  'auggie': { type: 'files', pattern: '.augment/commands/warpweave-*.md' },
+  'factory': { type: 'files', pattern: '.factory/commands/warpweave-*.md' },
+  'opencode': { type: 'files', pattern: ['.opencode/command/otrix-*.md', '.opencode/command/warpweave-*.md'] },
+  'continue': { type: 'files', pattern: '.continue/prompts/warpweave-*.prompt' },
+  'antigravity': { type: 'files', pattern: '.agent/workflows/warpweave-*.md' },
+  'iflow': { type: 'files', pattern: '.iflow/commands/warpweave-*.md' },
+  'junie': { type: 'files', pattern: ['.junie/commands/otrix-*.md', '.junie/commands/warpweave-*.md'] },
+  'qwen': { type: 'files', pattern: ['.qwen/commands/otrix-*.toml', '.qwen/commands/warpweave-*.toml'] },
+  'codex': { type: 'files', pattern: '.codex/prompts/warpweave-*.md' },
 };
 
 /**
- * Final Spectrix-managed global Codex prompt filenames mapped to the workflows
+ * Final Warpweave-managed global Codex prompt filenames mapped to the workflows
  * they represented before Codex moved to skills-only delivery.
  */
 const LEGACY_GLOBAL_CODEX_WORKFLOWS: Record<string, readonly WorkflowId[]> = {
@@ -106,7 +106,7 @@ export interface LegacySlashCommandPattern {
 }
 
 /**
- * Describes a managed global prompt home and the exact filenames Spectrix is
+ * Describes a managed global prompt home and the exact filenames Warpweave is
  * allowed to treat as legacy artifacts there.
  */
 export interface LegacyGlobalPromptPattern {
@@ -149,7 +149,7 @@ function normalizePathForMatch(filePath: string): string {
 }
 
 /**
- * Classifies a global Codex prompt path as Spectrix-managed only when it matches
+ * Classifies a global Codex prompt path as Warpweave-managed only when it matches
  * the explicit legacy allowlist for the resolved prompt home.
  */
 function getManagedGlobalLegacyPromptMetadata(filePath: string): LegacyGlobalPromptMatch | undefined {
@@ -184,7 +184,7 @@ function getManagedGlobalLegacyPromptMetadata(filePath: string): LegacyGlobalPro
  * Result of legacy artifact detection
  */
 export interface LegacyDetectionResult {
-  /** Config files with Spectrix markers detected */
+  /** Config files with Warpweave markers detected */
   configFiles: string[];
   /** Config files to update (remove markers only, never delete) */
   configFilesToUpdate: string[];
@@ -196,18 +196,18 @@ export interface LegacyDetectionResult {
   globalSlashCommandFiles: string[];
   /** Details for managed global command/prompt files */
   globalSlashCommandDetails?: LegacyGlobalPromptMatch[];
-  /** Whether openspec/AGENTS.md exists */
+  /** Whether warpweave/AGENTS.md exists */
   hasOpenspecAgents: boolean;
-  /** Whether openspec/project.md exists (preserved, migration hint only) */
+  /** Whether warpweave/project.md exists (preserved, migration hint only) */
   hasProjectMd: boolean;
-  /** Whether root AGENTS.md has Spectrix markers */
+  /** Whether root AGENTS.md has Warpweave markers */
   hasRootAgentsWithMarkers: boolean;
   /** Whether any legacy artifacts were found */
   hasLegacyArtifacts: boolean;
 }
 
 /**
- * Detects all legacy Spectrix artifacts in a project.
+ * Detects all legacy Warpweave artifacts in a project.
  *
  * @param projectPath - The root path of the project
  * @returns Detection result with all found legacy artifacts
@@ -262,7 +262,7 @@ export async function detectLegacyArtifacts(
 }
 
 /**
- * Detects legacy config files with Spectrix markers.
+ * Detects legacy config files with Warpweave markers.
  * All config files with markers are candidates for update (marker removal only).
  * Config files are NEVER deleted - they belong to the user's project root.
  *
@@ -284,7 +284,7 @@ export async function detectLegacyConfigFiles(
     if (await FileSystemUtils.fileExists(filePath)) {
       const content = await FileSystemUtils.readFile(filePath);
 
-      if (hasOpenSpecMarkers(content)) {
+      if (hasSpectrixMarkers(content)) {
         allFiles.push(fileName);
         filesToUpdate.push(fileName); // Always update, never delete config files
       }
@@ -334,7 +334,7 @@ export async function detectLegacySlashCommands(
  */
 /**
  * Scans the resolved global Codex prompt directories and returns only the
- * allowlisted Spectrix-managed legacy prompt files.
+ * allowlisted Warpweave-managed legacy prompt files.
  */
 async function detectLegacyGlobalPromptFiles(): Promise<LegacyGlobalPromptMatch[]> {
   const foundFiles: LegacyGlobalPromptMatch[] = [];
@@ -365,7 +365,7 @@ async function detectLegacyGlobalPromptFiles(): Promise<LegacyGlobalPromptMatch[
  * Finds legacy slash command files matching a glob pattern.
  *
  * @param projectPath - The root path of the project
- * @param pattern - Glob pattern like '.cursor/commands/openspec-*.md'
+ * @param pattern - Glob pattern like '.cursor/commands/warpweave-*.md'
  * @returns Array of matching file paths relative to projectPath
  */
 async function findLegacySlashCommandFiles(
@@ -408,7 +408,7 @@ async function findLegacySlashCommandFiles(
 }
 
 /**
- * Detects legacy Spectrix structure files (AGENTS.md and project.md).
+ * Detects legacy Warpweave structure files (AGENTS.md and project.md).
  *
  * @param projectPath - The root path of the project
  * @returns Object with detection results for structure files
@@ -424,43 +424,43 @@ export async function detectLegacyStructureFiles(
   let hasProjectMd = false;
   let hasRootAgentsWithMarkers = false;
 
-  // Check for openspec/AGENTS.md
-  const openspecAgentsPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'AGENTS.md');
-  hasOpenspecAgents = await FileSystemUtils.fileExists(openspecAgentsPath);
+  // Check for warpweave/AGENTS.md
+  const spectrixAgentsPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'AGENTS.md');
+  hasOpenspecAgents = await FileSystemUtils.fileExists(spectrixAgentsPath);
 
-  // Check for openspec/project.md (for migration messaging, not deleted)
-  const projectMdPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'project.md');
+  // Check for warpweave/project.md (for migration messaging, not deleted)
+  const projectMdPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'project.md');
   hasProjectMd = await FileSystemUtils.fileExists(projectMdPath);
 
-  // Check for root AGENTS.md with Spectrix markers
+  // Check for root AGENTS.md with Warpweave markers
   const rootAgentsPath = FileSystemUtils.joinPath(projectPath, 'AGENTS.md');
   if (await FileSystemUtils.fileExists(rootAgentsPath)) {
     const content = await FileSystemUtils.readFile(rootAgentsPath);
-    hasRootAgentsWithMarkers = hasOpenSpecMarkers(content);
+    hasRootAgentsWithMarkers = hasSpectrixMarkers(content);
   }
 
   return { hasOpenspecAgents, hasProjectMd, hasRootAgentsWithMarkers };
 }
 
 /**
- * Checks if content contains Spectrix markers.
+ * Checks if content contains Warpweave markers.
  *
  * @param content - File content to check
  * @returns True if both start and end markers are present
  */
-export function hasOpenSpecMarkers(content: string): boolean {
+export function hasSpectrixMarkers(content: string): boolean {
   return (
     content.includes(OPENSPEC_MARKERS.start) && content.includes(OPENSPEC_MARKERS.end)
   );
 }
 
 /**
- * Checks if file content is 100% Spectrix content (only markers and whitespace outside).
+ * Checks if file content is 100% Warpweave content (only markers and whitespace outside).
  *
  * @param content - File content to check
  * @returns True if content outside markers is only whitespace
  */
-export function isOnlyOpenSpecContent(content: string): boolean {
+export function isOnlySpectrixContent(content: string): boolean {
   const startIndex = content.indexOf(OPENSPEC_MARKERS.start);
   const endIndex = content.indexOf(OPENSPEC_MARKERS.end);
 
@@ -475,11 +475,11 @@ export function isOnlyOpenSpecContent(content: string): boolean {
 }
 
 /**
- * Removes the Spectrix marker block from file content.
+ * Removes the Warpweave marker block from file content.
  * Only removes markers that are on their own lines (ignores inline mentions).
  * Cleans up double blank lines that may result from removal.
  *
- * @param content - File content with Spectrix markers
+ * @param content - File content with Warpweave markers
  * @returns Content with marker block removed
  */
 export function removeMarkerBlock(content: string): string {
@@ -505,8 +505,8 @@ export interface CleanupResult {
 }
 
 /**
- * Cleans up legacy Spectrix artifacts from a project.
- * Preserves openspec/project.md (shows migration hint instead of deleting).
+ * Cleans up legacy Warpweave artifacts from a project.
+ * Preserves warpweave/project.md (shows migration hint instead of deleting).
  *
  * @param projectPath - The root path of the project
  * @param detection - Detection result from detectLegacyArtifacts
@@ -540,7 +540,7 @@ export async function cleanupLegacyArtifacts(
     }
   }
 
-  // Delete legacy slash command directories (these are 100% Spectrix-managed)
+  // Delete legacy slash command directories (these are 100% Warpweave-managed)
   for (const dirPath of detection.slashCommandDirs) {
     const fullPath = FileSystemUtils.joinPath(projectPath, dirPath);
     try {
@@ -551,7 +551,7 @@ export async function cleanupLegacyArtifacts(
     }
   }
 
-  // Delete legacy slash command files (these are 100% Spectrix-managed)
+  // Delete legacy slash command files (these are 100% Warpweave-managed)
   for (const filePath of detection.slashCommandFiles) {
     const fullPath = FileSystemUtils.joinPath(projectPath, filePath);
     try {
@@ -562,7 +562,7 @@ export async function cleanupLegacyArtifacts(
     }
   }
 
-  // Delete managed global slash command files (these are 100% Spectrix-managed)
+  // Delete managed global slash command files (these are 100% Warpweave-managed)
   const globalPromptMatchesByPath = new Map(
     getLegacyGlobalPromptMatches(detection).map((prompt) => [prompt.path, prompt] as const)
   );
@@ -584,20 +584,20 @@ export async function cleanupLegacyArtifacts(
     }
   }
 
-  // Delete openspec/AGENTS.md (this is inside openspec/, it's Spectrix-managed)
+  // Delete warpweave/AGENTS.md (this is inside warpweave/, it's Warpweave-managed)
   if (detection.hasOpenspecAgents) {
-    const agentsPath = FileSystemUtils.joinPath(projectPath, 'openspec', 'AGENTS.md');
+    const agentsPath = FileSystemUtils.joinPath(projectPath, 'warpweave', 'AGENTS.md');
     if (await FileSystemUtils.fileExists(agentsPath)) {
       try {
         await fs.unlink(agentsPath);
-        result.deletedFiles.push('openspec/AGENTS.md');
+        result.deletedFiles.push('warpweave/AGENTS.md');
       } catch (error: any) {
-        result.errors.push(`Failed to delete openspec/AGENTS.md: ${error.message}`);
+        result.errors.push(`Failed to delete warpweave/AGENTS.md: ${error.message}`);
       }
     }
   }
 
-  // Handle root AGENTS.md with Spectrix markers - remove markers only, NEVER delete
+  // Handle root AGENTS.md with Warpweave markers - remove markers only, NEVER delete
   // Note: Root AGENTS.md is handled via configFilesToUpdate above (it's in LEGACY_CONFIG_FILES)
   // This hasRootAgentsWithMarkers flag is just for detection, cleanup happens via configFilesToUpdate
 
@@ -626,11 +626,11 @@ export function formatCleanupSummary(result: CleanupResult): string {
     }
 
     for (const dir of result.deletedDirs) {
-      lines.push(`  ✓ Removed ${dir}/ (replaced by Spectrix skills and commands)`);
+      lines.push(`  ✓ Removed ${dir}/ (replaced by Warpweave skills and commands)`);
     }
 
     for (const file of result.modifiedFiles) {
-      lines.push(`  ✓ Removed Spectrix markers from ${file}`);
+      lines.push(`  ✓ Removed Warpweave markers from ${file}`);
     }
   }
 
@@ -656,7 +656,7 @@ export function formatCleanupSummary(result: CleanupResult): string {
 
 /**
  * Build list of files to be removed with explanations.
- * Only includes Spectrix-managed files (slash commands, openspec/AGENTS.md).
+ * Only includes Warpweave-managed files (slash commands, warpweave/AGENTS.md).
  * Config files like CLAUDE.md, AGENTS.md are NEVER deleted.
  *
  * @param detection - Detection result from detectLegacyArtifacts
@@ -665,14 +665,14 @@ export function formatCleanupSummary(result: CleanupResult): string {
 function buildRemovalsList(detection: LegacyDetectionResult): Array<{ path: string; explanation: string }> {
   const removals: Array<{ path: string; explanation: string }> = [];
 
-  // Slash command directories (these are 100% Spectrix-managed)
+  // Slash command directories (these are 100% Warpweave-managed)
   for (const dir of detection.slashCommandDirs) {
     // Split on both forward and backward slashes for Windows compatibility
     const toolDir = dir.split(/[\/\\]/)[0];
     removals.push({ path: dir + '/', explanation: `replaced by ${toolDir}/skills/` });
   }
 
-  // Slash command files (these are 100% Spectrix-managed)
+  // Slash command files (these are 100% Warpweave-managed)
   for (const file of detection.slashCommandFiles) {
     removals.push({ path: file, explanation: 'replaced by skills/' });
   }
@@ -685,9 +685,9 @@ function buildRemovalsList(detection: LegacyDetectionResult): Array<{ path: stri
     removals.push({ path: prompt.path, explanation });
   }
 
-  // openspec/AGENTS.md (inside openspec/, it's Spectrix-managed)
+  // warpweave/AGENTS.md (inside warpweave/, it's Warpweave-managed)
   if (detection.hasOpenspecAgents) {
-    removals.push({ path: 'openspec/AGENTS.md', explanation: 'obsolete workflow file' });
+    removals.push({ path: 'warpweave/AGENTS.md', explanation: 'obsolete workflow file' });
   }
 
   // Note: Config files (CLAUDE.md, AGENTS.md, etc.) are NEVER in the removals list
@@ -708,7 +708,7 @@ function buildUpdatesList(detection: LegacyDetectionResult): Array<{ path: strin
 
   // All config files with markers get updated (markers removed, file preserved)
   for (const file of detection.configFilesToUpdate) {
-    updates.push({ path: file, explanation: 'removing Spectrix markers' });
+    updates.push({ path: file, explanation: 'removing Warpweave markers' });
   }
 
   return updates;
@@ -733,9 +733,9 @@ export function formatDetectionSummary(detection: LegacyDetectionResult): string
   }
 
   // Header - welcoming upgrade message
-  lines.push(chalk.bold('Upgrading to the new Spectrix'));
+  lines.push(chalk.bold('Upgrading to the new Warpweave'));
   lines.push('');
-  lines.push('Spectrix now uses agent skills, the emerging standard across coding');
+  lines.push('Warpweave now uses agent skills, the emerging standard across coding');
   lines.push('agents. This simplifies your setup while keeping everything working');
   lines.push('as before.');
   lines.push('');
@@ -753,7 +753,7 @@ export function formatDetectionSummary(detection: LegacyDetectionResult): string
   if (updates.length > 0) {
     if (removals.length > 0) lines.push('');
     lines.push(chalk.bold('Files to update'));
-    lines.push(chalk.dim('Spectrix markers will be removed, your content preserved:'));
+    lines.push(chalk.dim('Warpweave markers will be removed, your content preserved:'));
     for (const { path } of updates) {
       lines.push(`  • ${path}`);
     }
@@ -935,11 +935,11 @@ export function pickGlobalLegacyPromptFiles(
 export function formatProjectMdMigrationHint(): string {
   const lines: string[] = [];
   lines.push(chalk.yellow.bold('Needs your attention'));
-  lines.push('  • openspec/project.md');
+  lines.push('  • warpweave/project.md');
   lines.push(chalk.dim('    We won\'t delete this file. It may contain useful project context.'));
   lines.push('');
-  lines.push(chalk.dim('    The new openspec/config.yaml has a "context:" section for planning'));
-  lines.push(chalk.dim('    context. This is included in every Spectrix request and works more'));
+  lines.push(chalk.dim('    The new warpweave/config.yaml has a "context:" section for planning'));
+  lines.push(chalk.dim('    context. This is included in every Warpweave request and works more'));
   lines.push(chalk.dim('    reliably than the old project.md approach.'));
   lines.push('');
   lines.push(chalk.dim('    Review project.md, move any useful content to config.yaml\'s context'));

@@ -13,7 +13,7 @@ describe('artifact-workflow CLI commands', () => {
 
   beforeEach(async () => {
     tempDir = await fs.mkdtemp(path.join(os.tmpdir(), 'openspec-artifact-workflow-'));
-    changesDir = path.join(tempDir, 'openspec', 'changes');
+    changesDir = path.join(tempDir, 'spectrix', 'changes');
     await fs.mkdir(changesDir, { recursive: true });
   });
 
@@ -486,7 +486,7 @@ describe('artifact-workflow CLI commands', () => {
 
     it('shows blocked state when required artifacts are missing', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 context: Required blocked-state context
 operations:
@@ -532,7 +532,7 @@ operations:
 
     it('returns current context and matching apply guidance as separate JSON fields', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 context: |
   Current project context
@@ -570,7 +570,7 @@ operations:
 
     it('renders required context and advisory apply guidance as distinct text sections', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 context: Project background
 operations:
@@ -597,7 +597,7 @@ operations:
 
     it('omits absent operation inputs without changing apply state behavior', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 rules:
   specs:
@@ -620,7 +620,7 @@ rules:
     });
 
     it('reads a fresh apply config snapshot on every command invocation', async () => {
-      const configPath = path.join(tempDir, 'openspec', 'config.yaml');
+      const configPath = path.join(tempDir, 'spectrix', 'config.yaml');
       await createTestChange('apply-fresh-inputs', ['proposal', 'design', 'specs', 'tasks']);
       await fs.writeFile(
         configPath,
@@ -664,7 +664,7 @@ operations:
 
     it('reads malformed operation config once and emits one warning per command', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 operations:
   apply:
@@ -687,7 +687,7 @@ operations:
     });
 
     it('resolves single-star glob artifacts consistently between status and apply', async () => {
-      const schemaDir = path.join(tempDir, 'openspec', 'schemas', 'glob-test');
+      const schemaDir = path.join(tempDir, 'spectrix', 'schemas', 'glob-test');
       const templatesDir = path.join(schemaDir, 'templates');
       await fs.mkdir(templatesDir, { recursive: true });
 
@@ -756,7 +756,7 @@ apply:
 
     it('shows all_done state when all tasks are complete', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 context: Required all-done context
 operations:
@@ -818,7 +818,7 @@ operations:
     it('fallback: requires all artifacts when schema has no apply block', async () => {
       // Create a minimal schema without an apply block in user schemas dir
       const userDataDir = path.join(tempDir, 'user-data');
-      const noApplySchemaDir = path.join(userDataDir, 'openspec', 'schemas', 'no-apply');
+      const noApplySchemaDir = path.join(userDataDir, 'spectrix', 'schemas', 'no-apply');
       const templatesDir = path.join(noApplySchemaDir, 'templates');
       await fs.mkdir(templatesDir, { recursive: true });
 
@@ -868,7 +868,7 @@ artifacts:
     it('fallback: ready when all artifacts exist for schema without apply block', async () => {
       // Create a minimal schema without an apply block
       const userDataDir = path.join(tempDir, 'user-data-2');
-      const noApplySchemaDir = path.join(userDataDir, 'openspec', 'schemas', 'no-apply-full');
+      const noApplySchemaDir = path.join(userDataDir, 'spectrix', 'schemas', 'no-apply-full');
       const templatesDir = path.join(noApplySchemaDir, 'templates');
       await fs.mkdir(templatesDir, { recursive: true });
 
@@ -911,7 +911,7 @@ artifacts:
   describe('instructions archive command', () => {
     it('returns current archive context, guidance, and the root envelope in JSON', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 context: Archive project context
 rules:
@@ -951,7 +951,7 @@ operations:
 
     it('renders required context and advisory archive guidance as separate text sections', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         `schema: spec-driven
 context: Archive background
 operations:
@@ -978,7 +978,7 @@ operations:
 
     it('succeeds with valid empty inputs and omits optional JSON fields', async () => {
       await fs.writeFile(
-        path.join(tempDir, 'openspec', 'config.yaml'),
+        path.join(tempDir, 'spectrix', 'config.yaml'),
         'schema: spec-driven\n'
       );
       await createTestChange('archive-no-inputs');
@@ -1024,7 +1024,7 @@ operations:
     });
 
     it('reads fresh archive inputs without mutating specs or the change', async () => {
-      const configPath = path.join(tempDir, 'openspec', 'config.yaml');
+      const configPath = path.join(tempDir, 'spectrix', 'config.yaml');
       const changeDir = await createTestChange('archive-read-only', [
         'proposal',
         'design',
@@ -1074,11 +1074,11 @@ operations:
       expect(await fs.readFile(proposalPath, 'utf-8')).toBe(proposalBefore);
       expect(await fs.readdir(path.join(changeDir, 'specs'))).toEqual(['test-spec.md']);
       expect(
-        await fs.readdir(path.join(tempDir, 'openspec', 'changes'))
+        await fs.readdir(path.join(tempDir, 'spectrix', 'changes'))
       ).toContain('archive-read-only');
       expect(
         await fs
-          .stat(path.join(tempDir, 'openspec', 'specs'))
+          .stat(path.join(tempDir, 'spectrix', 'specs'))
           .then(() => true)
           .catch(() => false)
       ).toBe(false);
@@ -1196,7 +1196,7 @@ operations:
         // Create project config with spec-driven schema
         // Note: changesDir is already at tempDir/openspec/changes (created in beforeEach)
         await fs.writeFile(
-          path.join(tempDir, 'openspec', 'config.yaml'),
+          path.join(tempDir, 'spectrix', 'config.yaml'),
           'schema: spec-driven\n'
         );
 
@@ -1214,7 +1214,7 @@ operations:
         // Create project config with spec-driven schema
         // Note: spectrix directory already exists (from changesDir creation in beforeEach)
         await fs.writeFile(
-          path.join(tempDir, 'openspec', 'config.yaml'),
+          path.join(tempDir, 'spectrix', 'config.yaml'),
           'schema: spec-driven\n'
         );
 
@@ -1237,7 +1237,7 @@ operations:
         // Create project config with context and rules
         // Note: spectrix directory already exists (from changesDir creation in beforeEach)
         await fs.writeFile(
-          path.join(tempDir, 'openspec', 'config.yaml'),
+          path.join(tempDir, 'spectrix', 'config.yaml'),
           `schema: spec-driven
 context: |
   Tech stack: TypeScript, React
@@ -1272,7 +1272,7 @@ rules:
         // Create project config with rules only for proposal
         // Note: spectrix directory already exists (from changesDir creation in beforeEach)
         await fs.writeFile(
-          path.join(tempDir, 'openspec', 'config.yaml'),
+          path.join(tempDir, 'spectrix', 'config.yaml'),
           `schema: spec-driven
 rules:
   proposal:
@@ -1341,7 +1341,7 @@ rules:
         // Create initial config
         // Note: spectrix directory already exists (from changesDir creation in beforeEach)
         await fs.writeFile(
-          path.join(tempDir, 'openspec', 'config.yaml'),
+          path.join(tempDir, 'spectrix', 'config.yaml'),
           `schema: spec-driven
 context: Initial context
 `
@@ -1360,7 +1360,7 @@ context: Initial context
 
         // Update config
         await fs.writeFile(
-          path.join(tempDir, 'openspec', 'config.yaml'),
+          path.join(tempDir, 'spectrix', 'config.yaml'),
           `schema: spec-driven
 context: Updated context
 `
