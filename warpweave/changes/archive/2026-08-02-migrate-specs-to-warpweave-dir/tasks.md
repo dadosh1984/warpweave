@@ -59,7 +59,7 @@
   - **Ladder rung**: 7 (verification)
   - **Test first**: n/a
   - **Verify**: `rtk warpweave view` reports 36 specs; `rtk vitest`; `rtk npm run lint`
-- [ ] 4.2 Commit the migration as a single commit (enables one-command rollback)
+- [x] 4.2 Commit the migration as a single commit (enables one-command rollback)
   - **Spec scenario**: n/a
   - **Ladder rung**: 7 (verification)
   - **Test first**: n/a
