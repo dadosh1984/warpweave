@@ -8,9 +8,9 @@ import {
 
 describe('skill-generation', () => {
   describe('getSkillTemplates', () => {
-    it('should return all 21 skill templates', () => {
+    it('should return all 22 skill templates', () => {
       const templates = getSkillTemplates();
-      expect(templates).toHaveLength(21);
+      expect(templates).toHaveLength(22);
     });
 
     it('should have unique directory names', () => {
@@ -45,6 +45,7 @@ describe('skill-generation', () => {
       expect(dirNames).toContain('warpweave-parallel-execute');
       expect(dirNames).toContain('warpweave-learn');
       expect(dirNames).toContain('warpweave-init-unified');
+      expect(dirNames).toContain('warpweave-translator');
     });
 
     it('should have valid template structure', () => {

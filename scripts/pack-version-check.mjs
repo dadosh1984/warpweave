@@ -59,7 +59,7 @@ function main() {
   let tgzPath;
 
   try {
-    log(`Packing @dadosh1984/warpweave@${expected}...`);
+    log(`Packing warpweave@${expected}...`);
     const filename = npmPack();
     tgzPath = path.resolve(filename);
     log(`Created: ${tgzPath}`);
@@ -86,7 +86,7 @@ function main() {
     run('npm', ['install', tgzPath, '--silent', '--no-audit', '--no-fund'], { cwd: work, env, useShell: true });
 
     // Run the installed CLI via Node to avoid bin resolution/platform issues
-    const binRel = path.join('node_modules', '@dadosh1984', 'warpweave', 'bin', 'warpweave.js');
+    const binRel = path.join('node_modules', 'warpweave', 'bin', 'ww.js');
     const actual = run(process.execPath, [binRel, '--version'], { cwd: work }).trim();
 
     if (actual !== expected) {

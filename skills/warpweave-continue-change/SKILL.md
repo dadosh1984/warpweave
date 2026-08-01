@@ -1,6 +1,6 @@
 ---
 name: warpweave-continue-change
-description: Continue working on an Warpweave change by creating the next artifact. Use when the user wants to progress their change, create the next artifact, or continue their workflow.
+description: Continue working on a Warpweave change by creating the next artifact. Use when the user wants to progress their change, create the next artifact, or continue their workflow.
 allowed-tools: Bash(warpweave:*)
 license: MIT
 compatibility: Requires warpweave CLI.
