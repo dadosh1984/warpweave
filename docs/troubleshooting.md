@@ -1,6 +1,6 @@
 # Troubleshooting
 
-Concrete fixes for concrete problems. Each entry names a symptom, explains the likely cause in a sentence, and gives you the fix. If you don't see your issue here, the [FAQ](faq.md) may help, and the [Discord](https://discord.gg/YctCnvvshC) definitely will.
+Concrete fixes for concrete problems. Each entry names a symptom, explains the likely cause in a sentence, and gives you the fix. If you don't see your issue here, the [FAQ](faq.md) may help, and the [Discord](https://discord.gg/RHpQMYfje) definitely will.
 
 ## Installation and setup
 
@@ -185,8 +185,7 @@ That's intentional. Warpweave never deletes `project.md` automatically because i
 
 ## Still stuck?
 
-- **Discord:** [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
-- **GitHub Issues:** [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
-- **From your terminal:** `warpweave feedback "what went wrong"` opens an issue for you.
+- **Discord:** [discord.gg/RHpQMYfje](https://discord.gg/RHpQMYfje)
+- **From your terminal:** `warpweave feedback "what went wrong"` prepares a feedback report for you to send to the team.
 
 When you report a problem, include your Warpweave version (`warpweave --version`), your Node version (`node --version`), your AI tool, and the exact command and output. It makes help much faster.

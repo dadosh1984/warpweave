@@ -67,5 +67,5 @@ Modifications Copyright (c) 2026 dadosh1984.
 <p align="center">
   <a href="https://github.com/dadosh1984/warpweave">GitHub</a> ·
   <a href="https://npmjs.com/package/warpweave">npm</a> ·
-  <a href="https://discord.gg/YctCnvvshC">Discord</a>
+  <a href="https://discord.gg/RHpQMYfje">Discord</a>
 </p>

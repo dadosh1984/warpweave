@@ -122,8 +122,7 @@ Together, they create the fabric of your software.
 ## Need Help?
 
 - **Documentation**: `ww --help` or visit docs/
-- **Issues**: https://github.com/dadosh1984/warpweave/issues
-- **Discord**: https://discord.gg/YctCnvvshC
+- **Discord**: https://discord.gg/RHpQMYfje
 
 ---
 

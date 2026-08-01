@@ -599,6 +599,5 @@ project/
 
 ## Getting Help
 
-- **Discord**: [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
-- **GitHub Issues**: [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
+- **Discord**: [discord.gg/RHpQMYfje](https://discord.gg/RHpQMYfje)
 - **Documentation**: [docs/ww.md](ww.md) for the full WW reference

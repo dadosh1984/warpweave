@@ -146,9 +146,8 @@ There's no uninstall command, because it's just a global package plus files in y
 
 ### Where do I ask questions or report bugs?
 
-- **Discord:** [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC)
-- **GitHub Issues:** [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues)
-- **From your terminal:** `warpweave feedback "your message"` opens a GitHub issue for you.
+- **Discord:** [discord.gg/RHpQMYfje](https://discord.gg/RHpQMYfje)
+- **From your terminal:** `warpweave feedback "your message"` prepares a feedback report for you to send to the team.
 
 ### These docs are wrong or confusing. What do I do?
 

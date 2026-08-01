@@ -109,6 +109,14 @@ describe('InitCommand', () => {
       expect(logCalls.some((entry) => entry.includes('ponytail'))).toBe(true);
     });
 
+    it('should surface the canonical Discord channel as the feedback link', async () => {
+      const initCommand = new InitCommand({ tools: 'claude', force: true });
+      await initCommand.execute(testDir);
+
+      const logCalls = (console.log as unknown as { mock: { calls: unknown[][] } }).mock.calls.flat().map(String);
+      expect(logCalls.some((entry) => entry.includes('discord.gg/RHpQMYfje'))).toBe(true);
+    });
+
     it('should create config.yaml with default schema', async () => {
       const initCommand = new InitCommand({ tools: 'claude', force: true });
 

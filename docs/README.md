@@ -107,8 +107,7 @@ Steps 1 and 2 happen in your terminal. The rest happen in your AI assistant's ch
 
 ## Where else to get help
 
-- **Discord:** [discord.gg/YctCnvvshC](https://discord.gg/YctCnvvshC) for questions, ideas, and help.
-- **GitHub Issues:** [github.com/Fission-AI/OpenSpec/issues](https://github.com/Fission-AI/OpenSpec/issues) for bugs and feature requests.
-- **`warpweave feedback "your message"`** sends feedback straight from your terminal (it opens a GitHub issue).
+- **Discord:** [discord.gg/RHpQMYfje](https://discord.gg/RHpQMYfje) for questions, ideas, help, bugs, and feature requests.
+- **`warpweave feedback "your message"`** prepares a feedback report straight from your terminal for you to send to the team.
 
 Found something in these docs that's wrong, stale, or confusing? That's a bug. Open an issue or a PR. Documentation improvements are some of the most valuable contributions you can make.

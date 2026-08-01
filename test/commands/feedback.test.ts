@@ -112,6 +112,11 @@ describe('FeedbackCommand', () => {
       expect(consoleLogSpy).toHaveBeenCalledWith(
         expect.stringContaining('https://github.com/dadosh1984/warpweave/issues/new')
       );
+
+      // Should surface the canonical Discord channel
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringContaining('discord.gg/RHpQMYfje')
+      );
     });
 
     it('should handle unauthenticated gh CLI with fallback', async () => {
@@ -145,6 +150,11 @@ describe('FeedbackCommand', () => {
       // Should show formatted feedback
       expect(consoleLogSpy).toHaveBeenCalledWith(
         expect.stringContaining('--- FORMATTED FEEDBACK ---')
+      );
+
+      // Should surface the canonical Discord channel
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringContaining('discord.gg/RHpQMYfje')
       );
     });
   });
@@ -353,6 +363,11 @@ describe('FeedbackCommand', () => {
       );
       expect(consoleLogSpy).toHaveBeenCalledWith(
         expect.stringContaining('github.com/dadosh1984/warpweave/issues/new')
+      );
+
+      // Should surface the canonical Discord channel
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringContaining('discord.gg/RHpQMYfje')
       );
     });
 
