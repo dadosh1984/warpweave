@@ -103,6 +103,7 @@ Single source of truth for all four systems:
 [ponytail]     # mode, yagni_strict, prefer_stdlib
 [rtk]          # auto_rewrite, ultra_compact, tee_mode, hooks
 [pipeline]     # phases, gates, max_concurrent_tasks
+[quality]      # min_improvement (0.25): release-compare advisory gate
 ```
 
 ### Profiles
