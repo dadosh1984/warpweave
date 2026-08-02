@@ -74,6 +74,12 @@ Skills fire automatically when the situation demands them. You do not need to in
 
 Every auto-triggered skill also has a manual override (`/ww:<command>`) for when you want to run it explicitly.
 
+## Release Process
+
+- **One changeset = one logical feature.** Each released behavior change gets its own changeset, so git blame stays clean and a broken feature can be rolled back without reverting unrelated work.
+- Grouping allowed only for: multiple changes of a single logical feature, or a pure bug fix strictly required to unblock its own feature in the same release.
+- The release `release.yml` workflow consumes pending changesets via `pnpm changeset version`; splitting avoids a 1.4.0-style release where five unrelated features share one changeset.
+
 ## Context Hygiene
 
 - Clear context before starting implementation
