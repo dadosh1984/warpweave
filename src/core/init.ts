@@ -13,7 +13,7 @@ import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { FileSystemUtils } from '../utils/file-system.js';
 import { classifyWarpweaveDir, storePointerProblem } from './project-config.js';
-import { findRepoPlanningRootSync, resolvePlanningDirName } from './planning-home.js';
+import { findRepoPlanningRootSync, resolvePlanningDirName, DEFAULT_SCHEMA } from './planning-home.js';
 import { getSkillReferenceTransformer, getTransformerForTool } from '../utils/command-references.js';
 import {
   AI_TOOLS,
@@ -68,8 +68,6 @@ const { version: WARPWEAVE_VERSION } = require('../../package.json');
 // -----------------------------------------------------------------------------
 // Constants
 // -----------------------------------------------------------------------------
-
-const DEFAULT_SCHEMA = 'spec-driven';
 
 const PROGRESS_SPINNER = {
   interval: 80,

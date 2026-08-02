@@ -3,11 +3,9 @@ import { FileSystemUtils } from './file-system.js';
 import { writeChangeMetadata, validateSchemaName } from './change-metadata.js';
 import { formatLocalDate } from './date.js';
 import { readProjectConfig } from '../core/project-config.js';
-import { resolvePlanningDirName } from '../core/planning-home.js';
+import { resolvePlanningDirName, DEFAULT_SCHEMA } from '../core/planning-home.js';
 import { isKebabId } from '../core/id.js';
 import type { ChangeMetadata } from '../core/change-metadata/index.js';
-
-const DEFAULT_SCHEMA = 'spec-driven';
 
 /**
  * Options for creating a change.

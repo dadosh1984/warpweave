@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { parse } from 'smol-toml';
+import { DEFAULT_SCHEMA } from './planning-home.js';
 
 export const UNIFIED_CONFIG_FILENAME = 'unified.toml';
 export const UNIFIED_CONFIG_RELATIVE_PATH = path.join('.unified', 'config', UNIFIED_CONFIG_FILENAME);
@@ -51,7 +52,7 @@ export function formatUnifiedConfigSummary(config: UnifiedConfig): string[] {
 
   const warpweave = config.warpweave;
   if (warpweave) {
-    const schema = warpweave.schema ?? 'spec-driven';
+    const schema = warpweave.schema ?? DEFAULT_SCHEMA;
     const profile = warpweave.profile ?? 'standard';
     lines.push(`  schema: ${String(schema)}, profile: ${String(profile)}`);
   }

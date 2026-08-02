@@ -18,7 +18,7 @@ export interface ResolvePlanningHomeOptions {
   allowImplicitRepoRoot?: boolean;
 }
 
-const REPO_DEFAULT_SCHEMA = 'spec-driven';
+export const DEFAULT_SCHEMA = 'spec-driven';
 
 function pathExistsAsDirectory(candidatePath: string): boolean {
   try {
@@ -86,7 +86,7 @@ function repoPlanningHome(repoRoot: string): PlanningHome {
     kind: 'repo',
     root: repoRoot,
     changesDir: path.join(repoRoot, resolvePlanningDirName(repoRoot), 'changes'),
-    defaultSchema: REPO_DEFAULT_SCHEMA,
+    defaultSchema: DEFAULT_SCHEMA,
   };
 }
 

@@ -4,6 +4,7 @@ import * as yaml from 'yaml';
 import { ChangeMetadataSchema, type ChangeMetadata } from '../core/change-metadata/index.js';
 import { listSchemas, resolveSchema } from '../core/artifact-graph/resolver.js';
 import { readProjectConfig, type ProjectConfig } from '../core/project-config.js';
+import { DEFAULT_SCHEMA } from '../core/planning-home.js';
 
 export const METADATA_FILENAME = '.warpweave.yaml';
 
@@ -202,7 +203,7 @@ export function resolveSchemaForChange(
   }
 
   // 4. Default
-  return 'spec-driven';
+  return DEFAULT_SCHEMA;
 }
 
 export interface SkipSpecsMarker {

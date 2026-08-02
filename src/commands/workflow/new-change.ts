@@ -21,7 +21,8 @@ import {
   type RootOutput,
   isStoreSelectedRoot,
 } from '../../core/root-selection.js';
-import { printJson, statusFromError, validateSchemaExists } from './shared.js';
+import { printJson } from '../shared-output.js';
+import { statusFromError, validateSchemaExists } from './shared.js';
 
 // -----------------------------------------------------------------------------
 // Types
