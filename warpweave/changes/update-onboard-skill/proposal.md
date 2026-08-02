@@ -4,8 +4,8 @@
 
 ## What Changes
 
-- Update `skills/warpweave-onboard/SKILL.md` to cover the newly-shipped capabilities so onboarding reflects the current feature surface:
-  - The **auto-trigger model** — which skills now fire automatically during `/ww:apply` (per-task security-scan, dependency-check; completion verify-change + benchmark; pre-commit guardrails), and that each keeps a manual `/ww:*` override.
+- Update the **onboard workflow template** `src/core/templates/workflows/onboard.ts` to cover the newly-shipped capabilities so the generated onboard skill reflects the current feature surface, then regenerate via `pnpm generate:skills` (the committed `skills/warpweave-onboard/SKILL.md` is generated and the `skillssh-parity` test enforces the template↔distribution match):
+  - The **auto-trigger model** — which skills now fire automatically during `/ww:apply` (per-task security-scan, dependency-check; completion verify-change + benchmark; pre-commit guardrails), and that each keeps a manual `/ww:*` override; plus budget-aware deferral of advisory triggers.
   - **release-compare** — the advisory post-release improvement gate and `[quality] min_improvement` config.
   - **token-budget** — the budget/ledger concept and how it interacts with the workflow.
 - No code or runtime behavior change.
@@ -20,7 +20,8 @@
 
 ## Impact
 
-- `skills/warpweave-onboard/SKILL.md` — add the three missing feature sections.
+- `src/core/templates/workflows/onboard.ts` — add the three missing feature sections to the onboard template.
+- `skills/warpweave-onboard/SKILL.md` — regenerated from the template (via `pnpm generate:skills`).
 - No runtime code, no dependencies.
 
 ## Ladder Decision

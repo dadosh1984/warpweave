@@ -468,16 +468,16 @@ This same rhythm works for any size change—a small fix or a major feature.
 
 Three capabilities ship with Warpweave that act beyond the manual cycle:
 
-**The auto-trigger model.** During `/ww:apply` several skills fire automatically (each keeps a manual `/ww:*` override):
+**The auto-trigger model.** During `/warpweave-apply-change` several skills fire automatically (each keeps a manual `/ww:*` override):
 - per-task: `security-scan` (native, no semgrep/Docker) and `dependency-check` (walks the Ponytail ladder before a dependency is added);
 - on completion: `verify-change` and `benchmark`;
 - before each commit: `guardrails` (the four SPEC/TDD/LADDER/RTK gates).
 
 If a change is close to its token budget, the advisory completion triggers (`verify`, `benchmark`) may be skipped with a warning to protect the budget; safety gates always run.
 
-**Release scoring.** After a release, `/ww:release-compare` scores the improvement over the previous release on weighted criteria (tests, spec compliance, security, code size, dependencies, tokens, user value). The minimum acceptable improvement is `[quality] min_improvement` in `config/unified.toml` (default `0.25`). A score below the threshold **warns** (advisory only) and lists the criteria that dragged it down — it never blocks the release.
+**Release scoring.** After a release, `/warpweave-release-compare` scores the improvement over the previous release on weighted criteria (tests, spec compliance, security, code size, dependencies, tokens, user value). The minimum acceptable improvement is `[quality] min_improvement` in `config/unified.toml` (default `0.25`). A score below the threshold **warns** (advisory only) and lists the criteria that dragged it down — it never blocks the release.
 
-**Token budget.** `/ww:token-budget` sets a token limit for a change and tracks consumption across pipeline phases, so cost is visible and controllable rather than surprise.
+**Token budget.** `/warpweave-token-budget` sets a token limit for a change and tracks consumption across pipeline phases, so cost is visible and controllable rather than surprise.
 
 ---
 
