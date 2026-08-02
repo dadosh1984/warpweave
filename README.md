@@ -75,6 +75,19 @@ Once enabled, Warpweave automatically scans your `package.json` dependencies, qu
 
 Integration is opt-in and disabled by default. No new runtime dependencies — uses built-in `node:fetch`.
 
+## Drift Detection
+
+Warpweave can check whether implemented code has drifted from approved specifications — not just at archive time, but continuously during development. The `warpweave-drift-detection` skill ("Сторож") runs automatically after each task during `/ww:apply` and compares the codebase against the change's spec files.
+
+When drift is found, you choose the action: fix the code to match the spec, update the spec to match the code, or continue with a note. Catching mismatches early is cheaper than finding them at the end.
+
+| Command | Description |
+|---------|-------------|
+| `/ww:drift-check` | Manually run a drift check for the current change |
+| `warpweave drift-check --json` | Run drift check with JSON output for automation |
+
+Drift detection is enabled by default for all changes with spec files. It is skipped automatically when a change declares `skip_specs: true`.
+
 ## Documentation
 
 - **[Getting Started](docs/getting-started.md)** — first steps

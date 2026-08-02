@@ -8,9 +8,9 @@ import {
 
 describe('skill-generation', () => {
   describe('getSkillTemplates', () => {
-    it('should return all 25 skill templates', () => {
+    it('should return all 26 skill templates', () => {
       const templates = getSkillTemplates();
-      expect(templates).toHaveLength(25);
+      expect(templates).toHaveLength(26);
     });
 
     it('should have unique directory names', () => {
@@ -102,9 +102,9 @@ describe('skill-generation', () => {
   });
 
   describe('getCommandTemplates', () => {
-    it('should return all 22 command templates', () => {
+    it('should return all 23 command templates', () => {
       const templates = getCommandTemplates();
-      expect(templates).toHaveLength(22);
+      expect(templates).toHaveLength(23);
     });
 
     it('should have unique IDs', () => {
@@ -167,9 +167,9 @@ describe('skill-generation', () => {
   });
 
   describe('getCommandContents', () => {
-    it('should return all 22 command contents', () => {
+    it('should return all 23 command contents', () => {
       const contents = getCommandContents();
-      expect(contents).toHaveLength(22);
+      expect(contents).toHaveLength(23);
     });
 
     it('should have valid content structure', () => {
