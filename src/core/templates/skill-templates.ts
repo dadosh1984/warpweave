@@ -32,3 +32,4 @@ export { getTranslatorSkillTemplate } from './workflows/translator.js';
 export { getPonytailMinimalOutputSkillTemplate } from './workflows/ponytail-minimal-output.js';
 export { getSuperpowersTddSkillTemplate } from './workflows/superpowers-tdd.js';
 export { getSecurityScanSkillTemplate, getOpsxSecurityScanCommandTemplate } from './workflows/security-scan.js';
+export { getDriftDetectionSkillTemplate, getOpsxDriftDetectionCommandTemplate } from './workflows/drift-detection.js';

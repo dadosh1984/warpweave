@@ -30,6 +30,7 @@ import {
   getPonytailMinimalOutputSkillTemplate,
   getSuperpowersTddSkillTemplate,
   getSecurityScanSkillTemplate,
+  getDriftDetectionSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -52,6 +53,7 @@ import {
   getOpsxLearnCommandTemplate,
   getOpsxInitUnifiedCommandTemplate,
   getOpsxSecurityScanCommandTemplate,
+  getOpsxDriftDetectionCommandTemplate,
   type SkillTemplate,
 } from '../templates/skill-templates.js';
 import type { CommandContent } from '../command-generation/index.js';
@@ -106,6 +108,7 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getPonytailMinimalOutputSkillTemplate(), dirName: 'warpweave-ponytail-minimal-output', workflowId: 'ponytail-minimal-output' },
     { template: getSuperpowersTddSkillTemplate(), dirName: 'warpweave-superpowers-tdd', workflowId: 'superpowers-tdd' },
     { template: getSecurityScanSkillTemplate(), dirName: 'warpweave-security-scan', workflowId: 'security-scan' },
+    { template: getDriftDetectionSkillTemplate(), dirName: 'warpweave-drift-detection', workflowId: 'drift-check' },
   ];
 
   if (!workflowFilter) return all;
@@ -143,6 +146,7 @@ export function getCommandTemplates(workflowFilter?: readonly string[]): Command
     { template: getOpsxLearnCommandTemplate(), id: 'learn' },
     { template: getOpsxInitUnifiedCommandTemplate(), id: 'init-unified' },
     { template: getOpsxSecurityScanCommandTemplate(), id: 'security-scan' },
+    { template: getOpsxDriftDetectionCommandTemplate(), id: 'drift-check' },
   ];
 
   if (!workflowFilter) return all;

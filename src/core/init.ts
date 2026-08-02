@@ -99,6 +99,7 @@ const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
   'learn': 'warpweave-learn',
   'init-unified': 'warpweave-init-unified',
   'security-scan': 'warpweave-security-scan',
+  'drift-check': 'warpweave-drift-detection',
 };
 
 // -----------------------------------------------------------------------------

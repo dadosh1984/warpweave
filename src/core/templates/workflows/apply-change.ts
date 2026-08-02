@@ -96,6 +96,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Make the code changes required
    - Keep changes minimal and focused
    - Mark task complete in the tasks file: \`- [ ]\` → \`- [x]\`
+   - **Run drift check**: invoke \`/ww:drift-check\` to verify the code still matches the spec. If drift is found, pause and offer resolution (fix code / update spec / continue). Resume only after the user chooses.
    - Continue to next task
 
    **Pause if:**
@@ -128,7 +129,7 @@ Working on task 4/7: <task description>
 
 **Output On Completion**
 
-\`\`\`
+\`\`\`markdown
 ## Implementation Complete
 
 **Change:** <change-name>
@@ -140,7 +141,7 @@ Working on task 4/7: <task description>
 - [x] Task 2
 ...
 
-All tasks complete! Ready to archive this change.
+All tasks complete! You can archive this change with \`/ww:archive\`.
 \`\`\`
 
 **Output On Pause (Issue Encountered)**
@@ -312,6 +313,7 @@ ${STORE_SELECTION_GUIDANCE}
    - Make the code changes required
    - Keep changes minimal and focused
    - Mark task complete in the tasks file: \`- [ ]\` → \`- [x]\`
+   - **Run drift check**: invoke \`/ww:drift-check\` to verify the code still matches the spec. If drift is found, pause and offer resolution (fix code / update spec / continue). Resume only after the user chooses.
    - Continue to next task
 
    **Pause if:**
@@ -344,7 +346,7 @@ Working on task 4/7: <task description>
 
 **Output On Completion**
 
-\`\`\`
+\`\`\`markdown
 ## Implementation Complete
 
 **Change:** <change-name>

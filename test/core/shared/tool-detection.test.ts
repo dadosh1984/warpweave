@@ -12,6 +12,7 @@ import {
   getConfiguredTools,
   getAllToolVersionStatus,
 } from '../../../src/core/shared/tool-detection.js';
+import { CORE_WORKFLOWS } from '../../../src/core/profiles.js';
 
 describe('tool-detection', () => {
   let testDir: string;
@@ -28,7 +29,7 @@ describe('tool-detection', () => {
 
   describe('SKILL_NAMES', () => {
     it('should contain all skill names matching COMMAND_IDS', () => {
-      expect(SKILL_NAMES).toHaveLength(25);
+      expect(SKILL_NAMES).toHaveLength(26);
       expect(SKILL_NAMES).toContain('warpweave-explore');
       expect(SKILL_NAMES).toContain('warpweave-new-change');
       expect(SKILL_NAMES).toContain('warpweave-continue-change');
@@ -54,6 +55,7 @@ describe('tool-detection', () => {
       expect(SKILL_NAMES).toContain('warpweave-ponytail-minimal-output');
       expect(SKILL_NAMES).toContain('warpweave-superpowers-tdd');
       expect(SKILL_NAMES).toContain('warpweave-security-scan');
+      expect(SKILL_NAMES).toContain('warpweave-drift-detection');
     });
   });
 
@@ -286,7 +288,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
+        workflows: [...CORE_WORKFLOWS],
       });
 
       expect(status.configured).toBe(true);
@@ -310,7 +312,7 @@ Content here
       await initCommand.execute(testDir);
 
       const { version } = await import('../../../package.json');
-      const coreWorkflows = ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'];
+      const coreWorkflows = [...CORE_WORKFLOWS];
 
       // cline's commands live outside its skillsDir (.cline), so a commands-only
       // install leaves that directory absent entirely.
@@ -354,7 +356,7 @@ Content here
       // The core set is a superset of this profile, so comparing against it must
       // report drift — the fingerprint has to use the workflows actually selected.
       const againstCore = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
+        workflows: [...CORE_WORKFLOWS],
       });
       expect(againstCore.needsUpdate).toBe(true);
     });
@@ -378,7 +380,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
+        workflows: [...CORE_WORKFLOWS],
       });
 
       expect(status.generatedByVersion).toBe(version);
@@ -422,7 +424,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
+        workflows: [...CORE_WORKFLOWS],
       });
 
       expect(status.configured).toBe(true);
@@ -444,7 +446,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
+        workflows: [...CORE_WORKFLOWS],
       });
 
       expect(status.configured).toBe(true);
