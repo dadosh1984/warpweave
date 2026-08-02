@@ -1,0 +1,22 @@
+## 1. Remove the broken release-tracking guard from ci.yml
+
+- [x] 1.1 Remove the "Detect package version change" step (id `version-changed`) from the `validate-changesets` job
+  - **Spec scenario**: Non-release PR completes the job successfully / legitimate release PR
+  - **Ladder rung**: 1 (YAGNI — the step exists only to feed the removed guard)
+  - **Test first**: `assert grep ci.yml 'version-changed' returns nothing`
+  - **Verify**: `rtk grep -n "version-changed" .github/workflows/ci.yml` (expect no match)
+- [x] 1.2 Remove the "Guard version bump consumes changesets" step (the `pnpm exec changeset status --since=origin/main` run block)
+  - **Spec scenario**: Legitimate release PR completes the job successfully
+  - **Ladder rung**: 1 (YAGNI — guard never worked for release PRs, isn't required)
+  - **Test first**: `assert grep ci.yml 'Guard version bump consumes changesets' returns nothing`
+  - **Verify**: `rtk grep -n "Guard version bump consumes changesets" .github/workflows/ci.yml` (expect no match)
+- [x] 1.3 Revert the three step `if:` gating conditions ("Setup pnpm", "Setup Node.js", "Install dependencies") from `... == 'true' || steps.version-changed.outputs.version_changed == 'true'` back to `steps.changed-changesets.outputs.has_changesets == 'true'` only
+  - **Spec scenario**: Legitimate release PR completes the job successfully
+  - **Ladder rung**: 2 (Reuse — restore the pre-existing `has_changesets` gating)
+  - **Test first**: `assert no references to 'version-changed' remain anywhere in ci.yml`
+  - **Verify**: `rtk grep -n "version_changed\|version-changed" .github/workflows/ci.yml` (expect no match) and `rtk grep -n "has_changesets" .github/workflows/ci.yml` (expect the three `if:`s and the step present)
+- [x] 1.4 Confirm the job still validates changesets via `has_changesets` and keep the "Determine release tracking" and "Validate release-tracked changesets" steps intact
+  - **Spec scenario**: Changeset additions are still validated
+  - **Ladder rung**: 2 (Reuse — keep working path unchanged)
+  - **Test first**: `assert grep ci.yml 'Validate release-tracked changesets' still present`
+  - **Verify**: read final diff — `rtk git diff .github/workflows/ci.yml` shows only the intended removals/reversions; run `rtk gh workflow run ci.yml --ref <branch> --dry-run`-style check or push a release-shaped PR and confirm the job is green
