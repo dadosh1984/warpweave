@@ -197,6 +197,13 @@ The command SHALL generate Agent Skills for selected AI tools.
 - **AND** each SKILL.md SHALL contain YAML frontmatter with name and description
 - **AND** each SKILL.md SHALL contain the skill instructions
 
+#### Scenario: Optional Tessl setup during init
+- **WHEN** `warpweave init` completes successfully
+- **AND** Tessl Registry integration is enabled in config
+- **THEN** the system SHALL prompt the user: "Configure Tessl Registry integration? (y/N)"
+- **AND** if confirmed, run dependency auto-detection and cache Tessl skills
+- **AND** display a summary of resolved skills in the success output
+
 ### Requirement: Slash Command Generation
 
 The command SHALL generate ww slash commands only for selected tools that have a registered command adapter, while keeping adapterless tools valid for skill generation.
