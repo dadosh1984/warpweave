@@ -1,7 +1,7 @@
-# OpenSpec Unified — Single configuration source
+# Warpweave Unified — Single configuration source
 # All four systems read from this file.
 
-[openspec]
+[warpweave]
 # Spec-driven development layer
 schema = "spec-driven"
 profile = "standard"
@@ -53,3 +53,9 @@ gate_plan = true              # Block execution without plan
 gate_tdd = true               # Block commit without test
 gate_review = true            # Block merge without review
 max_concurrent_tasks = 3
+
+[quality]
+# Improvement gate for release-compare: minimum relative improvement over
+# the previous release before a change is considered satisfactory.
+# Advisory only — a below-threshold result warns, it never blocks a release.
+min_improvement = 0.25

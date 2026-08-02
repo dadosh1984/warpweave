@@ -9,8 +9,9 @@ name: Release
 #                       version already exists, and creates/updates the
 #                       GitHub Release (used for manual tagging).
 #
-# Versioning: bump `version` in package.json in your PR; the merge to main
-# triggers the publish automatically.
+# Versioning: bump `version` in package.json AND run `pnpm changeset version`
+# to consume pending changesets in the same PR; the merge to main triggers the
+# publish automatically.
 
 on:
   push:

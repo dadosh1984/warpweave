@@ -95,6 +95,8 @@ Implement tasks from a Warpweave change.
    - Keep changes minimal and focused
    - Mark task complete in the tasks file: `- [ ]` → `- [x]`
    - **Run drift check**: invoke `/warpweave-drift-detection` to verify the code still matches the spec. If drift is found, pause and offer resolution (fix code / update spec / continue). Resume only after the user chooses.
+   - **Run security check**: invoke `/warpweave-security-scan` over the task's changed code. If ERROR findings exist, pause and offer resolution (fix / review / continue). Resume only after the user chooses.
+   - **Check new dependencies**: if the task proposes adding a dependency not present in the project manifest, invoke `/warpweave-dependency-check` to walk the Ponytail ladder before approving it. Never add a rejected dependency without the user accepting the alternative.
    - Continue to next task
 
    **Pause if:**
@@ -105,10 +107,15 @@ Implement tasks from a Warpweave change.
 
 7. **On completion or pause, show status**
 
+   When all tasks are complete (state `all_done`), before suggesting archive:
+   - **Run verify**: invoke `/warpweave-verify-change` to validate the implementation against the change artifacts. Show the verification report.
+   - **Run benchmark**: invoke `/warpweave-benchmark` to compare plan vs. actual. Show the benchmark report.
+   - Then suggest archiving the change with `/warpweave-archive-change`.
+
    Display:
    - Tasks completed this session
    - Overall progress: "N/M tasks complete"
-   - If all done: suggest archive
+   - If all done: the verify and benchmark reports, then suggest archive
    - If paused: explain why and wait for guidance
 
 **Output During Implementation**
@@ -139,7 +146,15 @@ Working on task 4/7: <task description>
 - [x] Task 2
 ...
 
-All tasks complete! You can archive this change with `/warpweave-archive-change`.
+All tasks complete!
+
+### Verify Report
+<verification report from /warpweave-verify-change>
+
+### Benchmark Report
+<benchmark report from /warpweave-benchmark>
+
+You can archive this change with `/warpweave-archive-change`.
 ```
 
 **Output On Pause (Issue Encountered)**

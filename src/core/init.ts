@@ -96,8 +96,12 @@ const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
   'parallel-execute': 'warpweave-parallel-execute',
   'learn': 'warpweave-learn',
   'init-unified': 'warpweave-init-unified',
+  'translator': 'warpweave-translator',
+  'ponytail-minimal-output': 'warpweave-ponytail-minimal-output',
+  'superpowers-tdd': 'warpweave-superpowers-tdd',
   'security-scan': 'warpweave-security-scan',
   'drift-check': 'warpweave-drift-detection',
+  'release-compare': 'warpweave-release-compare',
 };
 
 // -----------------------------------------------------------------------------

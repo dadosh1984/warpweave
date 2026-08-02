@@ -1,6 +1,6 @@
 ---
 name: warpweave-benchmark
-description: Compare plan vs. actual for a change and save the report to benchmark.md. Use when the user wants to measure estimation accuracy, code size, or ladder discipline after implementation.
+description: Compare plan vs. actual for a change and save the report to benchmark.md. Use when all tasks of a change are complete (auto-run at apply completion) or manually via /ww:benchmark to measure estimation accuracy, code size, or ladder discipline after implementation.
 allowed-tools: Bash(warpweave:*)
 license: MIT
 compatibility: Requires warpweave CLI and RTK.

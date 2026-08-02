@@ -31,6 +31,7 @@ import {
   getSuperpowersTddSkillTemplate,
   getSecurityScanSkillTemplate,
   getDriftDetectionSkillTemplate,
+  getReleaseCompareSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -54,6 +55,7 @@ import {
   getOpsxInitUnifiedCommandTemplate,
   getOpsxSecurityScanCommandTemplate,
   getOpsxDriftDetectionCommandTemplate,
+  getOpsxReleaseCompareCommandTemplate,
   type SkillTemplate,
 } from '../templates/skill-templates.js';
 import type { CommandContent } from '../command-generation/index.js';
@@ -109,6 +111,7 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getSuperpowersTddSkillTemplate(), dirName: 'warpweave-superpowers-tdd', workflowId: 'superpowers-tdd' },
     { template: getSecurityScanSkillTemplate(), dirName: 'warpweave-security-scan', workflowId: 'security-scan' },
     { template: getDriftDetectionSkillTemplate(), dirName: 'warpweave-drift-detection', workflowId: 'drift-check' },
+    { template: getReleaseCompareSkillTemplate(), dirName: 'warpweave-release-compare', workflowId: 'release-compare' },
   ];
 
   if (!workflowFilter) return all;
@@ -147,6 +150,7 @@ export function getCommandTemplates(workflowFilter?: readonly string[]): Command
     { template: getOpsxInitUnifiedCommandTemplate(), id: 'init-unified' },
     { template: getOpsxSecurityScanCommandTemplate(), id: 'security-scan' },
     { template: getOpsxDriftDetectionCommandTemplate(), id: 'drift-check' },
+    { template: getOpsxReleaseCompareCommandTemplate(), id: 'release-compare' },
   ];
 
   if (!workflowFilter) return all;

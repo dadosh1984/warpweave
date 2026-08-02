@@ -56,7 +56,7 @@ ${STORE_SELECTION_GUIDANCE}
    - What the code actually does (or that it is absent)
    - A suggested fix direction
 
-5. **Offer resolution**
+6. **Offer resolution**
 
    Present the user with options:
    - **Fix code** — align the implementation with the spec
@@ -147,7 +147,7 @@ ${STORE_SELECTION_GUIDANCE}
    - What the code actually does (or that it is absent)
    - A suggested fix direction
 
-5. **Offer resolution**
+6. **Offer resolution**
 
    Present the user with options:
    - **Fix code** — align the implementation with the spec

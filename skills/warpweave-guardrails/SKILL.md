@@ -1,6 +1,6 @@
 ---
 name: warpweave-guardrails
-description: Check the four pipeline gates (SPEC, TDD, LADDER, RTK) before committing. Use when the user wants to verify a change is safe to commit or merge.
+description: Check the four pipeline gates (SPEC, TDD, LADDER, RTK) before committing. Use after each task before committing or manually via /ww:guardrails to verify a change is safe to commit or merge.
 allowed-tools: Bash(warpweave:*)
 license: MIT
 compatibility: Requires warpweave CLI and RTK.

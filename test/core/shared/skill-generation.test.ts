@@ -8,9 +8,9 @@ import {
 
 describe('skill-generation', () => {
   describe('getSkillTemplates', () => {
-    it('should return all 26 skill templates', () => {
+    it('should return all 27 skill templates', () => {
       const templates = getSkillTemplates();
-      expect(templates).toHaveLength(26);
+      expect(templates).toHaveLength(27);
     });
 
     it('should have unique directory names', () => {
@@ -49,6 +49,8 @@ describe('skill-generation', () => {
       expect(dirNames).toContain('warpweave-ponytail-minimal-output');
       expect(dirNames).toContain('warpweave-superpowers-tdd');
       expect(dirNames).toContain('warpweave-security-scan');
+      expect(dirNames).toContain('warpweave-drift-detection');
+      expect(dirNames).toContain('warpweave-release-compare');
     });
 
     it('should have valid template structure', () => {
@@ -102,9 +104,9 @@ describe('skill-generation', () => {
   });
 
   describe('getCommandTemplates', () => {
-    it('should return all 23 command templates', () => {
+    it('should return all 24 command templates', () => {
       const templates = getCommandTemplates();
-      expect(templates).toHaveLength(23);
+      expect(templates).toHaveLength(24);
     });
 
     it('should have unique IDs', () => {
@@ -167,9 +169,9 @@ describe('skill-generation', () => {
   });
 
   describe('getCommandContents', () => {
-    it('should return all 23 command contents', () => {
+    it('should return all 24 command contents', () => {
       const contents = getCommandContents();
-      expect(contents).toHaveLength(23);
+      expect(contents).toHaveLength(24);
     });
 
     it('should have valid content structure', () => {

@@ -44,6 +44,7 @@ export const WORKFLOW_TO_SKILL_DIR: Record<WorkflowId, string> = {
   'superpowers-tdd': 'warpweave-superpowers-tdd',
   'security-scan': 'warpweave-security-scan',
   'drift-check': 'warpweave-drift-detection',
+  'release-compare': 'warpweave-release-compare',
 };
 
 function toKnownWorkflows(workflows: readonly string[]): WorkflowId[] {

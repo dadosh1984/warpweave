@@ -10,7 +10,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getDependencyCheckSkillTemplate(): SkillTemplate {
   return {
     name: 'warpweave-dependency-check',
-    description: 'Check a proposed new dependency against the Ponytail ladder before adding it. Use when the user wants to add a dependency or verify that an existing one is justified.',
+    description: 'Check a proposed new dependency against the Ponytail ladder before adding it. Use whenever a new dependency is proposed during implementation to walk the ladder before approving it, or manually via /ww:dependency-check to verify an existing one is justified.',
     instructions: `Intercept any proposed new dependency and walk the Ponytail ladder before approving it.
 
 ${STORE_SELECTION_GUIDANCE}

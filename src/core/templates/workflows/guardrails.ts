@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getGuardrailsSkillTemplate(): SkillTemplate {
   return {
     name: 'warpweave-guardrails',
-    description: 'Check the four pipeline gates (SPEC, TDD, LADDER, RTK) before committing. Use when the user wants to verify a change is safe to commit or merge.',
+    description: 'Check the four pipeline gates (SPEC, TDD, LADDER, RTK) before committing. Use after each task before committing or manually via /ww:guardrails to verify a change is safe to commit or merge.',
     instructions: `Check the four pipeline gates before a commit.
 
 ${STORE_SELECTION_GUIDANCE}

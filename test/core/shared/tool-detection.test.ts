@@ -29,7 +29,7 @@ describe('tool-detection', () => {
 
   describe('SKILL_NAMES', () => {
     it('should contain all skill names matching COMMAND_IDS', () => {
-      expect(SKILL_NAMES).toHaveLength(26);
+      expect(SKILL_NAMES).toHaveLength(27);
       expect(SKILL_NAMES).toContain('warpweave-explore');
       expect(SKILL_NAMES).toContain('warpweave-new-change');
       expect(SKILL_NAMES).toContain('warpweave-continue-change');
@@ -56,6 +56,7 @@ describe('tool-detection', () => {
       expect(SKILL_NAMES).toContain('warpweave-superpowers-tdd');
       expect(SKILL_NAMES).toContain('warpweave-security-scan');
       expect(SKILL_NAMES).toContain('warpweave-drift-detection');
+      expect(SKILL_NAMES).toContain('warpweave-release-compare');
     });
   });
 

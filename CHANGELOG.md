@@ -1,5 +1,15 @@
 # warpweave
 
+## 1.3.1
+
+### Minor Changes
+
+- ec20305: feat: tessl registry integration — resolver, cache, CLI config, instruction injection
+  feat: fast lane — complexity detection with autoGenerateWhen for minimal changes
+  feat: express profile for small changes
+  docs: update README with Fast Lane and Tessl Registry sections
+- ec20305: feat: drift-detection skill with /ww:drift-check command
+
 ## 1.2.0
 
 ### Minor Changes
