@@ -2,7 +2,7 @@
 
 Skills that can act automatically fire on the situation they are designed for, so the pipeline runs by itself and the user observes rather than drives; skills that require intent stay explicit commands.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Apply runs a security check after each task
 The apply workflow SHALL invoke the native security scan automatically after each task is completed, in the same slot as the existing drift check.

@@ -2224,7 +2224,7 @@ More user content after markers.
         featureFlags: {},
         profile: 'custom',
         delivery: 'both',
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan', 'drift-check'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'verify', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan', 'drift-check', 'guardrails'],
       });
 
       const initCommand = new InitCommand({ tools: 'claude', force: true });

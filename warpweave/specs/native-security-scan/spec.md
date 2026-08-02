@@ -2,7 +2,7 @@
 
 Security scanning runs natively inside the Warpweave pipeline without external tools, checking only the code changed by a task and reporting findings by severity so the user sees security as part of the automated flow, not a manual chore.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Native security scan runs without external tools
 The system SHALL run a security scan over the code changed by a task without requiring semgrep, Docker, or any other external security tool to be installed.

@@ -2,7 +2,7 @@
 
 After each release, the project compares itself against the previous release to measure how much it improved (or worsened) on defined criteria, scores that improvement, and warns — without blocking — when the change falls short of a configurable minimum improvement threshold.
 
-## ADDED Requirements
+## Requirements
 
 ### Requirement: Release compare runs after each release
 The system SHALL run a before/after comparison of the project when a release happens, comparing the current state against the previous release.
