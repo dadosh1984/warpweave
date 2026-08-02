@@ -62,6 +62,14 @@ describe('config content parity', () => {
     expect(pipeline.pipeline.version).toBe(WARPWEAVE_VERSION);
   });
 
+  it('keep installed security-scan skill native (no semgrep/Docker)', () => {
+    const installed = join(repoRoot, '.opencode', 'skills', 'warpweave-security-scan', 'SKILL.md');
+    if (!existsSync(installed)) return;
+    const content = readFileSync(installed, 'utf8');
+    expect(content).not.toContain('Requires semgrep');
+    expect(content.toLowerCase()).toContain('no semgrep');
+  });
+
   it('keeps release notes free of replacement characters', () => {
     const sources = [join(repoRoot, 'CHANGELOG.md')];
     const changesetDir = join(repoRoot, '.changeset');
