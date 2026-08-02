@@ -62,6 +62,14 @@ describe('config content parity', () => {
     expect(pipeline.pipeline.version).toBe(WARPWEAVE_VERSION);
   });
 
+  it('derives init skill mapping from the single source in profile-sync-drift', () => {
+    const initSrc = readFileSync(join(repoRoot, 'src/core/init.ts'), 'utf8');
+    const profileSrc = readFileSync(join(repoRoot, 'src/core/profile-sync-drift.ts'), 'utf8');
+    expect(profileSrc).toContain('export const WORKFLOW_TO_SKILL_DIR');
+    expect(initSrc).toContain("import { WORKFLOW_TO_SKILL_DIR } from './profile-sync-drift.js'");
+    expect(initSrc).not.toMatch(/const WORKFLOW_TO_SKILL_DIR\s*:/);
+  });
+
   it('runs tests with vitest, not jest', () => {
     const pipelineYaml = readFileSync(join(configDir, 'pipeline.yaml'), 'utf8');
     const pipeline = parseYaml(pipelineYaml) as {
