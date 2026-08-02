@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -60,6 +60,20 @@ describe('config content parity', () => {
       pipeline: { version?: string };
     };
     expect(pipeline.pipeline.version).toBe(WARPWEAVE_VERSION);
+  });
+
+  it('keeps release notes free of replacement characters', () => {
+    const sources = [join(repoRoot, 'CHANGELOG.md')];
+    const changesetDir = join(repoRoot, '.changeset');
+    if (existsSync(changesetDir)) {
+      for (const file of readdirSync(changesetDir)) {
+        if (file.endsWith('.md')) sources.push(join(changesetDir, file));
+      }
+    }
+    for (const src of sources) {
+      const content = readFileSync(src, 'utf8');
+      expect(content, `replacement character (U+FFFD) in ${src}`).not.toContain('\uFFFD');
+    }
   });
 
   it('derives init skill mapping from the single source in profile-sync-drift', () => {
