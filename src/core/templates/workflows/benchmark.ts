@@ -9,7 +9,7 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getBenchmarkSkillTemplate(): SkillTemplate {
   return {
     name: 'warpweave-benchmark',
-    description: 'Compare plan vs. actual for a change and save the report to benchmark.md. Use when the user wants to measure estimation accuracy, code size, or ladder discipline after implementation.',
+    description: 'Compare plan vs. actual for a change and save the report to benchmark.md. Use when all tasks of a change are complete (auto-run at apply completion) or manually via /ww:benchmark to measure estimation accuracy, code size, or ladder discipline after implementation.',
     instructions: `Compare what was planned for a change with what was actually delivered.
 
 ${STORE_SELECTION_GUIDANCE}

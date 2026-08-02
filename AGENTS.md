@@ -55,6 +55,25 @@ If a command fails, RTK saves full output to tee logs. Read those.
 5. No merge without two-stage review.
 6. No archive without spec sync.
 
+## Automatic Triggers
+
+Skills fire automatically when the situation demands them. You do not need to invoke them — the pipeline does:
+
+| Trigger | Skill | When |
+|---------|-------|------|
+| Per-task | `drift-detection` | After each task in `/ww:apply` — checks spec/code alignment |
+| Per-task | `security-scan` | After each task in `/ww:apply` — native scan over changed code |
+| Per-task | `guardrails` | Before each commit — four gates (SPEC, TDD, LADDER, RTK) |
+| Intercept | `dependency-check` | When a new dependency is proposed — walks the Ponytail ladder |
+| Completion | `verify-change` | When all tasks are done — validates implementation against artifacts |
+| Completion | `benchmark` | When all tasks are done — writes plan-vs-actual report |
+| Release | `release-compare` | After each release — scores improvement against previous release |
+| Always | `translator` | On any underspecified request — clarifies before implementing |
+| Always | `ponytail-minimal-output` | On every line written — the YAGNI ladder |
+| Always | `superpowers-tdd` | On every implementation task — RED-GREEN-REFACTOR |
+
+Every auto-triggered skill also has a manual override (`/ww:<command>`) for when you want to run it explicitly.
+
 ## Context Hygiene
 
 - Clear context before starting implementation

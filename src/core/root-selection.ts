@@ -35,7 +35,7 @@ import {
 } from './store/foundation.js';
 import { getStoreRootForBackend } from './store/registry.js';
 import { inspectWarpweaveRoot } from './warpweave-root.js';
-import { findRepoPlanningRootSync, resolvePlanningDirName, type PlanningHome } from './planning-home.js';
+import { findRepoPlanningRootSync, resolvePlanningDirName, DEFAULT_SCHEMA, type PlanningHome } from './planning-home.js';
 import { classifyWarpweaveDir, storePointerProblem } from './project-config.js';
 import { getGlobalConfig } from './global-config.js';
 import { FileSystemUtils } from '../utils/file-system.js';
@@ -124,7 +124,7 @@ function makeRoot(
     changesDir: path.join(rootPath, resolvePlanningDirName(rootPath), 'changes'),
     specsDir: path.join(rootPath, resolvePlanningDirName(rootPath), 'specs'),
     archiveDir: path.join(rootPath, resolvePlanningDirName(rootPath), 'changes', 'archive'),
-    defaultSchema: 'spec-driven',
+    defaultSchema: DEFAULT_SCHEMA,
     source,
     ...(storeId ? { storeId } : {}),
   };

@@ -251,19 +251,30 @@ jobs:
             echo "This PR follows the normal release cadence; continuing with standard validation"
           fi
 
+      - name: Detect package version change
+        id: version-changed
+        run: |
+          base_version="$(git show origin/main:package.json | node -p 'JSON.parse(require("fs").readFileSync(0, "utf8")).version')"
+          head_version="$(node -p 'JSON.parse(require("fs").readFileSync("package.json", "utf8")).version')"
+          if [[ "$base_version" != "$head_version" ]]; then
+            echo "version_changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "version_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Setup pnpm
-        if: steps.changed-changesets.outputs.has_changesets == 'true'
+        if: steps.changed-changesets.outputs.has_changesets == 'true' || steps.version-changed.outputs.version_changed == 'true'
         uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
 
       - name: Setup Node.js
-        if: steps.changed-changesets.outputs.has_changesets == 'true'
+        if: steps.changed-changesets.outputs.has_changesets == 'true' || steps.version-changed.outputs.version_changed == 'true'
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: '22.12.0'
           cache: 'pnpm'
 
       - name: Install dependencies
-        if: steps.changed-changesets.outputs.has_changesets == 'true'
+        if: steps.changed-changesets.outputs.has_changesets == 'true' || steps.version-changed.outputs.version_changed == 'true'
         run: pnpm install --frozen-lockfile
 
       - name: Validate release-tracked changesets
@@ -273,6 +284,12 @@ jobs:
         run: |
           echo "Validating changed changesets:"
           printf '%s\n' "$CHANGESET_FILES"
+          pnpm exec changeset status --since=origin/main
+
+      - name: Guard version bump consumes changesets
+        if: steps.version-changed.outputs.version_changed == 'true'
+        run: |
+          echo "package.json version changed; verifying pending changesets were consumed by \`pnpm changeset version\`:"
           pnpm exec changeset status --since=origin/main
 
   required-checks-pr:

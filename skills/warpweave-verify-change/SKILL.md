@@ -1,6 +1,6 @@
 ---
 name: warpweave-verify-change
-description: Verify implementation matches change artifacts. Use when the user wants to validate that implementation is complete, correct, and coherent before archiving.
+description: Verify implementation matches change artifacts. Use when all tasks of a change are complete (auto-run at apply completion) or manually via /ww:verify to validate implementation before archiving.
 allowed-tools: Bash(warpweave:*)
 license: MIT
 compatibility: Requires warpweave CLI.

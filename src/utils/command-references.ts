@@ -75,6 +75,7 @@ const COMMAND_TO_SKILL_NAME: Record<string, string> = {
   'init-unified': 'warpweave-init-unified',
   'security-scan': 'warpweave-security-scan',
   'drift-check': 'warpweave-drift-detection',
+  'release-compare': 'warpweave-release-compare',
 };
 
 /**

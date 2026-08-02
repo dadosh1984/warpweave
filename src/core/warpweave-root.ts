@@ -15,6 +15,7 @@ export const WARPWEAVE_CONFIG_YML = 'warpweave/config.yml';
 export const WARPWEAVE_SPECS_DIR = 'warpweave/specs';
 export const WARPWEAVE_CHANGES_DIR = 'warpweave/changes';
 export const WARPWEAVE_ARCHIVE_DIR = 'warpweave/changes/archive';
+// ponytail: duplicates DEFAULT_SCHEMA in planning-home.js; kept as public export for compat, consolidate on next major
 export const DEFAULT_WARPWEAVE_SCHEMA = 'spec-driven';
 export const DIRECTORY_ANCHOR_FILE_NAME = '.gitkeep';
 

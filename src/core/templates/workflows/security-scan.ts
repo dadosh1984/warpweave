@@ -1,7 +1,9 @@
 /**
  * Skill Template Workflow Modules
  *
- * Security Scan: runs semgrep against the codebase to find vulnerabilities.
+ * Security Scan: reviews the code changed by a task for security-relevant
+ * patterns using agent judgment over the repository diff. Native — no
+ * semgrep or Docker required.
  */
 import type { SkillTemplate, CommandTemplate } from '../types.js';
 import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
@@ -9,96 +11,85 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getSecurityScanSkillTemplate(): SkillTemplate {
   return {
     name: 'warpweave-security-scan',
-    description: 'Run a security scan against the codebase using semgrep. Use when the user wants to find vulnerabilities, hardcoded secrets, or insecure patterns before committing or deploying.',
-    instructions: `Run a security scan against the codebase using semgrep.
+    description: 'Run a native security scan over the code changed by a task to find hardcoded secrets, injection surfaces, or insecure patterns. Use after each task during apply or manually via /ww:security-scan to catch issues before committing.',
+    instructions: `Run a native security scan over the code changed by a task. No semgrep, Docker, or external security tools are required — the review is agent judgment over the repository diff.
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a path or file pattern to scan. If omitted, scan the whole project.
+**Input**: Optionally specify a change name. If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
 
-1. **Check semgrep is installed**
+1. **Establish the review scope**
 
-   \`\`\`bash
-   semgrep --version
-   \`\`\`
-
-   If not found, install it:
-   - macOS/Linux: \`pip install semgrep\` or \`brew install semgrep\`
-   - Windows: \`pip install semgrep\`
-   - Docker: \`docker run --rm -v "\${PWD}:/src" returntocorp/semgrep semgrep ...\`
-
-   If the user prefers not to install, offer to run via Docker.
-
-2. **Run the scan**
-
-   \`\`\`bash
-   semgrep --config=auto --output=semgrep-report.txt --metrics=off "<path>"
-   \`\`\`
-
-   This runs semgrep's auto mode which downloads and applies the community ruleset (SAST, secrets, supply chain) tuned to the project's language.
-
-   If the user specified a change name, scope the scan to the change's diff:
+   Get the change's scope:
    \`\`\`bash
    warpweave status --change "<name>" --json
    \`\`\`
-   Then scan only the changed files:
+   Parse \`changeRoot\` from the JSON to know which files the change owns.
+
+   Identify the code changed by the current task using the repository diff:
    \`\`\`bash
-   semgrep --config=auto --output=semgrep-report.txt --metrics=off --include="<changeRoot>/**"
+   rtk git diff origin/main...HEAD
+   \`\`\`
+   If the diff is empty or the task's changes are uncommitted, use \`rtk git diff HEAD\` and, when present, the task's own diff. Restrict the review to the files and lines actually changed — never scan the whole codebase.
+
+2. **Check for security-relevant patterns**
+
+   For each changed file, read the added lines and check for the standard vulnerability classes:
+
+   - **Hardcoded secrets** — API keys, tokens, passwords, credentials, private keys embedded in source or config
+   - **Injection** — SQL, shell, template, or path-traversal sinks fed by untrusted input without validation
+   - **Unsafe evaluation** — \`eval\`, dynamic \`Function\`, \`exec\`, unvalidated deserialization
+   - **Missing validation** — untrusted input reaching a sensitive operation (network, filesystem, auth) without a check
+
+   Only flag lines the task actually touched. Do not report pre-existing issues outside the diff.
+
+3. **Classify findings by severity**
+
+   - **ERROR** — fix before commit: confident, exploitable issue (e.g. a hardcoded credential or an injectable sink)
+   - **WARNING** — review and fix if applicable: plausible issue, or a sensitive pattern without visible validation
+   - **INFO** — consider addressing: defensible but worth noting
+
+   For each finding show: file, line, the pattern, the offending code snippet, and a suggested fix.
+
+4. **Present the report**
+
+   \`\`\`markdown
+   ## Security Scan: <change-name>
+
+   <summary of findings by severity>
+
+   ### ERROR (<count>)
+   | File | Line | Pattern | Finding | Suggested fix |
+   |------|------|---------|---------|---------------|
+   | <file> | <line> | <pattern> | <detail> | <fix> |
+
+   ### WARNING (<count>)
+   ...
+
+   ### INFO (<count>)
+   ...
+
+   **Recommendation:** <next steps>
    \`\`\`
 
-3. **Read and present results**
+5. **Recommend next steps**
 
-   \`\`\`bash
-   cat semgrep-report.txt
-   \`\`\`
-
-   Group findings by severity:
-   - **ERROR** — fix before commit
-   - **WARNING** — review and fix if applicable
-   - **INFO** — consider addressing
-
-   For each finding, show:
-   - File and line
-   - Rule ID and message
-   - The offending code snippet
-   - A suggested fix
-
-4. **Recommend next steps**
-
-   - If critical findings exist: "Fix the ERROR-level findings before committing. Run \`/ww:security-scan\` again to verify."
-   - If only warnings: "Review the WARNING-level findings. Most are worth fixing."
-   - If clean: "No vulnerabilities found. The codebase is clean."
-
-**Output**
-
-\`\`\`markdown
-## Security Scan: <path>
-
-<summary of findings by severity>
-
-### ERROR (<count>)
-| File | Line | Rule | Message |
-|------|------|------|---------|
-| <file> | <line> | <rule-id> | <message> |
-
-### WARNING (<count>)
-...
-
-### INFO (<count>)
-...
-
-**Recommendation:** <next steps>
-\`\`\`
+   - If ERROR findings exist: report "Fix the ERROR-level findings before committing. Run \`/ww:security-scan\` again to verify."
+   - If only warnings: report "Review the WARNING-level findings. Most are worth fixing."
+   - If clean: report "No security issues found in the changed code."
 
 **Guardrails**
-- Never run semgrep with \`--config=auto\` on untrusted input from the user (the path argument is a filesystem path, not a config source — safe)
-- If semgrep is not installed and the user declines Docker, report the limitation and suggest manual installation
-- Do not modify any files — this is a read-only scan
-- If the report is large, summarize by severity and offer the full file`,
+- Never modify any files — this is a read-only scan
+- Restrict the review to the diff; do not scan the whole codebase
+- Only flag lines the task touched; leave pre-existing issues out of the report
+- When uncertain, prefer INFO over WARNING and WARNING over ERROR — never raise a false-critical alarm
+- Do not flag a line that a spec scenario explicitly requires
+- If the change has \`skip_specs: true\`, still run the scan — security is independent of spec sync
+- If the report is large, summarize by severity and offer the full detail`,
     license: 'MIT',
-    compatibility: 'Requires semgrep (pip install semgrep) or Docker.',
+    compatibility: 'Requires warpweave CLI and RTK.',
     metadata: { author: 'warpweave', version: '1.0' },
   };
 }
@@ -106,95 +97,84 @@ ${STORE_SELECTION_GUIDANCE}
 export function getOpsxSecurityScanCommandTemplate(): CommandTemplate {
   return {
     name: 'WW: Security Scan',
-    description: 'Run a security scan against the codebase using semgrep',
+    description: 'Run a native security scan over changed code (no semgrep required)',
     category: 'Workflow',
     tags: ['workflow', 'security', 'quality'],
-    content: `Run a security scan against the codebase using semgrep.
+    content: `Run a native security scan over the code changed by a task. No semgrep, Docker, or external security tools are required — the review is agent judgment over the repository diff.
 
 ${STORE_SELECTION_GUIDANCE}
 
-**Input**: Optionally specify a path or file pattern to scan. If omitted, scan the whole project.
+**Input**: Optionally specify a change name after \`/ww:security-scan\` (e.g., \`/ww:security-scan add-auth\`). If omitted, check if it can be inferred from conversation context. If vague or ambiguous you MUST prompt for available changes.
 
 **Steps**
 
-1. **Check semgrep is installed**
+1. **Establish the review scope**
 
-   \`\`\`bash
-   semgrep --version
-   \`\`\`
-
-   If not found, install it:
-   - macOS/Linux: \`pip install semgrep\` or \`brew install semgrep\`
-   - Windows: \`pip install semgrep\`
-   - Docker: \`docker run --rm -v "\${PWD}:/src" returntocorp/semgrep semgrep ...\`
-
-   If the user prefers not to install, offer to run via Docker.
-
-2. **Run the scan**
-
-   \`\`\`bash
-   semgrep --config=auto --output=semgrep-report.txt --metrics=off "<path>"
-   \`\`\`
-
-   This runs semgrep's auto mode which downloads and applies the community ruleset (SAST, secrets, supply chain) tuned to the project's language.
-
-   If the user specified a change name, scope the scan to the change's diff:
+   Get the change's scope:
    \`\`\`bash
    warpweave status --change "<name>" --json
    \`\`\`
-   Then scan only the changed files:
+   Parse \`changeRoot\` from the JSON to know which files the change owns.
+
+   Identify the code changed by the current task using the repository diff:
    \`\`\`bash
-   semgrep --config=auto --output=semgrep-report.txt --metrics=off --include="<changeRoot>/**"
+   rtk git diff origin/main...HEAD
+   \`\`\`
+   If the diff is empty or the task's changes are uncommitted, use \`rtk git diff HEAD\` and, when present, the task's own diff. Restrict the review to the files and lines actually changed — never scan the whole codebase.
+
+2. **Check for security-relevant patterns**
+
+   For each changed file, read the added lines and check for the standard vulnerability classes:
+
+   - **Hardcoded secrets** — API keys, tokens, passwords, credentials, private keys embedded in source or config
+   - **Injection** — SQL, shell, template, or path-traversal sinks fed by untrusted input without validation
+   - **Unsafe evaluation** — \`eval\`, dynamic \`Function\`, \`exec\`, unvalidated deserialization
+   - **Missing validation** — untrusted input reaching a sensitive operation (network, filesystem, auth) without a check
+
+   Only flag lines the task actually touched. Do not report pre-existing issues outside the diff.
+
+3. **Classify findings by severity**
+
+   - **ERROR** — fix before commit: confident, exploitable issue (e.g. a hardcoded credential or an injectable sink)
+   - **WARNING** — review and fix if applicable: plausible issue, or a sensitive pattern without visible validation
+   - **INFO** — consider addressing: defensible but worth noting
+
+   For each finding show: file, line, the pattern, the offending code snippet, and a suggested fix.
+
+4. **Present the report**
+
+   \`\`\`markdown
+   ## Security Scan: <change-name>
+
+   <summary of findings by severity>
+
+   ### ERROR (<count>)
+   | File | Line | Pattern | Finding | Suggested fix |
+   |------|------|---------|---------|---------------|
+   | <file> | <line> | <pattern> | <detail> | <fix> |
+
+   ### WARNING (<count>)
+   ...
+
+   ### INFO (<count>)
+   ...
+
+   **Recommendation:** <next steps>
    \`\`\`
 
-3. **Read and present results**
+5. **Recommend next steps**
 
-   \`\`\`bash
-   cat semgrep-report.txt
-   \`\`\`
-
-   Group findings by severity:
-   - **ERROR** — fix before commit
-   - **WARNING** — review and fix if applicable
-   - **INFO** — consider addressing
-
-   For each finding, show:
-   - File and line
-   - Rule ID and message
-   - The offending code snippet
-   - A suggested fix
-
-4. **Recommend next steps**
-
-   - If critical findings exist: "Fix the ERROR-level findings before committing. Run \`/ww:security-scan\` again to verify."
-   - If only warnings: "Review the WARNING-level findings. Most are worth fixing."
-   - If clean: "No vulnerabilities found. The codebase is clean."
-
-**Output**
-
-\`\`\`markdown
-## Security Scan: <path>
-
-<summary of findings by severity>
-
-### ERROR (<count>)
-| File | Line | Rule | Message |
-|------|------|------|---------|
-| <file> | <line> | <rule-id> | <message> |
-
-### WARNING (<count>)
-...
-
-### INFO (<count>)
-...
-
-**Recommendation:** <next steps>
-\`\`\`
+   - If ERROR findings exist: report "Fix the ERROR-level findings before committing. Run \`/ww:security-scan\` again to verify."
+   - If only warnings: report "Review the WARNING-level findings. Most are worth fixing."
+   - If clean: report "No security issues found in the changed code."
 
 **Guardrails**
-- Never run semgrep with \`--config=auto\` on untrusted input from the user (the path argument is a filesystem path, not a config source — safe)
-- If semgrep is not installed and the user declines Docker, report the limitation and suggest manual installation
-- Do not modify any files — this is a read-only scan
-- If the report is large, summarize by severity and offer the full file`
+- Never modify any files — this is a read-only scan
+- Restrict the review to the diff; do not scan the whole codebase
+- Only flag lines the task touched; leave pre-existing issues out of the report
+- When uncertain, prefer INFO over WARNING and WARNING over ERROR — never raise a false-critical alarm
+- Do not flag a line that a spec scenario explicitly requires
+- If the change has \`skip_specs: true\`, still run the scan — security is independent of spec sync
+- If the report is large, summarize by severity and offer the full detail`
   };
 }

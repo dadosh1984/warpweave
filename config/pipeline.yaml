@@ -3,13 +3,13 @@
 
 pipeline:
   name: warpweave-unified
-  version: "1.0.0"
+  version: "1.3.1"
 
   phases:
     - id: spec
       name: "Spec Gate"
       system: warpweave
-      entry: "/opsx:explore OR /opsx:propose"
+      entry: "/ww:explore OR /ww:propose"
       exit_condition: "specs approved by human"
       artifacts:
         - proposal.md
@@ -22,7 +22,7 @@ pipeline:
       name: "Planning"
       system: superpowers
       entry: "spec approved"
-      skill: writing-plans
+      skill: warpweave-propose
       exit_condition: "tasks decomposed, human confirms"
       constraints:
         max_task_minutes: 5
@@ -35,9 +35,8 @@ pipeline:
       systems: [superpowers, ponytail]
       entry: "plan confirmed"
       skills:
-        - subagent-driven-development
-        - test-driven-development
-        - quality-ladder
+        - warpweave-superpowers-tdd
+        - warpweave-ponytail-minimal-output
       tdd_cycle:
         - write_failing_test
         - observe_failure
@@ -62,7 +61,7 @@ pipeline:
       commands_rewritten:
         git: "rtk git {subcommand}"
         cargo: "rtk cargo {subcommand}"
-        npm_test: "rtk jest OR rtk vitest"
+        npm_test: "rtk vitest"
         pytest: "rtk pytest"
         ls: "rtk ls"
         grep: "rtk grep"

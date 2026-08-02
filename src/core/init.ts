@@ -13,7 +13,7 @@ import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { FileSystemUtils } from '../utils/file-system.js';
 import { classifyWarpweaveDir, storePointerProblem } from './project-config.js';
-import { findRepoPlanningRootSync, resolvePlanningDirName } from './planning-home.js';
+import { findRepoPlanningRootSync, resolvePlanningDirName, DEFAULT_SCHEMA } from './planning-home.js';
 import { getSkillReferenceTransformer, getTransformerForTool } from '../utils/command-references.js';
 import {
   AI_TOOLS,
@@ -69,8 +69,6 @@ const { version: WARPWEAVE_VERSION } = require('../../package.json');
 // Constants
 // -----------------------------------------------------------------------------
 
-const DEFAULT_SCHEMA = 'spec-driven';
-
 const PROGRESS_SPINNER = {
   interval: 80,
   frames: ['░░░', '▒░░', '▒▒░', '▒▒▒', '▓▒▒', '▓▓▒', '▓▓▓', '▒▓▓', '░▒▓'],
@@ -98,8 +96,12 @@ const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
   'parallel-execute': 'warpweave-parallel-execute',
   'learn': 'warpweave-learn',
   'init-unified': 'warpweave-init-unified',
+  'translator': 'warpweave-translator',
+  'ponytail-minimal-output': 'warpweave-ponytail-minimal-output',
+  'superpowers-tdd': 'warpweave-superpowers-tdd',
   'security-scan': 'warpweave-security-scan',
   'drift-check': 'warpweave-drift-detection',
+  'release-compare': 'warpweave-release-compare',
 };
 
 // -----------------------------------------------------------------------------

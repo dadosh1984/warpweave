@@ -33,3 +33,4 @@ export { getPonytailMinimalOutputSkillTemplate } from './workflows/ponytail-mini
 export { getSuperpowersTddSkillTemplate } from './workflows/superpowers-tdd.js';
 export { getSecurityScanSkillTemplate, getOpsxSecurityScanCommandTemplate } from './workflows/security-scan.js';
 export { getDriftDetectionSkillTemplate, getOpsxDriftDetectionCommandTemplate } from './workflows/drift-detection.js';
+export { getReleaseCompareSkillTemplate, getOpsxReleaseCompareCommandTemplate } from './workflows/release-compare.js';

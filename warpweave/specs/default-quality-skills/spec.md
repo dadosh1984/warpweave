@@ -36,16 +36,31 @@ When Warpweave generates skills for a project, it SHALL install a TDD methodolog
 - **WHEN** the skills.sh distribution is regenerated
 - **THEN** it SHALL contain the TDD methodology skill content
 
+### Requirement: Guardrails skill installed by default
+When Warpweave generates skills for a project, it SHALL install a guardrails skill (the four pipeline gates: SPEC, TDD, LADDER, RTK) as part of the default workflow set.
+
+#### Scenario: Core workflow includes the guardrails skill
+- **WHEN** `warpweave init` generates skills for a project using the default profile
+- **THEN** the project SHALL receive a guardrails skill alongside the existing core workflow skills
+
+#### Scenario: Full workflow includes the guardrails skill
+- **WHEN** a user selects any workflow set (core or full) during init or update
+- **THEN** the guardrails skill SHALL be available in the generated skill set
+
+#### Scenario: Skills.sh distribution includes the guardrails skill
+- **WHEN** the skills.sh distribution is regenerated
+- **THEN** it SHALL contain the guardrails skill content
+
 ### Requirement: Quality skills install for every supported agent
-The minimal-output and TDD methodology skills SHALL be generated into the skills directory of every supported AI agent that Warpweave configures, not only one tool.
+The minimal-output, TDD methodology, and guardrails skills SHALL be generated into the skills directory of every supported AI agent that Warpweave configures, not only one tool.
 
 #### Scenario: Skills generated for each configured agent
 - **WHEN** `warpweave init` configures multiple AI agents for a project
-- **THEN** each configured agent's skills directory SHALL receive the minimal-output and TDD methodology skills
+- **THEN** each configured agent's skills directory SHALL receive the minimal-output, TDD methodology, and guardrails skills
 
 #### Scenario: Refresh adds quality skills
 - **WHEN** a project updates Warpweave and its tools are refreshed
-- **THEN** the refresh SHALL generate the minimal-output and TDD methodology skills for the configured agents
+- **THEN** the refresh SHALL generate the minimal-output, TDD methodology, and guardrails skills for the configured agents
 
 ### Requirement: Quality skills installed without manual configuration
 Installing the quality skills SHALL require no manual edit of tool configuration files, such as adding plugin entries or running separate setup commands.

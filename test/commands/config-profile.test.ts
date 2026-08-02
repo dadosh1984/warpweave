@@ -104,6 +104,7 @@ describe('config profile interactive flow', () => {
       'warpweave-superpowers-tdd',
       'warpweave-security-scan',
       'warpweave-drift-detection',
+      'warpweave-guardrails',
     ];
     for (const dirName of coreSkillDirs) {
       const skillPath = path.join(projectDir, '.claude', 'skills', dirName, 'SKILL.md');
@@ -111,7 +112,7 @@ describe('config profile interactive flow', () => {
       fs.writeFileSync(skillPath, `name: ${dirName}\n`, 'utf-8');
     }
 
-    const coreCommands = ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'security-scan', 'drift-check'];
+    const coreCommands = ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'security-scan', 'drift-check', 'guardrails'];
     for (const commandId of coreCommands) {
       const commandPath = path.join(projectDir, '.claude', 'commands', 'ww', `${commandId}.md`);
       fs.mkdirSync(path.dirname(commandPath), { recursive: true });
