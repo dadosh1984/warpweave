@@ -21,6 +21,7 @@ for your tool. The files Warpweave generates already use the right form.
 | `/ww:update` | Revise a change's planning artifacts and keep them coherent |
 | `/ww:sync` | Merge delta specs into main specs |
 | `/ww:archive` | Archive a completed change |
+| `/ww:security-scan` | Run a security scan against the codebase using semgrep |
 
 ### Expanded Workflow Commands (custom workflow selection)
 

@@ -9,7 +9,7 @@ import {
 describe('profiles', () => {
   describe('CORE_WORKFLOWS', () => {
     it('should contain the default core workflows', () => {
-      expect(CORE_WORKFLOWS).toEqual(['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd']);
+      expect(CORE_WORKFLOWS).toEqual(['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan']);
     });
 
     it('should include update in the core profile (default install, not expanded-only)', () => {
@@ -24,8 +24,8 @@ describe('profiles', () => {
   });
 
   describe('ALL_WORKFLOWS', () => {
-    it('should contain all 24 workflows', () => {
-      expect(ALL_WORKFLOWS).toHaveLength(24);
+    it('should contain all 25 workflows', () => {
+      expect(ALL_WORKFLOWS).toHaveLength(25);
     });
 
     it('should contain expected workflow IDs', () => {
@@ -34,7 +34,7 @@ describe('profiles', () => {
         'ff', 'sync', 'archive', 'bulk-archive', 'verify', 'onboard',
         'ladder-audit', 'guardrails', 'debt-ledger', 'token-budget', 'benchmark',
         'dependency-check', 'parallel-execute', 'learn', 'init-unified', 'translator',
-        'ponytail-minimal-output', 'superpowers-tdd',
+        'ponytail-minimal-output', 'superpowers-tdd', 'security-scan',
       ];
       expect([...ALL_WORKFLOWS]).toEqual(expected);
     });

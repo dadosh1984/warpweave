@@ -168,7 +168,7 @@ Warpweave installs workflow artifacts based on selected workflows:
 
 - **Core profile (default):** `propose`, `explore`, `apply`, `update`, `sync`, `archive`
 - **Custom selection:** any subset of all workflow IDs:
-  `propose`, `explore`, `new`, `continue`, `apply`, `update`, `ff`, `sync`, `archive`, `bulk-archive`, `verify`, `onboard`
+  `propose`, `explore`, `new`, `continue`, `apply`, `update`, `ff`, `sync`, `archive`, `bulk-archive`, `verify`, `onboard`, `security-scan`
 
 In other words, skill/command counts are profile-dependent and delivery-dependent, not fixed.
 
@@ -188,6 +188,7 @@ When selected by profile/workflow config, Warpweave generates these skills:
 - `warpweave-bulk-archive-change`
 - `warpweave-verify-change`
 - `warpweave-onboard`
+- `warpweave-security-scan`
 
 See [Commands](commands.md) for command behavior and [CLI](cli.md) for `init`/`update` options.
 

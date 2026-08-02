@@ -39,6 +39,11 @@ export const ChangeMetadataSchema = z.object({
   // complete - that path prefix, not the artifact id, is the contract custom
   // schemas inherit.
   skip_specs: z.boolean().optional(),
+  // Auto-detected complexity level. Set by the AI agent during proposal.
+  // "minimal" means the change is small (≤3 files, <30 lines) and skips
+  // non-essential artifacts (design, tasks) via autoGenerateWhen in the schema.
+  // "normal" means the full artifact chain is required.
+  complexity: z.enum(['minimal', 'normal']).optional(),
 });
 
 export type ChangeMetadata = z.infer<typeof ChangeMetadataSchema>;

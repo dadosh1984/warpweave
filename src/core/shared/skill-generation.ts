@@ -29,6 +29,7 @@ import {
   getTranslatorSkillTemplate,
   getPonytailMinimalOutputSkillTemplate,
   getSuperpowersTddSkillTemplate,
+  getSecurityScanSkillTemplate,
   getOpsxExploreCommandTemplate,
   getOpsxNewCommandTemplate,
   getOpsxContinueCommandTemplate,
@@ -50,6 +51,7 @@ import {
   getOpsxParallelExecuteCommandTemplate,
   getOpsxLearnCommandTemplate,
   getOpsxInitUnifiedCommandTemplate,
+  getOpsxSecurityScanCommandTemplate,
   type SkillTemplate,
 } from '../templates/skill-templates.js';
 import type { CommandContent } from '../command-generation/index.js';
@@ -103,6 +105,7 @@ export function getSkillTemplates(workflowFilter?: readonly string[]): SkillTemp
     { template: getTranslatorSkillTemplate(), dirName: 'warpweave-translator', workflowId: 'translator' },
     { template: getPonytailMinimalOutputSkillTemplate(), dirName: 'warpweave-ponytail-minimal-output', workflowId: 'ponytail-minimal-output' },
     { template: getSuperpowersTddSkillTemplate(), dirName: 'warpweave-superpowers-tdd', workflowId: 'superpowers-tdd' },
+    { template: getSecurityScanSkillTemplate(), dirName: 'warpweave-security-scan', workflowId: 'security-scan' },
   ];
 
   if (!workflowFilter) return all;
@@ -139,6 +142,7 @@ export function getCommandTemplates(workflowFilter?: readonly string[]): Command
     { template: getOpsxParallelExecuteCommandTemplate(), id: 'parallel-execute' },
     { template: getOpsxLearnCommandTemplate(), id: 'learn' },
     { template: getOpsxInitUnifiedCommandTemplate(), id: 'init-unified' },
+    { template: getOpsxSecurityScanCommandTemplate(), id: 'security-scan' },
   ];
 
   if (!workflowFilter) return all;

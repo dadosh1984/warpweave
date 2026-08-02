@@ -10,8 +10,8 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getOpsxProposeSkillTemplate(): SkillTemplate {
   return {
     name: 'warpweave-propose',
-    description: 'Propose a new change with all artifacts generated in one step. Use when the user wants to quickly describe what they want to build and get a complete proposal with design, specs, and tasks ready for implementation.',
-    instructions: `Propose a new change - create the change and generate all artifacts in one step.
+    description: 'Propose a new change with quality analysis - create the change and generate all artifacts in one step, including the Ladder Decision table in the proposal, then validate the plan for contradictions before implementation. This is the analysis-first default; for the same artifacts without the analysis, use warpweave-ff-change.',
+    instructions: `Propose a new change with quality analysis - create the change and generate all artifacts in one step, including the Ladder Decision table (Ponytail) in the proposal, then validate the plan for contradictions before implementation. This is the analysis-first default; warpweave-ff-change creates the same artifacts without the analysis.
 
 I'll create a change with the artifacts your schema defines. With the default spec-driven schema that is:
 - proposal.md (what & why)
@@ -92,7 +92,32 @@ ${STORE_SELECTION_GUIDANCE}
       - Ask the user to clarify
       - Then continue with creation
 
-5. **Show final status**
+5. **Validate the plan for contradictions**
+
+   Before declaring the change ready, cross-check every artifact against every other artifact:
+
+   a. **Read all created artifacts** — re-read them from disk (the user may have edited them since creation):
+      - proposal.md
+      - Each delta spec in \`artifactPaths.specs.existingOutputPaths\`
+      - design.md
+      - tasks.md
+
+   b. **Check for contradictions** between every pair of artifacts:
+
+      | Check | What to look for |
+      |-------|------------------|
+      | proposal ↔ specs | Does the proposal's "what" match the spec requirements? Any requirement in the specs that the proposal doesn't mention? |
+      | specs ↔ design | Does the design implement every spec requirement? Any requirement with no design coverage? |
+      | design ↔ tasks | Does every design decision have a corresponding task? Any task that doesn't trace to a design decision? |
+      | proposal ↔ design | Does the design scope match the proposal scope? Any feature in the design that wasn't proposed? |
+      | tasks ↔ proposal | Do the tasks deliver what the proposal promised? |
+      | Ladder ↔ design | Are the ladder rung choices consistent with the design's actual complexity? (e.g. rung 1 "YAGNI" but the design adds a new library) |
+
+   c. **Report findings**:
+      - If no contradictions found: "✓ Plan validated — no contradictions between artifacts."
+      - If contradictions found: list each one with the artifact pair and the specific conflict. Ask the user to resolve before proceeding. Do NOT proceed to step 6 until the user confirms the contradictions are resolved.
+
+6. **Show final status**
    \`\`\`bash
    warpweave status --change "<name>"
    \`\`\`
@@ -102,6 +127,7 @@ ${STORE_SELECTION_GUIDANCE}
 After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions, plus any conditional artifact you skipped and why
+- Validation result: "✓ Plan validated" or "⚠ Contradictions found (resolved)"
 - What's ready: "All artifacts needed for implementation are ready."
 - Prompt: "Run \`/ww:apply\` or ask me to implement to start working on the tasks."
 
@@ -122,6 +148,7 @@ After completing all artifacts, summarize:
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
 - If a change with that name already exists, ask if user wants to continue it or create a new one
 - Verify each artifact file exists after writing before proceeding to next
+- Validate the plan for contradictions before declaring it ready — catch mismatches between proposal, specs, design, and tasks while they are still cheap to fix
 
 **Unified Workflow (Ponytail + Superpowers + RTK)**
 
@@ -144,10 +171,10 @@ Fill the Ladder Decision table in the proposal template with concrete answers.`,
 export function getOpsxProposeCommandTemplate(): CommandTemplate {
   return {
     name: 'WW: Propose',
-    description: 'Propose a new change - create it and generate all artifacts in one step',
+    description: 'Propose a new change with quality analysis - create it and generate all artifacts in one step',
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
-    content: `Propose a new change - create the change and generate all artifacts in one step.
+    content: `Propose a new change with quality analysis - create the change and generate all artifacts in one step, including the Ladder Decision table (Ponytail) in the proposal.
 
 I'll create a change with the artifacts your schema defines. With the default spec-driven schema that is:
 - proposal.md (what & why)
@@ -228,7 +255,32 @@ ${STORE_SELECTION_GUIDANCE}
       - Ask the user to clarify
       - Then continue with creation
 
-5. **Show final status**
+5. **Validate the plan for contradictions**
+
+   Before declaring the change ready, cross-check every artifact against every other artifact:
+
+   a. **Read all created artifacts** — re-read them from disk (the user may have edited them since creation):
+      - proposal.md
+      - Each delta spec in \`artifactPaths.specs.existingOutputPaths\`
+      - design.md
+      - tasks.md
+
+   b. **Check for contradictions** between every pair of artifacts:
+
+      | Check | What to look for |
+      |-------|------------------|
+      | proposal ↔ specs | Does the proposal's "what" match the spec requirements? Any requirement in the specs that the proposal doesn't mention? |
+      | specs ↔ design | Does the design implement every spec requirement? Any requirement with no design coverage? |
+      | design ↔ tasks | Does every design decision have a corresponding task? Any task that doesn't trace to a design decision? |
+      | proposal ↔ design | Does the design scope match the proposal scope? Any feature in the design that wasn't proposed? |
+      | tasks ↔ proposal | Do the tasks deliver what the proposal promised? |
+      | Ladder ↔ design | Are the ladder rung choices consistent with the design's actual complexity? (e.g. rung 1 "YAGNI" but the design adds a new library) |
+
+   c. **Report findings**:
+      - If no contradictions found: "✓ Plan validated — no contradictions between artifacts."
+      - If contradictions found: list each one with the artifact pair and the specific conflict. Ask the user to resolve before proceeding. Do NOT proceed to step 6 until the user confirms the contradictions are resolved.
+
+6. **Show final status**
    \`\`\`bash
    warpweave status --change "<name>"
    \`\`\`
@@ -238,6 +290,7 @@ ${STORE_SELECTION_GUIDANCE}
 After completing all artifacts, summarize:
 - Change name and location
 - List of artifacts created with brief descriptions, plus any conditional artifact you skipped and why
+- Validation result: "✓ Plan validated" or "⚠ Contradictions found (resolved)"
 - What's ready: "All artifacts needed for implementation are ready."
 - Prompt: "Run \`/ww:apply\` to start implementing."
 
@@ -258,6 +311,7 @@ After completing all artifacts, summarize:
 - If context is critically unclear, ask the user - but prefer making reasonable decisions to keep momentum
 - If a change with that name already exists, ask if user wants to continue it or create a new one
 - Verify each artifact file exists after writing before proceeding to next
+- Validate the plan for contradictions before declaring it ready — catch mismatches between proposal, specs, design, and tasks while they are still cheap to fix
 
 **Unified Workflow (Ponytail + Superpowers + RTK)**
 

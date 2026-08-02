@@ -8,6 +8,12 @@ export const ArtifactSchema = z.object({
   template: z.string().min(1, { error: 'template field is required' }),
   instruction: z.string().optional(),
   requires: z.array(z.string()).default([]),
+  // When set, this artifact is auto-generated (skipped) when the change's
+  // complexity matches one of the listed values. The artifact is marked as
+  // completed without requiring its files to exist on disk.
+  // Example: autoGenerateWhen: ["minimal"] means this artifact is skipped
+  // for small changes that don't need a full design doc or task breakdown.
+  autoGenerateWhen: z.array(z.enum(['minimal', 'normal'])).optional(),
 });
 
 // Apply phase configuration for schema-aware apply instructions

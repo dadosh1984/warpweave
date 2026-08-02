@@ -73,6 +73,7 @@ const COMMAND_TO_SKILL_NAME: Record<string, string> = {
   'parallel-execute': 'warpweave-parallel-execute',
   'learn': 'warpweave-learn',
   'init-unified': 'warpweave-init-unified',
+  'security-scan': 'warpweave-security-scan',
 };
 
 /**

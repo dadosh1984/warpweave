@@ -28,7 +28,7 @@ describe('tool-detection', () => {
 
   describe('SKILL_NAMES', () => {
     it('should contain all skill names matching COMMAND_IDS', () => {
-      expect(SKILL_NAMES).toHaveLength(24);
+      expect(SKILL_NAMES).toHaveLength(25);
       expect(SKILL_NAMES).toContain('warpweave-explore');
       expect(SKILL_NAMES).toContain('warpweave-new-change');
       expect(SKILL_NAMES).toContain('warpweave-continue-change');
@@ -53,6 +53,7 @@ describe('tool-detection', () => {
       expect(SKILL_NAMES).toContain('warpweave-translator');
       expect(SKILL_NAMES).toContain('warpweave-ponytail-minimal-output');
       expect(SKILL_NAMES).toContain('warpweave-superpowers-tdd');
+      expect(SKILL_NAMES).toContain('warpweave-security-scan');
     });
   });
 
@@ -285,7 +286,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
       });
 
       expect(status.configured).toBe(true);
@@ -309,7 +310,7 @@ Content here
       await initCommand.execute(testDir);
 
       const { version } = await import('../../../package.json');
-      const coreWorkflows = ['propose', 'explore', 'apply', 'update', 'sync', 'archive'];
+      const coreWorkflows = ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'];
 
       // cline's commands live outside its skillsDir (.cline), so a commands-only
       // install leaves that directory absent entirely.
@@ -343,7 +344,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: customWorkflows,
+        workflows: ['explore', 'apply'],
       });
 
       expect(status.configured).toBe(true);
@@ -353,7 +354,7 @@ Content here
       // The core set is a superset of this profile, so comparing against it must
       // report drift — the fingerprint has to use the workflows actually selected.
       const againstCore = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
       });
       expect(againstCore.needsUpdate).toBe(true);
     });
@@ -377,7 +378,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
       });
 
       expect(status.generatedByVersion).toBe(version);
@@ -421,7 +422,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
       });
 
       expect(status.configured).toBe(true);
@@ -443,7 +444,7 @@ Content here
 
       const { version } = await import('../../../package.json');
       const status = getToolVersionStatus(testDir, 'claude', version, {
-        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive'],
+        workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'],
       });
 
       expect(status.configured).toBe(true);

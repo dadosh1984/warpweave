@@ -159,7 +159,7 @@ export async function instructionsCommand(
       );
     }
 
-    const instructions = generateInstructions(context, artifactId, projectRoot, {
+    const instructions = await generateInstructions(context, artifactId, projectRoot, {
       projectConfig,
       references,
     });

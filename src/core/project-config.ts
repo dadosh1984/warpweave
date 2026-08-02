@@ -74,6 +74,16 @@ export const ProjectConfigSchema = z.object({
     .string()
     .optional()
     .describe('Store id used as the Warpweave root when no local planning shape exists'),
+
+  // Optional: Tessl Registry integration configuration.
+  tessl_registry: z
+    .object({
+      enabled: z.boolean().optional().default(false),
+      endpoint: z.string().optional(),
+      auto_detect: z.boolean().optional().default(true),
+    })
+    .optional()
+    .describe('Tessl Registry integration settings'),
 });
 
 /** Normalized in-memory shape of a referenced store declaration. */
@@ -359,6 +369,24 @@ export function readProjectConfig(projectRoot: string): ProjectConfig | null {
       } else {
         console.warn(
           `Warning: ignoring invalid store: field in ${configPathForWarnings(projectRoot)} (must be a single store id string).`
+        );
+      }
+    }
+
+    // Parse tessl_registry field
+    if (raw.tessl_registry !== undefined) {
+      if (typeof raw.tessl_registry === 'object' && raw.tessl_registry !== null && !Array.isArray(raw.tessl_registry)) {
+        const reg = raw.tessl_registry as Record<string, unknown>;
+        const tesslConfig: Record<string, unknown> = {};
+        if (typeof reg.enabled === 'boolean') tesslConfig.enabled = reg.enabled;
+        if (typeof reg.endpoint === 'string') tesslConfig.endpoint = reg.endpoint;
+        if (typeof reg.auto_detect === 'boolean') tesslConfig.auto_detect = reg.auto_detect;
+        if (Object.keys(tesslConfig).length > 0) {
+          (config as Record<string, unknown>).tessl_registry = tesslConfig;
+        }
+      } else {
+        console.warn(
+          `Warning: ignoring invalid tessl_registry field in ${configPathForWarnings(projectRoot)} (must be an object).`
         );
       }
     }

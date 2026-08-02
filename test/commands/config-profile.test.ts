@@ -64,12 +64,12 @@ describe('deriveProfileFromWorkflowSelection', () => {
 
   it('returns custom when selection is a superset of core workflows', async () => {
     const { deriveProfileFromWorkflowSelection } = await import('../../src/commands/config.js');
-    expect(deriveProfileFromWorkflowSelection(['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'new'])).toBe('custom');
+    expect(deriveProfileFromWorkflowSelection(['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan', 'new'])).toBe('custom');
   });
 
   it('returns core when selection has exactly core workflows in different order', async () => {
     const { deriveProfileFromWorkflowSelection } = await import('../../src/commands/config.js');
-    expect(deriveProfileFromWorkflowSelection(['archive', 'sync', 'update', 'apply', 'explore', 'propose', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'])).toBe('core');
+    expect(deriveProfileFromWorkflowSelection(['archive', 'sync', 'update', 'apply', 'explore', 'propose', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'])).toBe('core');
   });
 });
 
@@ -101,6 +101,7 @@ describe('config profile interactive flow', () => {
       'warpweave-translator',
       'warpweave-ponytail-minimal-output',
       'warpweave-superpowers-tdd',
+      'warpweave-security-scan',
     ];
     for (const dirName of coreSkillDirs) {
       const skillPath = path.join(projectDir, '.claude', 'skills', dirName, 'SKILL.md');
@@ -108,7 +109,7 @@ describe('config profile interactive flow', () => {
       fs.writeFileSync(skillPath, `name: ${dirName}\n`, 'utf-8');
     }
 
-    const coreCommands = ['propose', 'explore', 'apply', 'update', 'sync', 'archive'];
+    const coreCommands = ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'security-scan'];
     for (const commandId of coreCommands) {
       const commandPath = path.join(projectDir, '.claude', 'commands', 'ww', `${commandId}.md`);
       fs.mkdirSync(path.dirname(commandPath), { recursive: true });
@@ -162,7 +163,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig, getGlobalConfig } = await import('../../src/core/global-config.js');
     const { select, checkbox } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     select.mockResolvedValueOnce('delivery');
     select.mockResolvedValueOnce('skills');
 
@@ -177,7 +178,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig } = await import('../../src/core/global-config.js');
     const { select } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     select.mockResolvedValueOnce('keep');
 
     await runConfigCommand(['profile']);
@@ -205,7 +206,7 @@ describe('config profile interactive flow', () => {
     const { ALL_WORKFLOWS } = await import('../../src/core/profiles.js');
     const { select, checkbox } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     select.mockResolvedValueOnce('workflows');
     checkbox.mockResolvedValueOnce(['propose', 'explore']);
 
@@ -249,7 +250,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig } = await import('../../src/core/global-config.js');
     const { select, checkbox } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     select.mockResolvedValueOnce('workflows');
     checkbox.mockResolvedValueOnce(['propose', 'explore', 'apply', 'sync', 'archive']);
 
@@ -275,7 +276,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig, getGlobalConfigPath } = await import('../../src/core/global-config.js');
     const { select, confirm } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     const configPath = getGlobalConfigPath();
     const beforeContent = fs.readFileSync(configPath, 'utf-8');
 
@@ -295,7 +296,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig } = await import('../../src/core/global-config.js');
     const { select } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     setupDriftedProjectArtifacts(tempDir);
     select.mockResolvedValueOnce('keep');
 
@@ -309,7 +310,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig } = await import('../../src/core/global-config.js');
     const { select } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     setupSyncedCoreBothArtifacts(tempDir);
     select.mockResolvedValueOnce('keep');
 
@@ -323,7 +324,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig } = await import('../../src/core/global-config.js');
     const { select, confirm } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     setupDriftedProjectArtifacts(tempDir);
     select.mockResolvedValueOnce('delivery');
     select.mockResolvedValueOnce('both');
@@ -339,7 +340,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig } = await import('../../src/core/global-config.js');
     const { select } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     setupSyncedCoreBothArtifacts(tempDir);
     addExtraVerifyWorkflowArtifacts(tempDir);
     select.mockResolvedValueOnce('keep');
@@ -354,7 +355,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig, getGlobalConfig } = await import('../../src/core/global-config.js');
     const { select, confirm } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     fs.mkdirSync(path.join(tempDir, 'openspec'), { recursive: true });
 
     select.mockResolvedValueOnce('delivery');
@@ -374,7 +375,7 @@ describe('config profile interactive flow', () => {
     const { saveGlobalConfig, getGlobalConfig } = await import('../../src/core/global-config.js');
     const { select, confirm } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     fs.mkdirSync(path.join(tempDir, 'openspec'), { recursive: true });
     const emptyBinDir = path.join(tempDir, 'empty-bin');
     fs.mkdirSync(emptyBinDir);
@@ -398,7 +399,7 @@ describe('config profile interactive flow', () => {
     const { UpdateCommand } = await import('../../src/core/update.js');
     const { select, confirm } = await getPromptMocks();
 
-    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd'] });
+    saveGlobalConfig({ featureFlags: {}, profile: 'core', delivery: 'both', workflows: ['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan'] });
     fs.mkdirSync(path.join(tempDir, 'openspec'), { recursive: true });
     const executeSpy = vi.spyOn(UpdateCommand.prototype, 'execute')
       .mockRejectedValueOnce(new Error('permission denied'));
@@ -429,7 +430,7 @@ describe('config profile interactive flow', () => {
     const config = getGlobalConfig();
     expect(config.profile).toBe('core');
     expect(config.delivery).toBe('skills');
-    expect(config.workflows).toEqual(['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd']);
+    expect(config.workflows).toEqual(['propose', 'explore', 'apply', 'update', 'sync', 'archive', 'translator', 'ponytail-minimal-output', 'superpowers-tdd', 'security-scan']);
     expect(select).not.toHaveBeenCalled();
     expect(checkbox).not.toHaveBeenCalled();
     expect(confirm).not.toHaveBeenCalled();

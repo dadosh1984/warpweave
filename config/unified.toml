@@ -8,6 +8,10 @@ profile = "standard"
 auto_archive = true
 spec_format = "markdown"
 require_approval = true
+# Fast Lane: auto-detect complexity and skip non-essential artifacts
+# for small changes (≤3 files, <30 lines). Set to "express" to enable
+# by default, or let the AI agent set complexity in .warpweave.yaml.
+fast_lane = false
 
 [superpowers]
 # Methodology layer

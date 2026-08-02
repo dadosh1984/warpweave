@@ -42,6 +42,7 @@ export const WORKFLOW_TO_SKILL_DIR: Record<WorkflowId, string> = {
   'translator': 'warpweave-translator',
   'ponytail-minimal-output': 'warpweave-ponytail-minimal-output',
   'superpowers-tdd': 'warpweave-superpowers-tdd',
+  'security-scan': 'warpweave-security-scan',
 };
 
 function toKnownWorkflows(workflows: readonly string[]): WorkflowId[] {

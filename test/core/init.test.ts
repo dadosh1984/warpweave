@@ -134,7 +134,7 @@ describe('InitCommand', () => {
 
       await initCommand.execute(testDir);
 
-      // Core profile: propose, explore, apply, update, sync, archive
+      // Core profile: propose, explore, apply, update, sync, archive, translator, ponytail-minimal-output, superpowers-tdd, security-scan
       const coreSkillNames = [
         'warpweave-propose',
         'warpweave-explore',
@@ -142,6 +142,10 @@ describe('InitCommand', () => {
         'warpweave-update-change',
         'warpweave-sync-specs',
         'warpweave-archive-change',
+        'warpweave-translator',
+        'warpweave-ponytail-minimal-output',
+        'warpweave-superpowers-tdd',
+        'warpweave-security-scan',
       ];
 
       for (const skillName of coreSkillNames) {
@@ -174,7 +178,7 @@ describe('InitCommand', () => {
 
       await initCommand.execute(testDir);
 
-      // Core profile: propose, explore, apply, update, sync, archive
+      // Core profile: propose, explore, apply, update, sync, archive, security-scan
       const coreCommandNames = [
         'ww/propose.md',
         'ww/explore.md',
@@ -182,6 +186,7 @@ describe('InitCommand', () => {
         'ww/update.md',
         'ww/sync.md',
         'ww/archive.md',
+        'ww/security-scan.md',
       ];
 
       for (const cmdName of coreCommandNames) {

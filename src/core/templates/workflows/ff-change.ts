@@ -10,8 +10,8 @@ import { STORE_SELECTION_GUIDANCE } from './store-selection.js';
 export function getFfChangeSkillTemplate(): SkillTemplate {
   return {
     name: 'warpweave-ff-change',
-    description: 'Fast-forward through Warpweave artifact creation. Use when the user wants to quickly create all artifacts needed for implementation without stepping through each one individually.',
-    instructions: `Fast-forward through artifact creation - generate everything needed to start implementation in one go.
+    description: 'Fast-forward a change proposal without quality analysis - create the change and generate all artifacts in one go, skipping the Ladder Decision table. Use for the fastest path to implementation; for the analysis-first default, use warpweave-propose.',
+    instructions: `Fast-forward through artifact creation - generate everything needed to start implementation in one go, skipping the Ladder Decision quality analysis. This is the speed-first path; warpweave-propose creates the same artifacts with the analysis.
 
 ${STORE_SELECTION_GUIDANCE}
 
@@ -121,10 +121,10 @@ After completing all artifacts, summarize:
 export function getOpsxFfCommandTemplate(): CommandTemplate {
   return {
     name: 'WW: Fast Forward',
-    description: 'Create a change and generate all artifacts needed for implementation in one go',
+    description: 'Fast-forward a change proposal without quality analysis - create the change and generate all artifacts in one go',
     category: 'Workflow',
     tags: ['workflow', 'artifacts', 'experimental'],
-    content: `Fast-forward through artifact creation - generate everything needed to start implementation.
+    content: `Fast-forward through artifact creation - generate everything needed to start implementation, skipping the Ladder Decision quality analysis.
 
 ${STORE_SELECTION_GUIDANCE}
 

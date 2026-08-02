@@ -680,6 +680,19 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
         positionals: [{ name: 'preset', optional: true }],
         flags: [],
       },
+      {
+        name: 'registry',
+        description: 'Configure Tessl Registry integration',
+        flags: [
+          { name: 'enable', description: 'Enable Tessl Registry integration' },
+          { name: 'disable', description: 'Disable Tessl Registry integration' },
+          { name: 'endpoint', description: 'Set custom registry API endpoint', takesValue: true },
+          { name: 'auto-detect', description: 'Enable automatic dependency scanning' },
+          { name: 'no-auto-detect', description: 'Disable automatic dependency scanning' },
+          { name: 'status', description: 'Show current registry configuration' },
+          { name: 'clear-cache', description: 'Clear cached registry skills' },
+        ],
+      },
     ],
   },
   {
