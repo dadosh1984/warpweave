@@ -74,6 +74,13 @@ Skills fire automatically when the situation demands them. You do not need to in
 
 Every auto-triggered skill also has a manual override (`/ww:<command>`) for when you want to run it explicitly.
 
+**Token budget gates advisory auto-triggers.** Before firing completion-time auto-triggers (`verify-change`, `benchmark`) during `/ww:apply`, consult the change's token budget (`warpweave-token-budget` / `config/unified.toml`):
+
+- If the budget is exhausted or within the configured reserve of the ceiling, **warn** and **skip or defer** `verify-change` and `benchmark` (advisory, completion-only) rather than silently consuming budget beyond the limit.
+- The per-task `security-scan` and the pre-commit `guardrails` gates **always run** — they are safety gates, not budget-gated.
+- An explicit `/ww:verify` or `/ww:benchmark` runs regardless of budget (manual override bypasses the gate).
+- If no budget is configured, auto-triggers run exactly as today, with no new warnings.
+
 ## Release Process
 
 - **One changeset = one logical feature.** Each released behavior change gets its own changeset, so git blame stays clean and a broken feature can be rolled back without reverting unrelated work.
