@@ -168,6 +168,7 @@ describe('command completion registry', () => {
       'archive',
       'context',
       'doctor',
+      'drift-check',
       'instructions',
       'list',
       'new change',

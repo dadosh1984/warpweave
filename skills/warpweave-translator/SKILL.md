@@ -13,7 +13,7 @@ Turn what the user wrote into what the AI will clearly understand.
 
 **Why**: Users write tasks fast, on the go ("make auth", "fix the payment bug"), leaving gaps in scope, acceptance criteria, constraints, and environment. The AI then either guesses wrong or over-asks, wasting user time and AI budget. This skill works like a secretary at the intake: spot the missing details, ask 1-5 short clarifying questions with ready-made answer options, and only then pass a clean, unambiguous formulation onward.
 
-**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`, `drift-check`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 ## When to Use
 

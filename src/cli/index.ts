@@ -33,6 +33,7 @@ import { registerStoreCommand } from '../commands/store.js';
 import { registerDoctorCommand } from '../commands/doctor.js';
 import { registerContextCommand } from '../commands/context.js';
 import { registerWorksetCommand } from '../commands/workset.js';
+import { registerDriftCheckCommand } from '../commands/drift-check.js';
 import {
   statusCommand,
   instructionsCommand,
@@ -426,6 +427,7 @@ registerStoreCommand(program);
 registerDoctorCommand(program);
 registerContextCommand(program);
 registerWorksetCommand(program);
+registerDriftCheckCommand(program);
 
 // Top-level validate command
 program
