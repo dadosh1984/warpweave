@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -60,6 +60,36 @@ describe('config content parity', () => {
       pipeline: { version?: string };
     };
     expect(pipeline.pipeline.version).toBe(WARPWEAVE_VERSION);
+  });
+
+  it('keep installed security-scan skill native (no semgrep/Docker)', () => {
+    const installed = join(repoRoot, '.opencode', 'skills', 'warpweave-security-scan', 'SKILL.md');
+    if (!existsSync(installed)) return;
+    const content = readFileSync(installed, 'utf8');
+    expect(content).not.toContain('Requires semgrep');
+    expect(content.toLowerCase()).toContain('no semgrep');
+  });
+
+  it('keeps release notes free of replacement characters', () => {
+    const sources = [join(repoRoot, 'CHANGELOG.md')];
+    const changesetDir = join(repoRoot, '.changeset');
+    if (existsSync(changesetDir)) {
+      for (const file of readdirSync(changesetDir)) {
+        if (file.endsWith('.md')) sources.push(join(changesetDir, file));
+      }
+    }
+    for (const src of sources) {
+      const content = readFileSync(src, 'utf8');
+      expect(content, `replacement character (U+FFFD) in ${src}`).not.toContain('\uFFFD');
+    }
+  });
+
+  it('derives init skill mapping from the single source in profile-sync-drift', () => {
+    const initSrc = readFileSync(join(repoRoot, 'src/core/init.ts'), 'utf8');
+    const profileSrc = readFileSync(join(repoRoot, 'src/core/profile-sync-drift.ts'), 'utf8');
+    expect(profileSrc).toContain('export const WORKFLOW_TO_SKILL_DIR');
+    expect(initSrc).toContain("import { WORKFLOW_TO_SKILL_DIR } from './profile-sync-drift.js'");
+    expect(initSrc).not.toMatch(/const WORKFLOW_TO_SKILL_DIR\s*:/);
   });
 
   it('runs tests with vitest, not jest', () => {

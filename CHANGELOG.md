@@ -5,7 +5,7 @@
 ### Minor Changes
 
 - f43dfa2: - **Auto-trigger model**: security-scan, dependency-check, verify-change, benchmark, and guardrails now fire automatically during /ww:apply (per-task security check, dependency intercept, verify+benchmark at completion, pre-commit gate). Each keeps its manual /ww:\* override.
-  - **Native security scan**: warpweave-security-scan rewritten as a native agent-driven scan over changed code � no semgrep or Docker required. Runs after each task during apply.
+  - **Native security scan**: warpweave-security-scan rewritten as a native agent-driven scan over changed code — no semgrep or Docker required. Runs after each task during apply.
   - **Guardrails in core**: warpweave-guardrails ships by default (12 core skills), running the four pipeline gates before every commit.
   - **Release-compare**: new warpweave-release-compare skill compares the project before vs after a release, scores the improvement on defined criteria, and warns (advisory) when the change falls below a configurable minimum improvement threshold.
   - **WORKFLOW_TO_SKILL_DIR sync**: fixed the drift between init.ts (23 entries) and profile-sync-drift.ts (26 entries).

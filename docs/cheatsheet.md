@@ -34,6 +34,7 @@ A situation-first map of Warpweave commands. Don't know which button to press? F
 | Set a token budget and track consumption | `/ww:token-budget` | Constrains cost across pipeline phases. |
 | Compare plan vs actual for a change | `/ww:benchmark` | Measures estimation accuracy, code size, ladder discipline. |
 | Analyze trends across archived changes | `/ww:learn` | Aggregates metrics, surfaces patterns, gives recommendations. |
+| Compare before vs after a release | `/ww:release-compare` | Scores release improvement on defined criteria against `[quality] min_improvement`; warns (advisory) if below threshold. |
 | Check a dependency before adding it | `/ww:dependency-check` | Walks the Ponytail ladder before approving a new dependency. |
 | Run independent tasks in parallel | `/ww:parallel-execute` | Splits tasks.md into dependency layers, executes groups via subagents. |
 | Run a security scan against the codebase | `/ww:security-scan` | Uses semgrep to find vulnerabilities, hardcoded secrets, and insecure patterns. |
@@ -45,6 +46,15 @@ A situation-first map of Warpweave commands. Don't know which button to press? F
 | Write the minimum that works | `warpweave-ponytail-minimal-output` | YAGNI ladder for every implementation task. Marks deliberate simplifications with `// ponytail:`. |
 | Implement test-first with RED-GREEN-REFACTOR | `warpweave-superpowers-tdd` | Subagent-driven TDD with two-stage review. |
 | Clarify a vague request before implementing | `warpweave-translator` | Turns underspecified requests into clearly-specified ones. |
+
+## Release quality gate
+
+After a release, `/ww:release-compare` compares the project against the previous release tag and scores the improvement on weighted criteria (tests, spec compliance, security, code size, dependencies, tokens, user value).
+
+- The minimum acceptable improvement is configured as `[quality] min_improvement` in `config/unified.toml` (default `0.25`, i.e. 25%).
+- A score at or above the threshold is **satisfactory**.
+- A score below the threshold **warns** (advisory only) and lists the criteria that dragged the score down — it never blocks a release.
+- The full report is written to `warpweave/metrics/release-compare/<release>.md`; see the `warpweave-release-compare` skill for the criteria and weights.
 
 ## Setup
 

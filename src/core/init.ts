@@ -51,6 +51,7 @@ import {
 } from './shared/index.js';
 import { getGlobalConfig, type Delivery, type Profile } from './global-config.js';
 import { getProfileWorkflows, CORE_WORKFLOWS, ALL_WORKFLOWS } from './profiles.js';
+import { WORKFLOW_TO_SKILL_DIR } from './profile-sync-drift.js';
 import { getAvailableTools } from './available-tools.js';
 import { migrateIfNeeded, migrateLegacyToolDirs, describeLegacyMigration, keptInPlaceNotice, hasMovableContent, scanInstalledWorkflows as scanInstalledWorkflowsShared } from './migration.js';
 import {
@@ -72,36 +73,6 @@ const { version: WARPWEAVE_VERSION } = require('../../package.json');
 const PROGRESS_SPINNER = {
   interval: 80,
   frames: ['░░░', '▒░░', '▒▒░', '▒▒▒', '▓▒▒', '▓▓▒', '▓▓▓', '▒▓▓', '░▒▓'],
-};
-
-const WORKFLOW_TO_SKILL_DIR: Record<string, string> = {
-  'explore': 'warpweave-explore',
-  'new': 'warpweave-new-change',
-  'continue': 'warpweave-continue-change',
-  'apply': 'warpweave-apply-change',
-  'update': 'warpweave-update-change',
-  'ff': 'warpweave-ff-change',
-  'sync': 'warpweave-sync-specs',
-  'archive': 'warpweave-archive-change',
-  'bulk-archive': 'warpweave-bulk-archive-change',
-  'verify': 'warpweave-verify-change',
-  'onboard': 'warpweave-onboard',
-  'propose': 'warpweave-propose',
-  'ladder-audit': 'warpweave-ladder-audit',
-  'guardrails': 'warpweave-guardrails',
-  'debt-ledger': 'warpweave-debt-ledger',
-  'token-budget': 'warpweave-token-budget',
-  'benchmark': 'warpweave-benchmark',
-  'dependency-check': 'warpweave-dependency-check',
-  'parallel-execute': 'warpweave-parallel-execute',
-  'learn': 'warpweave-learn',
-  'init-unified': 'warpweave-init-unified',
-  'translator': 'warpweave-translator',
-  'ponytail-minimal-output': 'warpweave-ponytail-minimal-output',
-  'superpowers-tdd': 'warpweave-superpowers-tdd',
-  'security-scan': 'warpweave-security-scan',
-  'drift-check': 'warpweave-drift-detection',
-  'release-compare': 'warpweave-release-compare',
 };
 
 // -----------------------------------------------------------------------------

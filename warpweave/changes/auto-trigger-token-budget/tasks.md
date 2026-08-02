@@ -1,0 +1,22 @@
+## 1. Wire budget-aware auto-trigger gating
+
+- [x] 1.1 Add budget check to the apply completion phase: before running verify + benchmark auto-triggers, read the change's token budget via `warpweave-token-budget` and determine near/over-ceiling state
+  - **Spec scenario**: Auto-triggers respect the change's token budget (warn + skip near ceiling)
+  - **Ladder rung**: 2 (reuse — reuse `warpweave-token-budget` / `unified.toml`)
+  - **Test first**: a `config-parity`-style test asserting the apply guidance names the budget-aware gating step
+  - **Verify**: `rtk vitest run test/` and read the apply guidance / AGENTS.md diff
+- [x] 1.2 Implement skip/defer order (benchmark, then verify) with a user warning naming skipped triggers and remaining budget, when budget near/over ceiling
+  - **Spec scenario**: Warning names skipped triggers and remaining budget
+  - **Ladder rung**: 7 (minimum — conditional warn + defer at one point)
+  - **Test first**: test wiring that a near-ceiling state defers benchmark/verify while security-scan and guardrails still run
+  - **Verify**: `rtk vitest run test/`
+- [x] 1.3 Confirm safety gates (per-task security-scan, pre-commit guardrails) always run and manual `/ww:verify`/`/ww:benchmark` overrides bypass budget gating
+  - **Spec scenario**: Per-task security check still runs near ceiling; Guardrails gate still runs near ceiling; Manual overrides earlier in spec
+  - **Ladder rung**: 2 (reuse — keep existing guardrails/override behaviour untouched)
+  - **Test first**: assertion that the guidance keeps security-scan and guardrails unconditional
+  - **Verify**: `rtk vitest run test/`
+- [x] 1.4 Ensure unset budget → unchanged current behavior (no warnings) in the orchestration guidance
+  - **Spec scenario**: Auto-trigger budget respects an unset budget
+  - **Ladder rung**: 1 (YAGNI — nothing to add for the default path)
+  - **Test first**: assertion the default path performs no budget warning
+  - **Verify**: `rtk vitest run test/`
