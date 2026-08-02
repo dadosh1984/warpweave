@@ -50,6 +50,11 @@ The system SHALL enrich templates with change-specific context.
 - **WHEN** an artifact has no dependencies
 - **THEN** the dependency section indicates this is a root artifact
 
+#### Scenario: Include registry skills in context
+- **WHEN** Tessl Registry integration is enabled and skills are resolved for the project
+- **THEN** the output includes a `## Registry Skills` section with resolved skill metadata
+- **AND** the section is placed after the project context block
+
 ### Requirement: Status Formatting
 The system SHALL format change status as readable output.
 
