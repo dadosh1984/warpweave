@@ -1,6 +1,6 @@
 ---
 name: warpweave-drift-detection
-description: Check whether the implemented code has drifted from approved specifications. Use after each task during apply or manually via /ww:drift-check to catch mismatches early when they are cheap to fix.
+description: Check whether the implemented code has drifted from approved specifications. Use after each task during apply or manually via /ww:drift-check or warpweave drift-check to catch mismatches early when they are cheap to fix.
 allowed-tools: Bash(warpweave:*)
 license: MIT
 compatibility: Requires warpweave CLI.
@@ -11,7 +11,7 @@ metadata:
 
 Check whether the implemented code has drifted from approved specifications.
 
-**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
+**Store selection:** If the user names a store (a store is a standalone Warpweave repo registered on this machine) or the work lives in one, run `warpweave store list --json` to discover registered store ids, then pass `--store <id>` on the commands that read or write specs and changes (`new change`, `status`, `instructions`, `list`, `show`, `validate`, `archive`, `doctor`, `context`, `view`, `drift-check`). Other commands do not take the flag. Hints printed by commands already carry the flag; keep it on follow-ups. Without a store, commands act on the nearest local `warpweave/` root.
 
 **Input**: Optionally specify a change name. If omitted, infer from context or list available changes.
 
@@ -21,17 +21,19 @@ Check whether the implemented code has drifted from approved specifications.
 
    If a name is provided, use it. Otherwise infer from context or list available changes with `warpweave list --json`.
 
-2. **Read spec files**
+2. **Run the native drift check**
 
    ```bash
-   warpweave status --change "<name>" --json
+   warpweave drift-check --change "<name>" --json
    ```
 
-   From the JSON, get `artifactPaths.specs.existingOutputPaths` — these are the delta spec files for the change. Read each one.
+   This mechanically scans each spec scenario against the codebase and emits findings with file/line references. Use it as the base signal, then refine with semantic judgment below.
 
-   Also read the main specs at `warpweave/specs/<capability>/spec.md` for each capability referenced in the delta specs.
+3. **Read spec files**
 
-3. **Scan the codebase**
+   From the drift-check output, note which scenarios need closer inspection. Read the delta spec files for the change (`warpweave status --change "<name>" --json` → `artifactPaths.specs.existingOutputPaths`) and the main specs at `warpweave/specs/<capability>/spec.md`.
+
+4. **Scan the codebase**
 
    For each spec scenario in the spec files, check whether the described behavior exists in the codebase:
 
@@ -40,7 +42,7 @@ Check whether the implemented code has drifted from approved specifications.
    - Search the codebase for implementations matching those conditions
    - Use `grep`, `rg`, or read relevant source files
 
-4. **Report findings**
+5. **Report findings**
 
    For each spec scenario, report one of:
    - **Compliant** — the behavior exists in the code as specified

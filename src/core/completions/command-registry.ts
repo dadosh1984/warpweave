@@ -183,6 +183,20 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
     ],
   },
   {
+    name: 'drift-check',
+    description: 'Check whether implemented code has drifted from approved specifications',
+    flags: [
+      {
+        name: 'change',
+        description: 'Change name to check',
+        takesValue: true,
+      },
+      COMMON_FLAGS.json,
+      COMMON_FLAGS.noInteractive,
+      COMMON_FLAGS.store,
+    ],
+  },
+  {
     name: 'instructions',
     description: 'Output enriched instructions for artifacts, apply, or archive',
     acceptsPositional: true,
