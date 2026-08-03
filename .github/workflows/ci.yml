@@ -275,6 +275,13 @@ jobs:
           printf '%s\n' "$CHANGESET_FILES"
           pnpm exec changeset status --since=origin/main
 
+      - name: Advisory changeset-convention check (one changeset = one feature)
+        if: steps.changed-changesets.outputs.has_changesets == 'true'
+        env:
+          CHANGESET_FILES: ${{ steps.changed-changesets.outputs.files }}
+        run: |
+          node scripts/changeset-convention-check.js
+
   required-checks-pr:
     name: All checks passed
     runs-on: ubuntu-latest

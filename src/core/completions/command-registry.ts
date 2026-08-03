@@ -191,9 +191,28 @@ export const COMMAND_REGISTRY: CommandDefinition[] = [
         description: 'Change name to check',
         takesValue: true,
       },
+      {
+        name: 'no-fail-on-missing',
+        description: 'Report missing findings without failing (exit 0)',
+      },
       COMMON_FLAGS.json,
       COMMON_FLAGS.noInteractive,
       COMMON_FLAGS.store,
+    ],
+  },
+  {
+    name: 'task-check',
+    description: 'Extract and run a task verify command; exit non-zero on failure',
+    acceptsPositional: true,
+    positionals: [{ name: 'task', optional: true }],
+    flags: [
+      {
+        name: 'change',
+        description: 'Change name to check',
+        takesValue: true,
+      },
+      COMMON_FLAGS.json,
+      COMMON_FLAGS.noInteractive,
     ],
   },
   {

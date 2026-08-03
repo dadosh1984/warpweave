@@ -7,6 +7,7 @@ import { Command, Option } from 'commander';
 
 import {
   resolveRootForCommand,
+  toPlanningHome,
   type ResolvedWarpweaveRoot,
 } from '../core/root-selection.js';
 import { readOptionalStoreMetadataState } from '../core/store/foundation.js';
@@ -27,6 +28,8 @@ import { COMMAND_REGISTRY } from '../core/completions/command-registry.js';
 import { COMMON_FLAGS } from '../core/completions/shared-flags.js';
 import { emitFailure, printJson } from './shared-output.js';
 import * as path from 'node:path';
+import { runProjectSelfCheck, type ProjectSelfCheck, type SelfCheckResult } from '../core/project-selfcheck.js';
+import { runArchiveHygiene, type ArchiveHygieneFinding } from '../core/archive-hygiene.js';
 
 const FAILURE_PAYLOAD = { root: null, store: null, references: [] };
 
@@ -182,6 +185,40 @@ function printHumanHealth(health: RelationshipHealth, declaredReferenceCount: nu
   }
 }
 
+function printSelfCheckSection(selfcheck: ProjectSelfCheck | undefined): void {
+  if (!selfcheck) {
+    return;
+  }
+  console.log('');
+  console.log('Project Self-Check');
+  const entries: Array<[string, SelfCheckResult]> = [
+    ['Spec↔Template', selfcheck.specTemplateParity],
+    ['Installed Skill↔Source', selfcheck.installedSkillDrift],
+    ['Version sync', selfcheck.versionSync],
+  ];
+  for (const [label, result] of entries) {
+    const status = result.ok ? 'ok' : '(finding)';
+    console.log(`  ${label}: ${status}`);
+    console.log(`    ${result.message}`);
+    if (!result.ok && result.fix) {
+      console.log(`    Fix: ${result.fix}`);
+    }
+  }
+}
+
+function printArchiveHygieneSection(findings: ArchiveHygieneFinding[]): void {
+  console.log('');
+  console.log('Archive Hygiene');
+  if (findings.length === 0) {
+    console.log('  (none)');
+    return;
+  }
+  for (const finding of findings) {
+    console.log(`  ${finding.kind === 'stale-duplicate' ? '(duplicate)' : '(completed-unarchived)'} ${finding.change}`);
+    console.log(`    ${finding.message}`);
+  }
+}
+
 export function registerDoctorCommand(program: Command): void {
   const description =
     COMMAND_REGISTRY.find((entry) => entry.name === 'doctor')?.description ??
@@ -207,11 +244,16 @@ export function registerDoctorCommand(program: Command): void {
 
         const { health, declaredReferenceCount } = await gatherHealth(root);
 
+        const projectSelfCheck = await runProjectSelfCheck(root.path);
+        const archiveHygiene = await runArchiveHygiene(toPlanningHome(root));
+
         if (options.json) {
-          printJson(health);
+          printJson({ ...health, projectSelfCheck, archiveHygiene });
           return;
         }
         printHumanHealth(health, declaredReferenceCount);
+        printSelfCheckSection(projectSelfCheck);
+        printArchiveHygieneSection(archiveHygiene);
       } catch (error) {
         emitFailure(options.json, FAILURE_PAYLOAD, error, 'doctor_failed');
       }

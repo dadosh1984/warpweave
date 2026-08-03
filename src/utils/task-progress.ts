@@ -27,7 +27,17 @@ export interface ParsedTask {
   done: boolean;
   /** Task text after the checkbox, trimmed (may be empty). */
   description: string;
+  /** The task's `**Verify**: <command>` command, when present. */
+  verifyCommand?: string;
 }
+
+/**
+ * The `**Verify**: <command>` field is typically written as a sub-line of the
+ * task (indented, inside a code span). We look for it only on lines that follow
+ * the task line and are strictly more indented, so a later task's own
+ * `**Verify**:` is never picked up as this task's.
+ */
+const VERIFY_FIELD_PATTERN = /^\s*(?:[-*]\s*)?\*\*\s*Verify\s*\*\*:\s*`?([^`\n]+)`?\s*$/i;
 
 /**
  * Parses every task line in a tasks file, in document order.
@@ -38,15 +48,54 @@ export interface ParsedTask {
  * "real" has an input where a stray or unbalanced ``` swallows genuine tasks.
  * Counting a documented example as work is a loud, bypassable false positive;
  * losing a real task is a silent one.
+ *
+ * A task's `**Verify**:` command, when present on its (better-indented)
+ * sub-lines, is attached to that task as `verifyCommand`. The field is optional
+ * and never affects checkbox accounting, so backward compatibility holds.
  */
 export function parseTaskLines(content: string): ParsedTask[] {
+  const lines = content.split('\n');
   const tasks: ParsedTask[] = [];
 
-  for (const line of content.split('\n')) {
+  let openTask: ParsedTask | null = null;
+  let openTaskIndent = -1;
+
+  const closeOpenTask = (): void => {
+    openTask = null;
+    openTaskIndent = -1;
+  };
+
+  for (const line of lines) {
     const match = line.match(TASK_LINE_PATTERN);
     if (match) {
-      tasks.push({ done: match[1].toLowerCase() === 'x', description: match[2].trim() });
+      if (openTask) {
+        tasks.push(openTask);
+      }
+      openTask = { done: match[1].toLowerCase() === 'x', description: match[2].trim() };
+      openTaskIndent = line.length - line.trimStart().length;
+      continue;
     }
+
+    // Attach a `**Verify**:` sub-line to the currently-open task when the line
+    // is strictly more indented than it (i.e. it is the task's own field).
+    if (openTask) {
+      const verifyMatch = line.match(VERIFY_FIELD_PATTERN);
+      const indent = line.length - line.trimStart().length;
+      if (verifyMatch && indent > openTaskIndent) {
+        openTask.verifyCommand = verifyMatch[1].trim();
+        continue;
+      }
+      // A line no more indented than the task that is not itself a task closes
+      // the task (so a following task's fields never attach here).
+      if (indent <= openTaskIndent && line.trim() !== '') {
+        tasks.push(openTask);
+        closeOpenTask();
+      }
+    }
+  }
+
+  if (openTask) {
+    tasks.push(openTask);
   }
 
   return tasks;

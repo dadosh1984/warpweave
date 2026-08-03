@@ -1,9 +1,7 @@
 ## Purpose
 
 After each release, the project compares itself against the previous release to measure how much it improved (or worsened) on defined criteria, scores that improvement, and warns — without blocking — when the change falls short of a configurable minimum improvement threshold.
-
 ## Requirements
-
 ### Requirement: Release compare runs after each release
 The system SHALL run a before/after comparison of the project when a release happens, comparing the current state against the previous release.
 
@@ -66,3 +64,21 @@ The comparison SHALL produce a written report the user can inspect, without modi
 #### Scenario: Compare is read-only
 - **WHEN** a release comparison runs
 - **THEN** it SHALL not modify project code, specs, or change artifacts
+
+### Requirement: Comparison tracks the token-budget effect on spend
+When budget data is available, the comparison SHALL track per-change token-budget facts and report the budget's effect on average token spend per change across releases.
+
+#### Scenario: Budget facts collected per change
+- **WHEN** a release comparison runs and changes have token-budget data (budget set, tokens measured, near/over-ceiling events, advisory-trigger skips)
+- **THEN** the comparison SHALL collect those facts and report average token spend per change for the release
+- **AND** report the delta versus the previous release
+
+#### Scenario: Budget effect on average spend reported
+- **WHEN** comparing two releases where at least one has budget data
+- **THEN** the comparison SHALL report whether average per-change token spend improved GIVEN the budget (e.g. more changes stayed under the cap, fewer overruns)
+- **AND** flag a regression if average spend per change worsened
+
+#### Scenario: No budget data keeps existing behavior
+- **WHEN** a release has no token-budget data configured
+- **THEN** the comparison SHALL keep the existing behavior and SHALL NOT add a budget section or warnings
+
