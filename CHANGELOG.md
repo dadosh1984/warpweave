@@ -1,5 +1,21 @@
 # warpweave
 
+## 1.5.0
+
+### Minor Changes
+
+- Enforce deterministic execution gates and quality checks so verification no longer depends on the model:
+
+  - **Task verify enforcement**: new `warpweave task-check` runs each task's `**Verify:**` command and blocks the `[x]` mark on non-zero exit; the apply template runs the gate before marking a task done; task progress now parses each task's verify command.
+  - **Verify mechanical pass**: new whole-spec mechanical verify (`src/core/verify.ts`) classifies every delta-spec scenario against the project source, surfacing `missing` behavior even when no single task diff touched the relevant file; the verify report now shows the mechanical status alongside the agent assessment.
+  - **Drift-check hard block on missing**: `warpweave drift-check` exits non-zero when a scenario is `missing` (like the archive checkbox gate); `drifted` stays advisory; new `--no-fail-on-missing` report-only opt-out; `--json` now returns `{ blocked, findings }`.
+  - **Token-budget gating**: the apply completion phase consults the change's token budget and warns + skips/defer the advisory completion triggers (benchmark, verify) near/over the ceiling, while safety gates (per-task security scan, pre-commit guardrails) and manual overrides always run.
+  - **Spec↔template parity guard**: a curated mapping asserts behavioral spec requirements stay anchored in their templates (config-parity style).
+  - **Doctor project self-check**: `warpweave doctor` reports deterministic bridges — spec↔template parity, installed-skill↔source drift, and pipeline/package version sync — plus archive-hygiene findings (completed-but-unarchived changes, stale `changes/`↔`archive/` duplicates).
+  - **Release-compare budget tracking**: the comparison collects per-change token-budget facts and reports the budget's effect on average per-change token spend.
+  - **Advisory changeset-convention CI check**: the validate-changesets job warns (never blocks) when a changeset may bundle multiple unrelated features.
+  - **Security-scan parity test fix**: the installed-skill parity guard now checks the committed distribution source unconditionally, so it fires in CI rather than silently passing.
+
 ## 1.4.0
 
 ### Minor Changes

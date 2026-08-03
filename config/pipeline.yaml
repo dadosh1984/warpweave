@@ -1,9 +1,9 @@
-# Unified Pipeline Definition
+﻿# Unified Pipeline Definition
 # Describes how the four systems interlock.
 
 pipeline:
   name: warpweave-unified
-  version: "1.4.0"
+  version: "1.5.0"
 
   phases:
     - id: spec
