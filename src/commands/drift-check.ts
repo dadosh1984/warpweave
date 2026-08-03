@@ -32,6 +32,7 @@ export interface DriftCheckOptions {
   storePath?: string;
   json?: boolean;
   noInteractive?: boolean;
+  failOnMissing?: boolean;
 }
 
 async function resolveChangeName(
@@ -60,9 +61,10 @@ async function resolveChangeName(
   throw new Error(`No change specified. Available changes:\n  ${available.join('\n  ')}`);
 }
 
-function printHumanReport(changeName: string, findings: DriftFinding[]): void {
+function printHumanReport(changeName: string, findings: DriftFinding[], blocked: boolean): void {
   const compliant = findings.filter((f) => f.status === 'compliant');
   const issues = findings.filter((f) => f.status !== 'compliant');
+  const missing = findings.filter((f) => f.status === 'missing');
 
   console.log(`## Drift Check: ${changeName}`);
   console.log('');
@@ -78,13 +80,18 @@ function printHumanReport(changeName: string, findings: DriftFinding[]): void {
   console.log(`### Issues (${issues.length})`);
   if (issues.length === 0) {
     console.log('  (none)');
-    return;
+  } else {
+    for (const finding of issues) {
+      const label = finding.status === 'missing' ? chalk.red('Missing') : chalk.yellow('Drifted');
+      console.log(`  - ${finding.scenario} ${label} — ${finding.file}:${finding.line}`);
+      console.log(`    expected: ${finding.expected}`);
+      console.log(`    actual: ${finding.actual ?? '(behavior not found in code)'}`);
+    }
   }
-  for (const finding of issues) {
-    const label = finding.status === 'missing' ? chalk.red('Missing') : chalk.yellow('Drifted');
-    console.log(`  - ${finding.scenario} ${label} — ${finding.file}:${finding.line}`);
-    console.log(`    expected: ${finding.expected}`);
-    console.log(`    actual: ${finding.actual ?? '(behavior not found in code)'}`);
+  if (blocked) {
+    console.log('');
+    console.log(chalk.red(`Blocked: ${missing.length} missing scenario(s). ` +
+      'Fix the missing behavior, or pass --no-fail-on-missing to run report-only.'));
   }
 }
 
@@ -108,7 +115,7 @@ export async function driftCheckCommand(options: DriftCheckOptions): Promise<voi
 
     if (specFiles.length === 0) {
       if (options.json) {
-        printJson([]);
+        printJson({ blocked: false, findings: [] });
         return;
       }
       console.log('No specs to check against');
@@ -121,11 +128,18 @@ export async function driftCheckCommand(options: DriftCheckOptions): Promise<voi
       findings.push(await classifyScenario(scenario, root.path));
     }
 
+    const missingCount = findings.filter((f) => f.status === 'missing').length;
+    const blocked = missingCount > 0 && options.failOnMissing !== false;
+
     if (options.json) {
-      printJson(findings);
+      printJson({ blocked, findings });
+      process.exitCode = blocked ? 1 : 0;
       return;
     }
-    printHumanReport(changeName, findings);
+    printHumanReport(changeName, findings, blocked);
+    if (blocked) {
+      process.exitCode = 1;
+    }
   } catch (error) {
     emitFailure(options.json, FAILURE_PAYLOAD, error, 'drift_check_failed');
   }
@@ -140,7 +154,8 @@ export function registerDriftCheckCommand(program: Command): void {
     .command('drift-check')
     .description(description)
     .option('--change <id>', 'Change name to check')
-    .option('--json', 'Output as JSON array of drift findings')
+    .option('--json', 'Output as JSON with a blocked flag and findings array')
+    .option('--no-fail-on-missing', 'Report missing findings without failing (exit 0)')
     .option('--no-interactive', 'Disable interactive prompts')
     .option('--store <id>', COMMON_FLAGS.store.description)
     .addOption(

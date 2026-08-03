@@ -56,7 +56,16 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
 
    Each dimension can have CRITICAL, WARNING, or SUGGESTION issues.
 
-5. **Verify Completeness**
+5. **Mechanical first pass (whole-spec)**
+
+   Run the deterministic mechanical classification over the change's ENTIRE delta-spec set against the project source (not per-task diffs), e.g. via `warpweave drift-check --change "<name>" --json` or the verify core. For each scenario, record the mechanical status:
+   - **Compliant** — the scenario's distinctive terms are present in the source
+   - **Missing** — zero source evidence for the scenario (hard signal; must be addressed before verified)
+   - **Drifted** — partial source evidence (agent judgment required)
+
+   Surface every **Missing** scenario as a CRITICAL issue in the report ("Requirement not implemented / behavior not found in code"), even if no single task's diff touched the relevant file. Drifted findings are WARNING-level and get agent assessment.
+
+6. **Verify Completeness**
 
    **Task Completion**:
    - If `contextFiles.tasks` exists, read every file path in it
@@ -76,7 +85,7 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
        - Add CRITICAL issue: "Requirement not found: <requirement name>"
        - Recommendation: "Implement requirement X: <description>"
 
-6. **Verify Correctness**
+7. **Verify Correctness**
 
    **Requirement Implementation Mapping**:
    - For each requirement from delta specs:
@@ -95,7 +104,7 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
        - Add WARNING: "Scenario not covered: <scenario name>"
        - Recommendation: "Add test or implementation for scenario: <description>"
 
-7. **Verify Coherence**
+8. **Verify Coherence**
 
    **Design Adherence**:
    - If `contextFiles.design` exists:
@@ -113,7 +122,7 @@ Verify that an implementation matches the change artifacts (specs, tasks, design
      - Add SUGGESTION: "Code pattern deviation: <details>"
      - Recommendation: "Consider following project pattern: <example>"
 
-8. **Generate Verification Report**
+9. **Generate Verification Report**
 
    **Summary Scorecard**:
    ```markdown

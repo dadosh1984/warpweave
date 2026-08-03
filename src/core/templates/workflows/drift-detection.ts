@@ -58,10 +58,12 @@ ${STORE_SELECTION_GUIDANCE}
 
 6. **Offer resolution**
 
+   A **Missing** finding is a hard block: \`warpweave drift-check\` exits non-zero on missing scenarios, so the apply flow must not continue until the missing behavior is implemented (or the user explicitly runs \`--no-fail-on-missing\` for a report-only pass). **Drifted** findings stay advisory.
+
    Present the user with options:
    - **Fix code** — align the implementation with the spec
    - **Update spec** — update the spec to match the actual implementation
-   - **Continue** — acknowledge the drift and proceed without action
+   - **Continue** — acknowledge the drift and proceed without action (only for Drifted/advisory findings)
 
 **Output**
 
@@ -149,10 +151,12 @@ ${STORE_SELECTION_GUIDANCE}
 
 6. **Offer resolution**
 
+   A **Missing** finding is a hard block: \`warpweave drift-check\` exits non-zero on missing scenarios, so the apply flow must not continue until the missing behavior is implemented (or the user explicitly runs \`--no-fail-on-missing\` for a report-only pass). **Drifted** findings stay advisory.
+
    Present the user with options:
    - **Fix code** — align the implementation with the spec
    - **Update spec** — update the spec to match the actual implementation
-   - **Continue** — acknowledge the drift and proceed without action
+   - **Continue** — acknowledge the drift and proceed without action (only for Drifted/advisory findings)
 
 **Output**
 

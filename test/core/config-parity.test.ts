@@ -29,7 +29,40 @@ function collectSkillIdentifiers(node: unknown, out: string[] = []): string[] {
   return out;
 }
 
+interface SpecTemplateAnchor {
+  capability: string;
+  specPhrase: string;
+  templateFile: string;
+  anchor: string;
+}
+
+const SPEC_TEMPLATE_ANCHORS: SpecTemplateAnchor[] = [
+  {
+    capability: 'skill-triggers',
+    specPhrase: 'budget-aware gating of advisory completion triggers',
+    templateFile: 'src/core/templates/workflows/apply-change.ts',
+    anchor: 'skip or defer the advisory completion triggers',
+  },
+  {
+    capability: 'skill-triggers',
+    specPhrase: 'safety gates remain unconditional near ceiling',
+    templateFile: 'src/core/templates/workflows/apply-change.ts',
+    anchor: 'Safety gates always run near the ceiling',
+  },
+];
+
 describe('config content parity', () => {
+  it('keeps every mapped spec behavior anchored in its template', () => {
+    expect(SPEC_TEMPLATE_ANCHORS.length).toBeGreaterThan(0);
+    for (const { capability, specPhrase, templateFile, anchor } of SPEC_TEMPLATE_ANCHORS) {
+      const content = readFileSync(join(repoRoot, templateFile), 'utf8');
+      expect(
+        content,
+        `spec '${capability}' (${specPhrase}) requires anchor '${anchor}' in ${templateFile}`
+      ).toContain(anchor);
+    }
+  });
+
   it('declares [warpweave] and not [openspec] in config/unified.toml', () => {
     const toml = readFileSync(join(configDir, 'unified.toml'), 'utf8');
     expect(toml).toContain('[warpweave]');
@@ -62,7 +95,15 @@ describe('config content parity', () => {
     expect(pipeline.pipeline.version).toBe(WARPWEAVE_VERSION);
   });
 
-  it('keep installed security-scan skill native (no semgrep/Docker)', () => {
+  it('keeps security-scan skill native (no semgrep/Docker) in distribution source', () => {
+    const source = join(repoRoot, 'skills', 'warpweave-security-scan', 'SKILL.md');
+    expect(existsSync(source), `missing committed source ${source}`).toBe(true);
+    const content = readFileSync(source, 'utf8');
+    expect(content).not.toContain('Requires semgrep');
+    expect(content.toLowerCase()).toContain('no semgrep');
+  });
+
+  it('keeps installed security-scan skill native when present (no semgrep/Docker)', () => {
     const installed = join(repoRoot, '.opencode', 'skills', 'warpweave-security-scan', 'SKILL.md');
     if (!existsSync(installed)) return;
     const content = readFileSync(installed, 'utf8');

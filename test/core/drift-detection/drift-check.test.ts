@@ -160,8 +160,10 @@ describe('warpweave drift-check CLI', () => {
       env,
     });
     expect(result.exitCode).toBe(0);
-    const findings = JSON.parse(result.stdout);
-    expect(Array.isArray(findings)).toBe(true);
+    const payload = JSON.parse(result.stdout);
+    expect(payload.blocked).toBe(false);
+    expect(Array.isArray(payload.findings)).toBe(true);
+    const findings = payload.findings;
     expect(findings).toHaveLength(1);
     expect(findings[0]).toMatchObject({
       requirement: 'User can log in',
@@ -189,8 +191,77 @@ describe('warpweave drift-check CLI', () => {
       env,
     });
     expect(result.exitCode).toBe(0);
-    const parsed = JSON.parse(result.stdout);
-    expect(Array.isArray(parsed)).toBe(true);
-    expect(parsed).toHaveLength(0);
+    const payload = JSON.parse(result.stdout);
+    expect(payload.blocked).toBe(false);
+    expect(Array.isArray(payload.findings)).toBe(true);
+    expect(payload.findings).toHaveLength(0);
+  });
+
+  it('blocks (exit 1) when a scenario is missing with zero source matches', async () => {
+    const changeDir = path.join(tempDir, 'warpweave', 'changes', 'missing-change');
+    fs.mkdirSync(path.join(changeDir, 'specs', 'auth'), { recursive: true });
+    fs.writeFileSync(path.join(changeDir, '.warpweave.yaml'), 'schema: spec-driven\n');
+    fs.writeFileSync(
+      path.join(changeDir, 'specs', 'auth', 'spec.md'),
+      [
+        '## Purpose',
+        '',
+        'Lets users authenticate.',
+        '',
+        '## ADDED Requirements',
+        '',
+        '### Requirement: Quasiflan uberstanz',
+        'The system SHALL provide a quasiflan uberstanz.',
+        '',
+        '#### Scenario: Quasiflan unavailable',
+        '- **WHEN** a quasiflan uberstanz is requested',
+        '- **THEN** the system provides a quasiflan uberstanz session',
+        '',
+      ].join('\n')
+    );
+    // No source file carries the invented terms, so every scenario term is missing.
+
+    const result = await runCLI(['drift-check', '--change', 'missing-change', '--json'], {
+      cwd: tempDir,
+      env,
+    });
+    expect(result.exitCode).toBe(1);
+    const payload = JSON.parse(result.stdout);
+    expect(payload.blocked).toBe(true);
+    const missing = payload.findings.find((f: DriftFinding) => f.status === 'missing');
+    expect(missing).toBeDefined();
+  });
+
+  it('reports missing findings without blocking when --no-fail-on-missing', async () => {
+    const changeDir = path.join(tempDir, 'warpweave', 'changes', 'missing-change');
+    fs.mkdirSync(path.join(changeDir, 'specs', 'auth'), { recursive: true });
+    fs.writeFileSync(path.join(changeDir, '.warpweave.yaml'), 'schema: spec-driven\n');
+    fs.writeFileSync(
+      path.join(changeDir, 'specs', 'auth', 'spec.md'),
+      [
+        '## Purpose',
+        '',
+        'Lets users authenticate.',
+        '',
+        '## ADDED Requirements',
+        '',
+        '### Requirement: Quasiflan uberstanz',
+        'The system SHALL provide a quasiflan uberstanz.',
+        '',
+        '#### Scenario: Quasiflan unavailable',
+        '- **WHEN** a quasiflan uberstanz is requested',
+        '- **THEN** the system provides a quasiflan uberstanz session',
+        '',
+      ].join('\n')
+    );
+
+    const result = await runCLI(
+      ['drift-check', '--change', 'missing-change', '--json', '--no-fail-on-missing'],
+      { cwd: tempDir, env }
+    );
+    expect(result.exitCode).toBe(0);
+    const payload = JSON.parse(result.stdout);
+    expect(payload.blocked).toBe(false);
+    expect(payload.findings.some((f: DriftFinding) => f.status === 'missing')).toBe(true);
   });
 });

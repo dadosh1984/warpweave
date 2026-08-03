@@ -43,7 +43,7 @@ ${STORE_SELECTION_GUIDANCE}
    - **Security** — run the native security scan over the diff; count ERROR/WARNING/INFO findings
    - **Code size** — LOC added/removed: \`rtk git diff <baseline>...<current> --stat\`
    - **Dependencies** — diff the project manifests (\`package.json\`, \`cargo.toml\`, \`go.mod\`, ...); count added/removed
-   - **Tokens** — \`rtk gain\` for the release's shell usage
+   - **Tokens** — \`rtk gain\` for the release's shell usage. **Budget effect**: when changes carry token-budget data (\`warpweave-token-budget\`), record per-change budget facts (budget set, tokens measured, near/over-ceiling events, skipped advisory triggers) and report the release's **average token spend per change** and its delta vs the previous release. Flag a regression if average spend per change worsened. If a release has no budget data, omit this subsection (no fabricated numbers, mark "n/a").
    - **User value** — agent judgment: which features the release delivered vs what was promised, clarity of the public API/UI, documentation accuracy, and the real benefit for the end user
 
    Record before/after values per criterion. Never fabricate a metric — mark missing data "n/a".
@@ -145,7 +145,7 @@ ${STORE_SELECTION_GUIDANCE}
    - **Security** — run the native security scan over the diff; count ERROR/WARNING/INFO findings
    - **Code size** — LOC added/removed: \`rtk git diff <baseline>...<current> --stat\`
    - **Dependencies** — diff the project manifests (\`package.json\`, \`cargo.toml\`, \`go.mod\`, ...); count added/removed
-   - **Tokens** — \`rtk gain\` for the release's shell usage
+   - **Tokens** — \`rtk gain\` for the release's shell usage. **Budget effect**: when changes carry token-budget data (\`warpweave-token-budget\`), record per-change budget facts (budget set, tokens measured, near/over-ceiling events, skipped advisory triggers) and report the release's **average token spend per change** and its delta vs the previous release. Flag a regression if average spend per change worsened. If a release has no budget data, omit this subsection (no fabricated numbers, mark "n/a").
    - **User value** — agent judgment: which features the release delivered vs what was promised, clarity of the public API/UI, documentation accuracy, and the real benefit for the end user
 
    Record before/after values per criterion. Never fabricate a metric — mark missing data "n/a".

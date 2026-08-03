@@ -224,6 +224,29 @@ describe('parseTaskLines', () => {
     ]);
   });
 
+  it('captures a task verifyCommand from its indented **Verify:** sub-line', () => {
+    const tasks = parseTaskLines(
+      [
+        '- [ ] 1.1 Add thing',
+        '  - **Spec scenario**: Some scenario',
+        '  - **Verify**: `rtk vitest run test/thing.test.ts`',
+        '- [ ] 1.2 Next task',
+        '  - **Verify**: `rtk pnpm run build`',
+        '',
+      ].join('\n')
+    );
+
+    expect(tasks[0].verifyCommand).toBe('rtk vitest run test/thing.test.ts');
+    expect(tasks[1].verifyCommand).toBe('rtk pnpm run build');
+    expect(tasks[0].done).toBe(false);
+  });
+
+  it('leaves verifyCommand undefined for tasks without a **Verify:** field', () => {
+    const tasks = parseTaskLines('- [ ] 1.1 Plain task\n- [x] 1.2 Done task\n');
+    expect(tasks[0].verifyCommand).toBeUndefined();
+    expect(tasks[1].verifyCommand).toBeUndefined();
+  });
+
   it('keeps a checkbox with no description, which progress has always counted', () => {
     expect(parseTaskLines('- [ ]\n- [x]   \n')).toEqual([
       { done: false, description: '' },
