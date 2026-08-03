@@ -1,9 +1,7 @@
 ## Purpose
 
 Security scanning runs natively inside the Warpweave pipeline without external tools, checking only the code changed by a task and reporting findings by severity so the user sees security as part of the automated flow, not a manual chore.
-
 ## Requirements
-
 ### Requirement: Native security scan runs without external tools
 The system SHALL run a security scan over the code changed by a task without requiring semgrep, Docker, or any other external security tool to be installed.
 
@@ -53,7 +51,12 @@ When the scan is not certain a pattern is a vulnerability, it SHALL prefer a low
 - **THEN** the scan SHALL prefer INFO or WARNING over ERROR and include the reasoning
 
 ### Requirement: Installed security-scan skill reflects the native contract
-The installed `security-scan` skill the user runs SHALL reflect the native contract: running it must not require semgrep or Docker.
+The installed `security-scan` skill the user runs SHALL reflect the native contract: running it must not require semgrep or Docker, and the committed distribution source SHALL be verified native unconditionally.
+
+#### Scenario: Distribution source is native
+- **WHEN** the committed distribution source `skills/warpweave-security-scan/SKILL.md` is inspected
+- **THEN** it SHALL not require semgrep or Docker (no "Requires semgrep" compatibility contract, no semgrep/Docker-only instructions)
+- **AND** a parity check SHALL verify this unconditionally, even where no installed copy exists (e.g. clean clones and CI)
 
 #### Scenario: Installed copy is native
 - **WHEN** the installed skill at `.opencode/skills/warpweave-security-scan/SKILL.md` is inspected
@@ -76,3 +79,4 @@ The native security-scan skill SHALL document coverage of the same detection cat
 - **WHEN** a user reads the `security-scan` skill instructions
 - **THEN** the skill SHALL cover hardcoded secrets (API keys, tokens, passwords, credentials, private keys) and injection surfaces (SQL, shell, template, or path-traversal sinks)
 - **AND** the skill SHALL not require semgrep or Docker to run
+
