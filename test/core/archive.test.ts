@@ -1585,6 +1585,68 @@ New feature description.
       ).rejects.toThrow(`Archive '${date}-${changeName}' already exists.`);
     });
 
+    it('rejects path-traversal change names instead of moving outside the changes root', async () => {
+      // A sibling directory outside changes/ that must NOT be archived.
+      const escapeDir = path.join(tempDir, 'escape-target');
+      await fs.mkdir(escapeDir, { recursive: true });
+      const sentinel = path.join(escapeDir, 'sentinel.txt');
+      await fs.writeFile(sentinel, 'keep me');
+
+      // '..' resolves to the openspec/ dir one level above changes/. Without
+      // the lookup guard, archive would relocate that whole tree into
+      // changes/archive/.
+      await expect(
+        archiveCommand.execute('..', { yes: true })
+      ).rejects.toThrow(
+        "Invalid change name '..': Change name cannot be a relative path segment"
+      );
+
+      // The external tree must be untouched and nothing may enter the archive.
+      await expect(fs.access(sentinel)).resolves.not.toThrow();
+      const archiveDir = path.join(tempDir, 'openspec', 'changes', 'archive');
+      expect(await fs.readdir(archiveDir)).toEqual([]);
+    });
+
+    it('rejects change names containing path separators', async () => {
+      const escapeDir = path.join(tempDir, 'escape-target');
+      await fs.mkdir(escapeDir, { recursive: true });
+
+      await expect(
+        archiveCommand.execute('../../escape-target', { yes: true })
+      ).rejects.toThrow('Change name cannot contain path separators');
+
+      // The external tree must be untouched.
+      const archiveDir = path.join(tempDir, 'openspec', 'changes', 'archive');
+      expect(await fs.readdir(archiveDir)).toEqual([]);
+    });
+
+    it('archives with --skip-specs without touching main specs', async () => {
+      // A change carrying a delta spec that would otherwise be merged.
+      const changeName = 'skip-specs-feature';
+      const changeDir = path.join(tempDir, 'openspec', 'changes', changeName);
+      const deltaDir = path.join(changeDir, 'specs', 'skip-capability');
+      await fs.mkdir(deltaDir, { recursive: true });
+      await fs.writeFile(
+        path.join(changeDir, 'tasks.md'),
+        '- [x] Task 1\n- [x] Task 2'
+      );
+      await fs.writeFile(
+        path.join(deltaDir, 'spec.md'),
+        '# Skip Capability\n\n## Purpose\n\nShould never be merged.\n'
+      );
+
+      await archiveCommand.execute(changeName, { yes: true, skipSpecs: true });
+
+      // Change was archived...
+      const archiveDir = path.join(tempDir, 'openspec', 'changes', 'archive');
+      expect(await fs.readdir(archiveDir)).toHaveLength(1);
+      await expect(fs.access(changeDir)).rejects.toThrow();
+
+      // ...but the main spec was NOT created.
+      const mainSpecPath = path.join(tempDir, 'openspec', 'specs', 'skip-capability', 'spec.md');
+      await expect(fs.access(mainSpecPath)).rejects.toThrow();
+    });
+
     it('should handle changes without tasks.md', async () => {
       const changeName = 'no-tasks-feature';
       const changeDir = path.join(tempDir, 'openspec', 'changes', changeName);

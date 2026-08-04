@@ -104,6 +104,36 @@ export function validateChangeName(name: string): ValidationResult {
 }
 
 /**
+ * Guards a change name before it is joined onto the changes directory, so a
+ * lookup cannot escape the changes root or address entries that discovery
+ * excludes (hidden dirs, the reserved `archive` folder).
+ *
+ * This is a lookup-time guard (the name may pre-date the kebab-case rules and
+ * only be resolved against an existing directory); it only rejects names that
+ * would escape the changes directory or that listActiveChangeNames omits.
+ *
+ * @returns An error message, or undefined if the name is safe to look up
+ */
+export function validateChangeLookupName(changeName: string): string | undefined {
+  if (changeName === '.' || changeName === '..') {
+    return 'Change name cannot be a relative path segment';
+  }
+  if (changeName.includes('/') || changeName.includes('\\')) {
+    return 'Change name cannot contain path separators';
+  }
+  if (changeName.includes('\0')) {
+    return 'Change name cannot contain null characters';
+  }
+  if (changeName.startsWith('.')) {
+    return 'Change name cannot start with a dot';
+  }
+  if (changeName === 'archive') {
+    return "'archive' is reserved for archived changes";
+  }
+  return undefined;
+}
+
+/**
  * Creates a new change directory with metadata file.
  *
  * @param projectRoot - The root directory of the project (where `warpweave/` lives)
