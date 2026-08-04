@@ -99,7 +99,7 @@ export function isRootSelectionError(error: unknown): error is RootSelectionErro
   return error instanceof RootSelectionError;
 }
 
-function fromStoreError(error: unknown): never {
+export function fromStoreError(error: unknown): never {
   if (error instanceof StoreError) {
     throw new RootSelectionError(error.message, error.diagnostic.code, {
       ...(error.diagnostic.target ? { target: error.diagnostic.target } : {}),
@@ -107,7 +107,22 @@ function fromStoreError(error: unknown): never {
     });
   }
 
-  throw error;
+  // Non-StoreError failures (e.g. EACCES/EIO reading store metadata or a
+  // registry parse failure) must still surface as a RootSelectionError so that
+  // JSON-mode commands always emit a single JSON document instead of letting a
+  // raw error escape the agent-output contract. Reuse the errno code when one
+  // is present so the diagnostic stays machine-actionable.
+  const errno =
+    typeof error === 'object' &&
+    error !== null &&
+    'code' in error &&
+    typeof (error as { code?: unknown }).code === 'string'
+      ? (error as { code: string }).code
+      : 'store_error';
+  const message = error instanceof Error ? error.message : String(error);
+  throw new RootSelectionError(message, errno, {
+    fix: 'Run warpweave store doctor to inspect the selected store.',
+  });
 }
 
 function doctorFix(id: string): string {

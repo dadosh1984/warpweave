@@ -21,6 +21,7 @@ import {
 } from './specs-apply.js';
 import { discoverSpecFiles, hasAnyFileUnder } from '../utils/spec-discovery.js';
 import { readSkipSpecsMarker } from '../utils/change-metadata.js';
+import { validateChangeLookupName } from '../utils/change-utils.js';
 import { isNonInteractivePromptError } from '../utils/interactive.js';
 
 function isMissingPathError(error: unknown): boolean {
@@ -325,6 +326,18 @@ export class ArchiveCommand {
       changeName = selectedChange;
     }
 
+    // Guard against path traversal/escape before joining onto the changes dir.
+    // Archive is the one command that locates a change purely by directory,
+    // so without this a name like '..' or '../../x' would resolve outside the
+    // changes root and move/delete an unrelated directory tree into the archive.
+    const lookupError = validateChangeLookupName(changeName);
+    if (lookupError) {
+      throw new ArchiveBlockedError(
+        'archive_invalid_change_name',
+        `Invalid change name '${changeName}': ${lookupError}`
+      );
+    }
+
     const changeDir = path.join(changesDir, changeName);
 
     // Verify change exists
@@ -536,10 +549,22 @@ export class ArchiveCommand {
       }
     }
 
-    // Handle spec updates unless skipSpecs flag is set
+    // Handle spec updates unless skipSpecs flag is set. The rebuilt spec
+    // content is fully computed in memory (prepared) and only written to the
+    // main specs AFTER the change is moved into the archive, so a failed move
+    // (e.g. Windows EPERM/EXDEV in the copy+remove fallback) never leaves the
+    // main specs updated while the change is still reported active. These are
+    // hoisted to method scope so the write step can run after moveDirectory.
     let specsUpdated = false;
     let totals: ArchiveResult['totals'];
     const specWarnings: string[] = [];
+    let shouldUpdateSpecs = false;
+    let prepareError: unknown;
+    let prepared: Array<{
+      update: SpecUpdate;
+      rebuilt: string;
+      counts: { added: number; modified: number; removed: number; renamed: number };
+    }> = [];
     if (options.skipSpecs) {
       if (!json) {
         console.log('Skipping spec updates (--skip-specs flag provided).');
@@ -561,12 +586,6 @@ export class ArchiveCommand {
         // Build the proposed updates before asking permission to apply them.
         // buildUpdatedSpec also reports content that the merge would drop, so
         // the confirmation must come after this preview.
-        const prepared: Array<{
-          update: SpecUpdate;
-          rebuilt: string;
-          counts: { added: number; modified: number; removed: number; renamed: number };
-        }> = [];
-        let prepareError: unknown;
         try {
           for (const update of specUpdates) {
             const built = await buildUpdatedSpec(update, changeName!, { silent: true });
@@ -584,7 +603,7 @@ export class ArchiveCommand {
           }
         }
 
-        let shouldUpdateSpecs = true;
+        shouldUpdateSpecs = true;
         if (!options.yes) {
           if (json) {
             throw new ArchiveBlockedError(
@@ -653,39 +672,12 @@ export class ArchiveCommand {
             }
           }
 
-          // All validations passed; write files and display counts
-          const writeTotals = { added: 0, modified: 0, removed: 0, renamed: 0 };
-          let wroteAny = false;
-          for (const p of prepared) {
-            const { added, modified, removed, renamed } = p.counts;
-            if (added + modified + removed + renamed === 0) {
-              // Every operation was already synced: rewriting the file would
-              // only churn normalization differences into it.
-              continue;
-            }
-            await writeUpdatedSpec(p.update, p.rebuilt, p.counts, {
-              silent: json,
-              // Cross-root paths must be absolute when a store is selected.
-              ...(isStoreSelectedRoot(root) ? { displayPath: p.update.target } : {}),
-            });
-            wroteAny = true;
-            writeTotals.added += added;
-            writeTotals.modified += modified;
-            writeTotals.removed += removed;
-            writeTotals.renamed += renamed;
-          }
-          specsUpdated = wroteAny;
-          totals = writeTotals;
-          if (!json) {
-            console.log(
-              `Totals: + ${writeTotals.added}, ~ ${writeTotals.modified}, - ${writeTotals.removed}, → ${writeTotals.renamed}`
-            );
-            console.log(
-              wroteAny
-                ? 'Specs updated successfully.'
-                : 'Specs already in sync; no files changed.'
-            );
-          }
+          // All validations passed. The actual spec write is intentionally
+          // deferred until AFTER the change is moved into the archive (see the
+          // moveDirectory call below), so a failed move never leaves the main
+          // specs updated while the change is still active. `prepared` holds
+          // the fully rebuilt content in memory and does not depend on the
+          // change directory existing anymore.
         }
       }
     }
@@ -718,6 +710,46 @@ export class ArchiveCommand {
 
     // Move change to archive (uses copy+remove on EPERM/EXDEV, e.g. Windows)
     await moveDirectory(changeDir, archivePath);
+
+    // Only now write the main spec files. The change directory has been moved
+    // into the archive, so if this write fails the change is already safely
+    // archived and re-running is idempotent; and crucially a failed move above
+    // throws before any spec is touched, keeping main specs and the active
+    // change in sync (transactional archive).
+    if (shouldUpdateSpecs && prepareError === undefined) {
+      const writeTotals = { added: 0, modified: 0, removed: 0, renamed: 0 };
+      let wroteAny = false;
+      for (const p of prepared) {
+        const { added, modified, removed, renamed } = p.counts;
+        if (added + modified + removed + renamed === 0) {
+          // Every operation was already synced: rewriting the file would
+          // only churn normalization differences into it.
+          continue;
+        }
+        await writeUpdatedSpec(p.update, p.rebuilt, p.counts, {
+          silent: json,
+          // Cross-root paths must be absolute when a store is selected.
+          ...(isStoreSelectedRoot(root) ? { displayPath: p.update.target } : {}),
+        });
+        wroteAny = true;
+        writeTotals.added += added;
+        writeTotals.modified += modified;
+        writeTotals.removed += removed;
+        writeTotals.renamed += renamed;
+      }
+      specsUpdated = wroteAny;
+      totals = writeTotals;
+      if (!json) {
+        console.log(
+          `Totals: + ${writeTotals.added}, ~ ${writeTotals.modified}, - ${writeTotals.removed}, → ${writeTotals.renamed}`
+        );
+        console.log(
+          wroteAny
+            ? 'Specs updated successfully.'
+            : 'Specs already in sync; no files changed.'
+        );
+      }
+    }
 
     if (!json) {
       console.log(`Change '${changeName}' archived as '${archiveName}'.`);

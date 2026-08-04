@@ -1,5 +1,11 @@
 # warpweave Unified — Agent Instructions
 
+> This file is BOTH the workflow philosophy the shipped CLI installs for users
+> (kept in `files` on publish) AND the operating contract for agents working in
+> **this repo** (the warpweave CLI implementation). Sections 1-6 + release
+> process are the user-facing doctrine; the **"Developing warpweave itself"**
+> section below is repo-specific and changes how you actually work here.
+
 You operate as a single organism with four integrated systems.
 Every action passes through all four layers. Never skip a layer.
 
@@ -86,6 +92,42 @@ Every auto-triggered skill also has a manual override (`/ww:<command>`) for when
 - **One changeset = one logical feature.** Each released behavior change gets its own changeset, so git blame stays clean and a broken feature can be rolled back without reverting unrelated work.
 - Grouping allowed only for: multiple changes of a single logical feature, or a pure bug fix strictly required to unblock its own feature in the same release.
 - The release `release.yml` workflow consumes pending changesets via `pnpm changeset version`; splitting avoids a 1.4.0-style release where five unrelated features share one changeset.
+
+## Developing warpweave itself
+
+This repo is the **warpweave CLI implementation** (a fork of OpenSpec). The philosophy sections above are what the tool ships to users; these are the facts that change how you work *here*.
+
+### Commands
+- Install: `pnpm install` (pnpm ≥9, Node ≥22.12). `packageManager: pnpm@9.15.9`.
+- Build: `pnpm build` (runs `build.js`, which cleans `dist/` then `tsc`). **Always build after editing `src/`** — `bin/ww.js` and `bin/ww` load `dist/cli/index.js`, and focused CLI tests resolve the built bundle.
+- Verify order that mirrors CI: `pnpm lint` → `pnpm exec tsc --noEmit` → `pnpm build` → `pnpm test`.
+- Full suite: `pnpm test` (vitest). Focused file: `pnpm exec vitest run test/<path>.test.ts`. Focused case: `pnpm exec vitest run <file> -t "case name"`. Watch: `pnpm test:watch`.
+- `vitest.setup.ts` runs `ensureCliBuilt()` (globalSetup) and `terminateActiveCliChildren()` (teardown).
+- Type check separately: `pnpm exec tsc --noEmit` (the `build` script compiles but CI runs `tsc --noEmit` too).
+
+### Gotchas an agent will trip on
+- **`@inquirer/*` must be imported with dynamic `import()`**, never a static import, or ESLint fails (`no-restricted-imports`, #367) — static inquirer imports can hang Node when stdin is piped. The exception is `src/core/init.ts`, which is dynamically imported at CLI start. Use `const { select } = await import('@inquirer/prompts')`.
+- **Editing a workflow template** (`src/core/templates/workflows/*.ts`) breaks two parity suites. After changing a template, run:
+  - `pnpm run generate:skills` — regenerates the committed `skills/**/SKILL.md` tree (checked by `test/core/templates/skillssh-parity.test.ts` and `skill-templates-parity.test.ts`), and
+  - `pnpm run regen:parity-hashes` — updates the pinned template hashes in `test/core/templates/skill-templates-parity.test.ts` (`EXPECTED_GENERATED_SKILL_CONTENT_HASHES`, `EXPECTED_FUNCTION_HASHES`).
+  - You can also run `vitest` and read the diff to copy the new hash values directly.
+- **Version is synced in three places**: `package.json`, `CHANGELOG.md`, and `config/pipeline.yaml` (`version:`). `test/core/config-parity.test.ts` asserts pipeline.version === package.json version; the doctor version-sync check does too. Bump all three together.
+- **Windows is a first-class CI target** (matrix: linux-bash, macos-bash, windows-pwsh). Never hardcode path separators; build expected paths with `path.join(...)`/`FileSystemUtils.joinPath(...)`. For path identity assertions, canonicalize with `FileSystemUtils.canonicalizeExistingPath()` (project) / `fs.realpathSync.native()` (tests).
+- `.opencode/` and `.unified/` are gitignored (local session install artifacts) — never commit them. Committed skills live under `skills/`.
+- `src/` is TS compiled to ESM (`type: "module"`); source imports use `.js` extensions for relative modules (NodeNext).
+
+### Architecture
+- Entrypoints: `src/index.ts` → `src/cli/index.ts` (Commander program; `register*Command` per command) and `src/core/index.ts`. Bin shim `bin/ww.js` → `dist/cli/index.js`.
+- `src/commands/` = CLI wiring; `src/core/` = logic (root-selection, planning-home, archive, drift-check, verify, skill-generation, templates); `src/utils/` = shared helpers (`task-progress`, `spec-discovery`); `src/core/templates/workflows/*.ts` = the agent-facing skill/instruction strings.
+- **Root selection** precedence: `--store <id>` → nearest warpweave root (planning shape / declared pointer) → global default store → implicit/scaffold. Machine-readable JSON contract and EVERY command's `--json` shape + exit codes are documented in **`docs/agent-contract.md`** — read it before touching `--json` behavior, and keep it in sync when you change output shapes.
+- Changes lifecycle is spec-driven: `warpweave/changes/<name>/{proposal,specs,design,tasks}.md`, archived under `warpweave/changes/archive/`. Main specs live in `warpweave/specs/<capability>/spec.md`; `pnpm exec warpweave archive` applies delta→main and moves the change (existing docs `docs/ww.md`, `docs/agent-contract.md` cover the contract details).
+
+### Tests
+- `test/helpers/run-cli.ts` boots the compiled CLI in-process; gitignored temp dirs from `test/helpers/temp-cleanup.ts`. Existing test-specific guidance is in `test/AGENTS.md` (cross-platform paths, canonicalization) — follow it when touching path logic.
+- The suite can be slow (many spawned CLI subprocesses, forks pool, workers capped); don't run the whole suite to check one change — run the focused file first.
+
+### Doctrinal divorce
+- The four layers, ladder, and RTK in the sections above are the **product doctrine** this tool installs for end users. Follow them when building features that praise the philosophy, but they are process guidance, not a substitute for the repo-specific build/test facts above.
 
 ## Context Hygiene
 

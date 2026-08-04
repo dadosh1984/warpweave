@@ -12,6 +12,7 @@ import { getSchemaDir, listSchemas } from '../../core/artifact-graph/index.js';
 import { resolvePlanningDirName, DEFAULT_SCHEMA } from '../../core/planning-home.js';
 import type { ReferenceIndexEntry } from '../../core/references.js';
 import { isRootSelectionError } from '../../core/root-selection.js';
+import { validateChangeLookupName } from '../../utils/change-utils.js';
 
 // -----------------------------------------------------------------------------
 // Types
@@ -152,25 +153,6 @@ export async function getAvailableChanges(
  *
  * @returns An error message, or undefined if the name is safe to look up
  */
-function validateChangeLookupName(changeName: string): string | undefined {
-  if (changeName === '.' || changeName === '..') {
-    return 'Change name cannot be a relative path segment';
-  }
-  if (changeName.includes('/') || changeName.includes('\\')) {
-    return 'Change name cannot contain path separators';
-  }
-  if (changeName.includes('\0')) {
-    return 'Change name cannot contain null characters';
-  }
-  if (changeName.startsWith('.')) {
-    return 'Change name cannot start with a dot';
-  }
-  if (changeName === 'archive') {
-    return "'archive' is reserved for archived changes";
-  }
-  return undefined;
-}
-
 /**
  * Validates that a change exists and returns available changes if not.
  * Checks directory existence directly to support scaffolded changes (without proposal.md).

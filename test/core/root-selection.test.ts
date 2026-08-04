@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   resolveWarpweaveRoot,
   RootSelectionError,
+  fromStoreError,
 } from '../../src/core/root-selection.js';
 import {
   writeStoreMetadataState,
@@ -605,6 +606,38 @@ describe('resolveWarpweaveRoot', () => {
         resolveWarpweaveRoot({ startPath: scratch, globalDataDir }),
         'no_root_with_registered_stores'
       );
+    });
+  });
+
+  describe('fromStoreError', () => {
+    it('wraps a non-StoreError (e.g. EACCES/EIO reading store metadata) into a RootSelectionError', () => {
+      expect(() => fromStoreError(new Error('EACCES: permission denied')))
+        .toThrow(RootSelectionError);
+      expect(() => fromStoreError(Object.assign(new Error('io failure'), { code: 'EIO' })))
+        .toThrow(RootSelectionError);
+    });
+
+    it('preserves the errno code on the diagnostic for machine consumers', () => {
+      let caught: unknown;
+      try {
+        fromStoreError(Object.assign(new Error('io failure'), { code: 'EIO' }));
+      } catch (error) {
+        caught = error;
+      }
+      expect(caught).toBeInstanceOf(RootSelectionError);
+      expect((caught as RootSelectionError).diagnostic.code).toBe('EIO');
+      expect((caught as RootSelectionError).diagnostic.fix).toContain('store doctor');
+    });
+
+    it('uses a generic store_error code when the underlying error carries no errno', () => {
+      let caught: unknown;
+      try {
+        fromStoreError('a plain string failure');
+      } catch (error) {
+        caught = error;
+      }
+      expect(caught).toBeInstanceOf(RootSelectionError);
+      expect((caught as RootSelectionError).diagnostic.code).toBe('store_error');
     });
   });
 
