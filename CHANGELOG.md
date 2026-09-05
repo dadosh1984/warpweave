@@ -1,5 +1,19 @@
 # warpweave
 
+## 1.5.1
+
+### Patch Changes
+
+- Fix CLI exit codes and error-path reliability: `warpweave change validate --json` now exits 1 on an invalid change (it previously exited 0 and let CI accept broken changes); the CLI boots with `parseAsync` so an escaping async rejection prints a clean error instead of an unhandled stack dump; failed commands no longer skip the telemetry flush, and the first-run telemetry notice is printed to stderr so it cannot corrupt raw/JSON stdout output.
+- Accept `openers.*` keys in `warpweave config set` (they were rejected as unknown although docs/cli.md documents them), and stop the `minimal` unified profile preset from persisting a duplicate `guardrails` entry into the saved workflow list.
+- Scope `warpweave doctor` project self-checks to warpweave development checkouts: the spec↔template, installed-skill, and version-sync bridges only report findings where the distribution source actually exists, instead of flagging every user project on every run; a malformed `package.json` in the checked root is now reported as a finding rather than aborting the whole command, and healthy results no longer carry a stray remediation hint in the JSON payload.
+- Speed up drift-check and verify on large repos: the project source is now walked once per run instead of once per spec scenario, turning an O(scenarios × files) disk cost into O(files).
+- Fix interactive-mode detection: `CI=false`/`CI=0` no longer disable prompts locally (off-values are honored, matching update-check behavior), and the documented `WARPWEAVE_INTERACTIVE=0` environment variable now works alongside the retired `OPEN_SPEC_INTERACTIVE=0`.
+- Make marker-based file updates safe when a file's state cannot be determined: `updateFileWithMarkers` now decides "exists" by reading and treats unexpected stat/read errors as an error instead of rewriting the file as markers-only and discarding its contents.
+- Harden project config writes behind a shared read-modify-write helper: writers now update the config file that actually exists (a `config.yml` project no longer gets a shadowing second `config.yaml` that silently reverts it to the default schema), the planning directory is created when missing, an unparseable config is reported instead of being silently overwritten, and `warpweave schema init --default` now writes the `schema:` key that the project actually reads (the previously written `defaultSchema:` key was never parsed, so the default never changed).
+- Stop spinners on failure paths: a failed legacy cleanup or bulk-validation discovery now fails/stops the spinner before propagating the error instead of leaving it spinning on the terminal.
+- Deduplicate artifact removal and legacy-cleanup helpers shared by `init` and `update` into `core/artifact-cleanup.ts`, and extract the identical change-selection prompt of `task check` and `drift-check` into `commands/workflow/shared.ts`; no behavior change beyond the spinner/error-path fixes above.
+
 ## 1.5.0
 
 ### Minor Changes
