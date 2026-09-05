@@ -1,6 +1,6 @@
-import { existsSync, readFileSync, statSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'fs';
 import path from 'path';
-import { parse as parseYaml } from 'yaml';
+import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 import { z } from 'zod';
 import { resolvePlanningDirName } from './planning-home.js';
 
@@ -565,6 +565,41 @@ export function resolveConfigFilePath(projectRoot: string): string | null {
   }
   const ymlPath = path.join(projectRoot, planningDir, 'config.yml');
   return existsSync(ymlPath) ? ymlPath : null;
+}
+
+/**
+ * Merge `patch` into the project config file, preserving every unrelated key.
+ *
+ * Writers must go through this helper instead of hand-rolling the
+ * read-modify-write: it updates the file that actually exists (config.yml
+ * included — writing a fresh config.yaml next to it would split-brain the
+ * project back onto defaults), creates the planning directory when missing,
+ * and refuses to proceed on an unparseable config so a broken file is never
+ * silently replaced with just the patched key.
+ */
+export function updateProjectConfig(projectRoot: string, patch: Record<string, unknown>): void {
+  const configPath =
+    resolveConfigFilePath(projectRoot) ??
+    path.join(projectRoot, resolvePlanningDirName(projectRoot), 'config.yaml');
+
+  let config: Record<string, unknown> = {};
+  if (existsSync(configPath)) {
+    const parsed: unknown = parseYaml(readFileSync(configPath, 'utf-8'));
+    if (parsed === null || parsed === undefined) {
+      config = {};
+    } else if (typeof parsed === 'object' && !Array.isArray(parsed)) {
+      config = parsed as Record<string, unknown>;
+    } else {
+      throw new Error(
+        `Project config at ${configPath} is not a YAML object; fix or remove it before updating.`
+      );
+    }
+  }
+
+  Object.assign(config, patch);
+
+  mkdirSync(path.dirname(configPath), { recursive: true });
+  writeFileSync(configPath, stringifyYaml(config), 'utf-8');
 }
 
 /** Human rendering of a malformed pointer reason, shared by every surface. */

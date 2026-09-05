@@ -125,12 +125,19 @@ describe('config content parity', () => {
     }
   });
 
-  it('derives init skill mapping from the single source in profile-sync-drift', () => {
+  it('derives artifact cleanup skill mapping from the single source in profile-sync-drift', () => {
+    // Skill removal now lives in the shared artifact-cleanup module used by
+    // both init and update; the mapping must still come only from
+    // profile-sync-drift, never a local copy.
+    const cleanupSrc = readFileSync(join(repoRoot, 'src/core/artifact-cleanup.ts'), 'utf8');
     const initSrc = readFileSync(join(repoRoot, 'src/core/init.ts'), 'utf8');
+    const updateSrc = readFileSync(join(repoRoot, 'src/core/update.ts'), 'utf8');
     const profileSrc = readFileSync(join(repoRoot, 'src/core/profile-sync-drift.ts'), 'utf8');
     expect(profileSrc).toContain('export const WORKFLOW_TO_SKILL_DIR');
-    expect(initSrc).toContain("import { WORKFLOW_TO_SKILL_DIR } from './profile-sync-drift.js'");
-    expect(initSrc).not.toMatch(/const WORKFLOW_TO_SKILL_DIR\s*:/);
+    expect(cleanupSrc).toContain("import { WORKFLOW_TO_SKILL_DIR } from './profile-sync-drift.js'");
+    for (const src of [initSrc, updateSrc, cleanupSrc]) {
+      expect(src).not.toMatch(/const WORKFLOW_TO_SKILL_DIR\s*:/);
+    }
   });
 
   it('runs tests with vitest, not jest', () => {

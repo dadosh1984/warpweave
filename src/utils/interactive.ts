@@ -19,11 +19,24 @@ export function resolveNoInteractive(value?: boolean | InteractiveOptions): bool
   return value?.noInteractive === true || value?.interactive === false;
 }
 
+/**
+ * `CI` set to anything meaningful means CI, mirroring version-check.ts: providers
+ * use "true", "1", "yes"; an explicit off-value ("false", "0", "no", "off", "")
+ * counts as "not CI" so a local `CI=false` keeps prompts working.
+ */
+const CI_DISABLED_VALUES = new Set(['', 'false', '0', 'no', 'off']);
+
+function isCiEnvironment(): boolean {
+  const value = process.env.CI;
+  return value !== undefined && !CI_DISABLED_VALUES.has(value.trim().toLowerCase());
+}
+
 export function isInteractive(value?: boolean | InteractiveOptions): boolean {
   if (resolveNoInteractive(value)) return false;
   if (process.env.OPEN_SPEC_INTERACTIVE === '0') return false;
+  if (process.env.WARPWEAVE_INTERACTIVE === '0') return false;
   // Respect the standard CI environment variable (set by GitHub Actions, GitLab CI, Travis, etc.)
-  if ('CI' in process.env) return false;
+  if (isCiEnvironment()) return false;
   return !!process.stdin.isTTY;
 }
 

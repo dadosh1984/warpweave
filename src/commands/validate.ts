@@ -264,10 +264,17 @@ export class ValidateCommand {
 
   private async runBulkValidation(root: ResolvedWarpweaveRoot, scope: { changes: boolean; specs: boolean }, opts: { strict: boolean; json: boolean; concurrency?: string; noInteractive?: boolean }): Promise<void> {
     const spinner = !opts.json && !opts.noInteractive ? ora('Validating...').start() : undefined;
-    const [changeIds, specIds] = await Promise.all([
-      scope.changes ? this.listChangeIds(root) : Promise.resolve<string[]>([]),
-      scope.specs ? getSpecIds(root.path) : Promise.resolve<string[]>([]),
-    ]);
+    let changeIds: string[];
+    let specIds: string[];
+    try {
+      [changeIds, specIds] = await Promise.all([
+        scope.changes ? this.listChangeIds(root) : Promise.resolve<string[]>([]),
+        scope.specs ? getSpecIds(root.path) : Promise.resolve<string[]>([]),
+      ]);
+    } catch (error) {
+      spinner?.stop();
+      throw error;
+    }
 
     const DEFAULT_CONCURRENCY = 6;
     const maxSuggestions = 5; // used by nearestMatches

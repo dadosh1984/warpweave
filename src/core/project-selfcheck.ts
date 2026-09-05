@@ -9,7 +9,6 @@
 import { promises as fs } from 'node:fs';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
-import { createRequire } from 'node:module';
 
 import { parse as parseYaml } from 'yaml';
 
@@ -80,14 +79,13 @@ export async function checkInstalledSkillDrift(projectRoot: string): Promise<Sel
 
   const installed = path.join(projectRoot, '.opencode', 'skills', 'warpweave-security-scan', 'SKILL.md');
   if (!existsSync(installed)) {
-    return {
-      ok: sourceNative,
-      message: sourceNative
-        ? 'distribution source native; no installed copy present'
-        : 'distribution source is NOT native',
-      ...(sourceNative ? {} : { fix: 'Remove semgrep/Docker from the distribution source.' }),
-      ...(sourceNative ? { fix: 'Note: installed copy absent (clean clone) — this is expected.' } : {}),
-    };
+    return sourceNative
+      ? { ok: true, message: 'distribution source native; no installed copy present' }
+      : {
+          ok: false,
+          message: 'distribution source is NOT native',
+          fix: 'Remove semgrep/Docker from the distribution source.',
+        };
   }
 
   const installedContent = await readOptional(installed);
@@ -109,19 +107,28 @@ export async function checkVersionSync(projectRoot: string): Promise<SelfCheckRe
   if (pipelineContent === null || packageContent === null) {
     return { ok: false, message: 'config/pipeline.yaml or package.json missing', fix: 'Ensure both config files exist.' };
   }
-  const require = createRequire(import.meta.url);
-  const pkg = JSON.parse(packageContent) as { version?: string };
-  const pipeline = parseYaml(pipelineContent) as { pipeline?: { version?: string } };
-  const a = pipeline.pipeline?.version;
-  const b = pkg.version;
-  if (a === b) {
-    return { ok: true, message: `pipeline.yaml version matches package.json (${a})` };
+  // A malformed file in the checked root is a finding, not a crash: doctor
+  // aggregates these results, so one throw would abort the whole command.
+  try {
+    const pkg = JSON.parse(packageContent) as { version?: string };
+    const pipeline = parseYaml(pipelineContent) as { pipeline?: { version?: string } };
+    const a = pipeline.pipeline?.version;
+    const b = pkg.version;
+    if (a === b) {
+      return { ok: true, message: `pipeline.yaml version matches package.json (${a})` };
+    }
+    return {
+      ok: false,
+      message: `pipeline.yaml version (${a}) != package.json version (${b})`,
+      fix: 'Bump config/pipeline.yaml version to match package.json.',
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: `could not parse package.json or config/pipeline.yaml: ${(error as Error).message}`,
+      fix: 'Fix the malformed config file, then re-run doctor.',
+    };
   }
-  return {
-    ok: false,
-    message: `pipeline.yaml version (${a}) != package.json version (${b})`,
-    fix: 'Bump config/pipeline.yaml version to match package.json.',
-  };
 }
 
 export interface ProjectSelfCheck {
@@ -130,8 +137,25 @@ export interface ProjectSelfCheck {
   versionSync: SelfCheckResult;
 }
 
+/**
+ * The three bridges compare the checked-out root against the warpweave
+ * distribution itself (templates under src/, skills/, config/pipeline.yaml).
+ * They are only meaningful inside a warpweave development checkout; anywhere
+ * else they would report the same "missing file" findings on every run.
+ */
+function isWarpweaveDevCheckout(projectRoot: string): boolean {
+  return existsSync(path.join(projectRoot, 'src', 'core', 'templates', 'workflows'));
+}
+
 /** Run all deterministic self-check bridges for a project root. */
 export async function runProjectSelfCheck(projectRoot: string): Promise<ProjectSelfCheck> {
+  if (!isWarpweaveDevCheckout(projectRoot)) {
+    const skipped: SelfCheckResult = {
+      ok: true,
+      message: 'skipped: not a warpweave development checkout',
+    };
+    return { specTemplateParity: skipped, installedSkillDrift: skipped, versionSync: skipped };
+  }
   const [specTemplateParity, installedSkillDrift, versionSync] = await Promise.all([
     checkSpecTemplateParity(projectRoot),
     checkInstalledSkillDrift(projectRoot),

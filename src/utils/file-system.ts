@@ -243,11 +243,22 @@ export class FileSystemUtils {
     startMarker: string,
     endMarker: string
   ): Promise<void> {
-    let existingContent = '';
-    
-    if (await this.fileExists(filePath)) {
+    // Decide "exists" by reading, not by stat/Access: an existing file we
+    // cannot stat (EACCES on a parent, ELOOP, ...) must not fall into the
+    // create branch, which would rewrite it as markers-only and discard the
+    // original body.
+    let existingContent: string | null;
+    try {
       existingContent = await this.readFile(filePath);
-      
+    } catch (error: any) {
+      if (error.code === 'ENOENT') {
+        existingContent = null;
+      } else {
+        throw error;
+      }
+    }
+
+    if (existingContent !== null) {
       const startIndex = findMarkerIndex(existingContent, startMarker);
       const endIndex = startIndex !== -1
         ? findMarkerIndex(existingContent, endMarker, startIndex + startMarker.length)
@@ -271,7 +282,7 @@ export class FileSystemUtils {
     } else {
       existingContent = startMarker + '\n' + content + '\n' + endMarker;
     }
-    
+
     await this.writeFile(filePath, existingContent);
   }
 

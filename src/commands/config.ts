@@ -26,8 +26,7 @@ import { loadUnifiedConfig, formatUnifiedConfigSummary } from '../core/unified-c
 import { hasProjectConfigDrift } from '../core/profile-sync-drift.js';
 import { UpdateCommand } from '../core/update.js';
 import { asErrorMessage, isPromptCancellationError } from './shared-output.js';
-import { readProjectConfig } from '../core/project-config.js';
-import { resolvePlanningDirName } from '../core/planning-home.js';
+import { readProjectConfig, updateProjectConfig } from '../core/project-config.js';
 import { resolveSkills, clearCache, getCacheDir, type TesslRegistryConfig, DEFAULT_REGISTRY_ENDPOINT } from '../core/tessl-registry/index.js';
 
 type ProfileAction = 'both' | 'delivery' | 'workflows' | 'keep';
@@ -735,17 +734,7 @@ export function registerConfigCommand(program: Command): void {
         newTesslConfig.auto_detect = options.autoDetect;
       }
 
-      const configPath = path.join(projectRoot, resolvePlanningDirName(projectRoot), 'config.yaml');
-      let raw: Record<string, unknown> = {};
-      if (fs.existsSync(configPath)) {
-        try {
-          const { parse } = await import('yaml');
-          raw = parse(fs.readFileSync(configPath, 'utf-8')) as Record<string, unknown> || {};
-        } catch { /* use empty */ }
-      }
-      raw.tessl_registry = newTesslConfig;
-      const { stringify } = await import('yaml');
-      fs.writeFileSync(configPath, stringify(raw), 'utf-8');
+      updateProjectConfig(projectRoot, { tessl_registry: newTesslConfig });
       console.log('Tessl Registry configuration updated.');
     });
 }

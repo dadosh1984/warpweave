@@ -15,6 +15,7 @@ import { promises as fs } from 'node:fs';
 import {
   extractSpecScenarios,
   classifyScenario,
+  collectSourceTerms,
   type DriftScenario,
   type DriftFinding,
 } from './drift-check.js';
@@ -44,8 +45,10 @@ export async function verifyChangeSpecs(
 
   const scenarios = await extractSpecScenarios(specFiles);
   const findings: DriftFinding[] = [];
+  // One project walk for the whole batch, not one per scenario.
+  const sourceTerms = await collectSourceTerms(projectRoot);
   for (const scenario of scenarios) {
-    findings.push(await classifyScenario(scenario, projectRoot));
+    findings.push(await classifyScenario(scenario, projectRoot, sourceTerms));
   }
 
   const missingCount = findings.filter((f) => f.status === 'missing').length;

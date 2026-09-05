@@ -317,7 +317,7 @@ artifacts:
       expect(fs.existsSync(path.join(schemaDir, 'templates', 'tasks.md'))).toBe(true);
     });
 
-    it('should honor --default by writing defaultSchema to config.yaml', async () => {
+    it('should honor --default by writing the schema key to config.yaml', async () => {
       await runSchemaCommand([
         'init',
         'default-schema',
@@ -330,10 +330,12 @@ artifacts:
       expect(process.exitCode).toBeUndefined();
       const configPath = path.join(tempDir, 'openspec', 'config.yaml');
       expect(fs.existsSync(configPath)).toBe(true);
-      expect(fs.readFileSync(configPath, 'utf-8')).toContain('defaultSchema: default-schema');
+      // readProjectConfig (and schema resolution) read `schema:` — a
+      // `defaultSchema:` key nothing parses would silently no-op.
+      expect(fs.readFileSync(configPath, 'utf-8')).toContain('schema: default-schema');
     });
 
-    it('should honor --no-default by not writing defaultSchema to config.yaml', async () => {
+    it('should honor --no-default by not writing a config.yaml', async () => {
       await runSchemaCommand([
         'init',
         'no-default-schema',

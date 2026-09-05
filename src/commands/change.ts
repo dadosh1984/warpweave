@@ -264,24 +264,23 @@ export class ChangeCommand {
       mainSpecsDir: path.join(path.dirname(changesPath), 'specs'),
     });
     
+    // Exit code mirrors the verb-first `warpweave validate` command: scripts
+    // and CI consume it in both output modes, so an invalid change must never
+    // exit 0 just because --json was passed.
+    process.exitCode = report.valid ? 0 : 1;
     if (options?.json) {
       console.log(JSON.stringify(report, null, 2));
+    } else if (!report.valid) {
+      console.error(`Change "${changeName}" has issues`);
+      report.issues.forEach(issue => {
+        const label = issue.level === 'ERROR' ? 'ERROR' : 'WARNING';
+        const prefix = issue.level === 'ERROR' ? '✗' : '⚠';
+        console.error(`${prefix} [${label}] ${issue.path}: ${issue.message}`);
+      });
+      // Next steps footer to guide fixing issues
+      this.printNextSteps(report.issues);
     } else {
-      if (report.valid) {
-        console.log(`Change "${changeName}" is valid`);
-      } else {
-        console.error(`Change "${changeName}" has issues`);
-        report.issues.forEach(issue => {
-          const label = issue.level === 'ERROR' ? 'ERROR' : 'WARNING';
-          const prefix = issue.level === 'ERROR' ? '✗' : '⚠';
-          console.error(`${prefix} [${label}] ${issue.path}: ${issue.message}`);
-        });
-        // Next steps footer to guide fixing issues
-        this.printNextSteps(report.issues);
-        if (!options?.json) {
-          process.exitCode = 1;
-        }
-      }
+      console.log(`Change "${changeName}" is valid`);
     }
   }
 

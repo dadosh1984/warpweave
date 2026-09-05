@@ -149,7 +149,8 @@ function scenarioTerms(scenario: DriftScenario): string[] {
   return [...terms];
 }
 
-async function collectSourceTerms(projectRoot: string): Promise<Set<string>> {
+/** Exported for batch classifiers: the term set is computed once per run. */
+export async function collectSourceTerms(projectRoot: string): Promise<Set<string>> {
   const terms = new Set<string>();
   const stack = [projectRoot];
 
@@ -188,18 +189,25 @@ async function collectSourceTerms(projectRoot: string): Promise<Set<string>> {
 /**
  * Classifies one scenario by scanning the project source for its distinctive
  * terms. All found -> compliant, none found -> missing, some -> drifted.
+ *
+ * `sourceTerms` is the precomputed term set for the project (see
+ * `collectSourceTerms`); when omitted it is collected for this one call. Batch
+ * classifiers should pass it — the term set is scenario-independent, and
+ * re-walking the project tree per scenario turns N scenarios into N full
+ * disk reads.
  */
 export async function classifyScenario(
   scenario: DriftScenario,
-  projectRoot: string
+  projectRoot: string,
+  sourceTerms?: Set<string>
 ): Promise<DriftFinding> {
   const terms = scenarioTerms(scenario);
   if (terms.length === 0) {
     return { ...scenario, status: 'compliant', actual: null };
   }
 
-  const sourceTerms = await collectSourceTerms(projectRoot);
-  const found = terms.filter((term) => sourceTerms.has(term));
+  const source = sourceTerms ?? (await collectSourceTerms(projectRoot));
+  const found = terms.filter((term) => source.has(term));
 
   const status: DriftStatus =
     found.length === terms.length

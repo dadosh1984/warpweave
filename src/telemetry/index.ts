@@ -175,8 +175,10 @@ export async function maybeShowTelemetryNotice(): Promise<void> {
       return;
     }
 
-    // Display notice
-    console.log(
+    // Display notice. stderr, not stdout: stdout is the command's output
+    // channel (raw passthrough and `--json` consumers parse it verbatim), so
+    // a first-run notice printed there corrupts machine-readable output.
+    console.error(
       'Note: Warpweave collects anonymous usage stats. Opt out: WARPWEAVE_TELEMETRY=0'
     );
 
