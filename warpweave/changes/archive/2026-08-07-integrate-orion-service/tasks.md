@@ -1,0 +1,22 @@
+# Tasks for Orion Integration
+
+- [ ] **Create config file**: add `orion.json` template with `endpoint` and `apiKey` fields. Include runtime validation and helpful error messages.
+- [ ] **Implement client**: `src/orion/client.ts`
+  - Read config synchronously.
+  - Export `orionRequest({prompt})` that POSTs to `${endpoint}/v1/chat/completions` with JSON `{prompt}` and `Authorization: Bearer <apiKey>` header.
+  - Return the `{answer}` field from the JSON response.
+  - Throw descriptive errors on missing config, JSON parse failure, or non‑2xx responses.
+- [ ] **Add CLI command**: `src/cli/orion.ts`
+  - Register `orion:ask <prompt>` with commander.
+  - Call `orionRequest({prompt})` and `console.log(answer)`.
+  - Catch errors, log to `stderr`, exit code 1.
+- [ ] **Wire command**: import and register the new command in `src/cli/index.ts`.
+- [ ] **Write unit tests** (`test/orion/client.test.ts`)
+  - Mock `global.fetch`.
+  - Test happy path, missing config, malformed config, server error.
+- [ ] **Write CLI integration test** (`test/cli/orion.test.ts`)
+  - Use `runCli` helper to execute `ww orion:ask "test"`.
+  - Spy on client to avoid network.
+  - Verify stdout contains answer.
+- [ ] **Update README**: add section with config example and usage command.
+- [ ] **Run guardrails**: drift‑check, security‑scan, verify after each task.
