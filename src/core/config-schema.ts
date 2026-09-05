@@ -41,7 +41,7 @@ export const DEFAULT_CONFIG: GlobalConfigType = {
   delivery: 'both',
 };
 
-const KNOWN_TOP_LEVEL_KEYS = new Set([...Object.keys(DEFAULT_CONFIG), 'workflows', 'defaultStore']);
+const KNOWN_TOP_LEVEL_KEYS = new Set([...Object.keys(DEFAULT_CONFIG), 'workflows', 'defaultStore', 'openers']);
 
 /**
  * Key segments that would reach the prototype chain instead of the config object.
@@ -86,6 +86,13 @@ export function validateConfigKeyPath(path: string): { valid: boolean; reason?: 
     if (rawKeys.length > 2) {
       return { valid: false, reason: 'featureFlags values are booleans and do not support nested keys' };
     }
+    return { valid: true };
+  }
+
+  if (rootKey === 'openers') {
+    // Opener rows (see docs/cli.md) are keyed by tool id with free-form
+    // fields; core/openers.ts validates them on use, so any nesting depth
+    // under `openers` is acceptable here.
     return { valid: true };
   }
 

@@ -12,7 +12,7 @@ import * as fs from 'fs';
 import { createRequire } from 'module';
 import { fileURLToPath } from 'url';
 import { FileSystemUtils } from '../utils/file-system.js';
-import { classifyWarpweaveDir, storePointerProblem } from './project-config.js';
+import { classifyWarpweaveDir, storePointerProblem, updateProjectConfig } from './project-config.js';
 import { findRepoPlanningRootSync, resolvePlanningDirName, DEFAULT_SCHEMA } from './planning-home.js';
 import { getSkillReferenceTransformer, getTransformerForTool } from '../utils/command-references.js';
 import {
@@ -30,8 +30,6 @@ import {
 } from './command-generation/index.js';
 import {
   detectLegacyArtifacts,
-  cleanupLegacyArtifacts,
-  formatCleanupSummary,
   formatDeferredGlobalPromptSummary,
   formatDetectionSummary,
   getLegacyGlobalPromptMatches,
@@ -51,7 +49,7 @@ import {
 } from './shared/index.js';
 import { getGlobalConfig, type Delivery, type Profile } from './global-config.js';
 import { getProfileWorkflows, CORE_WORKFLOWS, ALL_WORKFLOWS } from './profiles.js';
-import { WORKFLOW_TO_SKILL_DIR } from './profile-sync-drift.js';
+import { performLegacyCleanup, removeWorkflowCommandFiles, removeWorkflowSkillDirs } from './artifact-cleanup.js';
 import { getAvailableTools } from './available-tools.js';
 import { migrateIfNeeded, migrateLegacyToolDirs, describeLegacyMigration, keptInPlaceNotice, hasMovableContent, scanInstalledWorkflows as scanInstalledWorkflowsShared } from './migration.js';
 import {
@@ -347,7 +345,7 @@ export class InitCommand {
       return;
     }
 
-    await this.performLegacyCleanup(projectPath, immediateDetection);
+    await performLegacyCleanup(projectPath, immediateDetection);
   }
 
   /**
@@ -363,7 +361,7 @@ export class InitCommand {
       .filter((prompt) => prompt.workflowIds.every((workflowId) => availableCodexWorkflows.has(workflowId)));
 
     if (removableMatches.length > 0) {
-      await this.performLegacyCleanup(
+      await performLegacyCleanup(
         projectPath,
         pickGlobalLegacyPromptFiles(
           deferredCleanup.detection,
@@ -395,22 +393,6 @@ export class InitCommand {
     }
 
     return new Set(scanInstalledWorkflowsShared(projectPath, [tool]));
-  }
-
-  private async performLegacyCleanup(projectPath: string, detection: LegacyDetectionResult): Promise<void> {
-    const spinner = ora('Cleaning up legacy files...').start();
-
-    const result = await cleanupLegacyArtifacts(projectPath, detection);
-
-    spinner.succeed('Legacy files cleaned up');
-
-    const summary = formatCleanupSummary(result);
-    if (summary) {
-      console.log();
-      console.log(summary);
-    }
-
-    console.log();
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -767,7 +749,7 @@ export class InitCommand {
         }
         if (shouldRemoveSkillsForTool(tool.value, delivery)) {
           const skillsDir = path.join(projectPath, tool.skillsDir, 'skills');
-          removedSkillCount += await this.removeSkillDirs(skillsDir);
+          removedSkillCount += await removeWorkflowSkillDirs(skillsDir);
         }
 
         // Generate commands if delivery includes commands
@@ -789,7 +771,7 @@ export class InitCommand {
           }
         }
         if (shouldReconcileCommandFilesForTool(tool.value, delivery)) {
-          removedCommandCount += await this.removeCommandFiles(projectPath, tool.value);
+          removedCommandCount += await removeWorkflowCommandFiles(projectPath, tool.value);
         }
 
         spinner.succeed(`Setup complete for ${tool.name}`);
@@ -1055,49 +1037,6 @@ export class InitCommand {
     }).start();
   }
 
-  private async removeSkillDirs(skillsDir: string): Promise<number> {
-    let removed = 0;
-
-    for (const workflow of ALL_WORKFLOWS) {
-      const dirName = WORKFLOW_TO_SKILL_DIR[workflow];
-      if (!dirName) continue;
-
-      const skillDir = path.join(skillsDir, dirName);
-      try {
-        if (fs.existsSync(skillDir)) {
-          await fs.promises.rm(skillDir, { recursive: true, force: true });
-          removed++;
-        }
-      } catch {
-        // Ignore errors
-      }
-    }
-
-    return removed;
-  }
-
-  private async removeCommandFiles(projectPath: string, toolId: string): Promise<number> {
-    let removed = 0;
-    const adapter = CommandAdapterRegistry.get(toolId);
-    if (!adapter) return 0;
-
-    for (const workflow of ALL_WORKFLOWS) {
-      const cmdPath = adapter.getFilePath(workflow);
-      const fullPath = path.isAbsolute(cmdPath) ? cmdPath : path.join(projectPath, cmdPath);
-
-      try {
-        if (fs.existsSync(fullPath)) {
-          await fs.promises.unlink(fullPath);
-          removed++;
-        }
-      } catch {
-        // Ignore errors
-      }
-    }
-
-    return removed;
-  }
-
   private async offerTesslSetup(projectPath: string): Promise<void> {
     try {
       const { confirm } = await import('@inquirer/prompts');
@@ -1108,20 +1047,7 @@ export class InitCommand {
       if (!setup) return;
 
       const { resolveSkills, clearCache } = await import('./tessl-registry/index.js');
-      const { readProjectConfig } = await import('./project-config.js');
-      const { stringify } = await import('yaml');
-      const configPath = path.join(projectPath, resolvePlanningDirName(projectPath), 'config.yaml');
-
-      let raw: Record<string, unknown> = {};
-      if (fs.existsSync(configPath)) {
-        try {
-          const { parse } = await import('yaml');
-          raw = parse(fs.readFileSync(configPath, 'utf-8')) as Record<string, unknown> || {};
-        } catch { /* use empty */ }
-      }
-
-      raw.tessl_registry = { enabled: true, auto_detect: true };
-      fs.writeFileSync(configPath, stringify(raw), 'utf-8');
+      updateProjectConfig(projectPath, { tessl_registry: { enabled: true, auto_detect: true } });
 
       const spinner = ora('Scanning dependencies and resolving Tessl skills...').start();
       try {

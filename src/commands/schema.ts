@@ -13,7 +13,7 @@ import {
 } from '../core/artifact-graph/resolver.js';
 import { parseSchema, SchemaValidationError } from '../core/artifact-graph/schema.js';
 import type { SchemaYaml, Artifact } from '../core/artifact-graph/types.js';
-import { resolvePlanningDirName } from '../core/planning-home.js';
+import { updateProjectConfig } from '../core/project-config.js';
 
 /**
  * Schema source location type
@@ -880,22 +880,10 @@ export function registerSchemaCommand(program: Command): void {
 
         // Update config if --default
         if (options?.default) {
-          const configPath = path.join(projectRoot, resolvePlanningDirName(projectRoot), 'config.yaml');
-
-          if (fs.existsSync(configPath)) {
-            const { parse: parseYaml, stringify: stringifyYaml2 } = await import('yaml');
-            const configContent = fs.readFileSync(configPath, 'utf-8');
-            const config = parseYaml(configContent) || {};
-            config.defaultSchema = name;
-            fs.writeFileSync(configPath, stringifyYaml2(config));
-          } else {
-            // Create config file
-            const configDir = path.dirname(configPath);
-            if (!fs.existsSync(configDir)) {
-              fs.mkdirSync(configDir, { recursive: true });
-            }
-            fs.writeFileSync(configPath, stringifyYaml({ defaultSchema: name }));
-          }
+          // The project config key is `schema:` — readProjectConfig and schema
+          // resolution both read it. A dedicated `defaultSchema:` key would be
+          // written but never read, silently leaving the default unchanged.
+          updateProjectConfig(projectRoot, { schema: name });
         }
 
         if (spinner) spinner.succeed(`Created schema '${name}'`);

@@ -14,6 +14,7 @@ import { FileSystemUtils } from '../utils/file-system.js';
 import { getSkillReferenceTransformer, getTransformerForTool, transformToSkillReferences } from '../utils/command-references.js';
 import { AI_TOOLS } from './config.js';
 import { resolvePlanningDirName } from './planning-home.js';
+import { performLegacyCleanup, removeWorkflowCommandFiles, removeWorkflowSkillDirs } from './artifact-cleanup.js';
 import {
   generateCommands,
   CommandAdapterRegistry,
@@ -28,9 +29,7 @@ import {
 } from './shared/index.js';
 import {
   detectLegacyArtifacts,
-  cleanupLegacyArtifacts,
   formatDeferredGlobalPromptSummary,
-  formatCleanupSummary,
   formatDetectionSummary,
   getLegacyGlobalPromptMatches,
   getLegacyWorkflowIdsForTool,
@@ -45,7 +44,6 @@ import { getProfileWorkflows, ALL_WORKFLOWS, CORE_WORKFLOWS } from './profiles.j
 import { getOnboardingCommands } from './onboarding-commands.js';
 import { getAvailableTools } from './available-tools.js';
 import {
-  WORKFLOW_TO_SKILL_DIR,
   getConfiguredToolsForProfileSync,
   getToolsNeedingProfileSync,
 } from './profile-sync-drift.js';
@@ -286,12 +284,12 @@ export class UpdateCommand {
             await FileSystemUtils.writeFile(skillFile, skillContent);
           }
 
-          removedDeselectedSkillCount += await this.removeUnselectedSkillDirs(skillsDir, toolWorkflows);
+          removedDeselectedSkillCount += await removeWorkflowSkillDirs(skillsDir, toolWorkflows);
         }
 
         // Delete skill directories if delivery is commands-only
         if (shouldRemoveSkillsForTool(tool.value, delivery)) {
-          removedSkillCount += await this.removeSkillDirs(skillsDir);
+          removedSkillCount += await removeWorkflowSkillDirs(skillsDir);
           // A tool with no command adapter now has zero Warpweave artifacts;
           // say so like init does, rather than deleting its skills silently
           // and letting tool detection re-suggest an init that would also
@@ -312,7 +310,7 @@ export class UpdateCommand {
               await FileSystemUtils.writeFile(commandFile, cmd.fileContent);
             }
 
-            removedDeselectedCommandCount += await this.removeUnselectedCommandFiles(
+            removedDeselectedCommandCount += await removeWorkflowCommandFiles(
               resolvedProjectPath,
               toolId,
               toolWorkflows
@@ -324,7 +322,7 @@ export class UpdateCommand {
 
         // Delete command files if delivery is skills-only
         if (shouldReconcileCommandFilesForTool(tool.value, delivery)) {
-          removedCommandCount += await this.removeCommandFiles(resolvedProjectPath, toolId);
+          removedCommandCount += await removeWorkflowCommandFiles(resolvedProjectPath, toolId);
         }
 
         spinner.succeed(`Updated ${tool.name}`);
@@ -558,125 +556,6 @@ export class UpdateCommand {
   }
 
   /**
-   * Removes skill directories for workflows when delivery changed to commands-only.
-   * Returns the number of directories removed.
-   */
-  private async removeSkillDirs(skillsDir: string): Promise<number> {
-    let removed = 0;
-
-    for (const workflow of ALL_WORKFLOWS) {
-      const dirName = WORKFLOW_TO_SKILL_DIR[workflow];
-      if (!dirName) continue;
-
-      const skillDir = path.join(skillsDir, dirName);
-      try {
-        if (fs.existsSync(skillDir)) {
-          await fs.promises.rm(skillDir, { recursive: true, force: true });
-          removed++;
-        }
-      } catch {
-        // Ignore errors
-      }
-    }
-
-    return removed;
-  }
-
-  /**
-   * Removes skill directories for workflows that are no longer selected in the active profile.
-   * Returns the number of directories removed.
-   */
-  private async removeUnselectedSkillDirs(
-    skillsDir: string,
-    desiredWorkflows: readonly (typeof ALL_WORKFLOWS)[number][]
-  ): Promise<number> {
-    const desiredSet = new Set(desiredWorkflows);
-    let removed = 0;
-
-    for (const workflow of ALL_WORKFLOWS) {
-      if (desiredSet.has(workflow)) continue;
-      const dirName = WORKFLOW_TO_SKILL_DIR[workflow];
-      if (!dirName) continue;
-
-      const skillDir = path.join(skillsDir, dirName);
-      try {
-        if (fs.existsSync(skillDir)) {
-          await fs.promises.rm(skillDir, { recursive: true, force: true });
-          removed++;
-        }
-      } catch {
-        // Ignore errors
-      }
-    }
-
-    return removed;
-  }
-
-  /**
-   * Removes command files for workflows when delivery changed to skills-only.
-   * Returns the number of files removed.
-   */
-  private async removeCommandFiles(
-    projectPath: string,
-    toolId: string,
-  ): Promise<number> {
-    let removed = 0;
-
-    const adapter = CommandAdapterRegistry.get(toolId);
-    if (!adapter) return 0;
-
-    for (const workflow of ALL_WORKFLOWS) {
-      const cmdPath = adapter.getFilePath(workflow);
-      const fullPath = path.isAbsolute(cmdPath) ? cmdPath : path.join(projectPath, cmdPath);
-
-      try {
-        if (fs.existsSync(fullPath)) {
-          await fs.promises.unlink(fullPath);
-          removed++;
-        }
-      } catch {
-        // Ignore errors
-      }
-    }
-
-    return removed;
-  }
-
-  /**
-   * Removes command files for workflows that are no longer selected in the active profile.
-   * Returns the number of files removed.
-   */
-  private async removeUnselectedCommandFiles(
-    projectPath: string,
-    toolId: string,
-    desiredWorkflows: readonly (typeof ALL_WORKFLOWS)[number][]
-  ): Promise<number> {
-    let removed = 0;
-
-    const adapter = CommandAdapterRegistry.get(toolId);
-    if (!adapter) return 0;
-
-    const desiredSet = new Set(desiredWorkflows);
-
-    for (const workflow of ALL_WORKFLOWS) {
-      if (desiredSet.has(workflow)) continue;
-      const cmdPath = adapter.getFilePath(workflow);
-      const fullPath = path.isAbsolute(cmdPath) ? cmdPath : path.join(projectPath, cmdPath);
-
-      try {
-        if (fs.existsSync(fullPath)) {
-          await fs.promises.unlink(fullPath);
-          removed++;
-        }
-      } catch {
-        // Ignore errors
-      }
-    }
-
-    return removed;
-  }
-
-  /**
    * Offers to move Warpweave content out of a renamed tool's former directory
    * when the old location might still be the live one — today, Windsurf's
    * `.windsurf/` after the Devin Desktop rebrand.
@@ -851,7 +730,7 @@ export class UpdateCommand {
   ): Promise<void> {
     const immediateDetection = omitGlobalLegacyPromptFiles(detection);
     if (immediateDetection.hasLegacyArtifacts) {
-      await this.performLegacyCleanup(projectPath, immediateDetection);
+      await performLegacyCleanup(projectPath, immediateDetection);
     }
   }
 
@@ -868,7 +747,7 @@ export class UpdateCommand {
       .filter((prompt) => prompt.workflowIds.every((workflowId) => availableCodexWorkflows.has(workflowId)));
 
     if (removableMatches.length > 0) {
-      await this.performLegacyCleanup(
+      await performLegacyCleanup(
         projectPath,
         pickGlobalLegacyPromptFiles(
           detection,
@@ -886,23 +765,6 @@ export class UpdateCommand {
         console.log(chalk.dim(`  - ${prompt.toolId}: ${prompt.path}`));
       }
       console.log();
-    }
-  }
-
-  /**
-   * Perform cleanup of legacy artifacts.
-   */
-  private async performLegacyCleanup(projectPath: string, detection: LegacyDetectionResult): Promise<void> {
-    const spinner = ora('Cleaning up legacy files...').start();
-
-    const result = await cleanupLegacyArtifacts(projectPath, detection);
-
-    spinner.succeed('Legacy files cleaned up');
-
-    const summary = formatCleanupSummary(result);
-    if (summary) {
-      console.log();
-      console.log(summary);
     }
 
     console.log();

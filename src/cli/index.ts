@@ -192,7 +192,7 @@ program
       await initCommand.execute(targetPath);
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -213,7 +213,7 @@ program
       await initCommand.execute('.');
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -278,7 +278,7 @@ program
       }
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -314,7 +314,7 @@ program
         payload: options?.specs ? { specs: [], root: null } : { changes: [], root: null },
         fallbackCode: 'list_error',
       });
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -336,7 +336,7 @@ program
       await viewCommand.execute(root.path);
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -393,9 +393,8 @@ changeCmd
     try {
       const changeCommand = new ChangeCommand();
       await changeCommand.validate(changeName, options);
-      if (typeof process.exitCode === 'number' && process.exitCode !== 0) {
-        process.exit(process.exitCode);
-      }
+      // A non-zero exitCode set by validate() terminates the process naturally
+      // once parseAsync resolves; forcing process.exit here would skip postAction.
     } catch (error) {
       console.error(`Error: ${(error as Error).message}`);
       process.exitCode = 1;
@@ -417,7 +416,7 @@ program
       await archiveCommand.execute(changeName, options);
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -451,7 +450,7 @@ program
       await validateCommand.execute(itemName, options);
     } catch (error) {
       failWithError(error, { enabled: options?.json, fallbackCode: 'validate_error' });
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -481,7 +480,7 @@ program
       await showCommand.execute(itemName, options ?? {});
     } catch (error) {
       failWithError(error, { enabled: options?.json, fallbackCode: 'show_error' });
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -496,7 +495,7 @@ program
       await feedbackCommand.execute(message, options);
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -514,7 +513,7 @@ completionCmd
       await completionCommand.generate({ shell });
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -528,7 +527,7 @@ completionCmd
       await completionCommand.install({ shell, verbose: options?.verbose });
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -542,7 +541,7 @@ completionCmd
       await completionCommand.uninstall({ shell, yes: options?.yes });
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -578,7 +577,7 @@ program
       await statusCommand(options);
     } catch (error) {
       failWithError(error, { enabled: options.json, fallbackCode: 'change_error' });
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -603,7 +602,7 @@ program
       }
     } catch (error) {
       failWithError(error, { enabled: options.json, fallbackCode: 'change_error' });
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -618,7 +617,7 @@ program
       await templatesCommand(options);
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -632,7 +631,7 @@ program
       await schemasCommand(options);
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
@@ -657,14 +656,25 @@ newCmd
       await newChangeCommand(name, options);
     } catch (error) {
       failWithError(error);
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
 
 export { program };
 
-export function runCli(argv = process.argv): void {
-  program.parse(argv);
+export async function runCli(argv = process.argv): Promise<void> {
+  try {
+    // parseAsync is mandatory here: every action handler is async, so the sync
+    // parse() drops the promise chain — an escaping rejection becomes an
+    // unhandled rejection (raw stack dump, no clean error, no postAction).
+    await program.parseAsync(argv);
+  } catch (error) {
+    failWithError(error);
+    process.exitCode = 1;
+    // The action rejected, so commander skipped postAction; flush telemetry
+    // here or every failed command disappears from the analytics.
+    await shutdown();
+  }
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

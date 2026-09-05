@@ -57,7 +57,9 @@ export const UNIFIED_PROFILE_PRESETS = [
   {
     id: 'minimal',
     description: 'Solo developer: relaxed TDD, ultra minimalism, core gates only',
-    workflows: [...CORE_WORKFLOWS, 'ladder-audit', 'guardrails', 'debt-ledger', 'benchmark'],
+    // guardrails is already in CORE_WORKFLOWS; repeating it here persisted a
+    // duplicate entry into config.workflows.
+    workflows: [...CORE_WORKFLOWS, 'ladder-audit', 'debt-ledger', 'benchmark'],
   },
   {
     id: 'standard',

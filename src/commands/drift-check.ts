@@ -12,15 +12,12 @@ import { Command, Option } from 'commander';
 import {
   resolveRootForCommand,
   toPlanningHome,
-  withStoreFlag,
-  type ResolvedWarpweaveRoot,
 } from '../core/root-selection.js';
 import { getChangeDir } from '../core/planning-home.js';
-import { getAvailableChanges, validateChangeExists } from '../commands/workflow/shared.js';
+import { resolveChangeName } from '../commands/workflow/shared.js';
 import { discoverSpecFiles } from '../utils/spec-discovery.js';
-import { extractSpecScenarios, classifyScenario, type DriftFinding } from '../core/drift-check.js';
+import { extractSpecScenarios, classifyScenario, collectSourceTerms, type DriftFinding } from '../core/drift-check.js';
 import { emitFailure, printJson } from './shared-output.js';
-import { isInteractive } from '../utils/interactive.js';
 import { COMMON_FLAGS } from '../core/completions/shared-flags.js';
 import { COMMAND_REGISTRY } from '../core/completions/command-registry.js';
 
@@ -33,32 +30,6 @@ export interface DriftCheckOptions {
   json?: boolean;
   noInteractive?: boolean;
   failOnMissing?: boolean;
-}
-
-async function resolveChangeName(
-  options: DriftCheckOptions,
-  root: ResolvedWarpweaveRoot
-): Promise<string> {
-  const newChangeHint = withStoreFlag(root, 'warpweave new change <name>');
-  if (options.change) {
-    return validateChangeExists(options.change, root.path, root.changesDir, { newChangeHint });
-  }
-
-  const available = await getAvailableChanges(root.path, root.changesDir);
-  if (available.length === 0) {
-    throw new Error(`No active changes. Create one with: ${newChangeHint}`);
-  }
-  if (available.length === 1) {
-    return available[0];
-  }
-  if (isInteractive({ noInteractive: options.noInteractive })) {
-    const { select } = await import('@inquirer/prompts');
-    return select({
-      message: 'Select a change to check:',
-      choices: available.map((change) => ({ name: change, value: change })),
-    });
-  }
-  throw new Error(`No change specified. Available changes:\n  ${available.join('\n  ')}`);
 }
 
 function printHumanReport(changeName: string, findings: DriftFinding[], blocked: boolean): void {
@@ -124,8 +95,10 @@ export async function driftCheckCommand(options: DriftCheckOptions): Promise<voi
 
     const scenarios = await extractSpecScenarios(specFiles);
     const findings: DriftFinding[] = [];
+    // One project walk for the whole batch, not one per scenario.
+    const sourceTerms = await collectSourceTerms(root.path);
     for (const scenario of scenarios) {
-      findings.push(await classifyScenario(scenario, root.path));
+      findings.push(await classifyScenario(scenario, root.path, sourceTerms));
     }
 
     const missingCount = findings.filter((f) => f.status === 'missing').length;

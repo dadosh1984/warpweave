@@ -12,14 +12,11 @@ import { Command } from 'commander';
 import {
   resolveRootForCommand,
   toPlanningHome,
-  withStoreFlag,
-  type ResolvedWarpweaveRoot,
 } from '../core/root-selection.js';
 import { getChangeDir } from '../core/planning-home.js';
-import { getAvailableChanges, validateChangeExists } from '../commands/workflow/shared.js';
+import { resolveChangeName } from './workflow/shared.js';
 import { parseTaskLines, type ParsedTask } from '../utils/task-progress.js';
 import { emitFailure, printJson } from './shared-output.js';
-import { isInteractive } from '../utils/interactive.js';
 import { COMMAND_REGISTRY } from '../core/completions/command-registry.js';
 
 const execFileAsync = promisify(execFile);
@@ -97,32 +94,6 @@ async function runVerifyCommand(command: string, cwd: string): Promise<{ exitCod
     const e = error as { code?: number; stdout?: string; stderr?: string };
     return { exitCode: e.code ?? 1, output: `${e.stdout ?? ''}${e.stderr ?? ''}`.trim() };
   }
-}
-
-async function resolveChangeName(
-  options: TaskCheckOptions,
-  root: ResolvedWarpweaveRoot
-): Promise<string> {
-  const newChangeHint = withStoreFlag(root, 'warpweave new change <name>');
-  if (options.change) {
-    return validateChangeExists(options.change, root.path, root.changesDir, { newChangeHint });
-  }
-
-  const available = await getAvailableChanges(root.path, root.changesDir);
-  if (available.length === 0) {
-    throw new Error(`No active changes. Create one with: ${newChangeHint}`);
-  }
-  if (available.length === 1) {
-    return available[0];
-  }
-  if (isInteractive({ noInteractive: options.noInteractive })) {
-    const { select } = await import('@inquirer/prompts');
-    return select({
-      message: 'Select a change to check:',
-      choices: available.map((change) => ({ name: change, value: change })),
-    });
-  }
-  throw new Error(`No change specified. Available changes:\n  ${available.join('\n  ')}`);
 }
 
 function printHumanResult(changeName: string, result: TaskCheckResult): void {

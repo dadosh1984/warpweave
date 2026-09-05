@@ -11,8 +11,9 @@ import * as fs from 'fs';
 import { getSchemaDir, listSchemas } from '../../core/artifact-graph/index.js';
 import { resolvePlanningDirName, DEFAULT_SCHEMA } from '../../core/planning-home.js';
 import type { ReferenceIndexEntry } from '../../core/references.js';
-import { isRootSelectionError } from '../../core/root-selection.js';
+import { isRootSelectionError, withStoreFlag, type ResolvedWarpweaveRoot } from '../../core/root-selection.js';
 import { validateChangeLookupName } from '../../utils/change-utils.js';
+import { isInteractive } from '../../utils/interactive.js';
 
 // -----------------------------------------------------------------------------
 // Types
@@ -200,6 +201,38 @@ export async function validateChangeExists(
   }
 
   return changeName;
+}
+
+/**
+ * Resolve which active change a workflow command operates on: an explicit
+ * `--change` (validated), the only active change, an interactive pick, or —
+ * when prompting is disabled — an error listing the choices. Shared by
+ * `task check` and `drift-check`, which behave identically here.
+ */
+export async function resolveChangeName(
+  options: { change?: string; noInteractive?: boolean },
+  root: ResolvedWarpweaveRoot
+): Promise<string> {
+  const newChangeHint = withStoreFlag(root, 'warpweave new change <name>');
+  if (options.change) {
+    return validateChangeExists(options.change, root.path, root.changesDir, { newChangeHint });
+  }
+
+  const available = await getAvailableChanges(root.path, root.changesDir);
+  if (available.length === 0) {
+    throw new Error(`No active changes. Create one with: ${newChangeHint}`);
+  }
+  if (available.length === 1) {
+    return available[0];
+  }
+  if (isInteractive({ noInteractive: options.noInteractive })) {
+    const { select } = await import('@inquirer/prompts');
+    return select({
+      message: 'Select a change to check:',
+      choices: available.map((change) => ({ name: change, value: change })),
+    });
+  }
+  throw new Error(`No change specified. Available changes:\n  ${available.join('\n  ')}`);
 }
 
 /**
